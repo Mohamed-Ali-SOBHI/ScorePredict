@@ -1,0 +1,9 @@
+.git
+.playwright-cli
+Data
+docs
+inference
+train
+tests
+**/__pycache__
+*.pyc

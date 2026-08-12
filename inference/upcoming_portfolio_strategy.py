@@ -14,19 +14,29 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.append(str(REPO_ROOT))
 
 from data_pipeline.market_data import normalize_team_name
-from inference.portfolio_presets import FrozenStrategy
+from data_pipeline.team_registry import read_registry
+from inference.portfolio_presets import FROZEN_REFERENCE_TRAIN_MAX_SEASON, FrozenStrategy
 from train.make_dataset import (
     EloConfig,
     WINDOWS_DEFAULT,
+    add_draw_specialist_features,
     add_team_prematch_features,
     build_home_perspective_dataset,
     compute_match_elo,
     load_team_match_rows,
 )
-from train.ml_common import build_xgb_model, get_feature_cols, make_sample_weight
+from train.ml_common import (
+    DRAW_TARGET,
+    build_draw_binary_xgb_model,
+    build_xgb_model,
+    get_feature_cols,
+    make_draw_target,
+    make_sample_weight,
+)
+from train.strategy_search_common import profile_filter_mask
 
 
-TRAIN_MAX_SEASON = 2024
+DEFAULT_LIVE_TRAIN_MAX_SEASON = FROZEN_REFERENCE_TRAIN_MAX_SEASON
 OUTCOME_TO_INDEX = {"away_win": 0, "draw": 1, "home_win": 2}
 OUTCOME_TO_PROBA_COL = {
     "away_win": "pred_away_win",
@@ -43,13 +53,22 @@ OUTCOME_TO_ODDS_COL = {
     "draw": "market_draw_odds_open",
     "home_win": "market_home_win_odds_open",
 }
+MARKET_PROB_COLS_MODEL_ORDER = [
+    "market_away_prob_open",
+    "market_draw_prob_open",
+    "market_home_prob_open",
+]
 
 
 @dataclass(frozen=True)
 class ModelBundle:
+    model_variant: str
     train_league: str
+    train_max_season: int
     feature_cols: list[str]
     model: object
+    secondary_feature_cols: list[str] | None = None
+    secondary_model: object | None = None
 
 
 def infer_season_from_date(date_value: pd.Timestamp) -> int:
@@ -58,6 +77,11 @@ def infer_season_from_date(date_value: pd.Timestamp) -> int:
 
 def load_historical_team_rows(data_dir: str) -> pd.DataFrame:
     return load_team_match_rows(data_dir)
+
+
+def load_current_team_registry(data_dir: str) -> pd.DataFrame:
+    records = read_registry(data_dir).get("teams", [])
+    return pd.DataFrame(records, columns=["league", "season", "team_id", "team_name"])
 
 
 def prepare_fixture_frame(fixtures: pd.DataFrame) -> pd.DataFrame:
@@ -82,7 +106,10 @@ def prepare_fixture_frame(fixtures: pd.DataFrame) -> pd.DataFrame:
     return result.sort_values(["date", "league", "home_team_norm", "away_team_norm"]).reset_index(drop=True)
 
 
-def build_team_lookup(team_rows: pd.DataFrame) -> dict[tuple[str, str], dict[str, str]]:
+def build_team_lookup(
+    team_rows: pd.DataFrame,
+    registry_rows: pd.DataFrame | None = None,
+) -> dict[tuple[str, str], dict[str, str]]:
     rows = team_rows.copy()
     rows["team_name_norm"] = rows["team_name"].map(normalize_team_name)
     latest = (
@@ -98,14 +125,29 @@ def build_team_lookup(team_rows: pd.DataFrame) -> dict[tuple[str, str], dict[str
             "team_id": str(row.team_id),
             "team_name": row.team_name,
         }
+
+    if registry_rows is not None and not registry_rows.empty:
+        registry = registry_rows.copy()
+        registry["team_name_norm"] = registry["team_name"].map(normalize_team_name)
+        registry = registry.sort_values(["season", "league", "team_name_norm"])
+        registry = registry.groupby(["league", "team_name_norm"], as_index=False).tail(1)
+        for row in registry.itertuples(index=False):
+            lookup[(row.league, row.team_name_norm)] = {
+                "team_id": str(row.team_id),
+                "team_name": row.team_name,
+            }
     return lookup
 
 
-def append_future_fixtures(team_rows: pd.DataFrame, fixtures: pd.DataFrame) -> tuple[pd.DataFrame, list[str]]:
+def append_future_fixtures(
+    team_rows: pd.DataFrame,
+    fixtures: pd.DataFrame,
+    registry_rows: pd.DataFrame | None = None,
+) -> tuple[pd.DataFrame, list[str]]:
     if fixtures.empty:
         return team_rows.copy(), []
 
-    lookup = build_team_lookup(team_rows)
+    lookup = build_team_lookup(team_rows, registry_rows)
     latest_seen_date_by_league = (
         team_rows.groupby("league", sort=False)["date"].max().to_dict()
     )
@@ -199,36 +241,81 @@ def add_elo_features(matches: pd.DataFrame) -> pd.DataFrame:
     return matches.merge(elo, on="match_id", how="left", validate="one_to_one")
 
 
-def build_dataset_with_fixtures(team_rows: pd.DataFrame, fixtures: pd.DataFrame) -> tuple[pd.DataFrame, list[str]]:
-    combined_rows, future_match_ids = append_future_fixtures(team_rows, fixtures)
+def build_dataset_with_fixtures(
+    team_rows: pd.DataFrame,
+    fixtures: pd.DataFrame,
+    registry_rows: pd.DataFrame | None = None,
+) -> tuple[pd.DataFrame, list[str]]:
+    combined_rows, future_match_ids = append_future_fixtures(team_rows, fixtures, registry_rows)
     combined_rows = add_team_prematch_features(combined_rows, windows=WINDOWS_DEFAULT)
     dataset = build_home_perspective_dataset(combined_rows, windows=WINDOWS_DEFAULT)
     dataset = add_elo_features(dataset)
+    dataset = add_draw_specialist_features(dataset, windows=WINDOWS_DEFAULT)
     return dataset, future_match_ids
 
 
-def train_frozen_models(dataset: pd.DataFrame, strategies: list[FrozenStrategy]) -> dict[str, ModelBundle]:
+def train_frozen_models(
+    dataset: pd.DataFrame,
+    strategies: list[FrozenStrategy],
+    *,
+    train_max_season: int = DEFAULT_LIVE_TRAIN_MAX_SEASON,
+) -> dict[str, ModelBundle]:
     bundles: dict[str, ModelBundle] = {}
     for strategy in strategies:
         train_league = strategy.train_league
-        train_df = dataset[(dataset["season"] <= TRAIN_MAX_SEASON) & dataset["target"].notna()].copy()
+        train_df = dataset[(dataset["season"] <= train_max_season) & dataset["target"].notna()].copy()
         if train_league:
             train_df = train_df[train_df["league"] == train_league].copy()
         if train_df.empty:
             raise ValueError(f"No training rows available for train_league={train_league or 'ALL'}")
 
-        feature_cols = get_feature_cols(train_df)
-        model = build_xgb_model(seed=42, n_estimators=500, **strategy.params)
-        y_train = train_df["target"].astype(int)
+        feature_cols = get_feature_cols(
+            train_df,
+            include_draw_features=(strategy.model_variant == "draw_binary"),
+        )
+        if strategy.model_variant == "draw_binary":
+            if strategy.outcome != "draw":
+                raise ValueError("draw_binary strategies are only supported for draw outcome")
+            model = build_draw_binary_xgb_model(seed=42, n_estimators=strategy.n_estimators, **strategy.params)
+            y_train = make_draw_target(train_df["target"])
+            secondary_feature_cols = None
+            secondary_model = None
+        elif strategy.model_variant == "draw_consensus":
+            if strategy.outcome != "draw":
+                raise ValueError("draw_consensus strategies are only supported for draw outcome")
+            feature_cols = get_feature_cols(train_df, include_draw_features=False)
+            secondary_feature_cols = get_feature_cols(train_df, include_draw_features=True)
+            model = build_xgb_model(seed=42, n_estimators=strategy.n_estimators, **strategy.params)
+            y_train = train_df["target"].astype(int)
+            secondary_model = build_draw_binary_xgb_model(
+                seed=42,
+                n_estimators=strategy.n_estimators,
+                **strategy.params,
+            )
+            y_draw = make_draw_target(train_df["target"])
+            secondary_model.fit(
+                train_df[secondary_feature_cols],
+                y_draw,
+                sample_weight=make_sample_weight(y_draw),
+            )
+        else:
+            model = build_xgb_model(seed=42, n_estimators=strategy.n_estimators, **strategy.params)
+            y_train = train_df["target"].astype(int)
+            secondary_feature_cols = None
+            secondary_model = None
         model.fit(
             train_df[feature_cols],
             y_train,
             sample_weight=make_sample_weight(y_train),
         )
         bundles[strategy.name] = ModelBundle(
+            model_variant=strategy.model_variant,
             train_league=train_league,
+            train_max_season=train_max_season,
             feature_cols=feature_cols,
             model=model,
+            secondary_feature_cols=secondary_feature_cols,
+            secondary_model=secondary_model,
         )
     return bundles
 
@@ -238,6 +325,14 @@ def add_probability_columns(scored: pd.DataFrame, proba: np.ndarray) -> pd.DataF
     result["pred_home_win"] = proba[:, 2]
     result["pred_draw"] = proba[:, 1]
     result["pred_away_win"] = proba[:, 0]
+    return result
+
+
+def add_draw_binary_probability_columns(scored: pd.DataFrame, draw_proba: np.ndarray) -> pd.DataFrame:
+    result = scored.copy()
+    result["pred_home_win"] = np.nan
+    result["pred_draw"] = draw_proba
+    result["pred_away_win"] = np.nan
     return result
 
 
@@ -253,8 +348,23 @@ def score_strategy_rows(
         if league_df.empty:
             continue
 
-        proba = bundle.model.predict_proba(league_df[bundle.feature_cols])
-        league_df = add_probability_columns(league_df, proba)
+        if bundle.model_variant == "draw_binary":
+            draw_proba = bundle.model.predict_proba(league_df[bundle.feature_cols])[:, 1]
+            league_df = add_draw_binary_probability_columns(league_df, draw_proba)
+        elif bundle.model_variant == "draw_consensus":
+            if bundle.secondary_model is None or bundle.secondary_feature_cols is None:
+                raise ValueError(f"Missing secondary draw model for strategy {strategy.name}")
+            multiclass_proba = bundle.model.predict_proba(league_df[bundle.feature_cols])
+            binary_draw_proba = bundle.secondary_model.predict_proba(
+                league_df[bundle.secondary_feature_cols]
+            )[:, 1]
+            league_df = add_probability_columns(league_df, multiclass_proba)
+            league_df["multiclass_draw_probability"] = multiclass_proba[:, 1]
+            league_df["binary_draw_probability"] = binary_draw_proba
+            league_df["pred_draw"] = np.minimum(multiclass_proba[:, 1], binary_draw_proba)
+        else:
+            proba = bundle.model.predict_proba(league_df[bundle.feature_cols])
+            league_df = add_probability_columns(league_df, proba)
 
         outcome = strategy.outcome
         market_col = OUTCOME_TO_MARKET_COL[outcome]
@@ -264,17 +374,29 @@ def score_strategy_rows(
         league_df["strategy_name"] = strategy.name
         league_df["train_league"] = strategy.train_league or "ALL"
         league_df["bet_league"] = strategy.bet_league
+        league_df["profile_filter"] = strategy.profile_filter
         league_df["selected_outcome"] = outcome
         league_df["selected_odds"] = league_df[odds_col]
         league_df["predicted_probability"] = league_df[proba_col]
         league_df["market_probability"] = league_df[market_col]
         league_df["edge"] = league_df["predicted_probability"] - league_df["market_probability"]
         league_df["expected_value"] = league_df["predicted_probability"] * league_df["selected_odds"] - 1.0
+        league_df["raw_model_probability"] = league_df["predicted_probability"]
+        league_df["value_score"] = league_df["edge"]
+        league_df["raw_expected_value"] = league_df["expected_value"]
+        league_df["probability_note"] = (
+            "min_multiclass_draw_and_binary_draw_raw_probability"
+            if bundle.model_variant == "draw_consensus"
+            else "raw_xgb_probability_not_calibrated"
+        )
+        league_df["train_max_season"] = bundle.train_max_season
 
-        market_probs = league_df[
-            ["market_home_prob_open", "market_draw_prob_open", "market_away_prob_open"]
-        ].to_numpy()
-        league_df["bet_is_market_favorite"] = market_probs.argmax(axis=1) == OUTCOME_TO_INDEX[outcome]
+        market_probs = league_df[MARKET_PROB_COLS_MODEL_ORDER].to_numpy()
+        favorite_idx = market_probs.argmax(axis=1)
+        if bundle.model_variant == "draw_binary":
+            league_df["bet_is_market_favorite"] = favorite_idx == DRAW_TARGET
+        else:
+            league_df["bet_is_market_favorite"] = favorite_idx == OUTCOME_TO_INDEX[outcome]
 
         selected_mask = (
             (league_df["expected_value"] > strategy.threshold)
@@ -286,6 +408,7 @@ def score_strategy_rows(
             selected_mask &= league_df["bet_is_market_favorite"]
         elif strategy.market_favorite_mode == "nonfavorite":
             selected_mask &= ~league_df["bet_is_market_favorite"]
+        selected_mask &= profile_filter_mask(league_df, strategy.profile_filter)
 
         league_df["recommended_bet"] = np.where(selected_mask, outcome, "")
         league_df["bet_key"] = league_df["match_id"].astype(str) + "|" + league_df["selected_outcome"].astype(str)

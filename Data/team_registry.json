@@ -1,0 +1,582 @@
+{
+  "generated_at": "2026-08-11T19:58:17.354715+00:00",
+  "source": "upcoming_fixtures",
+  "teams": [
+    {
+      "league": "Bundesliga",
+      "season": 2026,
+      "team_id": "121",
+      "team_name": "Augsburg"
+    },
+    {
+      "league": "Bundesliga",
+      "season": 2026,
+      "team_id": "119",
+      "team_name": "Bayer Leverkusen"
+    },
+    {
+      "league": "Bundesliga",
+      "season": 2026,
+      "team_id": "117",
+      "team_name": "Bayern Munich"
+    },
+    {
+      "league": "Bundesliga",
+      "season": 2026,
+      "team_id": "129",
+      "team_name": "Borussia Dortmund"
+    },
+    {
+      "league": "Bundesliga",
+      "season": 2026,
+      "team_id": "130",
+      "team_name": "Borussia M.Gladbach"
+    },
+    {
+      "league": "Bundesliga",
+      "season": 2026,
+      "team_id": "132",
+      "team_name": "Eintracht Frankfurt"
+    },
+    {
+      "league": "Bundesliga",
+      "season": 2026,
+      "team_id": "134",
+      "team_name": "FC Cologne"
+    },
+    {
+      "league": "Bundesliga",
+      "season": 2026,
+      "team_id": "135",
+      "team_name": "Freiburg"
+    },
+    {
+      "league": "Bundesliga",
+      "season": 2026,
+      "team_id": "118",
+      "team_name": "Hamburger SV"
+    },
+    {
+      "league": "Bundesliga",
+      "season": 2026,
+      "team_id": "120",
+      "team_name": "Hoffenheim"
+    },
+    {
+      "league": "Bundesliga",
+      "season": 2026,
+      "team_id": "125",
+      "team_name": "Mainz 05"
+    },
+    {
+      "league": "Bundesliga",
+      "season": 2026,
+      "team_id": "205",
+      "team_name": "Paderborn"
+    },
+    {
+      "league": "Bundesliga",
+      "season": 2026,
+      "team_id": "136",
+      "team_name": "RasenBallsport Leipzig"
+    },
+    {
+      "league": "Bundesliga",
+      "season": 2026,
+      "team_id": "124",
+      "team_name": "Schalke 04"
+    },
+    {
+      "league": "Bundesliga",
+      "season": 2026,
+      "team_id": "new-8596f6aa0a1c",
+      "team_name": "Spvgg Elversberg"
+    },
+    {
+      "league": "Bundesliga",
+      "season": 2026,
+      "team_id": "240",
+      "team_name": "Union Berlin"
+    },
+    {
+      "league": "Bundesliga",
+      "season": 2026,
+      "team_id": "133",
+      "team_name": "VfB Stuttgart"
+    },
+    {
+      "league": "Bundesliga",
+      "season": 2026,
+      "team_id": "123",
+      "team_name": "Werder Bremen"
+    },
+    {
+      "league": "EPL",
+      "season": 2026,
+      "team_id": "83",
+      "team_name": "Arsenal"
+    },
+    {
+      "league": "EPL",
+      "season": 2026,
+      "team_id": "71",
+      "team_name": "Aston Villa"
+    },
+    {
+      "league": "EPL",
+      "season": 2026,
+      "team_id": "73",
+      "team_name": "Bournemouth"
+    },
+    {
+      "league": "EPL",
+      "season": 2026,
+      "team_id": "244",
+      "team_name": "Brentford"
+    },
+    {
+      "league": "EPL",
+      "season": 2026,
+      "team_id": "220",
+      "team_name": "Brighton"
+    },
+    {
+      "league": "EPL",
+      "season": 2026,
+      "team_id": "80",
+      "team_name": "Chelsea"
+    },
+    {
+      "league": "EPL",
+      "season": 2026,
+      "team_id": "new-47498f991a7b",
+      "team_name": "Coventry City"
+    },
+    {
+      "league": "EPL",
+      "season": 2026,
+      "team_id": "78",
+      "team_name": "Crystal Palace"
+    },
+    {
+      "league": "EPL",
+      "season": 2026,
+      "team_id": "72",
+      "team_name": "Everton"
+    },
+    {
+      "league": "EPL",
+      "season": 2026,
+      "team_id": "228",
+      "team_name": "Fulham"
+    },
+    {
+      "league": "EPL",
+      "season": 2026,
+      "team_id": "91",
+      "team_name": "Hull"
+    },
+    {
+      "league": "EPL",
+      "season": 2026,
+      "team_id": "285",
+      "team_name": "Ipswich"
+    },
+    {
+      "league": "EPL",
+      "season": 2026,
+      "team_id": "245",
+      "team_name": "Leeds"
+    },
+    {
+      "league": "EPL",
+      "season": 2026,
+      "team_id": "87",
+      "team_name": "Liverpool"
+    },
+    {
+      "league": "EPL",
+      "season": 2026,
+      "team_id": "88",
+      "team_name": "Manchester City"
+    },
+    {
+      "league": "EPL",
+      "season": 2026,
+      "team_id": "89",
+      "team_name": "Manchester United"
+    },
+    {
+      "league": "EPL",
+      "season": 2026,
+      "team_id": "86",
+      "team_name": "Newcastle United"
+    },
+    {
+      "league": "EPL",
+      "season": 2026,
+      "team_id": "249",
+      "team_name": "Nottingham Forest"
+    },
+    {
+      "league": "EPL",
+      "season": 2026,
+      "team_id": "77",
+      "team_name": "Sunderland"
+    },
+    {
+      "league": "EPL",
+      "season": 2026,
+      "team_id": "82",
+      "team_name": "Tottenham"
+    },
+    {
+      "league": "La_liga",
+      "season": 2026,
+      "team_id": "158",
+      "team_name": "Alaves"
+    },
+    {
+      "league": "La_liga",
+      "season": 2026,
+      "team_id": "147",
+      "team_name": "Athletic Club"
+    },
+    {
+      "league": "La_liga",
+      "season": 2026,
+      "team_id": "143",
+      "team_name": "Atletico Madrid"
+    },
+    {
+      "league": "La_liga",
+      "season": 2026,
+      "team_id": "148",
+      "team_name": "Barcelona"
+    },
+    {
+      "league": "La_liga",
+      "season": 2026,
+      "team_id": "152",
+      "team_name": "Celta Vigo"
+    },
+    {
+      "league": "La_liga",
+      "season": 2026,
+      "team_id": "139",
+      "team_name": "Deportivo La Coruna"
+    },
+    {
+      "league": "La_liga",
+      "season": 2026,
+      "team_id": "207",
+      "team_name": "Elche"
+    },
+    {
+      "league": "La_liga",
+      "season": 2026,
+      "team_id": "141",
+      "team_name": "Espanyol"
+    },
+    {
+      "league": "La_liga",
+      "season": 2026,
+      "team_id": "142",
+      "team_name": "Getafe"
+    },
+    {
+      "league": "La_liga",
+      "season": 2026,
+      "team_id": "151",
+      "team_name": "Levante"
+    },
+    {
+      "league": "La_liga",
+      "season": 2026,
+      "team_id": "137",
+      "team_name": "Malaga"
+    },
+    {
+      "league": "La_liga",
+      "season": 2026,
+      "team_id": "157",
+      "team_name": "Osasuna"
+    },
+    {
+      "league": "La_liga",
+      "season": 2026,
+      "team_id": "new-9a0f3a67cc18",
+      "team_name": "Racing Santander"
+    },
+    {
+      "league": "La_liga",
+      "season": 2026,
+      "team_id": "145",
+      "team_name": "Rayo Vallecano"
+    },
+    {
+      "league": "La_liga",
+      "season": 2026,
+      "team_id": "153",
+      "team_name": "Real Betis"
+    },
+    {
+      "league": "La_liga",
+      "season": 2026,
+      "team_id": "150",
+      "team_name": "Real Madrid"
+    },
+    {
+      "league": "La_liga",
+      "season": 2026,
+      "team_id": "140",
+      "team_name": "Real Sociedad"
+    },
+    {
+      "league": "La_liga",
+      "season": 2026,
+      "team_id": "138",
+      "team_name": "Sevilla"
+    },
+    {
+      "league": "La_liga",
+      "season": 2026,
+      "team_id": "146",
+      "team_name": "Valencia"
+    },
+    {
+      "league": "La_liga",
+      "season": 2026,
+      "team_id": "154",
+      "team_name": "Villarreal"
+    },
+    {
+      "league": "Ligue_1",
+      "season": 2026,
+      "team_id": "167",
+      "team_name": "Angers"
+    },
+    {
+      "league": "Ligue_1",
+      "season": 2026,
+      "team_id": "275",
+      "team_name": "Auxerre"
+    },
+    {
+      "league": "Ligue_1",
+      "season": 2026,
+      "team_id": "241",
+      "team_name": "Brest"
+    },
+    {
+      "league": "Ligue_1",
+      "season": 2026,
+      "team_id": "282",
+      "team_name": "Le Havre"
+    },
+    {
+      "league": "Ligue_1",
+      "season": 2026,
+      "team_id": "new-e16c021c2616",
+      "team_name": "Le Mans FC"
+    },
+    {
+      "league": "Ligue_1",
+      "season": 2026,
+      "team_id": "210",
+      "team_name": "Lens"
+    },
+    {
+      "league": "Ligue_1",
+      "season": 2026,
+      "team_id": "160",
+      "team_name": "Lille"
+    },
+    {
+      "league": "Ligue_1",
+      "season": 2026,
+      "team_id": "179",
+      "team_name": "Lorient"
+    },
+    {
+      "league": "Ligue_1",
+      "season": 2026,
+      "team_id": "178",
+      "team_name": "Lyon"
+    },
+    {
+      "league": "Ligue_1",
+      "season": 2026,
+      "team_id": "164",
+      "team_name": "Marseille"
+    },
+    {
+      "league": "Ligue_1",
+      "season": 2026,
+      "team_id": "171",
+      "team_name": "Monaco"
+    },
+    {
+      "league": "Ligue_1",
+      "season": 2026,
+      "team_id": "170",
+      "team_name": "Nice"
+    },
+    {
+      "league": "Ligue_1",
+      "season": 2026,
+      "team_id": "new-d0fb2d4c49ae",
+      "team_name": "PSG"
+    },
+    {
+      "league": "Ligue_1",
+      "season": 2026,
+      "team_id": "290",
+      "team_name": "Paris FC"
+    },
+    {
+      "league": "Ligue_1",
+      "season": 2026,
+      "team_id": "163",
+      "team_name": "Rennes"
+    },
+    {
+      "league": "Ligue_1",
+      "season": 2026,
+      "team_id": "225",
+      "team_name": "Strasbourg"
+    },
+    {
+      "league": "Ligue_1",
+      "season": 2026,
+      "team_id": "174",
+      "team_name": "Toulouse"
+    },
+    {
+      "league": "Ligue_1",
+      "season": 2026,
+      "team_id": "172",
+      "team_name": "Troyes"
+    },
+    {
+      "league": "Serie_A",
+      "season": 2026,
+      "team_id": "111",
+      "team_name": "AC Milan"
+    },
+    {
+      "league": "Serie_A",
+      "season": 2026,
+      "team_id": "107",
+      "team_name": "Atalanta"
+    },
+    {
+      "league": "Serie_A",
+      "season": 2026,
+      "team_id": "97",
+      "team_name": "Bologna"
+    },
+    {
+      "league": "Serie_A",
+      "season": 2026,
+      "team_id": "116",
+      "team_name": "Cagliari"
+    },
+    {
+      "league": "Serie_A",
+      "season": 2026,
+      "team_id": "286",
+      "team_name": "Como"
+    },
+    {
+      "league": "Serie_A",
+      "season": 2026,
+      "team_id": "110",
+      "team_name": "Fiorentina"
+    },
+    {
+      "league": "Serie_A",
+      "season": 2026,
+      "team_id": "112",
+      "team_name": "Frosinone"
+    },
+    {
+      "league": "Serie_A",
+      "season": 2026,
+      "team_id": "101",
+      "team_name": "Genoa"
+    },
+    {
+      "league": "Serie_A",
+      "season": 2026,
+      "team_id": "106",
+      "team_name": "Inter"
+    },
+    {
+      "league": "Serie_A",
+      "season": 2026,
+      "team_id": "98",
+      "team_name": "Juventus"
+    },
+    {
+      "league": "Serie_A",
+      "season": 2026,
+      "team_id": "96",
+      "team_name": "Lazio"
+    },
+    {
+      "league": "Serie_A",
+      "season": 2026,
+      "team_id": "243",
+      "team_name": "Lecce"
+    },
+    {
+      "league": "Serie_A",
+      "season": 2026,
+      "team_id": "271",
+      "team_name": "Monza"
+    },
+    {
+      "league": "Serie_A",
+      "season": 2026,
+      "team_id": "105",
+      "team_name": "Napoli"
+    },
+    {
+      "league": "Serie_A",
+      "season": 2026,
+      "team_id": "230",
+      "team_name": "Parma Calcio 1913"
+    },
+    {
+      "league": "Serie_A",
+      "season": 2026,
+      "team_id": "95",
+      "team_name": "Roma"
+    },
+    {
+      "league": "Serie_A",
+      "season": 2026,
+      "team_id": "104",
+      "team_name": "Sassuolo"
+    },
+    {
+      "league": "Serie_A",
+      "season": 2026,
+      "team_id": "113",
+      "team_name": "Torino"
+    },
+    {
+      "league": "Serie_A",
+      "season": 2026,
+      "team_id": "99",
+      "team_name": "Udinese"
+    },
+    {
+      "league": "Serie_A",
+      "season": 2026,
+      "team_id": "265",
+      "team_name": "Venezia"
+    }
+  ]
+}

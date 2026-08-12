@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0d0c">
+  <meta name="description" content="ScorePredict — supervision des prédictions football, de la performance et du risque.">
+  <title>ScorePredict — Prévisions football</title>
+  <link rel="stylesheet" href="./assets/styles.css?v=8">
+</head>
+<body>
+  <a class="skip-link" href="#main">Aller au contenu</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Navigation principale">
+      <a class="brand" href="#overview" aria-label="ScorePredict, accueil">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span><strong>SCORE</strong><em>PREDICT</em></span>
+      </a>
+
+      <nav class="main-nav">
+        <a class="nav-item active" href="#overview" data-section="overview"><span>01</span>Vue d’ensemble</a>
+        <a class="nav-item" href="#predictions" data-section="predictions"><span>02</span>Prédictions</a>
+        <a class="nav-item" href="#performance" data-section="performance"><span>03</span>Suivi</a>
+        <a class="nav-item" href="#risk" data-section="risk"><span>04</span>Prudence</a>
+        <a class="nav-item" href="#data" data-section="data"><span>05</span>Données</a>
+      </nav>
+
+      <div class="sidebar-foot">
+        <div class="model-status">
+          <span class="status-dot" id="sidebar-status-dot"></span>
+          <div>
+            <small>État du système</small>
+            <strong id="sidebar-status">Chargement…</strong>
+          </div>
+        </div>
+        <p>Prévisions avant les matchs<br>Données mises à jour régulièrement</p>
+      </div>
+    </aside>
+
+    <header class="topbar">
+      <button class="mobile-menu" id="mobile-menu" aria-label="Ouvrir la navigation" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+      <div class="season-label" id="season-label">Saison —</div>
+      <div class="topbar-actions">
+        <span class="last-sync" id="last-sync">Dernière synchronisation —</span>
+        <span class="auto-update"><i></i>Mise à jour quotidienne</span>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="section overview-section" id="overview">
+        <div class="page-heading reveal">
+          <div>
+            <p class="eyebrow">VUE D’ENSEMBLE</p>
+            <h1>Vue d’ensemble</h1>
+          </div>
+          <p>Les prochains choix, leur vérification après le match et le niveau de prudence au même endroit.</p>
+        </div>
+
+        <div class="system-banner reveal" id="system-banner" role="status">
+          <span class="banner-icon" aria-hidden="true">!</span>
+          <div><strong id="banner-title">Vérification du système</strong><p id="banner-copy">Lecture des exports et des contrôles de fraîcheur.</p></div>
+          <a href="#data">Voir l’état des données <span>↗</span></a>
+        </div>
+
+        <div class="metric-strip reveal" aria-label="Indicateurs principaux">
+          <article class="metric primary">
+            <span>Paris recommandés</span>
+            <strong id="metric-upcoming">—</strong>
+            <small id="metric-fixtures">— match analysé</small>
+          </article>
+          <article class="metric">
+            <span>En attente</span>
+            <strong id="metric-pending">—</strong>
+            <small>à vérifier après le match</small>
+          </article>
+          <article class="metric">
+            <span>Prévisions vérifiées</span>
+            <strong id="metric-verified">—</strong>
+            <small id="metric-verified-detail">— gagnées · — perdues</small>
+          </article>
+          <article class="metric">
+            <span>Prudence recommandée</span>
+            <strong id="metric-risk">—</strong>
+            <small id="metric-risk-label">calcul en cours</small>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="predictions">
+        <div class="section-heading reveal">
+          <div><p class="eyebrow">PARIS RECOMMANDÉS</p><h2>Sélections validées</h2></div>
+          <p>Seuls les paris qui franchissent tous les critères de la stratégie sont affichés.</p>
+        </div>
+
+        <div class="prediction-toolbar reveal" id="prediction-toolbar">
+          <div class="segmented" id="league-filters" aria-label="Filtrer par championnat">
+            <button class="active" type="button" data-league="all">Tous</button>
+          </div>
+          <label class="search-field">
+            <span class="sr-only">Rechercher une équipe</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+            <input id="prediction-search" type="search" placeholder="Équipe ou championnat">
+          </label>
+        </div>
+
+        <div class="table-wrap prediction-table-wrap reveal">
+          <table class="data-table prediction-table">
+            <thead><tr><th>Date</th><th>Rencontre</th><th>Choix</th><th>Cote proposée</th><th>Prudence</th><th></th></tr></thead>
+            <tbody id="prediction-body"></tbody>
+          </table>
+          <div class="empty-state" id="prediction-empty" hidden>
+            <span class="empty-glyph" aria-hidden="true">00</span>
+            <div><strong>Aucun pari recommandé</strong><p>Aucune rencontre analysée ne franchit actuellement tous les critères de la stratégie.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="performance">
+        <div class="section-heading reveal">
+          <div><p class="eyebrow">SUIVI RÉEL</p><h2>Prévisions vérifiées après les matchs</h2></div>
+          <div class="scope-tag"><span></span><b id="memory-scope">Mémoire locale</b></div>
+        </div>
+
+        <div class="tracking-overview reveal">
+          <div class="tracking-lead">
+            <span>TAUX DE RÉUSSITE VÉRIFIÉ</span>
+            <strong id="tracking-rate">—</strong>
+            <p id="tracking-copy">Le calcul commencera dès que des prévisions publiées auront un résultat final.</p>
+          </div>
+          <dl class="tracking-counts">
+            <div><dt>En attente</dt><dd id="tracking-pending">—</dd></div>
+            <div><dt>Gagnées</dt><dd id="tracking-won">—</dd></div>
+            <div><dt>Perdues</dt><dd id="tracking-lost">—</dd></div>
+            <div><dt>Annulées</dt><dd id="tracking-void">—</dd></div>
+          </dl>
+        </div>
+
+        <div class="memory-status reveal" id="memory-status">
+          <span>MÉMOIRE</span>
+          <div><strong id="memory-title">Historique local</strong><p id="memory-copy">Les résultats sont enregistrés sur cette machine.</p></div>
+        </div>
+
+        <div class="table-wrap tracking-table-wrap reveal">
+          <table class="data-table activity-table">
+            <thead><tr><th>Date</th><th>Rencontre</th><th>Prévision publiée</th><th>Score final</th><th>Vérification</th></tr></thead>
+            <tbody id="activity-body"></tbody>
+          </table>
+          <div class="empty-state" id="tracking-empty" hidden>
+            <span class="empty-glyph" aria-hidden="true">00</span>
+            <div><strong>Aucune prévision vérifiée</strong><p>Les résultats apparaîtront ici après les prochains matchs.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="risk">
+        <div class="section-heading reveal">
+          <div><p class="eyebrow">PRUDENCE</p><h2>Niveau de prudence</h2></div>
+          <p>Une lecture simple des incertitudes avant de suivre un nouveau choix.</p>
+        </div>
+
+        <div class="risk-layout reveal">
+          <div class="risk-score-block">
+            <div class="risk-ring" id="risk-ring" aria-label="Niveau de prudence">
+              <svg viewBox="0 0 160 160" aria-hidden="true"><circle class="ring-base" cx="80" cy="80" r="66"/><circle class="ring-value" id="ring-value" cx="80" cy="80" r="66"/></svg>
+              <div><strong id="risk-score">—</strong><span>/100</span></div>
+            </div>
+            <div><span>Niveau actuel</span><strong id="risk-level">—</strong><p id="risk-recommendation">—</p></div>
+          </div>
+          <div class="risk-components" id="risk-components"></div>
+        </div>
+        <p class="method-note reveal" id="risk-method">—</p>
+      </section>
+
+      <section class="section" id="data">
+        <div class="section-heading reveal">
+          <div><p class="eyebrow">MISE À JOUR</p><h2>Les données derrière les prévisions</h2></div>
+          <p id="data-range">Historique couvert —</p>
+        </div>
+
+        <div class="quality-summary reveal">
+          <div><strong id="quality-matches">—</strong><span>matchs historiques</span></div>
+          <div><strong id="quality-rows">—</strong><span>période couverte</span></div>
+          <div><strong id="quality-features">—</strong><span>clubs cette saison</span></div>
+          <div><strong id="quality-warnings">—</strong><span>prochaine saison</span></div>
+        </div>
+
+        <div class="data-explanation reveal">
+          <span class="data-explanation-label">À SAVOIR</span>
+          <p><strong id="data-status-title">Lecture des données…</strong><span id="data-status-copy">Nous vérifions la période couverte avant d’afficher de nouvelles prévisions.</span></p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <aside class="detail-drawer" id="detail-drawer" aria-hidden="true" aria-label="Détail de la prédiction">
+    <button class="drawer-close" id="drawer-close" type="button" aria-label="Fermer">×</button>
+    <div id="drawer-content"></div>
+  </aside>
+  <div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="./assets/app.js?v=10"></script>
+</body>
+</html>

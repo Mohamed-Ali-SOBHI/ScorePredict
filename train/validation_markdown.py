@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from datetime import date, datetime
+
 from validation_context import ValidationContext
 from validation_verdict import ValidationVerdict
 
@@ -57,6 +59,33 @@ def format_units(value) -> str:
     return f"{value:.2f}"
 
 
+def parse_iso_date(value) -> date | None:
+    if not value:
+        return None
+    try:
+        return datetime.fromisoformat(str(value)).date()
+    except ValueError:
+        return None
+
+
+def build_next_step_text(context: ValidationContext, metrics: dict) -> str:
+    current_date_text = format_date_fr(context.current_date)
+    end_date = parse_iso_date(metrics.get("end_date"))
+    if end_date is not None and context.current_date > end_date:
+        end_date_text = format_date_fr(end_date)
+        return (
+            f"Comme le rapport est genere le {current_date_text} et que le dernier match "
+            f"analyse date du {end_date_text}, cette periode de test est deja terminee. "
+            "Le prochain test propre consiste a geler une strategie avant les prochains matchs "
+            "futurs, puis a ne l'evaluer que sur les paris generes apres cette date de gel."
+        )
+
+    return (
+        f"Comme nous sommes le {current_date_text}, le test prospectif propre consiste a "
+        "geler la strategie maintenant et a n'evaluer que les matchs joues apres cette date."
+    )
+
+
 def build_markdown_report(
     *,
     context: ValidationContext,
@@ -93,13 +122,7 @@ def build_markdown_report(
         else "N/A"
     )
 
-    current_date_text = format_date_fr(context.current_date)
-    next_step = (
-        f"Comme nous sommes le {current_date_text} et que la saison en cours est 2025/26, "
-        "le prochain test prospectif propre n'est pas oblige d'attendre 2026/27. "
-        "Le bon test live a geler maintenant est la fin de saison 2025/26, "
-        f"sur les matchs joues apres le {current_date_text}."
-    )
+    next_step = build_next_step_text(context, metrics)
 
     return f"""# Rapport de validation scientifique
 
@@ -172,7 +195,7 @@ Points qui empechent encore de parler de robustesse forte :
 
 - Geler le portefeuille utilise en live.
 - Logger chaque pari recommande avec sa date de generation.
-- Continuer a logger la cote de cloture pour prolonger le CLV sur la fin de saison.
+- Continuer a logger la cote de cloture pour prolonger l'audit CLV.
 - Evaluer uniquement les matchs joues apres la date de gel.
 
 {next_step}

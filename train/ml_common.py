@@ -6,6 +6,7 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 
 
 OUTCOME_LABELS = ["L", "D", "W"]
+DRAW_TARGET = 1
 
 
 def load_dataset(path: str) -> pd.DataFrame:
@@ -14,7 +15,14 @@ def load_dataset(path: str) -> pd.DataFrame:
     return df
 
 
-def get_feature_cols(df: pd.DataFrame) -> list[str]:
+def get_feature_cols(
+    df: pd.DataFrame,
+    *,
+    include_draw_features: bool = False,
+    include_algo_features: bool = False,
+    include_closing_market_features: bool = False,
+    include_consensus_market_features: bool = False,
+) -> list[str]:
     drop_cols = {
         "match_id",
         "date",
@@ -33,13 +41,26 @@ def get_feature_cols(df: pd.DataFrame) -> list[str]:
     candidate_cols = [c for c in df.columns if c not in drop_cols]
     numeric_cols = [c for c in candidate_cols if pd.api.types.is_numeric_dtype(df[c])]
 
-    keep_prefixes = (
+    keep_prefixes = [
         "xG_advantage_",
         "defensive_advantage_",
         "deep_advantage_",
         "ppda_advantage_",
         "market_",
-    )
+    ]
+    if include_algo_features:
+        keep_prefixes.append("algo_")
+    if include_draw_features:
+        keep_prefixes.extend(
+            [
+                "draw_abs_",
+                "draw_market_",
+                "draw_combined_draw_rate_",
+                "draw_draw_rate_gap_",
+                "draw_total_",
+                "draw_elo_parity",
+            ]
+        )
     keep_exact = {
         "elo_rating_gap",
         "elo_win_probability",
@@ -57,11 +78,20 @@ def get_feature_cols(df: pd.DataFrame) -> list[str]:
         "prev_season_defensive_gap",
         "season_points_per_game_gap",
     }
-    return [
-        c
-        for c in numeric_cols
-        if c in keep_exact or any(c.startswith(prefix) for prefix in keep_prefixes)
-    ]
+    def is_allowed_feature(column: str) -> bool:
+        if not (column in keep_exact or any(column.startswith(prefix) for prefix in keep_prefixes)):
+            return False
+        if not include_closing_market_features and (
+            column.endswith("_close")
+            or "_close_" in column
+            or "_move_close_minus_open" in column
+        ):
+            return False
+        if not include_consensus_market_features and "_consensus_" in column:
+            return False
+        return True
+
+    return [c for c in numeric_cols if is_allowed_feature(c)]
 
 
 def time_split_grouped(
@@ -154,6 +184,45 @@ def build_xgb_model(
     if early_stopping_rounds is not None:
         params["early_stopping_rounds"] = early_stopping_rounds
     return XGBClassifier(**params)
+
+
+def build_draw_binary_xgb_model(
+    *,
+    seed: int,
+    n_estimators: int = 1400,
+    max_depth: int = 4,
+    learning_rate: float = 0.025,
+    min_child_weight: float = 4.0,
+    subsample: float = 0.85,
+    colsample_bytree: float = 0.85,
+    gamma: float = 0.0,
+    reg_lambda: float = 1.5,
+    early_stopping_rounds: int | None = None,
+):
+    from xgboost import XGBClassifier
+
+    params = dict(
+        n_estimators=n_estimators,
+        max_depth=max_depth,
+        learning_rate=learning_rate,
+        min_child_weight=min_child_weight,
+        subsample=subsample,
+        colsample_bytree=colsample_bytree,
+        gamma=gamma,
+        objective="binary:logistic",
+        eval_metric="logloss",
+        tree_method="hist",
+        reg_lambda=reg_lambda,
+        random_state=seed,
+        n_jobs=0,
+    )
+    if early_stopping_rounds is not None:
+        params["early_stopping_rounds"] = early_stopping_rounds
+    return XGBClassifier(**params)
+
+
+def make_draw_target(y: pd.Series) -> pd.Series:
+    return (y.astype(int) == DRAW_TARGET).astype(int)
 
 
 @dataclass

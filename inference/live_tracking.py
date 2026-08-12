@@ -17,15 +17,27 @@ TRACKING_COLUMNS = [
     "selected_outcome",
     "selected_odds",
     "predicted_probability",
+    "raw_model_probability",
     "market_probability",
     "edge",
+    "value_score",
     "expected_value",
+    "raw_expected_value",
+    "probability_note",
+    "train_max_season",
     "strategy_names",
     "stake_eur",
+    "recommended",
     "result_status",
     "closing_selected_odds",
     "realized_profit",
 ]
+
+
+def _recommended_value(value: object) -> bool:
+    if isinstance(value, bool):
+        return value
+    return str(value).strip().lower() not in {"", "0", "0.0", "false", "no", "none", "nan", "<na>"}
 
 
 def build_tracking_rows(bets: pd.DataFrame, *, portfolio_name: str) -> pd.DataFrame:
@@ -47,12 +59,15 @@ def build_tracking_rows(bets: pd.DataFrame, *, portfolio_name: str) -> pd.DataFr
         + tracked["opponent_name"].astype(str)
         + "|"
         + tracked["selected_outcome"].astype(str)
-        + "|"
-        + tracked["strategy_names"].astype(str)
     )
+    recommended = tracked.get("recommended_bet", pd.Series(False, index=tracked.index))
+    tracked["recommended"] = recommended.map(_recommended_value)
     tracked["result_status"] = "pending"
     tracked["closing_selected_odds"] = pd.NA
     tracked["realized_profit"] = pd.NA
+    for column in TRACKING_COLUMNS:
+        if column not in tracked.columns:
+            tracked[column] = pd.NA
     return tracked[TRACKING_COLUMNS].copy()
 
 
@@ -64,7 +79,9 @@ def append_tracking_rows(tracking_rows: pd.DataFrame, ledger_path: Path) -> None
     if ledger_path.exists():
         existing = pd.read_csv(ledger_path)
         combined = pd.concat([existing, tracking_rows], ignore_index=True)
-        combined = combined.drop_duplicates(subset=["snapshot_key"], keep="last")
+        # Une prévision publiée reste figée : les nouveaux calculs ne réécrivent
+        # ni son choix, ni sa cote, ni un résultat déjà vérifié.
+        combined = combined.drop_duplicates(subset=["snapshot_key"], keep="first")
     else:
         combined = tracking_rows.copy()
     combined.to_csv(ledger_path, index=False)

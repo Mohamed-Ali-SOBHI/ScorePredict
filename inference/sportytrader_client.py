@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import json
+import os
 import re
 import shutil
 import subprocess
@@ -37,14 +37,10 @@ SPORTYTRADER_LEAGUE_CONFIGS = {
         "section_title": "Upcoming LaLiga matches",
     },
 }
-NPX_EXECUTABLE = shutil.which("npx") or shutil.which("npx.cmd") or "npx"
-PLAYWRIGHT_CLI = [
-    NPX_EXECUTABLE,
-    "--yes",
-    "--package",
-    "@playwright/cli",
-    "playwright-cli",
-]
+SCRIPT_DIR = Path(__file__).resolve().parent
+REPO_ROOT = SCRIPT_DIR.parent
+NODE_EXECUTABLE = shutil.which("node") or "node"
+PAGE_READER = SCRIPT_DIR / "sportytrader_page_text.mjs"
 DATE_LINE_RE = re.compile(r"^\d{1,2}\s+[A-Z][a-z]{2}\s+-\s+\d{2}:\d{2}$")
 MONTHS = {
     "Jan": 1,
@@ -62,56 +58,6 @@ MONTHS = {
 }
 
 
-def run_playwright(args: list[str], *, timeout: float = 30.0, check: bool = True) -> str:
-    proc = subprocess.run(
-        PLAYWRIGHT_CLI + args,
-        capture_output=True,
-        text=True,
-        timeout=timeout,
-        check=False,
-    )
-    if check and proc.returncode != 0:
-        raise RuntimeError(
-            f"playwright-cli {' '.join(args)} failed with code {proc.returncode}\nSTDOUT:\n{proc.stdout}\nSTDERR:\n{proc.stderr}"
-        )
-    return proc.stdout
-
-
-def _reset_playwright_state() -> None:
-    run_playwright(["close-all"], timeout=20.0, check=False)
-    run_playwright(["kill-all"], timeout=20.0, check=False)
-
-
-def extract_result_block(output: str):
-    match = re.search(r"### Result\s*(.*?)\s*### Ran Playwright code", output, flags=re.S)
-    if not match:
-        raise ValueError(f"Unable to parse Playwright result block from output:\n{output}")
-    payload = match.group(1).strip()
-    return json.loads(payload)
-
-
-def wait_until_ready(*, wait_seconds: float, timeout_seconds: float, title_contains: str, section_title: str) -> None:
-    deadline = time.time() + timeout_seconds
-    while time.time() < deadline:
-        time.sleep(wait_seconds)
-        try:
-            result = extract_result_block(
-                run_playwright(
-                    [
-                        "eval",
-                        "() => ({title: document.title, head: document.body.innerText.slice(0, 400)})",
-                    ],
-                    timeout=30.0,
-                )
-            )
-        except Exception:
-            continue
-
-        if title_contains in result.get("title", "") and section_title in result.get("head", ""):
-            return
-    raise TimeoutError(f"Timed out waiting for Sportytrader page to become readable: {title_contains}")
-
-
 def fetch_league_page_text(
     league: str,
     *,
@@ -121,30 +67,51 @@ def fetch_league_page_text(
     if league not in SPORTYTRADER_LEAGUE_CONFIGS:
         raise KeyError(f"Unsupported Sportytrader league: {league}")
 
+    del wait_seconds  # Kept in the public signature for backward compatibility.
     config = SPORTYTRADER_LEAGUE_CONFIGS[league]
-    _reset_playwright_state()
-    try:
-        run_playwright(["open", config["url"], "--headed"], timeout=40.0)
-    except RuntimeError as exc:
-        if "EADDRINUSE" not in str(exc):
-            raise
-        _reset_playwright_state()
-        run_playwright(["open", config["url"], "--headed"], timeout=40.0)
-    try:
-        wait_until_ready(
-            wait_seconds=wait_seconds,
-            timeout_seconds=timeout_seconds,
-            title_contains=config["title_contains"],
-            section_title=config["section_title"],
+    command = [
+        NODE_EXECUTABLE,
+        str(PAGE_READER),
+        "--url",
+        config["url"],
+        "--section-title",
+        config["section_title"],
+        "--timeout-ms",
+        str(max(10000, int(timeout_seconds * 1000))),
+    ]
+    if os.getenv("SCOREPREDICT_BROWSER_HEADLESS", "0").strip().lower() not in {"1", "true", "yes"}:
+        command.append("--headed")
+    attempts = max(1, int(os.getenv("SCOREPREDICT_BROWSER_ATTEMPTS", "2")))
+    failures: list[str] = []
+    proc = None
+    for attempt in range(1, attempts + 1):
+        proc = subprocess.run(
+            command,
+            cwd=REPO_ROOT,
+            capture_output=True,
+            text=True,
+            timeout=timeout_seconds + 15,
+            check=False,
         )
-        result = extract_result_block(
-            run_playwright(["eval", "() => document.body.innerText"], timeout=30.0)
+        if proc.returncode == 0:
+            break
+        failures.append(f"tentative {attempt}: {proc.stderr.strip()}")
+        if attempt < attempts:
+            time.sleep(min(5, attempt * 2))
+
+    if proc is None or proc.returncode != 0:
+        raise RuntimeError(
+            f"Unable to read Sportytrader for {league} after {attempts} attempt(s).\n"
+            + "\n".join(failures)
         )
-        if not isinstance(result, str):
-            raise ValueError("Expected page innerText to be a string")
-        return result
-    finally:
-        _reset_playwright_state()
+    import json
+
+    payload = json.loads(proc.stdout)
+    title = str(payload.get("title", ""))
+    page_text = payload.get("pageText")
+    if config["title_contains"] not in title or not isinstance(page_text, str):
+        raise ValueError(f"Unexpected Sportytrader response for {league}: {title!r}")
+    return page_text
 
 
 def choose_year(day: int, month: int, date_from: pd.Timestamp) -> int:

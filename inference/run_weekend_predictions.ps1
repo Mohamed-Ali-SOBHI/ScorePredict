@@ -1,33 +1,24 @@
 param(
     [string]$DateFrom = "",
     [string]$DateTo = "",
+    [string]$Portfolio = "",
+    [int]$TrainMaxSeason = 0,
+    [int]$DataSeason = 0,
     [double]$BankrollEur = 50.0,
+    [string]$PythonExe = $env:SCOREPREDICT_PYTHON,
     [switch]$RefreshRawData
 )
 
-function Get-WeekendWindow {
+function Get-PredictionWindow {
     $today = (Get-Date).Date
-    $day = [int]$today.DayOfWeek
-
-    if ($day -in 5, 6, 0, 1) {
-        $daysBackToFriday = ($day - 5 + 7) % 7
-        $start = $today.AddDays(-$daysBackToFriday)
-        $end = $start.AddDays(3)
-    }
-    else {
-        $daysToFriday = (5 - $day + 7) % 7
-        $start = $today.AddDays($daysToFriday)
-        $end = $start.AddDays(3)
-    }
-
     return @{
-        DateFrom = $start.ToString("yyyy-MM-dd")
-        DateTo = $end.ToString("yyyy-MM-dd")
+        DateFrom = $today.ToString("yyyy-MM-dd")
+        DateTo = $today.AddDays(21).ToString("yyyy-MM-dd")
     }
 }
 
 if (-not $DateFrom -or -not $DateTo) {
-    $window = Get-WeekendWindow
+    $window = Get-PredictionWindow
     if (-not $DateFrom) { $DateFrom = $window.DateFrom }
     if (-not $DateTo) { $DateTo = $window.DateTo }
 }
@@ -40,8 +31,14 @@ $argsList = @(
     "-File", $runner,
     "-DateFrom", $DateFrom,
     "-DateTo", $DateTo,
+    "-Portfolio", $Portfolio,
+    "-TrainMaxSeason", $TrainMaxSeason,
+    "-DataSeason", $DataSeason,
     "-BankrollEur", $BankrollEur
 )
+if ($PythonExe) {
+    $argsList += @("-PythonExe", $PythonExe)
+}
 if ($RefreshRawData) {
     $argsList += "-RefreshRawData"
 }

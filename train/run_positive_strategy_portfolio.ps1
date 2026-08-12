@@ -3,6 +3,8 @@ param(
     [string]$ExportSummary = "output\\positive_strategy_portfolio_summary.csv",
     [string]$ExportBets = "output\\positive_strategy_portfolio_bets.csv",
     [int]$Trials = 2,
+    [string]$ModelVariants = "multiclass",
+    [string]$Outcomes = "home_win,draw,away_win",
     [string]$PortfolioSelectionSplit = "val",
     [double]$SelectionMinRoi = 0.0,
     [int]$MaxStrategies = 4,
@@ -28,6 +30,8 @@ try {
     python .\portfolio_strategy_search.py `
         --data $Data `
         --trials $Trials `
+        --model-variants $ModelVariants `
+        --outcomes $Outcomes `
         --portfolio-selection-split $PortfolioSelectionSplit `
         --selection-min-roi $SelectionMinRoi `
         --max-strategies $MaxStrategies `
