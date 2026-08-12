@@ -31,6 +31,17 @@ OUTCOME_FROM_HOME_RESULT = {
 }
 
 
+def normalize_date(value: object) -> pd.Timestamp:
+    timestamp = pd.Timestamp(value)
+    if timestamp.tzinfo is not None:
+        timestamp = timestamp.tz_convert("UTC").tz_localize(None)
+    return timestamp.normalize()
+
+
+def normalize_date_series(values: pd.Series) -> pd.Series:
+    return pd.to_datetime(values, utc=True).dt.tz_localize(None).dt.normalize()
+
+
 def numeric_column(frame: pd.DataFrame, column: str, default: float) -> pd.Series:
     if column not in frame.columns:
         return pd.Series(default, index=frame.index, dtype="float64")
@@ -76,7 +87,7 @@ def load_home_results(data_dir: Path) -> pd.DataFrame:
     else:
         home["team_goals"] = pd.NA
         home["opponent_goals"] = pd.NA
-    home["match_date"] = pd.to_datetime(home["date"]).dt.normalize()
+    home["match_date"] = normalize_date_series(home["date"])
     home["home_team_norm"] = home["team_name"].map(normalize_team_name)
     home["away_team_norm"] = home["opponent_name"].map(normalize_team_name)
     home["actual_outcome"] = home["result"].map(OUTCOME_FROM_HOME_RESULT)
@@ -128,7 +139,7 @@ def prepare_ledger(
         raise ValueError(f"Ledger is missing required columns: {', '.join(missing)}")
 
     prepared = ledger.copy()
-    prepared["date"] = pd.to_datetime(prepared["date"])
+    prepared["date"] = pd.to_datetime(prepared["date"], utc=True).dt.tz_localize(None)
     prepared["match_date"] = prepared["date"].dt.normalize()
     prepared["home_team_norm"] = prepared["team_name"].map(normalize_team_name)
     prepared["away_team_norm"] = prepared["opponent_name"].map(normalize_team_name)
@@ -144,7 +155,7 @@ def prepare_ledger(
         "realized_profit_units",
     ]
     prepared = prepared.drop(columns=[column for column in recalculated_columns if column in prepared.columns])
-    prepared = prepared[prepared["match_date"] >= freeze_date].copy()
+    prepared = prepared[prepared["match_date"] >= normalize_date(freeze_date)].copy()
     if portfolio_name:
         if "portfolio_name" not in prepared.columns:
             raise ValueError("Ledger is missing required column: portfolio_name")
@@ -163,6 +174,11 @@ def evaluate_rows(
     *,
     as_of_date: pd.Timestamp,
 ) -> pd.DataFrame:
+    ledger = ledger.copy()
+    results = results.copy()
+    ledger["match_date"] = normalize_date_series(ledger["match_date"])
+    results["match_date"] = normalize_date_series(results["match_date"])
+    as_of_date = normalize_date(as_of_date)
     merge_keys = ["league", "match_date", "home_team_norm", "away_team_norm"]
     evaluated = ledger.merge(results, on=merge_keys, how="left", validate="many_to_one")
     evaluated["match_found"] = evaluated["actual_outcome"].notna()
@@ -269,11 +285,11 @@ def main() -> None:
     output_path = resolve_path(args.output)
     summary_path = resolve_path(args.summary_output)
 
-    freeze_date = pd.Timestamp(args.freeze_date).normalize()
+    freeze_date = normalize_date(args.freeze_date)
     as_of_date = (
-        pd.Timestamp(args.as_of_date).normalize()
+        normalize_date(args.as_of_date)
         if args.as_of_date
-        else pd.Timestamp.today().normalize()
+        else normalize_date(pd.Timestamp.today())
     )
 
     ledger = pd.read_csv(ledger_path)

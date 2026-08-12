@@ -159,6 +159,29 @@ class PredictionTrackingTests(unittest.TestCase):
         self.assertEqual(len(prepared), 1)
         self.assertEqual(prepared.iloc[0]["team_name"], "Arsenal")
 
+    def test_live_evaluation_accepts_supabase_utc_dates(self) -> None:
+        ledger = pd.DataFrame(
+            [
+                {
+                    "date": "2026-08-30T11:30:00+00:00",
+                    "league": "Bundesliga",
+                    "team_name": "Augsburg",
+                    "opponent_name": "Schalke 04",
+                    "selected_outcome": "draw",
+                    "selected_odds": 3.9,
+                    "portfolio_name": PRODUCTION_PORTFOLIO_NAME,
+                    "recommended": True,
+                }
+            ]
+        )
+        prepared = prepare_ledger(
+            ledger,
+            pd.Timestamp("2026-08-12"),
+            portfolio_name=PRODUCTION_PORTFOLIO_NAME,
+        )
+        self.assertEqual(len(prepared), 1)
+        self.assertIsNone(prepared.iloc[0]["match_date"].tzinfo)
+
     def test_default_portfolio_is_the_versioned_champion(self) -> None:
         self.assertEqual(DEFAULT_PORTFOLIO_NAME, PRODUCTION_PORTFOLIO_NAME)
 
