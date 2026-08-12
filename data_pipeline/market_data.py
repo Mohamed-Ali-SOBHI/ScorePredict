@@ -1,12 +1,13 @@
 from __future__ import annotations
 
+import gzip
 from io import StringIO
 import re
 import unicodedata
+from urllib.request import Request, urlopen
 
 import numpy as np
 import pandas as pd
-import requests
 
 
 LEAGUE_TO_FOOTBALL_DATA_CODE = {
@@ -76,6 +77,21 @@ TEAM_NAME_ALIASES = {
     "valladolid": "real valladolid",
     "vallecano": "rayo vallecano",
     "huesca": "sd huesca",
+    "r racing club": "racing santander",
+    "racing club de santander": "racing santander",
+    "rc deportivo": "deportivo la coruna",
+    "deportivo": "deportivo la coruna",
+    "malaga cf": "malaga",
+    "coventry city": "coventry",
+    "hull city": "hull",
+    "ipswich town": "ipswich",
+    "sv elversberg": "elversberg",
+    "fc schalke 04": "schalke 04",
+    "schalke": "schalke 04",
+    "sc paderborn 07": "paderborn",
+    "ac monza": "monza",
+    "venezia fc": "venezia",
+    "frosinone calcio": "frosinone",
 }
 
 MATCH_MARKET_COLS = [
@@ -93,6 +109,15 @@ CLOSING_MARKET_COLS = [
     "home_win_odds_close",
     "draw_odds_close",
     "away_win_odds_close",
+]
+
+CONSENSUS_MARKET_COLS = [
+    "home_win_consensus_odds_open",
+    "draw_consensus_odds_open",
+    "away_win_consensus_odds_open",
+    "home_win_consensus_odds_close",
+    "draw_consensus_odds_close",
+    "away_win_consensus_odds_close",
 ]
 
 
@@ -150,52 +175,96 @@ def load_market_data(
     seasons: set[int],
     *,
     include_closing: bool = False,
+    include_consensus: bool = False,
 ) -> pd.DataFrame:
-    session = requests.Session()
-    session.headers.update({"User-Agent": "Mozilla/5.0"})
+    try:
+        import requests
+    except ImportError:  # pragma: no cover - used by lightweight runtimes
+        requests = None
+
+    session = None
+    if requests is not None:
+        session = requests.Session()
+        session.headers.update({"User-Agent": "Mozilla/5.0"})
 
     frames: list[pd.DataFrame] = []
     for league in sorted(leagues):
         league_code = LEAGUE_TO_FOOTBALL_DATA_CODE[league]
         for season in sorted(seasons):
             url = f"https://www.football-data.co.uk/mmz4281/{season_to_code(season)}/{league_code}.csv"
-            response = session.get(url, timeout=30)
-            response.raise_for_status()
+            if session is not None:
+                response = session.get(url, timeout=30)
+                response.raise_for_status()
+                csv_text = response.text
+            else:
+                request = Request(url, headers={"User-Agent": "Mozilla/5.0"})
+                with urlopen(request, timeout=30) as response:
+                    body = response.read()
+                    if response.headers.get("Content-Encoding") == "gzip" or body[:2] == b"\x1f\x8b":
+                        body = gzip.decompress(body)
+                    csv_text = body.decode("utf-8")
 
-            frame = pd.read_csv(StringIO(response.text))
-            frame["league"] = league
-            frame["season"] = int(season)
-            frame["market_match_date"] = parse_market_dates(frame["Date"])
-            frame["home_team_norm"] = frame["HomeTeam"].map(normalize_team_name)
-            frame["away_team_norm"] = frame["AwayTeam"].map(normalize_team_name)
-
-            frame["home_shots"] = pd.to_numeric(frame["HS"], errors="coerce")
-            frame["away_shots"] = pd.to_numeric(frame["AS"], errors="coerce")
-            frame["home_win_odds_open"] = _pick_first_available(
-                frame,
-                ["PSH", "B365H", "AvgH"],
-            )
-            frame["draw_odds_open"] = _pick_first_available(
-                frame,
-                ["PSD", "B365D", "AvgD"],
-            )
-            frame["away_win_odds_open"] = _pick_first_available(
-                frame,
-                ["PSA", "B365A", "AvgA"],
-            )
+            raw_frame = pd.read_csv(StringIO(csv_text))
+            derived_columns = {
+                "league": league,
+                "season": int(season),
+                "market_match_date": parse_market_dates(raw_frame["Date"]),
+                "home_team_norm": raw_frame["HomeTeam"].map(normalize_team_name),
+                "away_team_norm": raw_frame["AwayTeam"].map(normalize_team_name),
+                "home_shots": pd.to_numeric(raw_frame["HS"], errors="coerce"),
+                "away_shots": pd.to_numeric(raw_frame["AS"], errors="coerce"),
+                "home_win_odds_open": _pick_first_available(
+                    raw_frame,
+                    ["PSH", "B365H", "AvgH"],
+                ),
+                "draw_odds_open": _pick_first_available(
+                    raw_frame,
+                    ["PSD", "B365D", "AvgD"],
+                ),
+                "away_win_odds_open": _pick_first_available(
+                    raw_frame,
+                    ["PSA", "B365A", "AvgA"],
+                ),
+            }
             if include_closing:
-                frame["home_win_odds_close"] = _pick_first_available(
-                    frame,
+                derived_columns["home_win_odds_close"] = _pick_first_available(
+                    raw_frame,
                     ["PSCH", "B365CH", "AvgCH"],
                 )
-                frame["draw_odds_close"] = _pick_first_available(
-                    frame,
+                derived_columns["draw_odds_close"] = _pick_first_available(
+                    raw_frame,
                     ["PSCD", "B365CD", "AvgCD"],
                 )
-                frame["away_win_odds_close"] = _pick_first_available(
-                    frame,
+                derived_columns["away_win_odds_close"] = _pick_first_available(
+                    raw_frame,
                     ["PSCA", "B365CA", "AvgCA"],
                 )
+            if include_consensus:
+                derived_columns["home_win_consensus_odds_open"] = _pick_first_available(
+                    raw_frame,
+                    ["AvgH", "BbAvH"],
+                )
+                derived_columns["draw_consensus_odds_open"] = _pick_first_available(
+                    raw_frame,
+                    ["AvgD", "BbAvD"],
+                )
+                derived_columns["away_win_consensus_odds_open"] = _pick_first_available(
+                    raw_frame,
+                    ["AvgA", "BbAvA"],
+                )
+                derived_columns["home_win_consensus_odds_close"] = _pick_first_available(
+                    raw_frame,
+                    ["AvgCH"],
+                )
+                derived_columns["draw_consensus_odds_close"] = _pick_first_available(
+                    raw_frame,
+                    ["AvgCD"],
+                )
+                derived_columns["away_win_consensus_odds_close"] = _pick_first_available(
+                    raw_frame,
+                    ["AvgCA"],
+                )
+            frame = pd.concat([raw_frame, pd.DataFrame(derived_columns, index=raw_frame.index)], axis=1)
 
             selected_columns = [
                 "league",
@@ -211,6 +280,8 @@ def load_market_data(
             ]
             if include_closing:
                 selected_columns += CLOSING_MARKET_COLS
+            if include_consensus:
+                selected_columns += CONSENSUS_MARKET_COLS
 
             frames.append(
                 frame[selected_columns].copy()
@@ -226,6 +297,7 @@ def build_match_market_table(
     max_date_diff_days: int = 14,
     *,
     include_closing: bool = False,
+    include_consensus: bool = False,
 ) -> pd.DataFrame:
     rows = add_league_and_season(team_rows)
     home_rows = rows.loc[
@@ -242,6 +314,7 @@ def build_match_market_table(
         set(home_rows["league"]),
         set(home_rows["season"]),
         include_closing=include_closing,
+        include_consensus=include_consensus,
     )
 
     exact = home_rows.merge(
@@ -277,27 +350,50 @@ def build_match_market_table(
         sample = ", ".join(missing[:5])
         raise ValueError(f"Failed to match market data for {len(missing)} matches. Sample: {sample}")
 
-    output_cols = MATCH_MARKET_COLS + (CLOSING_MARKET_COLS if include_closing else [])
+    output_cols = MATCH_MARKET_COLS
+    if include_closing:
+        output_cols += CLOSING_MARKET_COLS
+    if include_consensus:
+        output_cols += CONSENSUS_MARKET_COLS
     return matched[output_cols].copy()
 
 
 def enrich_team_rows_with_market_data(
     team_rows: pd.DataFrame,
     max_date_diff_days: int = 14,
+    *,
+    include_closing: bool = False,
+    include_consensus: bool = False,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     original_cols = list(team_rows.columns)
     rows = team_rows.copy()
-    match_market = build_match_market_table(rows, max_date_diff_days=max_date_diff_days)
+    match_market = build_match_market_table(
+        rows,
+        max_date_diff_days=max_date_diff_days,
+        include_closing=include_closing,
+        include_consensus=include_consensus,
+    )
 
     replaceable_cols = [
         column
         for column in MATCH_MARKET_COLS[1:]
+        + CLOSING_MARKET_COLS
+        + CONSENSUS_MARKET_COLS
         + [
             "team_shots",
             "opponent_shots",
             "team_win_odds_open",
             "draw_odds_open",
             "opponent_win_odds_open",
+            "team_win_odds_close",
+            "draw_odds_close",
+            "opponent_win_odds_close",
+            "team_win_consensus_odds_open",
+            "draw_consensus_odds_open",
+            "opponent_win_consensus_odds_open",
+            "team_win_consensus_odds_close",
+            "draw_consensus_odds_close",
+            "opponent_win_consensus_odds_close",
             "team_win_odds",
             "draw_odds",
             "opponent_win_odds",
@@ -322,6 +418,50 @@ def enrich_team_rows_with_market_data(
         "draw_odds_open",
         "opponent_win_odds_open",
     ]
+    if include_closing:
+        rows["team_win_odds_close"] = np.where(home_mask, rows["home_win_odds_close"], rows["away_win_odds_close"])
+        rows["draw_odds_close"] = rows["draw_odds_close"]
+        rows["opponent_win_odds_close"] = np.where(
+            home_mask,
+            rows["away_win_odds_close"],
+            rows["home_win_odds_close"],
+        )
+        new_cols += [
+            "team_win_odds_close",
+            "draw_odds_close",
+            "opponent_win_odds_close",
+        ]
+    if include_consensus:
+        rows["team_win_consensus_odds_open"] = np.where(
+            home_mask,
+            rows["home_win_consensus_odds_open"],
+            rows["away_win_consensus_odds_open"],
+        )
+        rows["draw_consensus_odds_open"] = rows["draw_consensus_odds_open"]
+        rows["opponent_win_consensus_odds_open"] = np.where(
+            home_mask,
+            rows["away_win_consensus_odds_open"],
+            rows["home_win_consensus_odds_open"],
+        )
+        rows["team_win_consensus_odds_close"] = np.where(
+            home_mask,
+            rows["home_win_consensus_odds_close"],
+            rows["away_win_consensus_odds_close"],
+        )
+        rows["draw_consensus_odds_close"] = rows["draw_consensus_odds_close"]
+        rows["opponent_win_consensus_odds_close"] = np.where(
+            home_mask,
+            rows["away_win_consensus_odds_close"],
+            rows["home_win_consensus_odds_close"],
+        )
+        new_cols += [
+            "team_win_consensus_odds_open",
+            "draw_consensus_odds_open",
+            "opponent_win_consensus_odds_open",
+            "team_win_consensus_odds_close",
+            "draw_consensus_odds_close",
+            "opponent_win_consensus_odds_close",
+        ]
 
     keep_cols = [column for column in original_cols if column in rows.columns]
     keep_cols += [column for column in new_cols if column not in keep_cols]

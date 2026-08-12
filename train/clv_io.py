@@ -1,9 +1,8 @@
 from __future__ import annotations
 
-from pathlib import Path
 import sys
+from pathlib import Path
 
-import numpy as np
 import pandas as pd
 
 
@@ -29,7 +28,8 @@ def prepare_bets_for_closing_match(bets_df: pd.DataFrame) -> pd.DataFrame:
     if missing:
         raise ValueError(f"Missing columns for CLV matching: {', '.join(missing)}")
 
-    prepared = bets_df.reset_index(drop=False).rename(columns={"index": "_bet_row_id"}).copy()
+    bet_ids = pd.Series(range(len(bets_df)), name="_bet_row_id")
+    prepared = pd.concat([bet_ids, bets_df.reset_index(drop=True).copy()], axis=1)
     prepared["date"] = pd.to_datetime(prepared["date"])
     prepared["season"] = pd.to_numeric(prepared["season"], errors="raise").astype(int)
     prepared["bet_match_date"] = prepared["date"].dt.normalize()
@@ -47,6 +47,16 @@ def match_bets_to_closing_market(
         return bets_df.copy()
 
     prepared = prepare_bets_for_closing_match(bets_df)
+    refreshed_market_cols = [
+        "closing_market_match_date",
+        "closing_match_date_diff_days",
+        "closing_match_found",
+        *CLOSING_MARKET_COLS,
+    ]
+    prepared = prepared.drop(
+        columns=[column for column in refreshed_market_cols if column in prepared.columns],
+        errors="ignore",
+    )
     market = load_market_data(
         set(prepared["league"]),
         set(prepared["season"]),

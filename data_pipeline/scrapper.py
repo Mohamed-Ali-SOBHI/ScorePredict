@@ -1,10 +1,22 @@
 import argparse
+import gzip
+import json
 import os
 import sys
+from urllib.request import Request, urlopen
 
 import pandas as pd
-import requests
-from tqdm import tqdm
+
+try:
+    import requests
+except ImportError:  # pragma: no cover - used by lightweight runtimes
+    requests = None
+
+try:
+    from tqdm import tqdm
+except ImportError:  # pragma: no cover - progress bar is optional
+    def tqdm(values):
+        return values
 
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -13,6 +25,7 @@ if REPO_ROOT not in sys.path:
     sys.path.append(REPO_ROOT)
 
 from data_pipeline.market_data import enrich_team_rows_with_market_data
+from data_pipeline.team_registry import write_registry
 
 
 DEFAULT_LEAGUES = ["La_liga", "Bundesliga", "EPL", "Serie_A", "Ligue_1"]
@@ -26,19 +39,34 @@ def get_league_data(league, season, base_url="https://understat.com"):
     The endpoint returns 404 unless it's requested as an XMLHttpRequest.
     """
     url = f"{base_url}/getLeagueData/{league}/{season}"
-    response = requests.get(
-        url,
-        headers={
-            "User-Agent": "Mozilla/5.0",
-            "X-Requested-With": "XMLHttpRequest",
-            "Referer": f"{base_url}/league/{league}/{season}",
-        },
-        timeout=30,
-    )
-    response.raise_for_status()
-    payload = response.json()
-    # Keep the same shape as the older scraper: a dict of team_id -> team_data
-    return payload["teams"]
+    headers = {
+        "User-Agent": "Mozilla/5.0",
+        "X-Requested-With": "XMLHttpRequest",
+        "Referer": f"{base_url}/league/{league}/{season}",
+    }
+    if requests is not None:
+        response = requests.get(url, headers=headers, timeout=30)
+        response.raise_for_status()
+        payload = response.json()
+    else:
+        request = Request(url, headers=headers)
+        with urlopen(request, timeout=30) as response:
+            body = response.read()
+            if response.headers.get("Content-Encoding") == "gzip" or body[:2] == b"\x1f\x8b":
+                body = gzip.decompress(body)
+            payload = json.loads(body.decode("utf-8"))
+    # Keep the same shape as the older scraper: a dict of team_id -> team_data.
+    # The current endpoint returns a list for seasons that have not started yet.
+    teams = payload["teams"]
+    if isinstance(teams, list):
+        normalized = {}
+        for team in teams:
+            team_id = team.get("id") or team.get("team_id")
+            if team_id is None:
+                raise ValueError(f"Understat team payload has no id: {team}")
+            normalized[str(team_id)] = team
+        return normalized
+    return teams
 
 
 def get_all_league_data(seasons, leagues, base_url):
@@ -149,7 +177,7 @@ def extract_stats_from_data(data):
     return stats
 
 
-def save_data(stats):
+def save_data(stats, *, include_closing_market_data=False, include_consensus_market_data=False):
     """
     Save the stats to a csv file
     :param stats: stats to save
@@ -168,14 +196,23 @@ def save_data(stats):
         output_file = os.path.join(base_dir, f"{season} {' '.join(team_name)}.csv")
 
         df = pd.DataFrame(matches)
+        if df.empty:
+            continue
         df['league'] = league
         df['season'] = season
         df['_output_file'] = output_file
         df['_row_order'] = range(len(df))
         frames.append(df)
 
+    if not frames:
+        return
+
     all_rows = pd.concat(frames, ignore_index=True)
-    all_rows, _ = enrich_team_rows_with_market_data(all_rows)
+    all_rows, _ = enrich_team_rows_with_market_data(
+        all_rows,
+        include_closing=include_closing_market_data,
+        include_consensus=include_consensus_market_data,
+    )
 
     for output_file, group in all_rows.groupby('_output_file', sort=False):
         group = group.sort_values('_row_order')
@@ -287,6 +324,8 @@ def parse_args() -> argparse.Namespace:
         default=",".join(DEFAULT_SEASONS),
         help="Comma-separated season start years, e.g. 2025,2024",
     )
+    parser.add_argument("--include-closing-market-data", action="store_true")
+    parser.add_argument("--include-consensus-market-data", action="store_true")
     return parser.parse_args()
 
 
@@ -297,7 +336,13 @@ if __name__ == '__main__':
     seasons = [season.strip() for season in args.seasons.split(",") if season.strip()]
 
     data = get_all_league_data(seasons, leagues, base_url)
+    registry = write_registry(data, os.path.join(REPO_ROOT, "Data"))
+    print(f"Team registry written: {registry}")
 
     stats = extract_stats_from_data(data)
     stats = update_stats_with_opponents(stats, data)  # Update with opponent information
-    save_data(stats)
+    save_data(
+        stats,
+        include_closing_market_data=args.include_closing_market_data,
+        include_consensus_market_data=args.include_consensus_market_data,
+    )

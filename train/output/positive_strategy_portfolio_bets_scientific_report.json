@@ -1,0 +1,168 @@
+{
+  "bets_path": "C:\\Users\\moham\\OneDrive\\Bureau\\foot ia\\train\\output\\positive_strategy_portfolio_bets.csv",
+  "summary_path": "C:\\Users\\moham\\OneDrive\\Bureau\\foot ia\\train\\output\\positive_strategy_portfolio_summary.csv",
+  "selection_mode": "val",
+  "strategy_count": 4,
+  "clv_available": true,
+  "metrics": {
+    "bet_count": 181,
+    "total_profit": 35.76,
+    "roi": 0.19756906077348066,
+    "roi_ci_low": -0.07458701657458562,
+    "roi_ci_high": 0.47624999999999984,
+    "bootstrap_prob_roi_positive": 0.9264,
+    "hit_rate": 0.2983425414364641,
+    "hit_rate_ci_low": 0.23204419889502761,
+    "hit_rate_ci_high": 0.36464088397790057,
+    "avg_odds": 4.321933701657459,
+    "avg_edge": 0.1815428043201582,
+    "avg_expected_value": 0.7316082714893214,
+    "max_drawdown": -12.68,
+    "longest_losing_streak": 11,
+    "start_date": "2025-08-15",
+    "end_date": "2026-03-09"
+  },
+  "clv_metrics": {
+    "matched_bet_count": 181,
+    "matched_coverage": 1.0,
+    "avg_closing_odds": 4.26,
+    "avg_clv_odds_diff": 0.06193370165745851,
+    "median_clv_odds_diff": 0.040000000000000036,
+    "avg_clv_odds_ratio": 0.016624128809312307,
+    "positive_clv_rate": 0.56353591160221,
+    "avg_clv_probability_diff": 0.004320364103528952,
+    "median_clv_probability_diff": 0.003866587964553858
+  },
+  "verdict": {
+    "evidence_level": "encourageante",
+    "strengths": [
+      "Le portefeuille a ete choisi sur une saison de validation separee.",
+      "Le ROI observe est positif.",
+      "La closing line historique est disponible sur tous les paris du test 2025/26.",
+      "Le CLV historique est positif : le portefeuille prend en moyenne une meilleure cote que la cloture."
+    ],
+    "risks": [
+      "L'intervalle bootstrap du ROI recouvre encore zero.",
+      "Le volume de paris est encore moyen pour parler de robustesse forte."
+    ]
+  },
+  "monthly_rows": [
+    {
+      "month": "2025-08",
+      "bets": 15,
+      "roi": -0.2373333333333333,
+      "profit": -3.5599999999999996,
+      "hit_rate": 0.2
+    },
+    {
+      "month": "2025-09",
+      "bets": 13,
+      "roi": 0.28076923076923077,
+      "profit": 3.6500000000000004,
+      "hit_rate": 0.3076923076923077
+    },
+    {
+      "month": "2025-10",
+      "bets": 15,
+      "roi": 0.048000000000000015,
+      "profit": 0.7200000000000002,
+      "hit_rate": 0.26666666666666666
+    },
+    {
+      "month": "2025-11",
+      "bets": 17,
+      "roi": -0.07117647058823527,
+      "profit": -1.2099999999999995,
+      "hit_rate": 0.23529411764705882
+    },
+    {
+      "month": "2025-12",
+      "bets": 30,
+      "roi": 0.4406666666666667,
+      "profit": 13.22,
+      "hit_rate": 0.3333333333333333
+    },
+    {
+      "month": "2026-01",
+      "bets": 32,
+      "roi": 0.5081249999999999,
+      "profit": 16.259999999999998,
+      "hit_rate": 0.375
+    },
+    {
+      "month": "2026-02",
+      "bets": 41,
+      "roi": 0.058048780487804874,
+      "profit": 2.38,
+      "hit_rate": 0.2682926829268293
+    },
+    {
+      "month": "2026-03",
+      "bets": 18,
+      "roi": 0.23888888888888887,
+      "profit": 4.3,
+      "hit_rate": 0.3333333333333333
+    }
+  ],
+  "league_rows": [
+    {
+      "league": "La_liga",
+      "bets": 51,
+      "roi": 0.3154901960784314,
+      "profit": 16.09,
+      "hit_rate": 0.39215686274509803,
+      "avg_odds": 3.385490196078431
+    },
+    {
+      "league": "EPL",
+      "bets": 69,
+      "roi": 0.23217391304347826,
+      "profit": 16.02,
+      "hit_rate": 0.2608695652173913,
+      "avg_odds": 4.898985507246376
+    },
+    {
+      "league": "Bundesliga",
+      "bets": 61,
+      "roi": 0.0598360655737705,
+      "profit": 3.6500000000000004,
+      "hit_rate": 0.26229508196721313,
+      "avg_odds": 4.4521311475409835
+    }
+  ],
+  "strategy_rows": [
+    {
+      "strategy_name": "train=ALL|bet=La_liga|outcome=draw|odds=[2.20,4.00)|fav=nonfavorite",
+      "bets": 51,
+      "roi": 0.3154901960784314,
+      "profit": 16.09,
+      "hit_rate": 0.39215686274509803,
+      "avg_odds": 3.385490196078431
+    },
+    {
+      "strategy_name": "train=ALL|bet=EPL|outcome=draw|odds=[4.00,10.00)|fav=nonfavorite",
+      "bets": 69,
+      "roi": 0.23217391304347826,
+      "profit": 16.02,
+      "hit_rate": 0.2608695652173913,
+      "avg_odds": 4.898985507246376
+    },
+    {
+      "strategy_name": "train=ALL|bet=Bundesliga|outcome=draw|odds=[2.00,10.00)|fav=nonfavorite",
+      "bets": 38,
+      "roi": 0.12473684210526316,
+      "profit": 4.74,
+      "hit_rate": 0.2894736842105263,
+      "avg_odds": 4.200263157894737
+    },
+    {
+      "strategy_name": "train=Bundesliga|bet=Bundesliga|outcome=draw|odds=[4.00,10.00)|fav=nonfavorite",
+      "bets": 23,
+      "roi": -0.04739130434782608,
+      "profit": -1.0899999999999999,
+      "hit_rate": 0.21739130434782608,
+      "avg_odds": 4.868260869565217
+    }
+  ],
+  "generated_on": "2026-03-12"
+}

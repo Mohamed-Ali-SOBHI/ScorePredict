@@ -1,0 +1,20 @@
+{
+  "portfolio_name": "production_draw_consensus_nonfavorite_2026_08_12",
+  "recommended_only": true,
+  "freeze_date": "2026-08-12",
+  "as_of_date": "2026-08-12",
+  "ledger_rows_after_freeze": 1,
+  "published_predictions": 1,
+  "settled_bets": 0,
+  "won_bets": 0,
+  "lost_bets": 0,
+  "void_bets": 0,
+  "pending_bets": 1,
+  "pending_data_refresh_bets": 0,
+  "unmatched_bets": 0,
+  "profit_units": 0.0,
+  "roi_units": null,
+  "profit_eur": 0.0,
+  "roi_eur": null,
+  "hit_rate": null
+}
