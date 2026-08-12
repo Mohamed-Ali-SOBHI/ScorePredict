@@ -1,4 +1,4 @@
-document.documentElement.classList.add("motion-ready");
+document.documentElement.classList.add("js");
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -12,35 +12,13 @@ function setText(selector, value) {
   if (element) element.textContent = value;
 }
 
-function safeNumber(value, fallback = 0) {
-  const number = Number(value);
-  return Number.isFinite(number) ? number : fallback;
-}
-
-function finiteNumber(value) {
+function numberOrNull(value) {
   const number = Number(value);
   return Number.isFinite(number) ? number : null;
 }
 
-function isFilledText(value) {
+function validText(value) {
   return typeof value === "string" && value.trim().length > 0;
-}
-
-function isValidPrediction(prediction) {
-  if (!prediction || prediction.recommended !== true) return false;
-  const odds = finiteNumber(prediction.odds);
-  const probability = finiteNumber(prediction.modelProbability);
-  const stake = finiteNumber(prediction.stakeEur);
-  const date = new Date(prediction.date);
-
-  return isFilledText(prediction.homeTeam)
-    && isFilledText(prediction.awayTeam)
-    && isFilledText(prediction.outcomeLabel)
-    && isFilledText(prediction.riskLabel)
-    && !Number.isNaN(date.getTime())
-    && odds !== null && odds > 1
-    && probability !== null && probability > 0 && probability <= 1
-    && stake !== null && stake > 0;
 }
 
 function formatDate(value, withTime = false) {
@@ -48,168 +26,10 @@ function formatDate(value, withTime = false) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "—";
   return new Intl.DateTimeFormat("fr-FR", {
-    weekday: "long",
     day: "numeric",
     month: "long",
     ...(withTime ? { hour: "2-digit", minute: "2-digit" } : {}),
   }).format(date);
-}
-
-function formatShortDate(value) {
-  if (!value) return "—";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "—";
-  return new Intl.DateTimeFormat("fr-FR", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" }).format(date);
-}
-
-function isRecommendedOnlyPayload(data) {
-  if (!data || !data.meta || !data.summary || !Array.isArray(data.predictions)) return false;
-  const upcomingBets = finiteNumber(data.summary.upcomingBets);
-  const scoredFixtures = finiteNumber(data.summary.scoredFixtures);
-  return Number.isInteger(upcomingBets) && upcomingBets >= 0
-    && Number.isInteger(scoredFixtures) && scoredFixtures >= upcomingBets
-    && data.predictions.length === upcomingBets
-    && data.predictions.every(isValidPrediction);
-}
-
-async function fetchDashboard() {
-  const githubPages = window.location.hostname.endsWith(".github.io");
-  if (!githubPages) {
-    try {
-      const apiResponse = await fetch("/api/v1/dashboard", {
-        headers: { Accept: "application/json" },
-        cache: "no-store",
-      });
-      if (apiResponse.ok && (apiResponse.headers.get("content-type") || "").includes("application/json")) {
-        const apiData = await apiResponse.json();
-        if (isRecommendedOnlyPayload(apiData)) return apiData;
-      }
-    } catch {
-      // Le site statique reste disponible quand l'API locale n'est pas lancée.
-    }
-  }
-
-  const response = await fetch(`./data/dashboard.json?v=${Date.now()}`, { cache: "no-store" });
-  if (!response.ok) throw new Error("Snapshot indisponible");
-  const data = await response.json();
-  if (!isRecommendedOnlyPayload(data)) throw new Error("Publication incomplète");
-  return data;
-}
-
-function setCount(selector, value) {
-  const element = $(selector);
-  if (!element) return;
-  element.dataset.count = String(Math.max(0, Math.round(safeNumber(value))));
-  element.dataset.animated = "false";
-  element.textContent = "0";
-  countObserver.observe(element);
-}
-
-function renderMeta(data) {
-  const { meta, summary } = data;
-  const season = `${meta.currentSeason}/${String(meta.currentSeason + 1).slice(-2)}`;
-  setText("#hero-season", season);
-  setText("#header-state", meta.status === "ready" ? "Prêt" : "En préparation");
-  setText(
-    "#hero-proof",
-    summary.upcomingBets
-      ? `${integer.format(summary.scoredFixtures)} matchs étudiés · ${integer.format(summary.upcomingBets)} ${summary.upcomingBets > 1 ? "choix retenus" : "choix retenu"}`
-      : `${integer.format(summary.scoredFixtures)} matchs étudiés · aucun choix aujourd’hui`,
-  );
-  setText("#pick-updated", `Analyse du ${formatShortDate(meta.generatedAt)}`);
-  document.body.dataset.status = meta.status;
-}
-
-function renderPredictions(data) {
-  const predictions = data.predictions;
-  const hasPrediction = predictions.length > 0;
-  const holder = $("#pick-list");
-  holder.hidden = !hasPrediction;
-  $("#no-pick").hidden = hasPrediction;
-  setText("#pick-status", hasPrediction
-    ? `${predictions.length} ${predictions.length > 1 ? "choix validés" : "choix validé"}`
-    : "Aucun choix publié");
-  setText("#pick-title-main", predictions.length > 1 ? `${predictions.length} choix retenus.` : hasPrediction ? "Un seul choix." : "Aucun choix forcé.");
-
-  if (!hasPrediction) {
-    holder.innerHTML = "";
-    return;
-  }
-
-  holder.innerHTML = predictions.map((prediction, index) => {
-    const league = prediction.leagueLabel || prediction.league || "Championnat";
-    const listLabel = predictions.length > 1 ? `Choix ${String(index + 1).padStart(2, "0")} · ${league}` : league;
-    return `
-      <article class="pick-stage">
-        <div class="pick-meta">
-          <span>${escapeHtml(listLabel)}</span>
-          <time datetime="${escapeHtml(prediction.date)}">${escapeHtml(formatDate(prediction.date, true))}</time>
-        </div>
-        <div class="matchup">
-          <h3>${escapeHtml(prediction.homeTeam)}</h3>
-          <span>contre</span>
-          <h3>${escapeHtml(prediction.awayTeam)}</h3>
-        </div>
-        <div class="decision-line">
-          <div><span>Notre choix</span><strong>${escapeHtml(prediction.outcomeLabel)}</strong></div>
-          <dl>
-            <div><dt>Cote proposée</dt><dd>${decimal.format(prediction.odds)}</dd></div>
-            <div><dt>Chance estimée</dt><dd>${percent.format(prediction.modelProbability)}</dd></div>
-            <div><dt>Mise indicative</dt><dd>${decimal.format(prediction.stakeEur)} €</dd></div>
-            <div><dt>Prudence</dt><dd>${escapeHtml(prediction.riskLabel)}</dd></div>
-          </dl>
-        </div>
-        <p class="pick-note">Une recommandation reste une estimation, jamais une promesse de résultat.</p>
-      </article>`;
-  }).join("");
-}
-
-function renderSelectivity(summary) {
-  const fixtures = safeNumber(summary.scoredFixtures);
-  const bets = safeNumber(summary.upcomingBets);
-  setCount("#fixtures-count", fixtures);
-  setCount("#bets-count", bets);
-  setText("#bets-label", bets > 1 ? "retenus." : "retenu.");
-  setText("#selection-ratio", `${String(bets).padStart(2, "0")} / ${String(fixtures).padStart(2, "0")}`);
-}
-
-function resultLabel(status) {
-  if (status === "won") return "Gagné";
-  if (status === "lost") return "Perdu";
-  if (status === "void") return "Annulé";
-  return "En attente";
-}
-
-function renderTracking(data) {
-  const tracking = data.tracking || {};
-  setCount("#tracking-pending", tracking.pending);
-  setCount("#tracking-won", tracking.won);
-  setCount("#tracking-lost", tracking.lost);
-  setText("#memory-title", tracking.storageReady ? "Historique permanent activé" : "Historique local activé");
-  setText(
-    "#memory-copy",
-    tracking.storageReady
-      ? "Chaque choix et son résultat sont conservés entre les mises à jour."
-      : "Le suivi est actif sur cette machine ; la synchronisation distante est indisponible.",
-  );
-  setText("#memory-sync", tracking.lastSyncAt ? `Mis à jour ${formatShortDate(tracking.lastSyncAt)}` : "—");
-  $("#memory-dot").classList.toggle("ready", Boolean(tracking.storageReady));
-
-  const verified = (data.activity || []).filter((row) => ["won", "lost", "void"].includes(row.status));
-  const holder = $("#result-list");
-  if (!verified.length) {
-    holder.innerHTML = '<p class="empty-results">Les premiers résultats apparaîtront ici après les matchs recommandés.</p>';
-    return;
-  }
-
-  holder.innerHTML = verified.slice(0, 5).map((row) => `
-    <div class="result-row">
-      <time>${formatDate(row.date)}</time>
-      <strong>${escapeHtml(row.homeTeam)} — ${escapeHtml(row.awayTeam)}</strong>
-      <span>${escapeHtml(row.outcomeLabel || "Prévision")}${row.actualScore ? ` · ${escapeHtml(row.actualScore)}` : ""}</span>
-      <b class="${row.status === "won" ? "won" : ""}">${resultLabel(row.status)}</b>
-    </div>
-  `).join("");
 }
 
 function escapeHtml(value) {
@@ -222,10 +42,189 @@ function escapeHtml(value) {
   })[character]);
 }
 
+function isValidPrediction(prediction) {
+  if (!prediction || prediction.recommended !== true) return false;
+  const odds = numberOrNull(prediction.odds);
+  const probability = numberOrNull(prediction.modelProbability);
+  const stake = numberOrNull(prediction.stakeEur);
+  const date = new Date(prediction.date);
+
+  return validText(prediction.homeTeam)
+    && validText(prediction.awayTeam)
+    && validText(prediction.outcomeLabel)
+    && validText(prediction.riskLabel)
+    && !Number.isNaN(date.getTime())
+    && odds !== null && odds > 1
+    && probability !== null && probability > 0 && probability <= 1
+    && stake !== null && stake > 0;
+}
+
+function isValidPayload(data) {
+  if (!data?.meta || !data?.summary || !Array.isArray(data.predictions)) return false;
+  const upcoming = numberOrNull(data.summary.upcomingBets);
+  const examined = numberOrNull(data.summary.scoredFixtures);
+  return Number.isInteger(upcoming) && upcoming >= 0
+    && Number.isInteger(examined) && examined >= upcoming
+    && data.predictions.length === upcoming
+    && data.predictions.every(isValidPrediction);
+}
+
+async function fetchDashboard() {
+  const githubPages = window.location.hostname.endsWith(".github.io");
+  if (!githubPages) {
+    try {
+      const response = await fetch("/api/v1/dashboard", {
+        headers: { Accept: "application/json" },
+        cache: "no-store",
+      });
+      if (response.ok && (response.headers.get("content-type") || "").includes("application/json")) {
+        const data = await response.json();
+        if (isValidPayload(data)) return data;
+      }
+    } catch {
+      // Le snapshot statique prend le relais lorsque l'API locale n'est pas lancée.
+    }
+  }
+
+  const response = await fetch(`./data/dashboard.json?v=${Date.now()}`, { cache: "no-store" });
+  if (!response.ok) throw new Error("Snapshot indisponible");
+  const data = await response.json();
+  if (!isValidPayload(data)) throw new Error("Publication incomplète");
+  return data;
+}
+
+function predictionMarkup(prediction, index, total) {
+  const league = prediction.leagueLabel || prediction.league || "Championnat";
+  const heading = total > 1 ? `Pronostic ${index + 1} · ${league}` : league;
+  return `
+    <article class="prediction">
+      <div class="prediction-head">
+        <span>${escapeHtml(heading)}</span>
+        <time datetime="${escapeHtml(prediction.date)}">${escapeHtml(formatDate(prediction.date, true))}</time>
+      </div>
+      <div class="teams">
+        <h2>${escapeHtml(prediction.homeTeam)}</h2>
+        <span>—</span>
+        <h2>${escapeHtml(prediction.awayTeam)}</h2>
+      </div>
+      <div class="recommendation">
+        <span>Pari recommandé</span>
+        <strong>${escapeHtml(prediction.outcomeLabel)}</strong>
+      </div>
+      <div class="prediction-data">
+        <div><span>Cote</span><b>${decimal.format(prediction.odds)}</b></div>
+        <div><span>Chance estimée</span><b>${percent.format(prediction.modelProbability)}</b></div>
+        <div><span>Mise indicative</span><b>${decimal.format(prediction.stakeEur)} €</b></div>
+        <div><span>Prudence</span><b>${escapeHtml(prediction.riskLabel)}</b></div>
+      </div>
+      <p class="prediction-note">Estimation publiée avant le match. Aucun résultat n’est garanti.</p>
+    </article>`;
+}
+
+function renderMeta(data) {
+  const season = `${data.meta.currentSeason}/${String(data.meta.currentSeason + 1).slice(-2)}`;
+  const ready = data.meta.status === "ready";
+  setText("#current-season", season);
+  setText("#header-state", ready ? "Données du jour prêtes" : "Préparation en cours");
+  setText("#published-time", `Mis à jour le ${formatDate(data.meta.generatedAt, true)}`);
+  $(".status-dot")?.classList.toggle("ready", ready);
+}
+
+function renderPredictions(data) {
+  const predictions = data.predictions;
+  const holder = $("#pick-list");
+  const hasPredictions = predictions.length > 0;
+  holder.hidden = !hasPredictions;
+  $("#no-pick").hidden = hasPredictions;
+  setText(
+    "#hero-title",
+    !hasPredictions ? "Aucun pari forcé aujourd’hui." : predictions.length > 1 ? "Les choix retenus, sans détour." : "Le choix retenu, sans détour.",
+  );
+
+  setText(
+    "#analysis-summary",
+    hasPredictions
+      ? `${integer.format(data.summary.scoredFixtures)} matchs ont été examinés. ${predictions.length > 1 ? `${integer.format(predictions.length)} ont été retenus` : "Un seul a été retenu"}.`
+      : `${integer.format(data.summary.scoredFixtures)} matchs ont été examinés. Aucun pari n’est recommandé aujourd’hui.`,
+  );
+  holder.innerHTML = predictions.map((prediction, index) => predictionMarkup(prediction, index, predictions.length)).join("");
+}
+
+function renderExplanation(data) {
+  const prediction = data.predictions[0];
+  const retained = data.predictions.length;
+  setText("#analysis-total", integer.format(data.summary.scoredFixtures));
+  setText("#analysis-retained", integer.format(retained));
+  setText("#retained-label", retained > 1 ? "paris retenus" : "pari retenu");
+  $("#why-panel").classList.toggle("without-pick", !prediction);
+
+  if (!prediction) {
+    setText("#why-title", "Aucune différence suffisante aujourd’hui.");
+    setText("#why-copy", "Les estimations disponibles ne justifient pas la publication d’un pari.");
+    return;
+  }
+
+  const rawMarketProbability = numberOrNull(prediction.marketProbability);
+  const marketProbability = rawMarketProbability !== null && rawMarketProbability >= 0 && rawMarketProbability <= 1 ? rawMarketProbability : null;
+  const gap = marketProbability === null ? null : prediction.modelProbability - marketProbability;
+  setText("#why-title", `Pourquoi ${prediction.outcomeLabel.toLowerCase()} ?`);
+  setText(
+    "#why-copy",
+    gap === null
+      ? "Notre estimation franchit les seuils nécessaires pour publier ce pari."
+      : `Notre estimation dépasse de ${Math.round(gap * 100)} points ce que la cote laisse entendre. C’est l’écart qui a permis à ce match de franchir les contrôles.`,
+  );
+  setText("#model-chance", percent.format(prediction.modelProbability));
+  setText("#market-chance", marketProbability === null ? "—" : percent.format(marketProbability));
+  setText("#odds-value", decimal.format(prediction.odds));
+  setText("#stake-value", `${decimal.format(prediction.stakeEur)} €`);
+  setText("#risk-value", prediction.riskLabel);
+  $("#model-bar").style.width = `${Math.min(100, prediction.modelProbability * 100)}%`;
+  $("#market-bar").style.width = marketProbability === null ? "0%" : `${Math.min(100, marketProbability * 100)}%`;
+}
+
+function resultLabel(status) {
+  if (status === "won") return "Gagné";
+  if (status === "lost") return "Perdu";
+  if (status === "void") return "Annulé";
+  return "En attente";
+}
+
+function renderTracking(data) {
+  const tracking = data.tracking || {};
+  setText("#tracking-pending", integer.format(numberOrNull(tracking.pending) ?? 0));
+  setText("#tracking-won", integer.format(numberOrNull(tracking.won) ?? 0));
+  setText("#tracking-lost", integer.format(numberOrNull(tracking.lost) ?? 0));
+  setText("#memory-title", tracking.storageReady ? "Historique permanent actif" : "Historique enregistré localement");
+  setText(
+    "#memory-copy",
+    tracking.storageReady
+      ? "Les paris et leurs résultats sont conservés entre chaque mise à jour."
+      : "Les résultats restent disponibles sur cette installation.",
+  );
+  $("#memory-dot")?.classList.toggle("ready", Boolean(tracking.storageReady));
+
+  const verified = (data.activity || []).filter((row) => ["won", "lost", "void"].includes(row.status));
+  const holder = $("#result-list");
+  if (!verified.length) {
+    holder.innerHTML = '<p class="empty-results">Les premiers résultats apparaîtront ici après les matchs recommandés.</p>';
+    return;
+  }
+
+  holder.innerHTML = verified.slice(0, 8).map((row) => `
+    <div class="result-row">
+      <time>${escapeHtml(formatDate(row.date))}</time>
+      <strong>${escapeHtml(row.homeTeam)} — ${escapeHtml(row.awayTeam)}</strong>
+      <span>${escapeHtml(row.outcomeLabel || "Pronostic")}${row.actualScore ? ` · ${escapeHtml(row.actualScore)}` : ""}</span>
+      <b class="${row.status === "won" ? "won" : ""}">${resultLabel(row.status)}</b>
+    </div>
+  `).join("");
+}
+
 function renderDashboard(data) {
   renderMeta(data);
   renderPredictions(data);
-  renderSelectivity(data.summary);
+  renderExplanation(data);
   renderTracking(data);
   $("#load-error").hidden = true;
 }
@@ -236,97 +235,47 @@ async function loadDashboard() {
   } catch (error) {
     console.error(error);
     $("#load-error").hidden = false;
-    setText("#header-state", "Indisponible");
-    setText("#pick-status", "Données momentanément indisponibles");
+    setText("#header-state", "Données indisponibles");
   }
 }
 
-const revealObserver = new IntersectionObserver((entries, observer) => {
-  entries.forEach((entry) => {
-    if (!entry.isIntersecting) return;
-    entry.target.classList.add("is-visible");
-    observer.unobserve(entry.target);
-  });
-}, { threshold: .12, rootMargin: "0px 0px -8%" });
-
-$$('.reveal, .reveal-media').forEach((element) => revealObserver.observe(element));
-
-const countObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (!entry.isIntersecting || entry.target.dataset.animated === "true") return;
-    const element = entry.target;
-    const target = safeNumber(element.dataset.count);
-    element.dataset.animated = "true";
-
-    if (reducedMotion.matches) {
-      element.textContent = integer.format(target);
-      return;
-    }
-
-    const start = performance.now();
-    const duration = 850;
-    const tick = (time) => {
-      const progress = Math.min(1, (time - start) / duration);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      element.textContent = integer.format(Math.round(target * eased));
-      if (progress < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  });
-}, { threshold: .5 });
-
-$$('[data-count]').forEach((element) => countObserver.observe(element));
-
-const methodSteps = $$(".method-step");
-const methodCounter = $("#method-counter");
-const methodObserver = new IntersectionObserver((entries) => {
-  const current = entries
-    .filter((entry) => entry.isIntersecting)
-    .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-  if (!current) return;
-  methodSteps.forEach((step) => step.classList.toggle("active", step === current.target));
-  methodCounter.textContent = current.target.dataset.step;
-}, { threshold: [.35, .6], rootMargin: "-25% 0px -35%" });
-methodSteps.forEach((step) => methodObserver.observe(step));
-
 const menuButton = $("#menu-button");
 const mobileNav = $("#mobile-nav");
-const menuBackground = [$("#main"), $(".site-footer"), $(".site-header .brand"), $(".desktop-nav"), $(".live-state"), $(".header-cta")].filter(Boolean);
-let menuReturnFocus = null;
+const menuBackground = [$("#main"), $(".site-footer"), $(".site-header .brand"), $(".header-status")].filter(Boolean);
+let returnFocus = null;
 
-function setMenuBackgroundInert(inert) {
-  menuBackground.forEach((element) => { element.inert = inert; });
+function setBackgroundInert(value) {
+  menuBackground.forEach((element) => { element.inert = value; });
 }
 
 function closeMenu({ restoreFocus = true } = {}) {
   const wasOpen = menuButton.getAttribute("aria-expanded") === "true";
   menuButton.setAttribute("aria-expanded", "false");
   menuButton.setAttribute("aria-label", "Ouvrir le menu");
-  mobileNav.classList.remove("open");
   mobileNav.setAttribute("aria-hidden", "true");
+  mobileNav.classList.remove("open");
   mobileNav.inert = true;
   document.body.classList.remove("menu-open");
-  setMenuBackgroundInert(false);
-  if (wasOpen && restoreFocus && menuReturnFocus instanceof HTMLElement) menuReturnFocus.focus();
+  setBackgroundInert(false);
+  if (wasOpen && restoreFocus && returnFocus?.focus) returnFocus.focus();
 }
 
 function openMenu() {
-  menuReturnFocus = document.activeElement;
+  returnFocus = document.activeElement;
   menuButton.setAttribute("aria-expanded", "true");
   menuButton.setAttribute("aria-label", "Fermer le menu");
-  mobileNav.classList.add("open");
   mobileNav.setAttribute("aria-hidden", "false");
+  mobileNav.classList.add("open");
   mobileNav.inert = false;
   document.body.classList.add("menu-open");
-  setMenuBackgroundInert(true);
+  setBackgroundInert(true);
   setTimeout(() => $("a", mobileNav)?.focus({ preventScroll: true }), 80);
 }
 
 mobileNav.inert = true;
 menuButton.addEventListener("click", () => {
-  const open = menuButton.getAttribute("aria-expanded") !== "true";
-  if (open) openMenu();
-  else closeMenu();
+  if (menuButton.getAttribute("aria-expanded") === "true") closeMenu();
+  else openMenu();
 });
 $$('a', mobileNav).forEach((link) => link.addEventListener("click", () => closeMenu({ restoreFocus: false })));
 
@@ -337,129 +286,68 @@ document.addEventListener("keydown", (event) => {
     closeMenu();
     return;
   }
-
   if (event.key !== "Tab") return;
   const focusable = [menuButton, ...$$("a", mobileNav)];
-  const first = focusable[0];
-  const last = focusable.at(-1);
-  if (event.shiftKey && document.activeElement === first) {
+  if (event.shiftKey && document.activeElement === focusable[0]) {
     event.preventDefault();
-    last.focus();
-  } else if (!event.shiftKey && document.activeElement === last) {
+    focusable.at(-1).focus();
+  } else if (!event.shiftKey && document.activeElement === focusable.at(-1)) {
     event.preventDefault();
-    first.focus();
+    focusable[0].focus();
   }
 });
 
-window.matchMedia("(min-width: 1081px)").addEventListener("change", (event) => {
+window.matchMedia("(min-width: 1051px)").addEventListener("change", (event) => {
   if (event.matches) closeMenu({ restoreFocus: false });
 });
 
-const videoStates = new Map();
-
-function updateVideoButton(state) {
-  const paused = state.video.paused;
-  state.button.classList.toggle("paused", paused);
-  state.button.setAttribute("aria-label", paused ? "Lire la vidéo" : "Mettre la vidéo en pause");
-  const label = $("[data-video-label]", state.button);
-  if (label) label.textContent = paused ? "Lire le film" : "Pause film";
-}
-
-async function playVideo(state) {
-  await state.video.play().catch(() => {});
-  updateVideoButton(state);
-}
-
-$$('[data-video-target]').forEach((button) => {
-  const video = $(`#${button.dataset.videoTarget}`);
-  if (!video) return;
-  const state = { video, button, visible: false, userPaused: reducedMotion.matches };
-  videoStates.set(video, state);
-  video.addEventListener("play", () => updateVideoButton(state));
-  video.addEventListener("pause", () => updateVideoButton(state));
-  button.addEventListener("click", async () => {
-    if (video.paused) {
-      state.userPaused = false;
-      await playVideo(state);
-    } else {
-      state.userPaused = true;
-      video.pause();
-    }
+const revealObserver = new IntersectionObserver((entries, observer) => {
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting) return;
+    entry.target.classList.add("visible");
+    observer.unobserve(entry.target);
   });
-  updateVideoButton(state);
+}, { threshold: .12, rootMargin: "0px 0px -5%" });
+$$('[data-reveal]').forEach((element) => revealObserver.observe(element));
+
+const film = $("#match-film");
+const videoToggle = $("#video-toggle");
+let userPausedFilm = true;
+
+function syncVideoControl() {
+  const playing = !film.paused;
+  videoToggle.classList.toggle("playing", playing);
+  videoToggle.setAttribute("aria-label", playing ? "Mettre la vidéo en pause" : "Lire la vidéo");
+  setText("#video-label", playing ? "Pause" : "Lire");
+}
+
+videoToggle.addEventListener("click", async () => {
+  if (film.paused) {
+    userPausedFilm = false;
+    await film.play().catch(() => {});
+  } else {
+    userPausedFilm = true;
+    film.pause();
+  }
+  syncVideoControl();
+});
+film.addEventListener("play", syncVideoControl);
+film.addEventListener("pause", syncVideoControl);
+film.addEventListener("ended", () => { userPausedFilm = true; syncVideoControl(); });
+
+const filmObserver = new IntersectionObserver(([entry]) => {
+  if (!entry?.isIntersecting) film.pause();
+  else if (!userPausedFilm && !reducedMotion.matches) film.play().catch(() => {});
+}, { threshold: .2 });
+filmObserver.observe(film);
+reducedMotion.addEventListener("change", () => {
+  if (reducedMotion.matches) {
+    userPausedFilm = true;
+    film.pause();
+  }
 });
 
-const videoObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    const state = videoStates.get(entry.target);
-    if (!state) return;
-    state.visible = entry.isIntersecting;
-    if (state.visible && !state.userPaused && !reducedMotion.matches) playVideo(state);
-    else state.video.pause();
-  });
-}, { threshold: .25 });
-videoStates.forEach((state) => videoObserver.observe(state.video));
-
-function syncMotionPreference() {
-  videoStates.forEach((state) => {
-    state.userPaused = reducedMotion.matches;
-    if (reducedMotion.matches || !state.visible) state.video.pause();
-    else playVideo(state);
-    updateVideoButton(state);
-  });
-}
-reducedMotion.addEventListener("change", syncMotionPreference);
-syncMotionPreference();
-
-let scrollFrame = 0;
-function updateScrollEffects() {
-  scrollFrame = 0;
-  const scrollTop = window.scrollY;
-  const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-  $("#reading-progress").style.width = `${Math.min(100, scrollTop / maxScroll * 100)}%`;
-  $("#site-header").classList.toggle("scrolled", scrollTop > 30);
-
-  $$(".reveal-media:not(.is-visible)").forEach((media) => {
-    const rect = media.getBoundingClientRect();
-    if (rect.top < window.innerHeight * .94 && rect.bottom > 0) media.classList.add("is-visible");
-  });
-
-  const methodSection = $(".method-section");
-  if (methodSection) {
-    const sectionRect = methodSection.getBoundingClientRect();
-    if (sectionRect.top < window.innerHeight && sectionRect.bottom > 0) {
-      const focusLine = window.innerHeight * .56;
-      const currentStep = methodSteps
-        .filter((step) => {
-          const rect = step.getBoundingClientRect();
-          return rect.bottom > 0 && rect.top < window.innerHeight;
-        })
-        .sort((a, b) => Math.abs(a.getBoundingClientRect().top - focusLine) - Math.abs(b.getBoundingClientRect().top - focusLine))[0];
-      if (currentStep) {
-        methodSteps.forEach((step) => step.classList.toggle("active", step === currentStep));
-        methodCounter.textContent = currentStep.dataset.step;
-      }
-    }
-  }
-
-  if (!reducedMotion.matches) {
-    document.documentElement.style.setProperty("--hero-shift", `${Math.min(90, scrollTop * .14)}px`);
-    const methodMedia = $(".method-media");
-    if (methodMedia) {
-      const rect = methodMedia.getBoundingClientRect();
-      const progress = Math.max(0, Math.min(1, (window.innerHeight - rect.top) / (window.innerHeight + rect.height)));
-      methodMedia.style.setProperty("--media-scale", String(1.065 - progress * .055));
-    }
-  }
-}
-
-window.addEventListener("scroll", () => {
-  if (scrollFrame) return;
-  scrollFrame = requestAnimationFrame(updateScrollEffects);
-}, { passive: true });
-window.addEventListener("resize", updateScrollEffects);
-updateScrollEffects();
-
 setText("#current-year", String(new Date().getFullYear()));
+syncVideoControl();
 loadDashboard();
 setInterval(loadDashboard, 5 * 60 * 1000);
