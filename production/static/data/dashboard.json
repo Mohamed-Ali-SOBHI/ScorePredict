@@ -2,12 +2,12 @@
   "meta": {
     "product": "ScorePredict",
     "apiVersion": "1.0",
-    "generatedAt": "2026-08-11T23:48:00.242090+00:00",
+    "generatedAt": "2026-08-12T11:01:40.920842+00:00",
     "servingMode": "live-files",
     "status": "ready",
     "statusLabel": "Prêt",
     "currentSeason": 2026,
-    "latestPredictionAt": "2026-08-11T22:35:06.857821+00:00",
+    "latestPredictionAt": "2026-08-12T11:00:49.474878+00:00",
     "activePortfolio": "production_draw_consensus_nonfavorite_2026_08_12",
     "disclaimer": "Les prévisions sont indicatives : elles aident à comparer les rencontres, sans garantir un résultat."
   },
@@ -1561,7 +1561,7 @@
   },
   "quality": {
     "overallStatus": "pass",
-    "generatedAt": "2026-08-12T00:30:49",
+    "generatedAt": "2026-08-12T12:59:39",
     "ageDays": 0.0,
     "dateRange": {
       "from": "2014-08-08T19:30:00",
@@ -1636,7 +1636,7 @@
         "id": "predictions",
         "label": "Export des prédictions",
         "status": "pass",
-        "value": "il y a 1 h",
+        "value": "il y a 0 h",
         "detail": "Un export âgé de plus de 24 h n'est jamais présenté comme actuel."
       }
     ],
@@ -1653,7 +1653,7 @@
     "storageReady": false,
     "storageLabel": "Mémoire locale",
     "storageCopy": "Le suivi fonctionne sur cette machine. Ajoutez les secrets Supabase à GitHub pour le rendre permanent.",
-    "lastSyncAt": "2026-08-11T20:49:37.324154+00:00"
+    "lastSyncAt": "2026-08-12T11:01:40.107822+00:00"
   },
   "activity": [
     {

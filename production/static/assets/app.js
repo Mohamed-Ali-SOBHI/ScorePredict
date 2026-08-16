@@ -5,16 +5,25 @@ const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const integer = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 0 });
 const decimal = new Intl.NumberFormat("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const decimalOne = new Intl.NumberFormat("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 const percent = new Intl.NumberFormat("fr-FR", { style: "percent", maximumFractionDigits: 0 });
 
-function setText(selector, value) {
-  const element = $(selector);
+function setText(selector, value, root = document) {
+  const element = $(selector, root);
   if (element) element.textContent = value;
 }
 
 function numberOrNull(value) {
+  if (value === null || value === "" || typeof value === "boolean") return null;
   const number = Number(value);
   return Number.isFinite(number) ? number : null;
+}
+
+function publicationIsFresh(value) {
+  const published = new Date(value).getTime();
+  if (!Number.isFinite(published)) return false;
+  const age = Date.now() - published;
+  return age >= -10 * 60 * 1000 && age <= 24 * 60 * 60 * 1000;
 }
 
 function validText(value) {
@@ -32,6 +41,19 @@ function formatDate(value, withTime = false) {
   }).format(date);
 }
 
+function formatFullDate(value) {
+  if (!value) return "—";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "—";
+  return new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long", year: "numeric" }).format(date);
+}
+
+function formatChartDate(value) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "—";
+  return new Intl.DateTimeFormat("fr-FR", { day: "2-digit", month: "short", year: "numeric" }).format(date);
+}
+
 function escapeHtml(value) {
   return String(value ?? "").replace(/[&<>'"]/g, (character) => ({
     "&": "&amp;",
@@ -40,6 +62,14 @@ function escapeHtml(value) {
     "'": "&#39;",
     '"': "&quot;",
   })[character]);
+}
+
+function signed(value, formatter = decimal) {
+  const number = numberOrNull(value);
+  if (number === null) return "—";
+  if (number > 0) return `+${formatter.format(number)}`;
+  if (number < 0) return `−${formatter.format(Math.abs(number))}`;
+  return formatter.format(0);
 }
 
 function isValidPrediction(prediction) {
@@ -52,7 +82,6 @@ function isValidPrediction(prediction) {
   return validText(prediction.homeTeam)
     && validText(prediction.awayTeam)
     && validText(prediction.outcomeLabel)
-    && validText(prediction.riskLabel)
     && !Number.isNaN(date.getTime())
     && odds !== null && odds > 1
     && probability !== null && probability > 0 && probability <= 1
@@ -93,41 +122,54 @@ async function fetchDashboard() {
   return data;
 }
 
-function predictionMarkup(prediction, index, total) {
+function predictionMarkup(prediction, index, total, maxPastDrop) {
   const league = prediction.leagueLabel || prediction.league || "Championnat";
-  const heading = total > 1 ? `Pronostic ${index + 1} · ${league}` : league;
+  const heading = total > 1 ? `Choix ${index + 1} · ${league}` : league;
   return `
     <article class="prediction">
       <div class="prediction-head">
-        <span>${escapeHtml(heading)}</span>
+        <span>${escapeHtml(heading)} · décision publiée</span>
         <time datetime="${escapeHtml(prediction.date)}">${escapeHtml(formatDate(prediction.date, true))}</time>
       </div>
       <div class="teams">
         <h2>${escapeHtml(prediction.homeTeam)}</h2>
-        <span>—</span>
+        <span>contre</span>
         <h2>${escapeHtml(prediction.awayTeam)}</h2>
       </div>
       <div class="recommendation">
-        <span>Pari recommandé</span>
-        <strong>${escapeHtml(prediction.outcomeLabel)}</strong>
+        <div>
+          <span>Pari recommandé</span>
+          <strong>${escapeHtml(prediction.outcomeLabel)}</strong>
+        </div>
+        <div class="odds-callout">
+          <span>Cote disponible</span>
+          <b>${decimal.format(prediction.odds)}</b>
+        </div>
       </div>
       <div class="prediction-data">
-        <div><span>Cote</span><b>${decimal.format(prediction.odds)}</b></div>
-        <div><span>Chance estimée</span><b>${percent.format(prediction.modelProbability)}</b></div>
+        <div><span>Indice du modèle</span><b>${integer.format(prediction.modelProbability * 100)} / 100</b></div>
         <div><span>Mise indicative</span><b>${decimal.format(prediction.stakeEur)} €</b></div>
-        <div><span>Prudence</span><b>${escapeHtml(prediction.riskLabel)}</b></div>
+        <div><span>Plus forte baisse passée</span><b>${maxPastDrop === null ? "—" : `${decimal.format(Math.abs(maxPastDrop))} mises`}</b></div>
       </div>
-      <p class="prediction-note">Estimation publiée avant le match. Aucun résultat n’est garanti.</p>
+      <p class="prediction-note">Décision enregistrée avant le match. Aucun résultat n’est garanti.</p>
     </article>`;
 }
 
 function renderMeta(data) {
-  const season = `${data.meta.currentSeason}/${String(data.meta.currentSeason + 1).slice(-2)}`;
+  const seasonStart = numberOrNull(data.meta.currentSeason);
+  const season = Number.isInteger(seasonStart) ? `${seasonStart}/${String(seasonStart + 1).slice(-2)}` : "—";
   const ready = data.meta.status === "ready";
   setText("#current-season", season);
   setText("#header-state", ready ? "Données du jour prêtes" : "Préparation en cours");
   setText("#published-time", `Mis à jour le ${formatDate(data.meta.generatedAt, true)}`);
   $(".status-dot")?.classList.toggle("ready", ready);
+}
+
+function resetNoPickCopy() {
+  setText(".no-pick .section-label", "Décision enregistrée");
+  setText(".no-pick strong", "Aucun pari recommandé aujourd’hui.");
+  setText(".no-pick > p:last-child", "Aucun match n’a franchi tous les contrôles. Le tableau de bord sera actualisé automatiquement.");
+  $("#no-pick")?.classList.remove("error-state");
 }
 
 function renderPredictions(data) {
@@ -136,18 +178,16 @@ function renderPredictions(data) {
   const hasPredictions = predictions.length > 0;
   holder.hidden = !hasPredictions;
   $("#no-pick").hidden = hasPredictions;
-  setText(
-    "#hero-title",
-    !hasPredictions ? "Aucun pari forcé aujourd’hui." : predictions.length > 1 ? "Les choix retenus, sans détour." : "Le choix retenu, sans détour.",
-  );
-
+  resetNoPickCopy();
+  setText("#hero-title", "Vue du jour");
   setText(
     "#analysis-summary",
     hasPredictions
-      ? `${integer.format(data.summary.scoredFixtures)} matchs ont été examinés. ${predictions.length > 1 ? `${integer.format(predictions.length)} ont été retenus` : "Un seul a été retenu"}.`
+      ? `${integer.format(data.summary.scoredFixtures)} matchs ont été examinés. ${predictions.length > 1 ? `${integer.format(predictions.length)} ont été retenus.` : "Un seul a été retenu."}`
       : `${integer.format(data.summary.scoredFixtures)} matchs ont été examinés. Aucun pari n’est recommandé aujourd’hui.`,
   );
-  holder.innerHTML = predictions.map((prediction, index) => predictionMarkup(prediction, index, predictions.length)).join("");
+  const maxPastDrop = numberOrNull(data.performance?.metrics?.maxDrawdown);
+  holder.innerHTML = predictions.map((prediction, index) => predictionMarkup(prediction, index, predictions.length, maxPastDrop)).join("");
 }
 
 function renderExplanation(data) {
@@ -156,7 +196,7 @@ function renderExplanation(data) {
   setText("#analysis-total", integer.format(data.summary.scoredFixtures));
   setText("#analysis-retained", integer.format(retained));
   setText("#retained-label", retained > 1 ? "paris retenus" : "pari retenu");
-  $("#why-panel").classList.toggle("without-pick", !prediction);
+  $("#why-panel")?.classList.toggle("without-pick", !prediction);
 
   if (!prediction) {
     setText("#why-title", "Aucune différence suffisante aujourd’hui.");
@@ -164,23 +204,17 @@ function renderExplanation(data) {
     return;
   }
 
-  const rawMarketProbability = numberOrNull(prediction.marketProbability);
-  const marketProbability = rawMarketProbability !== null && rawMarketProbability >= 0 && rawMarketProbability <= 1 ? rawMarketProbability : null;
-  const gap = marketProbability === null ? null : prediction.modelProbability - marketProbability;
-  setText("#why-title", `Pourquoi ${prediction.outcomeLabel.toLowerCase()} ?`);
-  setText(
-    "#why-copy",
-    gap === null
-      ? "Notre estimation franchit les seuils nécessaires pour publier ce pari."
-      : `Notre estimation dépasse de ${Math.round(gap * 100)} points ce que la cote laisse entendre. C’est l’écart qui a permis à ce match de franchir les contrôles.`,
-  );
-  setText("#model-chance", percent.format(prediction.modelProbability));
-  setText("#market-chance", marketProbability === null ? "—" : percent.format(marketProbability));
+  setText("#why-title", "Pourquoi ce choix a-t-il été retenu ?");
+  setText("#why-copy", "Notre méthode a classé cette décision au-dessus de ses seuils de publication. L’indice sert à trier les matchs, pas à promettre un résultat.");
+  setText("#gap-explanation", "Cet indice interne n’est pas une probabilité de réussite.");
+  setText("#model-chance", `${integer.format(prediction.modelProbability * 100)} / 100`);
+  setText("#market-chance", "—");
   setText("#odds-value", decimal.format(prediction.odds));
   setText("#stake-value", `${decimal.format(prediction.stakeEur)} €`);
-  setText("#risk-value", prediction.riskLabel);
+  const maxPastDrop = numberOrNull(data.performance?.metrics?.maxDrawdown);
+  setText("#risk-value", maxPastDrop === null ? "—" : `${decimal.format(Math.abs(maxPastDrop))} mises`);
   $("#model-bar").style.width = `${Math.min(100, prediction.modelProbability * 100)}%`;
-  $("#market-bar").style.width = marketProbability === null ? "0%" : `${Math.min(100, marketProbability * 100)}%`;
+  $("#market-bar").style.width = "0%";
 }
 
 function resultLabel(status) {
@@ -192,41 +226,426 @@ function resultLabel(status) {
 
 function renderTracking(data) {
   const tracking = data.tracking || {};
-  setText("#tracking-pending", integer.format(numberOrNull(tracking.pending) ?? 0));
-  setText("#tracking-won", integer.format(numberOrNull(tracking.won) ?? 0));
-  setText("#tracking-lost", integer.format(numberOrNull(tracking.lost) ?? 0));
-  setText("#memory-title", tracking.storageReady ? "Historique permanent actif" : "Historique enregistré localement");
+  const performanceLive = data.performance?.live || {};
+  const pending = numberOrNull(tracking.pending) ?? 0;
+  const verified = numberOrNull(tracking.verified) ?? numberOrNull(performanceLive.settledBets) ?? 0;
+  const won = numberOrNull(tracking.won) ?? 0;
+  const lost = numberOrNull(tracking.lost) ?? 0;
+  setText("#tracking-pending", integer.format(pending));
+  setText("#tracking-verified", integer.format(verified));
+  setText("#tracking-won", integer.format(won));
+  setText("#tracking-lost", integer.format(lost));
+  setText("#memory-title", tracking.storageReady ? "Historique permanent actif" : "Historique local seulement");
   setText(
     "#memory-copy",
     tracking.storageReady
-      ? "Les paris et leurs résultats sont conservés entre chaque mise à jour."
-      : "Les résultats restent disponibles sur cette installation.",
+      ? "Les décisions et leurs résultats sont conservés entre chaque mise à jour."
+      : "Le suivi fonctionne ici, mais la conservation en ligne n’est pas encore confirmée.",
   );
   $("#memory-dot")?.classList.toggle("ready", Boolean(tracking.storageReady));
 
-  const verified = (data.activity || []).filter((row) => ["won", "lost", "void"].includes(row.status));
+  const liveReturnBlock = $("#live-return-block");
+  liveReturnBlock?.classList.remove("calculated", "negative");
+  if (verified > 0) {
+    const profit = numberOrNull(performanceLive.profitUnits) ?? numberOrNull(data.summary.liveProfitUnits);
+    const returnForHundred = numberOrNull(performanceLive["roi"]) ?? numberOrNull(data.summary.liveRoi);
+    setText("#live-return", profit === null ? "Calcul indisponible" : `${signed(profit)} ${Math.abs(profit) === 1 ? "mise" : "mises"}`);
+    setText(
+      "#live-return-copy",
+      returnForHundred === null
+        ? `${integer.format(verified)} match${verified > 1 ? "s" : ""} terminé${verified > 1 ? "s" : ""}.`
+        : `${signed(returnForHundred * 100, decimalOne)} pour 100 mises identiques.`,
+    );
+    liveReturnBlock?.classList.add("calculated");
+    if (profit !== null && profit < 0) liveReturnBlock?.classList.add("negative");
+  } else {
+    setText("#live-return", "Pas encore calculable");
+    setText("#live-return-copy", "Le calcul commencera après le premier match terminé.");
+  }
+
+  const rows = (Array.isArray(data.activity) ? data.activity : [])
+    .filter((row) => row?.recommended === true)
+    .slice(0, 10);
   const holder = $("#result-list");
-  if (!verified.length) {
-    holder.innerHTML = '<p class="empty-results">Les premiers résultats apparaîtront ici après les matchs recommandés.</p>';
+  if (!rows.length) {
+    holder.innerHTML = '<p class="empty-results">Aucune décision n’a encore été enregistrée dans le suivi.</p>';
     return;
   }
 
-  holder.innerHTML = verified.slice(0, 8).map((row) => `
+  holder.innerHTML = rows.map((row) => `
     <div class="result-row">
-      <time>${escapeHtml(formatDate(row.date))}</time>
+      <time datetime="${escapeHtml(row.date || "")}">${escapeHtml(formatDate(row.date))}</time>
       <strong>${escapeHtml(row.homeTeam)} — ${escapeHtml(row.awayTeam)}</strong>
-      <span>${escapeHtml(row.outcomeLabel || "Pronostic")}${row.actualScore ? ` · ${escapeHtml(row.actualScore)}` : ""}</span>
+      <span>${escapeHtml(row.outcomeLabel || "Choix publié")}${row.actualScore ? ` · score ${escapeHtml(row.actualScore)}` : ""}</span>
       <b class="${row.status === "won" ? "won" : ""}">${resultLabel(row.status)}</b>
     </div>
   `).join("");
 }
 
+function usableCurve(rows) {
+  if (!Array.isArray(rows)) return [];
+  return rows.map((row) => ({
+    date: row?.date,
+    timestamp: new Date(row?.date).getTime(),
+    value: numberOrNull(row?.value),
+    drawdown: numberOrNull(row?.drawdown),
+  })).filter((row) => Number.isFinite(row.timestamp) && row.value !== null);
+}
+
+function scaleLinear(value, domainMin, domainMax, rangeMin, rangeMax) {
+  if (domainMax === domainMin) return (rangeMin + rangeMax) / 2;
+  return rangeMin + ((value - domainMin) / (domainMax - domainMin)) * (rangeMax - rangeMin);
+}
+
+function pathFromPoints(points) {
+  return points.map((point, index) => `${index === 0 ? "M" : "L"}${point.x.toFixed(2)},${point.y.toFixed(2)}`).join(" ");
+}
+
+function renderCumulativeChart(rows) {
+  const svg = $("#cumulative-chart");
+  const tooltip = $("#cumulative-tooltip");
+  if (!svg) return;
+  const curve = usableCurve(rows);
+  if (curve.length < 2) {
+    svg.innerHTML = '<text x="480" y="180" text-anchor="middle" class="chart-axis">Données historiques indisponibles</text>';
+    return;
+  }
+
+  const width = 960;
+  const height = 360;
+  const margin = { top: 18, right: 22, bottom: 42, left: 62 };
+  const timestamps = curve.map((row) => row.timestamp);
+  const values = curve.map((row) => row.value);
+  const rawMin = Math.min(0, ...values);
+  const rawMax = Math.max(0, ...values);
+  const padding = Math.max(4, (rawMax - rawMin) * .1);
+  const min = rawMin - padding;
+  const max = rawMax + padding;
+  const x = (value) => scaleLinear(value, timestamps[0], timestamps.at(-1), margin.left, width - margin.right);
+  const y = (value) => scaleLinear(value, min, max, height - margin.bottom, margin.top);
+  const points = curve.map((row) => ({ ...row, x: x(row.timestamp), y: y(row.value) }));
+  const line = pathFromPoints(points);
+  const baseline = y(0);
+  const area = `${line} L${points.at(-1).x.toFixed(2)},${baseline.toFixed(2)} L${points[0].x.toFixed(2)},${baseline.toFixed(2)} Z`;
+
+  const yTicks = Array.from({ length: 5 }, (_, index) => max - ((max - min) * index) / 4);
+  const grid = yTicks.map((tick) => {
+    const yValue = y(tick);
+    return `<line class="chart-grid" x1="${margin.left}" x2="${width - margin.right}" y1="${yValue}" y2="${yValue}"></line><text class="chart-axis" x="${margin.left - 12}" y="${yValue + 4}" text-anchor="end">${escapeHtml(signed(tick, decimalOne))}</text>`;
+  }).join("");
+  const xTickIndexes = [0, .25, .5, .75, 1].map((ratio) => Math.round((curve.length - 1) * ratio));
+  const xTicks = [...new Set(xTickIndexes)].map((index) => {
+    const point = points[index];
+    const label = new Intl.DateTimeFormat("fr-FR", { month: "short", year: "2-digit" }).format(new Date(point.timestamp));
+    return `<text class="chart-axis" x="${point.x}" y="${height - 10}" text-anchor="middle">${escapeHtml(label)}</text>`;
+  }).join("");
+
+  svg.innerHTML = `
+    <title id="cumulative-chart-title">Évolution cumulée des résultats passés</title>
+    <desc id="cumulative-chart-desc">La courbe part de ${escapeHtml(signed(curve[0].value))} mise et termine à ${escapeHtml(signed(curve.at(-1).value))} mises.</desc>
+    <defs>
+      <linearGradient id="history-area" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#1f8f5b" stop-opacity=".24"></stop>
+        <stop offset="100%" stop-color="#1f8f5b" stop-opacity=".02"></stop>
+      </linearGradient>
+    </defs>
+    ${grid}
+    <line class="chart-zero" x1="${margin.left}" x2="${width - margin.right}" y1="${baseline}" y2="${baseline}"></line>
+    ${xTicks}
+    <path class="chart-area" d="${area}"></path>
+    <path class="chart-line" d="${line}"></path>
+    <line class="chart-focus-line" x1="0" x2="0" y1="${margin.top}" y2="${height - margin.bottom}"></line>
+    <circle class="chart-focus-dot" cx="0" cy="0" r="5"></circle>
+    <circle class="chart-end" cx="${points.at(-1).x}" cy="${points.at(-1).y}" r="5"></circle>
+    <rect class="chart-hit" x="${margin.left}" y="${margin.top}" width="${width - margin.left - margin.right}" height="${height - margin.top - margin.bottom}" tabindex="0" role="group" aria-label="Explorer les résultats passés avec les flèches gauche et droite"></rect>
+  `;
+
+  const hitArea = $(".chart-hit", svg);
+  const focusLine = $(".chart-focus-line", svg);
+  const focusDot = $(".chart-focus-dot", svg);
+  const wrap = svg.parentElement;
+  let keyboardIndex = points.length - 1;
+  const showPoint = (nearest) => {
+    focusLine.setAttribute("x1", nearest.x);
+    focusLine.setAttribute("x2", nearest.x);
+    focusDot.setAttribute("cx", nearest.x);
+    focusDot.setAttribute("cy", nearest.y);
+    tooltip.innerHTML = `${escapeHtml(formatChartDate(nearest.date))}<strong>${escapeHtml(signed(nearest.value))} mises</strong>`;
+    tooltip.style.left = `${(nearest.x / width) * 100}%`;
+    tooltip.style.top = `${(nearest.y / height) * 100}%`;
+    tooltip.hidden = false;
+    wrap.classList.add("is-hovered");
+    hitArea.setAttribute("aria-label", `${formatChartDate(nearest.date)}, ${signed(nearest.value)} mises. Flèches gauche et droite pour parcourir.`);
+  };
+  const hidePoint = () => {
+    tooltip.hidden = true;
+    wrap.classList.remove("is-hovered");
+  };
+  const handlePointer = (event) => {
+    const bounds = hitArea.getBoundingClientRect();
+    const ratio = Math.max(0, Math.min(1, (event.clientX - bounds.left) / bounds.width));
+    const targetX = margin.left + ratio * (width - margin.left - margin.right);
+    let nearest = points[0];
+    for (const point of points) {
+      if (Math.abs(point.x - targetX) < Math.abs(nearest.x - targetX)) nearest = point;
+    }
+    showPoint(nearest);
+  };
+  hitArea.addEventListener("pointermove", handlePointer);
+  hitArea.addEventListener("pointerleave", hidePoint);
+  hitArea.addEventListener("focus", () => showPoint(points[keyboardIndex]));
+  hitArea.addEventListener("blur", hidePoint);
+  hitArea.addEventListener("keydown", (event) => {
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    if (event.key === "Home") keyboardIndex = 0;
+    else if (event.key === "End") keyboardIndex = points.length - 1;
+    else if (event.key === "ArrowLeft") keyboardIndex = Math.max(0, keyboardIndex - 1);
+    else keyboardIndex = Math.min(points.length - 1, keyboardIndex + 1);
+    showPoint(points[keyboardIndex]);
+  });
+}
+
+function renderDrawdownChart(rows) {
+  const svg = $("#drawdown-chart");
+  if (!svg) return;
+  const curve = usableCurve(rows).filter((row) => row.drawdown !== null);
+  if (curve.length < 2) {
+    svg.innerHTML = '<text x="480" y="130" text-anchor="middle" class="chart-axis">Données de baisse indisponibles</text>';
+    return;
+  }
+
+  const width = 960;
+  const height = 260;
+  const margin = { top: 18, right: 22, bottom: 35, left: 62 };
+  const min = Math.min(...curve.map((row) => row.drawdown), -1) * 1.08;
+  const max = 0;
+  const x = (value) => scaleLinear(value, curve[0].timestamp, curve.at(-1).timestamp, margin.left, width - margin.right);
+  const y = (value) => scaleLinear(value, min, max, height - margin.bottom, margin.top);
+  const points = curve.map((row) => ({ ...row, x: x(row.timestamp), y: y(row.drawdown) }));
+  const line = pathFromPoints(points);
+  const baseline = y(0);
+  const area = `M${points[0].x},${baseline} ${line.slice(1)} L${points.at(-1).x},${baseline} Z`;
+  const ticks = [0, .33, .66, 1].map((ratio) => min * ratio);
+  const grid = ticks.map((tick) => {
+    const yValue = y(tick);
+    return `<line class="chart-grid" x1="${margin.left}" x2="${width - margin.right}" y1="${yValue}" y2="${yValue}"></line><text class="chart-axis" x="${margin.left - 12}" y="${yValue + 4}" text-anchor="end">${escapeHtml(signed(tick, decimalOne))}</text>`;
+  }).join("");
+  const xTickIndexes = [0, .33, .66, 1].map((ratio) => Math.round((curve.length - 1) * ratio));
+  const xTicks = [...new Set(xTickIndexes)].map((index) => {
+    const point = points[index];
+    return `<text class="chart-axis" x="${point.x}" y="${height - 8}" text-anchor="middle">${new Date(point.timestamp).getFullYear()}</text>`;
+  }).join("");
+
+  svg.innerHTML = `
+    <title id="drawdown-chart-title">Baisses historiques depuis le meilleur niveau atteint</title>
+    <desc id="drawdown-chart-desc">La baisse la plus importante observée est de ${escapeHtml(signed(Math.min(...curve.map((row) => row.drawdown))))} mises.</desc>
+    <defs>
+      <linearGradient id="drawdown-area" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#e87c6f" stop-opacity=".05"></stop>
+        <stop offset="100%" stop-color="#e87c6f" stop-opacity=".4"></stop>
+      </linearGradient>
+    </defs>
+    ${grid}${xTicks}
+    <path class="drawdown-area" d="${area}"></path>
+    <path class="drawdown-line" d="${line}"></path>
+  `;
+}
+
+function aggregatePeriods(rows) {
+  if (!Array.isArray(rows)) return [];
+  const periods = new Map();
+  rows.forEach((row) => {
+    if (!/^\d{4}-\d{2}$/.test(row?.month || "")) return;
+    const [year, month] = row.month.split("-").map(Number);
+    const profit = numberOrNull(row.profit);
+    const bets = numberOrNull(row.bets);
+    if (!Number.isInteger(year) || !Number.isInteger(month) || profit === null || bets === null) return;
+    const start = month >= 8 ? year : year - 1;
+    const current = periods.get(start) || { start, profit: 0, bets: 0 };
+    current.profit += profit;
+    current.bets += bets;
+    periods.set(start, current);
+  });
+  return [...periods.values()].sort((a, b) => a.start - b.start).map((period) => ({
+    ...period,
+    label: `${period.start}/${String(period.start + 1).slice(-2)}`,
+  }));
+}
+
+function renderPeriods(periods) {
+  const holder = $("#period-chart");
+  if (!holder) return;
+  if (!periods.length) {
+    holder.innerHTML = '<p class="empty-results">Résultats par période indisponibles.</p>';
+    setText("#negative-periods", "—");
+    return;
+  }
+  const maxAbsolute = Math.max(...periods.map((period) => Math.abs(period.profit)), 1);
+  holder.innerHTML = periods.map((period) => {
+    const negative = period.profit < 0;
+    const width = Math.max(1, (Math.abs(period.profit) / maxAbsolute) * 48);
+    return `
+      <div class="period-row">
+        <span class="period-label">${escapeHtml(period.label)}</span>
+        <div class="period-bar" title="${integer.format(period.bets)} choix">
+          <i class="${negative ? "negative" : "positive"}" style="width:${width}%"></i>
+        </div>
+        <strong class="period-value ${negative ? "negative" : "positive"}">${escapeHtml(signed(period.profit))}</strong>
+      </div>`;
+  }).join("");
+  const negatives = periods.filter((period) => period.profit < 0).length;
+  setText("#negative-periods", `${negatives} sur ${periods.length}`);
+}
+
+function renderPlausibleRange(metrics) {
+  const low = numberOrNull(metrics.roiCiLow);
+  const high = numberOrNull(metrics.roiCiHigh);
+  const observed = numberOrNull(metrics["roi"]);
+  if (low === null || high === null || observed === null) {
+    setText("#range-copy", "La fourchette n’est pas disponible pour cette période.");
+    return;
+  }
+  const low100 = low * 100;
+  const high100 = high * 100;
+  const observed100 = observed * 100;
+  const rawMin = Math.min(low100, observed100, 0);
+  const rawMax = Math.max(high100, observed100, 0);
+  const padding = Math.max(3, (rawMax - rawMin) * .12);
+  const domainMin = rawMin - padding;
+  const domainMax = rawMax + padding;
+  const position = (value) => scaleLinear(value, domainMin, domainMax, 0, 100);
+  const bandLeft = position(Math.min(low100, high100));
+  const bandRight = position(Math.max(low100, high100));
+  $("#range-band").style.left = `${bandLeft}%`;
+  $("#range-band").style.width = `${bandRight - bandLeft}%`;
+  $("#range-zero").style.left = `${position(0)}%`;
+  $("#range-observed").style.left = `${position(observed100)}%`;
+  setText("#range-low", `${signed(low100, decimalOne)} mises`);
+  setText("#range-high", `${signed(high100, decimalOne)} mises`);
+  setText("#range-center", "Point d’équilibre");
+  const crossesZero = low100 <= 0 && high100 >= 0;
+  setText(
+    "#range-copy",
+    `Pour 100 mises identiques, la fourchette va de ${signed(low100, decimalOne)} à ${signed(high100, decimalOne)} mises. Le résultat observé est ${signed(observed100, decimalOne)}. ${crossesZero ? "Comme la fourchette traverse le point d’équilibre, un résultat positif n’est pas assuré." : "La fourchette reste du même côté du point d’équilibre."}`,
+  );
+  $("#range-visual")?.setAttribute("aria-label", `Fourchette de ${signed(low100, decimalOne)} à ${signed(high100, decimalOne)}, résultat observé ${signed(observed100, decimalOne)}`);
+}
+
+function renderLeagues(rows) {
+  const holder = $("#league-list");
+  if (!holder) return;
+  const leagues = (Array.isArray(rows) ? rows : []).map((row) => ({
+    label: row?.leagueLabel || row?.league,
+    bets: numberOrNull(row?.bets),
+    result: numberOrNull(row?.["roi"]),
+  })).filter((row) => validText(row.label) && row.bets !== null && row.result !== null);
+  if (!leagues.length) {
+    holder.innerHTML = '<p class="empty-results">Résultats par championnat indisponibles.</p>';
+    return;
+  }
+  const maxAbsolute = Math.max(...leagues.map((row) => Math.abs(row.result)), .01);
+  holder.innerHTML = leagues.map((row) => {
+    const result100 = row.result * 100;
+    const negative = result100 < 0;
+    const width = Math.max(2, Math.min(100, (Math.abs(row.result) / maxAbsolute) * 100));
+    return `
+      <div class="league-row">
+        <strong>${escapeHtml(row.label)}</strong>
+        <span>${integer.format(row.bets)} choix</span>
+        <div class="league-meter" aria-hidden="true"><i class="${negative ? "negative" : ""}" style="width:${width}%"></i></div>
+        <b class="league-result ${negative ? "negative" : "positive"}">${escapeHtml(signed(result100, decimalOne))} / 100</b>
+      </div>`;
+  }).join("");
+}
+
+function renderPerformance(data) {
+  const performance = data.performance || {};
+  const metrics = performance.metrics || {};
+  const betCount = numberOrNull(metrics.betCount);
+  const profit = numberOrNull(metrics.profit);
+  const historicalReturn = numberOrNull(metrics["roi"]);
+  const hitRate = numberOrNull(metrics.hitRate);
+  const averageOdds = numberOrNull(metrics.averageOdds);
+  setText("#test-selections", betCount === null ? "—" : integer.format(betCount));
+  setText("#test-profit", profit === null ? "—" : signed(profit));
+  setText("#test-return", historicalReturn === null ? "—" : signed(historicalReturn * 100, decimalOne));
+  setText("#test-hit-rate", hitRate === null ? "—" : percent.format(hitRate));
+  setText("#test-average-odds", averageOdds === null ? "—" : decimal.format(averageOdds));
+  setText("#cumulative-foot-value", profit === null ? "—" : `${signed(profit)} mises`);
+
+  const scope = performance.scope || {};
+  setText(
+    "#performance-date-range",
+    scope.startDate && scope.endDate
+      ? `${formatFullDate(scope.startDate)} — ${formatFullDate(scope.endDate)} · résultat après chaque choix`
+      : "Résultat après chaque choix historique.",
+  );
+
+  const periods = aggregatePeriods(performance.monthly);
+  renderCumulativeChart(performance.curve);
+  renderDrawdownChart(performance.curve);
+  renderPeriods(periods);
+  renderPlausibleRange(metrics);
+  renderLeagues(performance.leagues);
+
+  const maxDrawdown = numberOrNull(metrics.maxDrawdown);
+  setText("#max-drawdown", maxDrawdown === null ? "—" : `${decimal.format(Math.abs(maxDrawdown))} mises`);
+}
+
 function renderDashboard(data) {
   renderMeta(data);
-  renderPredictions(data);
-  renderExplanation(data);
+  const ready = data.meta.status === "ready";
+  const fresh = publicationIsFresh(data.meta.generatedAt);
+  if (ready && fresh) {
+    renderPredictions(data);
+    renderExplanation(data);
+    $("#load-error").hidden = true;
+  } else {
+    const withoutCurrentDecision = {
+      ...data,
+      summary: { ...data.summary, upcomingBets: 0 },
+      predictions: [],
+    };
+    renderPredictions(withoutCurrentDecision);
+    renderExplanation(withoutCurrentDecision);
+    setText("#header-state", ready ? "Mise à jour attendue" : "Préparation en cours");
+    setText("#published-time", `Dernière publication le ${formatDate(data.meta.generatedAt, true)}`);
+    setText("#analysis-summary", ready ? "La publication quotidienne n’est pas assez récente pour confirmer la décision du jour." : "Les données ne sont pas encore prêtes à confirmer la décision du jour.");
+    setText(".no-pick .section-label", ready ? "Publication à actualiser" : "Préparation en cours");
+    setText(".no-pick strong", "Aucun ancien choix n’est présenté comme actuel.");
+    setText(".no-pick > p:last-child", "Le tableau de bord réessaie automatiquement et affichera la prochaine décision confirmée.");
+    $(".status-dot")?.classList.remove("ready");
+    $("#load-error").textContent = ready
+      ? "La dernière publication a plus de 24 heures. La décision du jour est masquée jusqu’à la prochaine mise à jour."
+      : "Les données du jour sont encore en préparation. Aucun choix n’est présenté avant leur validation.";
+    $("#load-error").hidden = false;
+  }
   renderTracking(data);
-  $("#load-error").hidden = true;
+  renderPerformance(data);
+}
+
+function renderLoadError() {
+  $("#load-error").hidden = false;
+  setText("#header-state", "Données indisponibles");
+  setText("#analysis-summary", "Impossible de confirmer les données du jour pour le moment.");
+  $("#pick-list").hidden = true;
+  $("#no-pick").hidden = false;
+  $("#no-pick")?.classList.add("error-state");
+  setText(".no-pick .section-label", "Données non confirmées");
+  setText(".no-pick strong", "La décision du jour est indisponible.");
+  setText(".no-pick > p:last-child", "Aucun ancien choix n’est présenté comme actuel. Une nouvelle tentative aura lieu automatiquement.");
+  $("#why-panel")?.classList.add("without-pick");
+  setText("#why-title", "La décision du jour ne peut pas être confirmée.");
+  setText("#why-copy", "Les détails du dernier choix ont été masqués jusqu’à la prochaine mise à jour réussie.");
+  setText("#gap-explanation", "Aucun ancien indice n’est présenté comme actuel.");
+  setText("#model-chance", "—");
+  setText("#market-chance", "—");
+  setText("#odds-value", "—");
+  setText("#stake-value", "—");
+  setText("#risk-value", "Voir l’historique");
+  $("#model-bar").style.width = "0%";
+  $("#market-bar").style.width = "0%";
 }
 
 async function loadDashboard() {
@@ -234,8 +653,7 @@ async function loadDashboard() {
     renderDashboard(await fetchDashboard());
   } catch (error) {
     console.error(error);
-    $("#load-error").hidden = false;
-    setText("#header-state", "Données indisponibles");
+    renderLoadError();
   }
 }
 
@@ -249,6 +667,7 @@ function setBackgroundInert(value) {
 }
 
 function closeMenu({ restoreFocus = true } = {}) {
+  if (!menuButton || !mobileNav) return;
   const wasOpen = menuButton.getAttribute("aria-expanded") === "true";
   menuButton.setAttribute("aria-expanded", "false");
   menuButton.setAttribute("aria-label", "Ouvrir le menu");
@@ -261,6 +680,7 @@ function closeMenu({ restoreFocus = true } = {}) {
 }
 
 function openMenu() {
+  if (!menuButton || !mobileNav) return;
   returnFocus = document.activeElement;
   menuButton.setAttribute("aria-expanded", "true");
   menuButton.setAttribute("aria-label", "Fermer le menu");
@@ -272,80 +692,91 @@ function openMenu() {
   setTimeout(() => $("a", mobileNav)?.focus({ preventScroll: true }), 80);
 }
 
-mobileNav.inert = true;
-menuButton.addEventListener("click", () => {
-  if (menuButton.getAttribute("aria-expanded") === "true") closeMenu();
-  else openMenu();
-});
-$$('a', mobileNav).forEach((link) => link.addEventListener("click", () => closeMenu({ restoreFocus: false })));
-
-document.addEventListener("keydown", (event) => {
-  if (menuButton.getAttribute("aria-expanded") !== "true") return;
-  if (event.key === "Escape") {
-    event.preventDefault();
-    closeMenu();
-    return;
-  }
-  if (event.key !== "Tab") return;
-  const focusable = [menuButton, ...$$("a", mobileNav)];
-  if (event.shiftKey && document.activeElement === focusable[0]) {
-    event.preventDefault();
-    focusable.at(-1).focus();
-  } else if (!event.shiftKey && document.activeElement === focusable.at(-1)) {
-    event.preventDefault();
-    focusable[0].focus();
-  }
-});
-
-window.matchMedia("(min-width: 1051px)").addEventListener("change", (event) => {
-  if (event.matches) closeMenu({ restoreFocus: false });
-});
-
-const revealObserver = new IntersectionObserver((entries, observer) => {
-  entries.forEach((entry) => {
-    if (!entry.isIntersecting) return;
-    entry.target.classList.add("visible");
-    observer.unobserve(entry.target);
+if (menuButton && mobileNav) {
+  mobileNav.inert = true;
+  menuButton.addEventListener("click", () => {
+    if (menuButton.getAttribute("aria-expanded") === "true") closeMenu();
+    else openMenu();
   });
-}, { threshold: .12, rootMargin: "0px 0px -5%" });
-$$('[data-reveal]').forEach((element) => revealObserver.observe(element));
+  $$("a", mobileNav).forEach((link) => link.addEventListener("click", () => closeMenu({ restoreFocus: false })));
+
+  document.addEventListener("keydown", (event) => {
+    if (menuButton.getAttribute("aria-expanded") !== "true") return;
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeMenu();
+      return;
+    }
+    if (event.key !== "Tab") return;
+    const focusable = [menuButton, ...$$("a", mobileNav)];
+    if (event.shiftKey && document.activeElement === focusable[0]) {
+      event.preventDefault();
+      focusable.at(-1).focus();
+    } else if (!event.shiftKey && document.activeElement === focusable.at(-1)) {
+      event.preventDefault();
+      focusable[0].focus();
+    }
+  });
+
+  window.matchMedia("(min-width: 1121px)").addEventListener("change", (event) => {
+    if (event.matches) closeMenu({ restoreFocus: false });
+  });
+}
+
+if ("IntersectionObserver" in window) {
+  const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("visible");
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: .1, rootMargin: "0px 0px -4%" });
+  $$("[data-reveal]").forEach((element) => revealObserver.observe(element));
+} else {
+  $$("[data-reveal]").forEach((element) => element.classList.add("visible"));
+}
 
 const film = $("#match-film");
 const videoToggle = $("#video-toggle");
 let userPausedFilm = true;
 
 function syncVideoControl() {
+  if (!film || !videoToggle) return;
   const playing = !film.paused;
   videoToggle.classList.toggle("playing", playing);
   videoToggle.setAttribute("aria-label", playing ? "Mettre la vidéo en pause" : "Lire la vidéo");
   setText("#video-label", playing ? "Pause" : "Lire");
 }
 
-videoToggle.addEventListener("click", async () => {
-  if (film.paused) {
-    userPausedFilm = false;
-    await film.play().catch(() => {});
-  } else {
-    userPausedFilm = true;
-    film.pause();
-  }
-  syncVideoControl();
-});
-film.addEventListener("play", syncVideoControl);
-film.addEventListener("pause", syncVideoControl);
-film.addEventListener("ended", () => { userPausedFilm = true; syncVideoControl(); });
+if (film && videoToggle) {
+  videoToggle.addEventListener("click", async () => {
+    if (film.paused) {
+      userPausedFilm = false;
+      await film.play().catch(() => {});
+    } else {
+      userPausedFilm = true;
+      film.pause();
+    }
+    syncVideoControl();
+  });
+  film.addEventListener("play", syncVideoControl);
+  film.addEventListener("pause", syncVideoControl);
+  film.addEventListener("ended", () => { userPausedFilm = true; syncVideoControl(); });
 
-const filmObserver = new IntersectionObserver(([entry]) => {
-  if (!entry?.isIntersecting) film.pause();
-  else if (!userPausedFilm && !reducedMotion.matches) film.play().catch(() => {});
-}, { threshold: .2 });
-filmObserver.observe(film);
-reducedMotion.addEventListener("change", () => {
-  if (reducedMotion.matches) {
-    userPausedFilm = true;
-    film.pause();
+  if ("IntersectionObserver" in window) {
+    const filmObserver = new IntersectionObserver(([entry]) => {
+      if (!entry?.isIntersecting) film.pause();
+      else if (!userPausedFilm && !reducedMotion.matches) film.play().catch(() => {});
+    }, { threshold: .2 });
+    filmObserver.observe(film);
   }
-});
+  reducedMotion.addEventListener("change", () => {
+    if (reducedMotion.matches) {
+      userPausedFilm = true;
+      film.pause();
+    }
+  });
+}
 
 setText("#current-year", String(new Date().getFullYear()));
 syncVideoControl();

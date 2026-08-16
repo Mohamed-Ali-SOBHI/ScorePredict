@@ -59,6 +59,7 @@ jobs:
           python -m unittest discover -s tests -p "test_*.py"
           node --check inference/sportytrader_page_text.mjs
           node --check production/static/assets/app.js
+          node --check production/static/assets/landing.js
 
       - name: Calculer les 21 prochains jours
         shell: pwsh
