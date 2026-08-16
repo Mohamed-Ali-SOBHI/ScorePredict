@@ -591,15 +591,16 @@ html.js .reveal-delay-2 { transition-delay: .14s; }
   .hero { padding: 72px 16px 24px; }
   .hero::before { top: 48%; right: -42vw; width: 118vw; height: 118vw; }
   .hero-grid { grid-template-areas: "visual" "copy" "actions"; row-gap: 0; }
-  .hero h1 { max-width: 100%; font-size: clamp(39px, 11.8vw, 46px); line-height: .95; letter-spacing: -.064em; text-wrap: balance; }
+  .hero-copy { margin-inline: auto; text-align: center; }
+  .hero h1 { max-width: 100%; margin-inline: auto; font-size: clamp(39px, 11.8vw, 46px); line-height: .95; letter-spacing: -.064em; text-wrap: balance; }
   .hero h1 span { font-size: inherit; white-space: normal; }
-  .hero-text { max-width: 34ch; margin-top: 22px; font-size: 16px; line-height: 1.5; }
-  .hero-actions { margin-top: 28px; display: grid; grid-template-columns: 1fr; justify-items: start; gap: 0; }
+  .hero-text { max-width: 34ch; margin: 22px auto 0; font-size: 16px; line-height: 1.5; }
+  .hero-actions { margin-top: 28px; display: grid; grid-template-columns: 1fr; justify-items: center; gap: 0; }
   .hero-actions .button { width: min(100%, 330px); min-height: 52px; }
   .hero .quiet-link { display: none; }
   .quiet-link { min-height: 44px; display: inline-flex; align-items: center; }
   .button { min-height: 50px; padding: 0 21px; }
-  .hero-object-wrap { height: min(350px, 108vw); margin: 0 0 22px; }
+  .hero-object-wrap { height: min(350px, 108vw); margin: 0 0 48px; }
   .object { width: min(240px, 70vw); height: auto; aspect-ratio: 286 / 400; }
   .object-depth, .object-face { border-radius: clamp(27px, 8vw, 31px); }
   .object-face { padding: 24px 22px 20px; }
