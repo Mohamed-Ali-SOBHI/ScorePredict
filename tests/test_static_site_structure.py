@@ -13,7 +13,23 @@ class StaticSiteStructureTests(unittest.TestCase):
         landing = (STATIC / "index.html").read_text(encoding="utf-8")
         self.assertIn('href="./dashboard.html"', landing)
         self.assertIn('src="./assets/landing.js?v=journal-6"', landing)
+        self.assertIn('href="./assets/landing.css?v=journal-9"', landing)
         self.assertNotIn('src="./assets/app.js', landing)
+
+    def test_how_it_works_follows_the_hero_and_explains_the_filters(self) -> None:
+        landing = (STATIC / "index.html").read_text(encoding="utf-8")
+        process_start = landing.index('id="fonctionnement"')
+        proof_start = landing.index('id="preuve"')
+        self.assertLess(landing.index('id="journal"'), process_start)
+        self.assertLess(process_start, proof_start)
+        for copy in {
+            "Comment ça marche",
+            "Du programme",
+            "Les informations sont contrôlées.",
+            "Les mêmes règles font le tri.",
+            "Le filtre ne force jamais un choix.",
+        }:
+            self.assertIn(copy, landing)
 
     def test_landing_uses_only_local_assets_and_the_approved_logo(self) -> None:
         landing = (STATIC / "index.html").read_text(encoding="utf-8")

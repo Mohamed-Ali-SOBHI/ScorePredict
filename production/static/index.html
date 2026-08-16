@@ -8,7 +8,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'">
   <title>ScorePredict — Le match d’abord</title>
   <link rel="icon" href="./assets/brand/scorepredict-mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/landing.css?v=journal-8">
+  <link rel="stylesheet" href="./assets/landing.css?v=journal-9">
 </head>
 <body data-page-state="ready">
   <a class="skip-link" href="#contenu">Aller au contenu</a>
@@ -21,10 +21,10 @@
         </span>
       </a>
       <nav aria-label="Navigation principale">
-        <a href="#journal">Le journal</a>
+        <a href="#fonctionnement">Comment ça marche</a>
         <a href="#resultats">Les résultats</a>
       </nav>
-      <a class="nav-cta" href="./dashboard.html">Ouvrir le journal <span aria-hidden="true">→</span></a>
+      <a class="nav-cta" href="./dashboard.html"><span class="nav-cta-long">Ouvrir le journal</span><span class="nav-cta-short">Journal</span><span aria-hidden="true">→</span></a>
     </div>
   </header>
 
@@ -36,7 +36,7 @@
           <p class="hero-text reveal-delay-1" data-reveal>Chaque rencontre est analysée. Seuls les choix qui méritent leur place sont publiés.</p>
           <div class="hero-actions reveal-delay-2" data-reveal>
             <a class="button" href="./dashboard.html">Ouvrir le journal <span aria-hidden="true">→</span></a>
-            <a class="quiet-link" href="#preuve">Ce qui est conservé <span aria-hidden="true">↓</span></a>
+            <a class="quiet-link" href="#fonctionnement">Comment ça marche <span aria-hidden="true">↓</span></a>
           </div>
         </div>
 
@@ -67,6 +67,55 @@
             </div>
           </article>
         </div>
+      </div>
+    </section>
+
+    <section class="process" id="fonctionnement" aria-labelledby="process-title">
+      <div class="process-shell">
+        <div class="process-intro" data-reveal>
+          <div>
+            <p class="kicker">Comment ça marche</p>
+            <h2 id="process-title">Du programme<br><span>au résultat.</span></h2>
+          </div>
+          <p>Chaque matin, le même parcours s’applique aux rencontres des compétitions suivies. Aucun pari n’est ajouté pour remplir la page.</p>
+        </div>
+
+        <ol class="process-list" aria-label="Les quatre étapes du système">
+          <li data-reveal>
+            <span class="process-number">01</span>
+            <div>
+              <p class="process-label">Réunir</p>
+              <h3>Le programme arrive.</h3>
+              <p>Les matchs à venir et les cotes disponibles avant le coup d’envoi sont récupérés.</p>
+            </div>
+          </li>
+          <li data-reveal>
+            <span class="process-number">02</span>
+            <div>
+              <p class="process-label">Vérifier</p>
+              <h3>Les informations sont contrôlées.</h3>
+              <p>Saison, équipes, calendrier : si une information indispensable manque, le match s’arrête ici.</p>
+            </div>
+          </li>
+          <li data-reveal>
+            <span class="process-number">03</span>
+            <div>
+              <p class="process-label">Filtrer</p>
+              <h3>Les mêmes règles font le tri.</h3>
+              <p>Compétition, forme des équipes et cote doivent toutes passer les filtres. Un seul refus suffit.</p>
+            </div>
+          </li>
+          <li data-reveal>
+            <span class="process-number">04</span>
+            <div>
+              <p class="process-label">Suivre</p>
+              <h3>Le choix reste visible.</h3>
+              <p>Seuls les paris retenus sont publiés. Après le match, leur résultat rejoint le même historique.</p>
+            </div>
+          </li>
+        </ol>
+
+        <p class="process-note" data-reveal><strong>Le filtre ne force jamais un choix.</strong> Si aucune rencontre ne passe toutes les étapes, aucun pari n’est publié.</p>
       </div>
     </section>
 
