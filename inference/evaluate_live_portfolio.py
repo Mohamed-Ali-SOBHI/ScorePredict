@@ -39,7 +39,7 @@ def normalize_date(value: object) -> pd.Timestamp:
 
 
 def normalize_date_series(values: pd.Series) -> pd.Series:
-    return pd.to_datetime(values, utc=True).dt.tz_localize(None).dt.normalize()
+    return pd.to_datetime(values, utc=True, format="mixed").dt.tz_localize(None).dt.normalize()
 
 
 def numeric_column(frame: pd.DataFrame, column: str, default: float) -> pd.Series:
@@ -139,7 +139,7 @@ def prepare_ledger(
         raise ValueError(f"Ledger is missing required columns: {', '.join(missing)}")
 
     prepared = ledger.copy()
-    prepared["date"] = pd.to_datetime(prepared["date"], utc=True).dt.tz_localize(None)
+    prepared["date"] = pd.to_datetime(prepared["date"], utc=True, format="mixed").dt.tz_localize(None)
     prepared["match_date"] = prepared["date"].dt.normalize()
     prepared["home_team_norm"] = prepared["team_name"].map(normalize_team_name)
     prepared["away_team_norm"] = prepared["opponent_name"].map(normalize_team_name)

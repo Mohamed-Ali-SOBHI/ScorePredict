@@ -27,7 +27,6 @@ class StaticSiteStructureTests(unittest.TestCase):
         landing = (STATIC / "index.html").read_text(encoding="utf-8")
         script = (STATIC / "assets" / "landing.js").read_text(encoding="utf-8")
         for element_id in {
-            "decision-proof",
             "match-object",
             "object-primary",
             "object-secondary",
@@ -45,6 +44,10 @@ class StaticSiteStructureTests(unittest.TestCase):
         self.assertIn("visibilitychange", script)
         self.assertIn("prefers-reduced-motion", script)
         self.assertIn("Ouvrir le journal", landing)
+        self.assertIn("Le match d’abord.", landing)
+        self.assertIn("Le pari, parfois.", landing)
+        self.assertNotIn("Le journal avant match", landing)
+        self.assertNotIn("Savoir quand", landing)
         self.assertNotIn("Les affiches qui font vibrer le football", landing)
         self.assertNotIn("carousel-controls", landing)
         self.assertNotIn("Démonstration", landing + script)
