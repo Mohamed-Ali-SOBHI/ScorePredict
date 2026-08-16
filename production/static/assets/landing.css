@@ -147,29 +147,9 @@ section { scroll-margin-top: 68px; }
   gap: clamp(46px, 8vw, 130px);
 }
 .hero-copy { position: relative; z-index: 2; max-width: 620px; }
-.decision-proof {
-  margin-bottom: 31px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--forest);
-  font-size: 11px;
-  font-weight: 760;
-  letter-spacing: .105em;
-  text-transform: uppercase;
-}
-.decision-proof::before {
-  content: "";
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--field);
-  box-shadow: 0 0 0 5px rgba(31, 143, 91, .1);
-}
-body[data-page-state="error"] .decision-proof::before { background: var(--danger); box-shadow: none; }
 .hero h1 {
   max-width: 670px;
-  font-size: clamp(66px, 7.4vw, 110px);
+  font-size: clamp(62px, 6.25vw, 88px);
   font-weight: 690;
   line-height: .92;
   letter-spacing: -.07em;
@@ -437,7 +417,7 @@ html.js .reveal-delay-2 { transition-delay: .14s; }
 
 @media (max-width: 1050px) {
   .hero-grid { grid-template-columns: minmax(360px, .86fr) minmax(390px, 1.14fr); gap: 40px; }
-  .hero h1 { font-size: clamp(66px, 8.7vw, 92px); }
+  .hero h1 { font-size: clamp(62px, 8.2vw, 82px); }
   .object { width: 340px; height: 475px; }
   .hero-object-wrap { height: 570px; }
   .orbit-one { width: 530px; height: 380px; }
@@ -475,9 +455,8 @@ html.js .reveal-delay-2 { transition-delay: .14s; }
   .nav-cta { min-height: 36px; padding: 0 13px; font-size: 10px; }
   .nav-cta span { display: none; }
   .hero { padding: 105px 18px 52px; }
-  .decision-proof { margin-bottom: 24px; font-size: 9px; }
-  .hero h1 { font-size: clamp(53px, 15.6vw, 75px); }
-  .hero h1 span { font-size: clamp(47px, 14.1vw, 66px); }
+  .hero h1 { font-size: clamp(46px, 13.8vw, 56px); }
+  .hero h1 span { font-size: inherit; }
   .hero-text { margin-top: 25px; font-size: 16px; }
   .hero-actions { margin-top: 30px; flex-direction: column; align-items: flex-start; gap: 18px; }
   .button { min-height: 49px; padding: 0 20px; }
