@@ -12,7 +12,7 @@ class StaticSiteStructureTests(unittest.TestCase):
     def test_landing_is_separate_from_the_dashboard_application(self) -> None:
         landing = (STATIC / "index.html").read_text(encoding="utf-8")
         self.assertIn('href="./dashboard.html"', landing)
-        self.assertIn('src="./assets/landing.js?v=journal-5"', landing)
+        self.assertIn('src="./assets/landing.js?v=journal-6"', landing)
         self.assertNotIn('src="./assets/app.js', landing)
 
     def test_landing_uses_only_local_assets_and_the_approved_logo(self) -> None:
@@ -31,10 +31,6 @@ class StaticSiteStructureTests(unittest.TestCase):
             "match-object",
             "object-primary",
             "object-secondary",
-            "carousel-prev",
-            "carousel-next",
-            "carousel-pause",
-            "carousel-dots",
             "live-settled",
             "live-return",
             "memory-state",
@@ -49,6 +45,8 @@ class StaticSiteStructureTests(unittest.TestCase):
         self.assertIn("visibilitychange", script)
         self.assertIn("prefers-reduced-motion", script)
         self.assertIn("Ouvrir le journal", landing)
+        self.assertNotIn("Les affiches qui font vibrer le football", landing)
+        self.assertNotIn("carousel-controls", landing)
         self.assertNotIn("Démonstration", landing + script)
         self.assertNotIn("Données réelles à actualiser", landing + script)
         self.assertNotIn("renderDecision", script)

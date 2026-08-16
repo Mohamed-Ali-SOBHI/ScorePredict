@@ -240,6 +240,7 @@ body[data-page-state="error"] .decision-proof::before { background: var(--danger
   transition: transform .2s cubic-bezier(.2, .8, .2, 1);
   will-change: transform;
 }
+.object:focus-visible { outline: 2px solid var(--field); outline-offset: 8px; }
 .object-depth {
   position: absolute;
   inset: 0;
@@ -293,7 +294,7 @@ body[data-page-state="error"] .decision-proof::before { background: var(--danger
   z-index: 0;
   top: 90px;
   right: 29px;
-  bottom: 124px;
+  bottom: 29px;
   left: 29px;
   border: 1px solid rgba(255, 255, 255, .075);
   border-radius: 5px;
@@ -343,64 +344,6 @@ body[data-page-state="error"] .decision-proof::before { background: var(--danger
   text-transform: uppercase;
 }
 .object-detail { max-width: 250px; margin: 27px auto 0; color: rgba(255, 255, 255, .74); font-size: 11px; font-weight: 630; line-height: 1.5; letter-spacing: .04em; }
-.carousel-ui {
-  position: relative;
-  z-index: 3;
-  padding-top: 18px;
-  border-top: 1px solid rgba(255, 255, 255, .13);
-}
-.carousel-ui > p { color: rgba(255, 255, 255, .5); font-size: 9px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
-.carousel-progress { height: 1px; margin-top: 14px; overflow: hidden; background: rgba(255, 255, 255, .12); }
-.carousel-progress span { width: 16.667%; height: 100%; display: block; background: var(--lime); transition: width .4s cubic-bezier(.22, 1, .36, 1); }
-.carousel-controls {
-  margin-top: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.carousel-arrow, .carousel-pause {
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(255, 255, 255, .16);
-  border-radius: 50%;
-  color: rgba(255, 255, 255, .8);
-  background: transparent;
-  cursor: pointer;
-  transition: color .18s ease, border-color .18s ease, background .18s ease, transform .18s ease;
-}
-.carousel-arrow:hover, .carousel-pause:hover { color: white; border-color: rgba(255, 255, 255, .45); background: rgba(255, 255, 255, .06); transform: translateY(-1px); }
-.carousel-pause { font-size: 12px; letter-spacing: -.16em; }
-.carousel-pause[aria-pressed="true"] { color: var(--deep); border-color: var(--lime); background: var(--lime); }
-.carousel-pause[aria-pressed="true"] span { letter-spacing: 0; }
-.carousel-pause:disabled { opacity: .52; cursor: default; }
-.carousel-dots { display: flex; align-items: center; gap: 1px; }
-.carousel-dots button {
-  position: relative;
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  cursor: pointer;
-}
-.carousel-dots button::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 5px;
-  height: 5px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, .34);
-  transform: translate(-50%, -50%);
-  transition: width .25s ease, background .25s ease;
-}
-.carousel-dots button[aria-current="true"]::before { width: 16px; background: var(--lime); }
-.carousel-dots button:focus-visible { outline: 2px solid var(--lime); outline-offset: 1px; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
 .kicker { color: var(--field); font-size: 11px; font-weight: 760; letter-spacing: .12em; text-transform: uppercase; }
@@ -546,21 +489,6 @@ html.js .reveal-delay-2 { transition-delay: .14s; }
   .object-core h2 { font-size: 28px; }
   .object-detail { margin-top: 17px; font-size: 10px; }
   .rivalry-label { max-width: 170px; line-height: 1.3; }
-  .carousel-ui { padding-top: 13px; }
-  .carousel-ui > p { font-size: 9px; }
-  .carousel-progress { margin-top: 10px; }
-  .carousel-controls {
-    margin-top: 8px;
-    display: grid;
-    grid-template-columns: repeat(3, 44px);
-    justify-content: space-between;
-    row-gap: 2px;
-  }
-  .carousel-dots { grid-column: 1 / -1; grid-row: 1; justify-content: center; }
-  #carousel-prev { grid-column: 1; grid-row: 2; }
-  #carousel-pause { grid-column: 2; grid-row: 2; }
-  #carousel-next { grid-column: 3; grid-row: 2; }
-  .carousel-arrow, .carousel-pause { width: 44px; height: 44px; }
   .orbit-one { width: 410px; height: 295px; }
   .orbit-two { width: 340px; height: 350px; }
   .object-shadow { bottom: 30px; width: 300px; }
