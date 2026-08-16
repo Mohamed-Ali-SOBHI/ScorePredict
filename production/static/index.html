@@ -3,205 +3,208 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f4f1ea">
-  <meta name="description" content="Les pronostics football réellement retenus par ScorePredict, avec une explication claire et un suivi après chaque match.">
-  <meta property="og:title" content="ScorePredict — Pronostics football">
-  <meta property="og:description" content="Les matchs retenus aujourd’hui, les chiffres utiles et les résultats vérifiés.">
-  <meta property="og:image" content="./assets/media/stadium-documentary.webp">
-  <title>ScorePredict — Pronostics football</title>
-  <link rel="preload" href="./assets/media/stadium-documentary.webp" as="image" type="image/webp">
-  <link rel="stylesheet" href="./assets/styles.css?v=20">
+  <meta name="theme-color" content="#f4f6f1">
+  <meta name="description" content="ScorePredict conserve chaque décision football avant match, y compris les jours où aucun pari n'est retenu.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'">
+  <title>ScorePredict — Savoir quand ne pas parier</title>
+  <link rel="icon" href="./assets/brand/scorepredict-mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./assets/landing.css?v=journal-6">
 </head>
-<body>
-  <a class="skip-link" href="#main">Aller au contenu</a>
+<body data-page-state="ready">
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
 
-  <header class="site-header">
-    <div class="header-inner">
-      <a class="brand" href="#pronostic" aria-label="ScorePredict, accueil">
-        <span class="brand-mark" aria-hidden="true">SP</span>
-        <span>ScorePredict</span>
+  <header class="topbar" id="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#journal" aria-label="ScorePredict, retour en haut">
+        <span class="logo-window logo-window-header">
+          <img src="./assets/brand/scorepredict-logo-imagegen-v2.png" width="1693" height="929" alt="ScorePredict">
+        </span>
       </a>
-
-      <nav class="desktop-nav" aria-label="Navigation principale">
-        <a href="#pronostic">Pronostic</a>
-        <a href="#explication">Explication</a>
-        <a href="#suivi">Résultats</a>
+      <nav aria-label="Navigation principale">
+        <a href="#journal">Le journal</a>
+        <a href="#resultats">Les résultats</a>
       </nav>
-
-      <div class="header-status">
-        <span class="status-dot" aria-hidden="true"></span>
-        <span id="header-state">Actualisation en cours</span>
-      </div>
-
-      <button class="menu-button" id="menu-button" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Ouvrir le menu">
-        <span></span><span></span>
-      </button>
+      <a class="nav-cta" href="./dashboard.html">Ouvrir le journal <span aria-hidden="true">→</span></a>
     </div>
-
-    <nav class="mobile-nav" id="mobile-nav" aria-label="Navigation mobile" aria-hidden="true">
-      <a href="#pronostic">Pronostic du jour</a>
-      <a href="#explication">Pourquoi ce choix</a>
-      <a href="#methode">Comment ça marche</a>
-      <a href="#suivi">Résultats vérifiés</a>
-    </nav>
   </header>
 
-  <main id="main">
-    <section class="hero" id="pronostic" aria-labelledby="hero-title">
-      <div class="page-shell">
-        <div class="edition-line">
-          <span>Édition du jour</span>
-          <time id="published-time">Mise à jour automatique</time>
-          <span>Saison <b id="current-season">2026/27</b></span>
+  <main id="contenu">
+    <section class="hero" id="journal" aria-labelledby="hero-title">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="decision-proof" id="decision-proof" data-reveal>Le journal avant match</p>
+          <h1 id="hero-title" class="reveal-delay-1" data-reveal><span>Savoir quand</span><span>ne pas parier.</span></h1>
+          <p class="hero-text reveal-delay-2" data-reveal>Une décision datée, pas une promesse. Chaque choix et chaque abstention restent visibles.</p>
+          <div class="hero-actions" data-reveal>
+            <a class="button" href="./dashboard.html">Ouvrir le journal <span aria-hidden="true">→</span></a>
+            <a class="quiet-link" href="#preuve">Ce qui est conservé <span aria-hidden="true">↓</span></a>
+          </div>
         </div>
 
-        <div class="hero-grid">
-          <div class="hero-copy">
-            <p class="section-label">Pronostic du jour</p>
-            <h1 id="hero-title">Le choix retenu, sans détour.</h1>
-            <p class="hero-summary" id="analysis-summary">Lecture des rencontres disponibles…</p>
+        <div class="hero-object-wrap" id="hero-object-wrap" aria-label="Carrousel de grandes rivalités du football">
+          <div class="object-orbit orbit-one" aria-hidden="true"></div>
+          <div class="object-orbit orbit-two" aria-hidden="true"></div>
+          <div class="object-shadow" aria-hidden="true"></div>
+          <article class="object" id="match-object" aria-roledescription="carrousel" aria-label="Six grandes rivalités du football">
+            <div class="object-depth" aria-hidden="true"></div>
+            <div class="object-face">
+              <div class="object-header">
+                <span class="rivalry-label"><i aria-hidden="true"></i>Grandes rivalités</span>
+                <span id="carousel-count" aria-hidden="true">01 / 06</span>
+              </div>
 
-            <div class="pick-list" id="pick-list" aria-live="polite">
-              <article class="prediction prediction-loading" aria-label="Chargement du pronostic">
-                <div class="prediction-head"><span>Analyse en cours</span><time>—</time></div>
-                <div class="teams"><h2>Lecture des matchs…</h2></div>
-              </article>
+              <div class="pitch-geometry" aria-hidden="true"><i></i></div>
+
+              <div class="object-core" id="rivalry-slide">
+                <p id="object-context">Espagne</p>
+                <h2>
+                  <span id="object-primary">FC Barcelone</span>
+                  <small>contre</small>
+                  <span id="object-secondary">Real Madrid</span>
+                </h2>
+                <p class="object-detail" id="object-detail">El Clásico</p>
+              </div>
+
+              <div class="carousel-ui">
+                <p>Les affiches qui font vibrer le football</p>
+                <div class="carousel-progress" aria-hidden="true"><span id="carousel-progress"></span></div>
+                <div class="carousel-controls">
+                  <button class="carousel-arrow" id="carousel-prev" type="button" aria-label="Afficher la rivalité précédente">←</button>
+                  <div class="carousel-dots" id="carousel-dots" aria-label="Choisir une affiche fictive">
+                    <button type="button" aria-label="Afficher Barça contre Real Madrid" aria-current="true"></button>
+                    <button type="button" aria-label="Afficher Liverpool contre Manchester City"></button>
+                    <button type="button" aria-label="Afficher Inter contre AC Milan"></button>
+                    <button type="button" aria-label="Afficher Paris contre Marseille"></button>
+                    <button type="button" aria-label="Afficher Bayern contre Dortmund"></button>
+                    <button type="button" aria-label="Afficher Arsenal contre Chelsea"></button>
+                  </div>
+                  <button class="carousel-pause" id="carousel-pause" type="button" aria-pressed="false" aria-label="Mettre le carrousel en pause"><span aria-hidden="true">Ⅱ</span></button>
+                  <button class="carousel-arrow" id="carousel-next" type="button" aria-label="Afficher la rivalité suivante">→</button>
+                </div>
+              </div>
+              <p class="sr-only" id="carousel-announcement" aria-live="polite"></p>
             </div>
-
-            <div class="no-pick" id="no-pick" hidden>
-              <strong>Aucun pari recommandé aujourd’hui.</strong>
-              <p>Aucun match n’a franchi tous les contrôles. Le site sera actualisé demain matin.</p>
-            </div>
-          </div>
-
-          <figure class="hero-photo">
-            <img src="./assets/media/stadium-documentary.webp" alt="Tribunes remplies lors d’un match de football nocturne" width="1800" height="1200">
-            <figcaption>Soir de match à Athènes. Photo : George Zografidis / Pexels.</figcaption>
-          </figure>
+          </article>
         </div>
       </div>
     </section>
 
-    <section class="why-section" id="explication" aria-labelledby="why-title">
-      <div class="page-shell" id="why-panel">
-        <header class="section-head" data-reveal>
-          <p class="section-label">Pourquoi ce choix</p>
-          <h2 id="why-title">Deux estimations à comparer.</h2>
-          <p id="why-copy">Les détails apparaissent dès qu’une recommandation est disponible.</p>
-        </header>
+    <section class="sealed" id="preuve" aria-labelledby="sealed-title">
+      <div class="section-grid">
+        <div class="section-heading" data-reveal>
+          <p class="kicker">Le journal permanent</p>
+          <h2 id="sealed-title">Ce qui est scellé<br><span>avant le match.</span></h2>
+          <p>Une fois publiée, la décision garde sa date, son heure et le contexte observé. Le résultat vient ensuite compléter la même ligne.</p>
+        </div>
 
-        <div class="probability-panel" data-reveal>
-          <div class="probability-bars" aria-label="Comparaison des chances estimées">
-            <div class="bar-row">
-              <div><span>Notre estimation</span><strong id="model-chance">—</strong></div>
-              <div class="bar-track"><i id="model-bar"></i></div>
+        <ol class="sealed-list" data-reveal>
+          <li><span>01</span><div><strong>La décision</strong><p>Parier ou attendre, sans remplir artificiellement le journal.</p></div></li>
+          <li><span>02</span><div><strong>L’heure de publication</strong><p>Le choix est daté avant le coup d’envoi.</p></div></li>
+          <li><span>03</span><div><strong>La cote observée</strong><p>Le repère disponible au moment de la décision reste associé au match.</p></div></li>
+          <li><span>04</span><div><strong>L’issue réelle</strong><p>Gagné, perdu ou annulé : le résultat ne disparaît pas.</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="stories" id="resultats" aria-labelledby="stories-title">
+      <div class="section-intro" data-reveal>
+        <p class="kicker">Les résultats</p>
+        <h2 id="stories-title">Deux histoires<br>séparées.</h2>
+        <p>Le suivi réel commence maintenant. Les essais sur les saisons passées restent à leur place.</p>
+      </div>
+
+      <div class="story-split">
+        <article class="story story-live" data-reveal>
+          <div class="story-head">
+            <div>
+              <p class="story-label">Suivi réel</p>
+              <h3>Depuis le 12 août 2026</h3>
             </div>
-            <div class="bar-row market-row">
-              <div><span>Ce que la cote laisse entendre</span><strong id="market-chance">—</strong></div>
-              <div class="bar-track"><i id="market-bar"></i></div>
-            </div>
+            <p class="memory-state" id="memory-state"><i aria-hidden="true"></i><span id="memory-title">Vérification de la mémoire…</span></p>
           </div>
 
-          <dl class="key-numbers">
-            <div><dt>Cote disponible</dt><dd id="odds-value">—</dd></div>
-            <div><dt>Mise indicative</dt><dd id="stake-value">—</dd></div>
-            <div><dt>Niveau de prudence</dt><dd id="risk-value">—</dd></div>
+          <div class="story-primary">
+            <div><span>Paris terminés</span><strong id="live-settled">—</strong></div>
+            <div><span>Rendement réel</span><strong id="live-return">—</strong></div>
+          </div>
+
+          <dl class="story-details">
+            <div><dt>En attente</dt><dd id="live-pending">—</dd></div>
+            <div><dt>Gagnés</dt><dd id="live-won">—</dd></div>
+            <div><dt>Perdus</dt><dd id="live-lost">—</dd></div>
           </dl>
-        </div>
+          <p class="story-note" id="live-explanation">Le suivi réel est en cours de lecture.</p>
+          <p class="storage-copy" id="storage-copy"></p>
+          <p class="load-error" id="load-error" role="status" hidden>Le journal est momentanément indisponible.</p>
+        </article>
 
-        <div class="selection-strip" data-reveal>
-          <div><strong id="analysis-total">0</strong><span>matchs examinés</span></div>
-          <span class="selection-arrow" aria-hidden="true">→</span>
-          <div><strong id="analysis-retained">0</strong><span id="retained-label">pari retenu</span></div>
-          <p>Les autres rencontres restent analysées, mais ne sont pas présentées comme des pronostics.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="method-section" id="methode" aria-labelledby="method-title">
-      <div class="page-shell method-grid">
-        <figure class="supporters-photo" data-reveal>
-          <img src="./assets/media/supporters-documentary.webp" alt="Supporters de football dans une tribune pendant un match" loading="lazy" width="1600" height="1067">
-          <figcaption>Supporters en tribune. Photo : Eslam Mohammed Abdelmaksoud / Pexels.</figcaption>
-        </figure>
-
-        <div class="method-copy" data-reveal>
-          <p class="section-label">Comment ça marche</p>
-          <h2 id="method-title">Une publication en trois étapes.</h2>
-          <ol>
-            <li><span>1</span><div><strong>Les matchs sont comparés.</strong><p>Le calendrier, la forme récente et les cotes disponibles sont étudiés avant le coup d’envoi.</p></div></li>
-            <li><span>2</span><div><strong>Les choix fragiles sont écartés.</strong><p>Une rencontre n’apparaît pas si les différents contrôles ne vont pas dans le même sens.</p></div></li>
-            <li><span>3</span><div><strong>Le résultat est vérifié.</strong><p>Après le match, le pari est marqué gagné, perdu ou annulé et reste dans l’historique.</p></div></li>
-          </ol>
-        </div>
-      </div>
-    </section>
-
-    <section class="video-section" aria-labelledby="video-title">
-      <div class="page-shell video-grid">
-        <div class="video-copy" data-reveal>
-          <p class="section-label">Le contexte réel</p>
-          <h2 id="video-title">Avant le match, les chiffres. Après, le score.</h2>
-          <p>La recommandation est enregistrée avant le coup d’envoi. Elle ne peut pas être modifiée après le résultat.</p>
-        </div>
-
-        <figure class="video-frame" data-reveal>
-          <video id="match-film" muted playsinline preload="metadata" poster="./assets/media/stadium-documentary.webp">
-            <source src="./assets/media/match-documentary.mp4" type="video/mp4">
-          </video>
-          <button class="video-toggle" id="video-toggle" type="button" aria-label="Lire la vidéo">
-            <span class="play-icon" aria-hidden="true">▶</span>
-            <span class="pause-icon" aria-hidden="true">Ⅱ</span>
-            <b id="video-label">Lire</b>
-          </button>
-          <figcaption>Match nocturne. Vidéo : Tio Nazih / Pexels — extrait raccourci, sans son.</figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <section class="tracking-section" id="suivi" aria-labelledby="tracking-title">
-      <div class="page-shell">
-        <header class="tracking-head" data-reveal>
-          <div>
-            <p class="section-label">Résultats vérifiés</p>
-            <h2 id="tracking-title">Chaque pari garde son résultat.</h2>
+        <article class="story story-past" data-reveal>
+          <div class="story-head">
+            <div>
+              <p class="story-label">Essais sur saisons passées</p>
+              <h3 id="test-period">Période en cours de lecture</h3>
+            </div>
+            <span class="past-tag">Ce ne sont pas des gains réels</span>
           </div>
-          <div class="memory-state">
-            <span class="memory-dot" id="memory-dot" aria-hidden="true"></span>
-            <div><strong id="memory-title">Vérification de l’historique…</strong><p id="memory-copy">Chargement des résultats enregistrés.</p></div>
+
+          <div class="story-primary">
+            <div><span>Sélections examinées</span><strong id="test-count">—</strong></div>
+            <div><span>Rendement observé</span><strong id="test-return">—</strong></div>
           </div>
-        </header>
 
-        <div class="tracking-totals" data-reveal>
-          <div><span>En attente</span><strong id="tracking-pending">0</strong></div>
-          <div><span>Gagnés</span><strong id="tracking-won">0</strong></div>
-          <div><span>Perdus</span><strong id="tracking-lost">0</strong></div>
+          <dl class="story-details story-details-past">
+            <div><dt>Fourchette plausible</dt><dd id="test-range">—</dd></div>
+            <div><dt>Plus forte baisse</dt><dd id="test-drawdown">—</dd></div>
+          </dl>
+          <p class="story-note">Ces résultats viennent de tests sur des saisons passées. Ils ne garantissent pas la suite.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="risk" aria-labelledby="risk-title">
+      <div class="risk-copy" data-reveal>
+        <p class="kicker">Tout montrer</p>
+        <h2 id="risk-title">Les périodes difficiles<br>comptent aussi.</h2>
+        <p>Le chiffre central ne suffit pas. La fourchette peut passer sous zéro et une période sur quatre a été négative.</p>
+      </div>
+
+      <div class="range-panel" data-reveal>
+        <div class="range-head">
+          <span>Fourchette observée sur les essais passés</span>
+          <strong id="range-observed">—</strong>
         </div>
-
-        <div class="result-table" id="result-list" data-reveal>
-          <p class="empty-results">Les premiers résultats apparaîtront ici après les matchs recommandés.</p>
+        <div class="range-track" id="range-track" aria-label="Fourchette plausible du rendement observé">
+          <span class="range-zero" aria-hidden="true"></span>
+          <span class="range-marker" aria-hidden="true"></span>
+        </div>
+        <div class="range-labels"><span id="range-low">—</span><span>Zéro</span><span id="range-high">—</span></div>
+        <div class="risk-lines">
+          <p><span>01</span><strong>Une période négative sur quatre</strong></p>
+          <p><span>02</span><strong id="drawdown-line">Baisse maximale en cours de lecture</strong></p>
         </div>
       </div>
     </section>
 
-    <section class="responsible-section">
-      <div class="page-shell responsible-grid">
-        <h2>À garder en tête</h2>
-        <p>Un pronostic reste une estimation, jamais une garantie. La mise affichée est indicative. Ne misez pas une somme que vous ne pouvez pas perdre.</p>
+    <section class="closing" aria-labelledby="closing-title">
+      <div data-reveal>
+        <p class="kicker">Le journal reste public</p>
+        <h2 id="closing-title">Voir la décision.<br>Et aussi l’absence de décision.</h2>
+        <a class="button button-light" href="./dashboard.html">Ouvrir le journal <span aria-hidden="true">→</span></a>
+        <p class="responsible">Un pronostic reste une estimation, jamais une garantie. Le jeu doit rester un plaisir.</p>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="page-shell footer-grid">
-      <a class="brand footer-brand" href="#pronostic"><span class="brand-mark" aria-hidden="true">SP</span><span>ScorePredict</span></a>
-      <p>Actualisation automatique chaque matin.</p>
-      <p>Photos : <a href="https://www.pexels.com/photo/illuminated-soccer-stadium-at-night-with-crowd-30651230/" target="_blank" rel="noopener">George Zografidis</a> et <a href="https://www.pexels.com/photo/energetic-football-fans-cheering-in-stadium-31160049/" target="_blank" rel="noopener">Eslam Mohammed Abdelmaksoud</a>. Vidéo : <a href="https://www.pexels.com/video/football-match-on-stadium-11918917/" target="_blank" rel="noopener">Tio Nazih</a> / Pexels.</p>
-      <p>© <span id="current-year">2026</span> ScorePredict</p>
-    </div>
+  <footer class="footer">
+    <a class="brand footer-brand" href="#journal" aria-label="ScorePredict, retour en haut">
+      <span class="logo-window logo-window-footer">
+          <img src="./assets/brand/scorepredict-logo-imagegen-v2.png" width="1693" height="929" alt="ScorePredict">
+      </span>
+    </a>
+    <p id="footer-updated">Mise à jour automatique chaque matin</p>
+    <p>© <span id="year">2026</span></p>
   </footer>
 
-  <div class="load-error" id="load-error" role="status" hidden>Les données du jour sont momentanément indisponibles.</div>
-  <script type="module" src="./assets/app.js?v=20"></script>
+  <script type="module" src="./assets/landing.js?v=journal-5"></script>
 </body>
 </html>

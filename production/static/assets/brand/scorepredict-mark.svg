@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-labelledby="title desc">
+  <title id="title">ScorePredict</title>
+  <desc id="desc">Un S construit avec les lignes d'un terrain de football.</desc>
+  <g fill="none" stroke="#0B4A2C" stroke-width="13" stroke-linecap="square" stroke-linejoin="round">
+    <path d="M164 22H61c-25 0-43 17-43 40s18 40 43 40h56c25 0 43 16 43 38s-18 38-43 38H18"/>
+    <circle cx="61" cy="102" r="17" fill="#F4F6F1"/>
+    <path d="M70 22v31h62V22M85 53a16 16 0 0 0 32 0"/>
+    <path d="M70 178v-31h62v31M85 147a16 16 0 0 1 32 0"/>
+  </g>
+</svg>

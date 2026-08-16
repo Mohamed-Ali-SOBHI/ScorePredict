@@ -2,6 +2,9 @@ __pycache__/
 */__pycache__/
 .playwright-cli/
 node_modules/
+.superdesign/
+.design-council/
+production/static/assets/brand/scorepredict-mark-concept-v1.png
 .env
 .env.local
 production/*.log
