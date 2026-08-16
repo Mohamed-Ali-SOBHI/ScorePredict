@@ -13,7 +13,7 @@ class StaticSiteStructureTests(unittest.TestCase):
         landing = (STATIC / "index.html").read_text(encoding="utf-8")
         self.assertIn('href="./dashboard.html"', landing)
         self.assertIn('src="./assets/landing.js?v=journal-6"', landing)
-        self.assertIn('href="./assets/landing.css?v=journal-9"', landing)
+        self.assertIn('href="./assets/landing.css?v=journal-10"', landing)
         self.assertNotIn('src="./assets/app.js', landing)
 
     def test_how_it_works_follows_the_hero_and_explains_the_filters(self) -> None:
@@ -22,12 +22,14 @@ class StaticSiteStructureTests(unittest.TestCase):
         proof_start = landing.index('id="preuve"')
         self.assertLess(landing.index('id="journal"'), process_start)
         self.assertLess(process_start, proof_start)
+        self.assertIn('aria-label="Les cinq étapes du système"', landing)
         for copy in {
             "Comment ça marche",
-            "Du programme",
-            "Les informations sont contrôlées.",
-            "Les mêmes règles font le tri.",
-            "Le filtre ne force jamais un choix.",
+            "L’IA propose.",
+            "Deux IA donnent leur avis.",
+            "Le score le plus bas est retenu.",
+            "Le filtre fait le tri.",
+            "Le calibrage concerne les seuils du filtre, pas les pourcentages de l’IA.",
         }:
             self.assertIn(copy, landing)
 

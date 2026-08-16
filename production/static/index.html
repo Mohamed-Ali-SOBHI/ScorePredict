@@ -8,7 +8,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'">
   <title>ScorePredict — Le match d’abord</title>
   <link rel="icon" href="./assets/brand/scorepredict-mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/landing.css?v=journal-9">
+  <link rel="stylesheet" href="./assets/landing.css?v=journal-10">
 </head>
 <body data-page-state="ready">
   <a class="skip-link" href="#contenu">Aller au contenu</a>
@@ -33,7 +33,7 @@
       <div class="hero-grid">
         <div class="hero-copy">
           <h1 id="hero-title" data-reveal><span>Le match d’abord.</span><span>Le pari, parfois.</span></h1>
-          <p class="hero-text reveal-delay-1" data-reveal>Chaque rencontre est analysée. Seuls les choix qui méritent leur place sont publiés.</p>
+          <p class="hero-text reveal-delay-1" data-reveal>Deux IA analysent chaque rencontre. Le filtre ne publie que les choix qui passent toutes les règles.</p>
           <div class="hero-actions reveal-delay-2" data-reveal>
             <a class="button" href="./dashboard.html">Ouvrir le journal <span aria-hidden="true">→</span></a>
             <a class="quiet-link" href="#fonctionnement">Comment ça marche <span aria-hidden="true">↓</span></a>
@@ -75,47 +75,55 @@
         <div class="process-intro" data-reveal>
           <div>
             <p class="kicker">Comment ça marche</p>
-            <h2 id="process-title">Du programme<br><span>au résultat.</span></h2>
+            <h2 id="process-title">L’IA propose.<br><span>Le filtre décide.</span></h2>
           </div>
-          <p>Chaque matin, le même parcours s’applique aux rencontres des compétitions suivies. Aucun pari n’est ajouté pour remplir la page.</p>
+          <p>L’IA apprend sur les saisons terminées. Les règles de sélection sont calibrées séparément, puis restent gelées en production.</p>
         </div>
 
-        <ol class="process-list" aria-label="Les quatre étapes du système">
+        <ol class="process-list" aria-label="Les cinq étapes du système">
           <li data-reveal>
             <span class="process-number">01</span>
             <div>
-              <p class="process-label">Réunir</p>
-              <h3>Le programme arrive.</h3>
-              <p>Les matchs à venir et les cotes disponibles avant le coup d’envoi sont récupérés.</p>
+              <p class="process-label">Préparer</p>
+              <h3>Le match devient un portrait.</h3>
+              <p>Calendrier, équipes et cote sont contrôlés. Forme récente, occasions créées et concédées, niveau des équipes et repos sont calculés avant le match.</p>
             </div>
           </li>
           <li data-reveal>
             <span class="process-number">02</span>
             <div>
-              <p class="process-label">Vérifier</p>
-              <h3>Les informations sont contrôlées.</h3>
-              <p>Saison, équipes, calendrier : si une information indispensable manque, le match s’arrête ici.</p>
+              <p class="process-label">Comparer</p>
+              <h3>Deux IA donnent leur avis.</h3>
+              <p>La première étudie les trois issues du match. La seconde se concentre sur le nul. Le système conserve le score le plus prudent des deux.</p>
             </div>
           </li>
           <li data-reveal>
             <span class="process-number">03</span>
             <div>
-              <p class="process-label">Filtrer</p>
-              <h3>Les mêmes règles font le tri.</h3>
-              <p>Compétition, forme des équipes et cote doivent toutes passer les filtres. Un seul refus suffit.</p>
+              <p class="process-label">Rester prudent</p>
+              <h3>Le score le plus bas est retenu.</h3>
+              <p>Si les deux IA ne sont pas d’accord sur le nul, le système garde la plus basse des deux estimations. Un modèle ne décide jamais seul.</p>
             </div>
           </li>
           <li data-reveal>
             <span class="process-number">04</span>
             <div>
-              <p class="process-label">Suivre</p>
-              <h3>Le choix reste visible.</h3>
-              <p>Seuls les paris retenus sont publiés. Après le match, leur résultat rejoint le même historique.</p>
+              <p class="process-label">Calibrer</p>
+              <h3>Le filtre fait le tri.</h3>
+              <p>Championnat, cote, écart avec le marché et nul non favori : tout doit passer. Le réglage est choisi sur une saison puis vérifié sur la suivante, quatre fois dans le temps.</p>
+            </div>
+          </li>
+          <li data-reveal>
+            <span class="process-number">05</span>
+            <div>
+              <p class="process-label">Publier</p>
+              <h3>Seuls les vrais choix restent.</h3>
+              <p>Si aucun nul ne franchit toutes les étapes, aucun pari n’apparaît. Après le coup de sifflet, le résultat rejoint le même historique.</p>
             </div>
           </li>
         </ol>
 
-        <p class="process-note" data-reveal><strong>Le filtre ne force jamais un choix.</strong> Si aucune rencontre ne passe toutes les étapes, aucun pari n’est publié.</p>
+        <p class="process-note" data-reveal><strong>Le calibrage concerne les seuils du filtre, pas les pourcentages de l’IA.</strong> Ceux-ci restent des estimations brutes pour classer les matchs, jamais une certitude.</p>
       </div>
     </section>
 
