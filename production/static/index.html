@@ -8,7 +8,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'">
   <title>ScorePredict — Savoir quand ne pas parier</title>
   <link rel="icon" href="./assets/brand/scorepredict-mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/landing.css?v=journal-6">
+  <link rel="stylesheet" href="./assets/landing.css?v=journal-7">
 </head>
 <body data-page-state="ready">
   <a class="skip-link" href="#contenu">Aller au contenu</a>
@@ -45,7 +45,7 @@
           <div class="object-orbit orbit-one" aria-hidden="true"></div>
           <div class="object-orbit orbit-two" aria-hidden="true"></div>
           <div class="object-shadow" aria-hidden="true"></div>
-          <article class="object" id="match-object" aria-roledescription="carrousel" aria-label="Six grandes rivalités du football">
+          <article class="object" id="match-object" tabindex="0" aria-roledescription="carrousel" aria-label="Six grandes rivalités du football. Le défilement s’arrête lorsque la carte reçoit le focus.">
             <div class="object-depth" aria-hidden="true"></div>
             <div class="object-face">
               <div class="object-header">
@@ -65,24 +65,6 @@
                 <p class="object-detail" id="object-detail">El Clásico</p>
               </div>
 
-              <div class="carousel-ui">
-                <p>Les affiches qui font vibrer le football</p>
-                <div class="carousel-progress" aria-hidden="true"><span id="carousel-progress"></span></div>
-                <div class="carousel-controls">
-                  <button class="carousel-arrow" id="carousel-prev" type="button" aria-label="Afficher la rivalité précédente">←</button>
-                  <div class="carousel-dots" id="carousel-dots" aria-label="Choisir une affiche fictive">
-                    <button type="button" aria-label="Afficher Barça contre Real Madrid" aria-current="true"></button>
-                    <button type="button" aria-label="Afficher Liverpool contre Manchester City"></button>
-                    <button type="button" aria-label="Afficher Inter contre AC Milan"></button>
-                    <button type="button" aria-label="Afficher Paris contre Marseille"></button>
-                    <button type="button" aria-label="Afficher Bayern contre Dortmund"></button>
-                    <button type="button" aria-label="Afficher Arsenal contre Chelsea"></button>
-                  </div>
-                  <button class="carousel-pause" id="carousel-pause" type="button" aria-pressed="false" aria-label="Mettre le carrousel en pause"><span aria-hidden="true">Ⅱ</span></button>
-                  <button class="carousel-arrow" id="carousel-next" type="button" aria-label="Afficher la rivalité suivante">→</button>
-                </div>
-              </div>
-              <p class="sr-only" id="carousel-announcement" aria-live="polite"></p>
             </div>
           </article>
         </div>
@@ -205,6 +187,6 @@
     <p>© <span id="year">2026</span></p>
   </footer>
 
-  <script type="module" src="./assets/landing.js?v=journal-5"></script>
+  <script type="module" src="./assets/landing.js?v=journal-6"></script>
 </body>
 </html>

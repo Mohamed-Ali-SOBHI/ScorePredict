@@ -252,16 +252,10 @@ const rivalryMatches = Object.freeze([
 function setupRivalryCarousel() {
   const wrap = $("#hero-object-wrap");
   const slide = $("#rivalry-slide");
-  const dots = [...document.querySelectorAll("#carousel-dots button")];
-  const previous = $("#carousel-prev");
-  const next = $("#carousel-next");
-  const pause = $("#carousel-pause");
-  const announcement = $("#carousel-announcement");
-  if (!wrap || !slide || dots.length !== rivalryMatches.length) return;
+  if (!wrap || !slide) return;
 
   let index = 0;
   let timer = 0;
-  let pausedByUser = false;
 
   function stop() {
     window.clearTimeout(timer);
@@ -274,28 +268,11 @@ function setupRivalryCarousel() {
 
   function schedule() {
     stop();
-    if (reducedMotion.matches || pausedByUser || interactionPaused()) return;
-    timer = window.setTimeout(() => show(index + 1, false), 4200);
+    if (reducedMotion.matches || interactionPaused()) return;
+    timer = window.setTimeout(() => show(index + 1), 4200);
   }
 
-  function reflectPauseButton() {
-    if (!pause) return;
-    const reduced = reducedMotion.matches;
-    pause.disabled = reduced;
-    pause.setAttribute("aria-pressed", String(reduced || pausedByUser));
-    pause.setAttribute(
-      "aria-label",
-      reduced
-        ? "Défilement automatique désactivé par vos préférences d’animation"
-        : pausedByUser
-          ? "Relancer le carrousel"
-          : "Mettre le carrousel en pause",
-    );
-    const symbol = $("span", pause);
-    if (symbol) symbol.textContent = pausedByUser ? "▶" : "Ⅱ";
-  }
-
-  function show(nextIndex, announce) {
+  function show(nextIndex) {
     index = (nextIndex + rivalryMatches.length) % rivalryMatches.length;
     const match = rivalryMatches[index];
     setText("#object-context", match.competition);
@@ -303,44 +280,21 @@ function setupRivalryCarousel() {
     setText("#object-secondary", match.away);
     setText("#object-detail", match.label);
     setText("#carousel-count", `${String(index + 1).padStart(2, "0")} / ${String(rivalryMatches.length).padStart(2, "0")}`);
-    const progress = $("#carousel-progress");
-    if (progress) progress.style.width = `${((index + 1) / rivalryMatches.length) * 100}%`;
-    dots.forEach((dot, dotIndex) => {
-      if (dotIndex === index) dot.setAttribute("aria-current", "true");
-      else dot.removeAttribute("aria-current");
-    });
 
     slide.classList.remove("is-changing");
     void slide.offsetWidth;
     slide.classList.add("is-changing");
-    if (announce && announcement) {
-      announcement.textContent = `${match.home} contre ${match.away}, ${match.label}.`;
-    }
     schedule();
   }
-
-  previous?.addEventListener("click", () => show(index - 1, true));
-  next?.addEventListener("click", () => show(index + 1, true));
-  dots.forEach((dot, dotIndex) => dot.addEventListener("click", () => show(dotIndex, true)));
-  pause?.addEventListener("click", () => {
-    pausedByUser = !pausedByUser;
-    reflectPauseButton();
-    if (pausedByUser) stop();
-    else schedule();
-  });
 
   wrap.addEventListener("pointerenter", stop);
   wrap.addEventListener("pointerleave", schedule);
   wrap.addEventListener("focusin", stop);
   wrap.addEventListener("focusout", () => window.setTimeout(schedule, 0));
   document.addEventListener("visibilitychange", () => document.hidden ? stop() : schedule());
-  reducedMotion.addEventListener?.("change", () => {
-    reflectPauseButton();
-    schedule();
-  });
+  reducedMotion.addEventListener?.("change", schedule);
 
-  reflectPauseButton();
-  show(0, false);
+  show(0);
 }
 
 const root = document.documentElement;
