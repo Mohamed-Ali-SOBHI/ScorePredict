@@ -588,7 +588,7 @@ html.js .reveal-delay-2 { transition-delay: .14s; }
   .nav-cta { min-height: 44px; padding: 0 15px; gap: 7px; font-size: 11px; }
   .nav-cta-long { display: none; }
   .nav-cta-short { display: inline; }
-  .hero { padding: 72px 16px 24px; }
+  .hero { min-height: 100vh; min-height: 100svh; padding: 72px 16px 24px; align-items: start; }
   .hero::before { top: 48%; right: -42vw; width: 118vw; height: 118vw; }
   .hero-grid { grid-template-areas: "visual" "copy" "actions"; row-gap: 0; }
   .hero-copy { margin-inline: auto; text-align: center; }
