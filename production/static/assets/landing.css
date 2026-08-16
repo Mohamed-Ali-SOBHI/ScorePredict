@@ -144,11 +144,17 @@ section { scroll-margin-top: 68px; }
   margin: 0 auto;
   display: grid;
   grid-template-columns: minmax(420px, .86fr) minmax(470px, 1.14fr);
-  align-items: center;
-  gap: clamp(46px, 8vw, 130px);
+  grid-template-rows: 1fr auto auto 1fr;
+  grid-template-areas:
+    ". visual"
+    "copy visual"
+    "actions visual"
+    ". visual";
+  column-gap: clamp(46px, 8vw, 130px);
+  row-gap: 0;
 }
 .hero-grid > * { min-width: 0; }
-.hero-copy { position: relative; z-index: 2; max-width: 620px; }
+.hero-copy { grid-area: copy; position: relative; z-index: 2; max-width: 620px; }
 .hero h1 {
   max-width: 670px;
   font-size: clamp(62px, 6.25vw, 88px);
@@ -165,7 +171,7 @@ section { scroll-margin-top: 68px; }
   line-height: 1.48;
   letter-spacing: -.025em;
 }
-.hero-actions { margin-top: 40px; display: flex; align-items: center; gap: 28px; }
+.hero-actions { grid-area: actions; margin-top: 40px; display: flex; align-items: center; gap: 28px; }
 .button {
   min-height: 52px;
   padding: 0 24px;
@@ -187,6 +193,7 @@ section { scroll-margin-top: 68px; }
 .quiet-link:hover span { transform: translateY(3px); }
 
 .hero-object-wrap {
+  grid-area: visual;
   position: relative;
   z-index: 1;
   height: 630px;
@@ -517,7 +524,7 @@ html.js .reveal-delay-2 { transition-delay: .14s; }
 }
 
 @media (max-width: 1050px) {
-  .hero-grid { grid-template-columns: minmax(360px, .86fr) minmax(390px, 1.14fr); gap: 40px; }
+  .hero-grid { grid-template-columns: minmax(360px, .86fr) minmax(390px, 1.14fr); column-gap: 40px; }
   .hero h1 { font-size: clamp(62px, 8.2vw, 82px); }
   .object { width: 340px; height: 475px; }
   .hero-object-wrap { height: 570px; }
@@ -538,8 +545,15 @@ html.js .reveal-delay-2 { transition-delay: .14s; }
   .topbar-inner { width: min(100% - 34px, 1440px); grid-template-columns: 1fr auto; }
   .topbar nav { display: none; }
   .hero { min-height: auto; padding: 112px 24px 36px; }
-  .hero-grid { grid-template-columns: 1fr; gap: 22px; }
+  .hero-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas: "copy" "actions" "visual";
+    column-gap: 0;
+    row-gap: 22px;
+  }
   .hero-copy { max-width: 700px; }
+  .hero-actions { margin-top: 0; }
   .hero-object-wrap { height: 540px; }
   .process-intro { grid-template-columns: 1fr; gap: 31px; }
   .process-intro > p { max-width: 560px; padding-bottom: 0; }
@@ -574,9 +588,9 @@ html.js .reveal-delay-2 { transition-delay: .14s; }
   .nav-cta { min-height: 44px; padding: 0 15px; gap: 7px; font-size: 11px; }
   .nav-cta-long { display: none; }
   .nav-cta-short { display: inline; }
-  .hero { padding: 94px 16px 24px; }
+  .hero { padding: 72px 16px 24px; }
   .hero::before { top: 48%; right: -42vw; width: 118vw; height: 118vw; }
-  .hero-grid { gap: 0; }
+  .hero-grid { grid-template-areas: "visual" "copy" "actions"; row-gap: 0; }
   .hero h1 { max-width: 100%; font-size: clamp(39px, 11.8vw, 46px); line-height: .95; letter-spacing: -.064em; text-wrap: balance; }
   .hero h1 span { font-size: inherit; white-space: normal; }
   .hero-text { max-width: 34ch; margin-top: 22px; font-size: 16px; line-height: 1.5; }
@@ -585,7 +599,7 @@ html.js .reveal-delay-2 { transition-delay: .14s; }
   .hero .quiet-link { display: none; }
   .quiet-link { min-height: 44px; display: inline-flex; align-items: center; }
   .button { min-height: 50px; padding: 0 21px; }
-  .hero-object-wrap { height: min(350px, 108vw); margin-top: 14px; }
+  .hero-object-wrap { height: min(350px, 108vw); margin: 0 0 22px; }
   .object { width: min(240px, 70vw); height: auto; aspect-ratio: 286 / 400; }
   .object-depth, .object-face { border-radius: clamp(27px, 8vw, 31px); }
   .object-face { padding: 24px 22px 20px; }
@@ -646,7 +660,7 @@ html.js .reveal-delay-2 { transition-delay: .14s; }
 @media (max-width: 380px) {
   .logo-window-header { width: 119px; height: 32px; }
   .nav-cta { min-height: 44px; padding: 0 13px; }
-  .hero { padding-right: 14px; padding-left: 14px; }
+  .hero { padding-top: 70px; padding-right: 14px; padding-left: 14px; }
   .hero h1 { font-size: clamp(38px, 12.2vw, 43px); }
   .hero-actions .button { width: 100%; }
   .story-primary { grid-template-columns: 1fr; }
