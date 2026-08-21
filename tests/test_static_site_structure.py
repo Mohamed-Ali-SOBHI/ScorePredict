@@ -13,7 +13,7 @@ class StaticSiteStructureTests(unittest.TestCase):
         landing = (STATIC / "index.html").read_text(encoding="utf-8")
         self.assertIn('href="./dashboard.html"', landing)
         self.assertIn('src="./assets/landing.js?v=journal-6"', landing)
-        self.assertIn('href="./assets/landing.css?v=v11"', landing)
+        self.assertIn('href="./assets/landing.css?v=v14"', landing)
         self.assertNotIn('src="./assets/app.js', landing)
 
     def test_how_it_works_follows_the_hero_and_explains_the_filters(self) -> None:
@@ -56,7 +56,7 @@ class StaticSiteStructureTests(unittest.TestCase):
         self.assertIn("prefers-reduced-motion", script)
         self.assertIn("Ouvrir le journal", landing)
         self.assertIn("Tu dois savoir quand jouer.", landing)
-        self.assertIn("Tu dois savoir quand ne pas jouer.", landing)
+        self.assertIn("Tu dois savoir quand te coucher.", landing)
         self.assertNotIn("Le journal avant match", landing)
         self.assertNotIn("Les affiches qui font vibrer le football", landing)
         self.assertNotIn("carousel-controls", landing)
@@ -78,14 +78,22 @@ class StaticSiteStructureTests(unittest.TestCase):
             "analysis-summary",
             "pick-list",
             "no-pick",
-            "why-panel",
             "result-list",
-            "match-film",
+            "tracking-pending",
+            "tracking-verified",
             "load-error",
         }
         for element_id in required_ids:
             self.assertIn(f'id="{element_id}"', dashboard)
-        self.assertIn('src="./assets/app.js?v=23"', dashboard)
+        self.assertIn('src="./assets/app.js?v=26"', dashboard)
+        self.assertIn('href="./assets/styles.css?v=26"', dashboard)
+        for removed_copy in {
+            "Lecture du choix",
+            "Essais sur les saisons passées",
+            "Comment une décision est publiée",
+            "À garder en tête",
+        }:
+            self.assertNotIn(removed_copy, dashboard)
 
 
 if __name__ == "__main__":

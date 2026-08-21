@@ -233,6 +233,57 @@ class DashboardServiceTests(unittest.TestCase):
         self.assertEqual(activity[0]["status"], "won")
         self.assertEqual(activity[0]["actualScore"], "1 - 1")
 
+    def test_keeps_a_card_for_each_published_bet_still_to_play(self) -> None:
+        now = datetime.now(timezone.utc)
+        write_json(
+            self.root / "inference/output/live_portfolio_evaluation_summary.json",
+            {"portfolio_name": "production_portfolio", "pending_bets": 2},
+        )
+        write_csv(
+            self.root / "inference/output/live_portfolio_evaluation.csv",
+            [
+                {
+                    "snapshot_key": "older-published-bet",
+                    "portfolio_name": "production_portfolio",
+                    "date": (now + timedelta(days=1)).isoformat(),
+                    "league": "EPL",
+                    "team_name": "Hull",
+                    "opponent_name": "Manchester United",
+                    "selected_outcome": "draw",
+                    "selected_odds": "4.1",
+                    "predicted_probability": "0.31",
+                    "market_probability": "0.24",
+                    "edge": "0.07",
+                    "expected_value": "0.27",
+                    "stake_eur": "2.5",
+                    "result_status": "pending",
+                    "recommended": "true",
+                },
+                {
+                    "snapshot_key": "old-strategy-bet",
+                    "portfolio_name": "retired_portfolio",
+                    "date": (now + timedelta(days=1)).isoformat(),
+                    "league": "EPL",
+                    "team_name": "Chelsea",
+                    "opponent_name": "Everton",
+                    "selected_outcome": "draw",
+                    "selected_odds": "3.6",
+                    "predicted_probability": "0.35",
+                    "stake_eur": "2.5",
+                    "result_status": "pending",
+                    "recommended": "true",
+                },
+            ],
+        )
+
+        payload = DashboardService(self.root, ttl_seconds=0).get_dashboard()
+
+        self.assertEqual(payload["summary"]["currentRecommendations"], 1)
+        self.assertEqual(payload["summary"]["upcomingBets"], 2)
+        self.assertEqual([row["homeTeam"] for row in payload["predictions"]], ["Hull", "Arsenal"])
+        self.assertFalse(payload["predictions"][0]["isCurrentRecommendation"])
+        self.assertEqual(payload["predictions"][0]["adviceLabel"], "Pari déjà publié")
+
 
 def _read_for_test(path: Path) -> list[dict[str, str]]:
     with path.open("r", encoding="utf-8", newline="") as handle:
