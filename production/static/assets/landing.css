@@ -930,14 +930,14 @@ html.js .reveal-delay-2 { transition-delay: .14s; }
   .hero-quote {
     max-width: 100%;
     margin: 0;
-    font-size: clamp(14px, 4.7vw, 22px);
+    font-size: clamp(16px, 5.1vw, 22px);
     line-height: 1.18;
     letter-spacing: -.045em;
     white-space: nowrap;
   }
   .hero-quote + .hero-quote { margin-top: 12px; }
   .hero-source { justify-content: flex-end; margin-top: 16px; }
-  .hero-tagline { max-width: 34ch; margin: 18px auto 0; font-size: 14px; line-height: 1.45; }
+  .hero-tagline { max-width: 35ch; margin: 20px auto 0; font-size: clamp(15px, 4.1vw, 17px); line-height: 1.5; }
   .hero h1 { max-width: 100%; margin-inline: auto; font-size: clamp(30px, 9vw, 42px); line-height: 1.1; letter-spacing: -.05em; text-wrap: balance; }
   .hero h1 span { font-size: inherit; white-space: normal; }
   .hero-text { max-width: 34ch; margin: 22px auto 0; font-size: 16px; line-height: 1.5; }

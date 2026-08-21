@@ -56,7 +56,7 @@ class StaticSiteStructureTests(unittest.TestCase):
         self.assertIn("prefers-reduced-motion", script)
         self.assertIn("Ouvrir le journal", landing)
         self.assertIn("Tu dois savoir quand jouer.", landing)
-        self.assertIn("Tu dois savoir quand ne pas jouer.", landing)
+        self.assertIn("Tu dois savoir quand te coucher.", landing)
         self.assertNotIn("Le journal avant match", landing)
         self.assertNotIn("Les affiches qui font vibrer le football", landing)
         self.assertNotIn("carousel-controls", landing)
