@@ -220,7 +220,18 @@ def build_summary(
     portfolio_name: str | None = None,
     recommended_only: bool = True,
 ) -> dict[str, object]:
-    prediction_keys = ["date", "league", "team_name", "opponent_name", "selected_outcome"]
+    prediction_keys = [
+        column
+        for column in [
+            "portfolio_name",
+            "league",
+            "match_date",
+            "home_team_norm",
+            "away_team_norm",
+            "selected_outcome",
+        ]
+        if column in evaluated.columns
+    ]
     unique_predictions = evaluated.drop_duplicates(subset=prediction_keys, keep="first").copy()
     settled = unique_predictions[unique_predictions["result_status"].isin(["won", "lost"])].copy()
     stake = numeric_column(settled, "stake_eur", 1.0)

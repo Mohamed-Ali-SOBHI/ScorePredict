@@ -6,8 +6,8 @@ from pathlib import Path
 
 import pandas as pd
 
-from inference.evaluate_live_portfolio import evaluate_rows, prepare_ledger
-from inference.live_tracking import append_tracking_rows, build_tracking_rows
+from inference.evaluate_live_portfolio import build_summary, evaluate_rows, prepare_ledger
+from inference.live_tracking import append_tracking_rows, build_tracking_rows, canonicalize_tracking_rows
 from inference.portfolio_presets import DEFAULT_PORTFOLIO_NAME, PRODUCTION_PORTFOLIO_NAME
 from inference.predict_upcoming_portfolio import ALL_EXPORT_COLUMNS, BET_EXPORT_COLUMNS, write_exports
 from inference.track_published_predictions import published_rows
@@ -87,6 +87,40 @@ class PredictionTrackingTests(unittest.TestCase):
         evaluated = evaluate_rows(ledger, results, as_of_date=pd.Timestamp("2026-08-11"))
         self.assertEqual(evaluated.iloc[0]["result_status"], "pending")
 
+    def test_finished_match_records_the_real_score_and_result(self) -> None:
+        ledger = pd.DataFrame(
+            [
+                {
+                    "league": "EPL",
+                    "match_date": pd.Timestamp("2026-08-22"),
+                    "home_team_norm": "ipswich",
+                    "away_team_norm": "sunderland",
+                    "selected_outcome": "draw",
+                    "selected_odds": 3.5,
+                    "stake_eur": 2.5,
+                }
+            ]
+        )
+        results = pd.DataFrame(
+            [
+                {
+                    "league": "EPL",
+                    "match_date": pd.Timestamp("2026-08-22"),
+                    "home_team_norm": "ipswich",
+                    "away_team_norm": "sunderland",
+                    "actual_outcome": "draw",
+                    "actual_home_score": 1,
+                    "actual_away_score": 1,
+                }
+            ]
+        )
+
+        evaluated = evaluate_rows(ledger, results, as_of_date=pd.Timestamp("2026-08-23"))
+
+        self.assertEqual(evaluated.iloc[0]["result_status"], "won")
+        self.assertEqual(evaluated.iloc[0]["actual_home_score"], 1)
+        self.assertEqual(evaluated.iloc[0]["actual_away_score"], 1)
+
     def test_first_published_prediction_is_not_rewritten(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             ledger = Path(tmp) / "ledger.csv"
@@ -115,6 +149,76 @@ class PredictionTrackingTests(unittest.TestCase):
         second = build_tracking_rows(bet, portfolio_name="portfolio_b")
         self.assertNotEqual(first.iloc[0]["snapshot_key"], second.iloc[0]["snapshot_key"])
         self.assertTrue(first.iloc[0]["recommended"])
+
+    def test_tracking_key_ignores_kickoff_time_changes(self) -> None:
+        rows = pd.DataFrame(
+            [
+                {
+                    "prediction_generated_at_utc": "2026-08-20T06:00:00Z",
+                    "portfolio_name": PRODUCTION_PORTFOLIO_NAME,
+                    "date": "2026-08-22 07:00:00",
+                    "league": "EPL",
+                    "team_name": "Ipswich",
+                    "opponent_name": "Sunderland",
+                    "selected_outcome": "draw",
+                    "snapshot_key": "old-1",
+                    "result_status": "pending",
+                },
+                {
+                    "prediction_generated_at_utc": "2026-08-21T06:00:00Z",
+                    "portfolio_name": PRODUCTION_PORTFOLIO_NAME,
+                    "date": "2026-08-22 10:00:00",
+                    "league": "EPL",
+                    "team_name": "Ipswich Town",
+                    "opponent_name": "Sunderland",
+                    "selected_outcome": "draw",
+                    "snapshot_key": "old-2",
+                    "result_status": "won",
+                    "actual_home_score": 1,
+                    "actual_away_score": 1,
+                },
+            ]
+        )
+
+        canonical = canonicalize_tracking_rows(rows)
+
+        self.assertEqual(len(canonical), 1)
+        self.assertIn("|2026-08-22|EPL|ipswich|sunderland|draw", canonical.iloc[0]["snapshot_key"])
+        self.assertEqual(canonical.iloc[0]["result_status"], "won")
+
+    def test_live_summary_counts_a_rescheduled_match_once(self) -> None:
+        evaluated = pd.DataFrame(
+            [
+                {
+                    "portfolio_name": PRODUCTION_PORTFOLIO_NAME,
+                    "league": "EPL",
+                    "match_date": pd.Timestamp("2026-08-22"),
+                    "home_team_norm": "ipswich",
+                    "away_team_norm": "sunderland",
+                    "selected_outcome": "draw",
+                    "result_status": "pending",
+                },
+                {
+                    "portfolio_name": PRODUCTION_PORTFOLIO_NAME,
+                    "league": "EPL",
+                    "match_date": pd.Timestamp("2026-08-22"),
+                    "home_team_norm": "ipswich",
+                    "away_team_norm": "sunderland",
+                    "selected_outcome": "draw",
+                    "result_status": "pending",
+                },
+            ]
+        )
+
+        summary = build_summary(
+            evaluated,
+            freeze_date="2026-08-12",
+            as_of_date="2026-08-21",
+            portfolio_name=PRODUCTION_PORTFOLIO_NAME,
+        )
+
+        self.assertEqual(summary["published_predictions"], 1)
+        self.assertEqual(summary["pending_bets"], 1)
 
     def test_live_evaluation_keeps_only_active_recommended_bets(self) -> None:
         ledger = pd.DataFrame(

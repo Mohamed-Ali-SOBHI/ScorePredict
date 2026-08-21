@@ -660,15 +660,27 @@ class DashboardService:
                 }
             )
         unique: dict[tuple[str, str, str, str, str], dict[str, Any]] = {}
+        status_priority = {"won": 3, "lost": 3, "void": 3, "pending_data_refresh": 2, "unmatched": 1, "pending": 0}
         for row in activity:
+            parsed_date = _parse_date(row.get("date"))
             key = (
-                str(row.get("date", "")),
+                parsed_date.date().isoformat() if parsed_date else str(row.get("date", ""))[:10],
                 str(row.get("league", "")),
-                str(row.get("homeTeam", "")),
-                str(row.get("awayTeam", "")),
+                str(row.get("homeTeam", "")).casefold(),
+                str(row.get("awayTeam", "")).casefold(),
                 str(row.get("outcomeLabel", "")),
             )
-            unique.setdefault(key, row)
+            previous = unique.get(key)
+            if previous is None:
+                unique[key] = row
+                continue
+            previous_priority = status_priority.get(str(previous.get("status")), 0)
+            current_priority = status_priority.get(str(row.get("status")), 0)
+            if current_priority > previous_priority or (
+                current_priority == previous_priority
+                and str(row.get("date", "")) > str(previous.get("date", ""))
+            ):
+                unique[key] = row
         return sorted(unique.values(), key=lambda row: str(row.get("date", "")), reverse=True)[:30]
 
 

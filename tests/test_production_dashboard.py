@@ -201,6 +201,38 @@ class DashboardServiceTests(unittest.TestCase):
         payload = DashboardService(empty_root, ttl_seconds=0).get_dashboard()
         self.assertEqual(payload["meta"]["servingMode"], "snapshot")
 
+    def test_activity_merges_time_changes_and_keeps_the_verified_result(self) -> None:
+        rows = [
+            {
+                "snapshot_key": "first",
+                "date": "2026-08-22T07:00:00",
+                "league": "EPL",
+                "team_name": "Ipswich",
+                "opponent_name": "Sunderland",
+                "selected_outcome": "draw",
+                "result_status": "pending",
+                "recommended": "true",
+            },
+            {
+                "snapshot_key": "second",
+                "date": "2026-08-22T10:00:00",
+                "league": "EPL",
+                "team_name": "Ipswich",
+                "opponent_name": "Sunderland",
+                "selected_outcome": "draw",
+                "result_status": "won",
+                "actual_home_score": "1",
+                "actual_away_score": "1",
+                "recommended": "true",
+            },
+        ]
+
+        activity = DashboardService._activity_view(rows)
+
+        self.assertEqual(len(activity), 1)
+        self.assertEqual(activity[0]["status"], "won")
+        self.assertEqual(activity[0]["actualScore"], "1 - 1")
+
 
 def _read_for_test(path: Path) -> list[dict[str, str]]:
     with path.open("r", encoding="utf-8", newline="") as handle:
