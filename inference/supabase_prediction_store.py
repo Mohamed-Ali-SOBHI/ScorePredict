@@ -10,6 +10,8 @@ from typing import Any
 import pandas as pd
 import requests
 
+from inference.live_tracking import canonical_snapshot_keys, canonicalize_tracking_rows
+
 
 DEFAULT_LEDGER = Path(__file__).resolve().parent / "output" / "live_portfolio_bet_log.csv"
 DEFAULT_STATUS = Path(__file__).resolve().parent / "output" / "prediction_store_status.json"
@@ -156,16 +158,57 @@ def pull(ledger: Path, status_path: Path, *, timeout: float = 30.0) -> int:
     )
     response.raise_for_status()
     rows = response.json()
+    local = canonicalize_tracking_rows(pd.DataFrame(rows, columns=REMOTE_COLUMNS))
     ledger.parent.mkdir(parents=True, exist_ok=True)
-    pd.DataFrame(rows, columns=REMOTE_COLUMNS).to_csv(ledger, index=False)
-    write_status(status_path, backend="supabase", configured=True, rows=len(rows), action="pull")
-    return len(rows)
+    local.to_csv(ledger, index=False)
+    write_status(status_path, backend="supabase", configured=True, rows=len(local), action="pull")
+    return len(local)
+
+
+def delete_superseded_remote_rows(
+    url: str,
+    key: str,
+    canonical_keys: set[str],
+    *,
+    timeout: float,
+) -> int:
+    response = requests.get(
+        f"{url}/rest/v1/{TABLE}",
+        headers=request_headers(key),
+        params={
+            "select": "snapshot_key,portfolio_name,date,league,team_name,opponent_name,selected_outcome",
+            "recommended": "eq.true",
+        },
+        timeout=timeout,
+    )
+    response.raise_for_status()
+    remote = pd.DataFrame(response.json())
+    if remote.empty:
+        return 0
+
+    remote["canonical_key"] = canonical_snapshot_keys(remote)
+    obsolete = remote.loc[
+        (remote["snapshot_key"].astype(str) != remote["canonical_key"].astype(str))
+        & remote["canonical_key"].isin(canonical_keys),
+        "snapshot_key",
+    ].astype(str)
+    deleted = 0
+    for snapshot_key in dict.fromkeys(obsolete):
+        delete_response = requests.delete(
+            f"{url}/rest/v1/{TABLE}",
+            headers=request_headers(key),
+            params={"snapshot_key": f"eq.{snapshot_key}"},
+            timeout=timeout,
+        )
+        delete_response.raise_for_status()
+        deleted += 1
+    return deleted
 
 
 def push(ledger: Path, status_path: Path, *, timeout: float = 30.0) -> int:
     url, key = configuration()
     local = pd.read_csv(ledger) if ledger.exists() else pd.DataFrame(columns=REMOTE_COLUMNS)
-    local = recommended_rows(local)
+    local = canonicalize_tracking_rows(recommended_rows(local))
     if not url or not key:
         write_status(status_path, backend="local", configured=False, rows=len(local), action="push")
         return len(local)
@@ -183,6 +226,12 @@ def push(ledger: Path, status_path: Path, *, timeout: float = 30.0) -> int:
         timeout=timeout,
     )
     response.raise_for_status()
+    delete_superseded_remote_rows(
+        url,
+        key,
+        {str(row["snapshot_key"]) for row in payload},
+        timeout=timeout,
+    )
     write_status(status_path, backend="supabase", configured=True, rows=len(payload), action="push")
     return len(payload)
 

@@ -221,6 +221,8 @@ function resultLabel(status) {
   if (status === "won") return "Gagné";
   if (status === "lost") return "Perdu";
   if (status === "void") return "Annulé";
+  if (status === "pending_data_refresh") return "Résultat en cours";
+  if (status === "unmatched") return "Résultat à vérifier";
   return "En attente";
 }
 
