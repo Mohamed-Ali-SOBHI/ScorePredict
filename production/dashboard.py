@@ -233,7 +233,7 @@ class DashboardService:
 
         quality_view = self._quality_view(quality, team_registry_audit, now)
         prediction_rows = [{**row, "recommended_bet": True} for row in upcoming_rows]
-        predictions = self._prediction_view(prediction_rows, now)
+        current_predictions = self._prediction_view(prediction_rows, now)
         scored_fixture_count = len(
             {
                 (
@@ -248,8 +248,18 @@ class DashboardService:
         )
         performance = self._performance_view(science, portfolio_rows, live_summary)
         activity = self._activity_view(live_rows)
+        active_portfolio = str(live_summary.get("portfolio_name") or "").strip()
+        published_rows = [
+            {**row, "recommended_bet": True}
+            for row in live_rows
+            if _bool(row.get("recommended"))
+            and str(row.get("result_status") or "pending") not in {"won", "lost", "void"}
+            and (not active_portfolio or str(row.get("portfolio_name") or "").strip() == active_portfolio)
+        ]
+        published_predictions = self._prediction_view(published_rows, now)
+        predictions = self._merge_upcoming_predictions(current_predictions, published_predictions)
         tracking = self._tracking_view(live_summary, activity, prediction_store_status)
-        risk = self._risk_view(quality_view, tracking, predictions)
+        risk = self._risk_view(quality_view, tracking, current_predictions)
 
         latest_prediction = _file_mtime(self.paths.upcoming_all) or _file_mtime(self.paths.upcoming_bets)
         meta_status = "ready"
@@ -276,7 +286,8 @@ class DashboardService:
                 "disclaimer": "Les prévisions sont indicatives : elles aident à comparer les rencontres, sans garantir un résultat.",
             },
             "summary": {
-                "upcomingBets": sum(bool(prediction.get("recommended")) for prediction in predictions),
+                "upcomingBets": len(predictions),
+                "currentRecommendations": len(current_predictions),
                 "scoredFixtures": scored_fixture_count,
                 "settledLiveBets": _int(live_summary.get("settled_bets"), len(activity)),
                 "pendingPredictions": tracking["pending"],
@@ -487,6 +498,38 @@ class DashboardService:
             if previous is None or (recommended and not previous["recommended"]):
                 predictions_by_fixture[fixture_key] = prediction
         return sorted(predictions_by_fixture.values(), key=lambda row: (row["date"], -row["edge"]))
+
+    @staticmethod
+    def _upcoming_prediction_key(prediction: dict[str, Any]) -> tuple[str, str, str, str, str]:
+        parsed_date = _parse_date(prediction.get("date"))
+        return (
+            parsed_date.date().isoformat() if parsed_date else str(prediction.get("date", ""))[:10],
+            str(prediction.get("league", "")),
+            str(prediction.get("homeTeam", "")).casefold(),
+            str(prediction.get("awayTeam", "")).casefold(),
+            str(prediction.get("outcome", "")),
+        )
+
+    @classmethod
+    def _merge_upcoming_predictions(
+        cls,
+        current: Iterable[dict[str, Any]],
+        published: Iterable[dict[str, Any]],
+    ) -> list[dict[str, Any]]:
+        merged: dict[tuple[str, str, str, str, str], dict[str, Any]] = {}
+        for prediction in published:
+            merged[cls._upcoming_prediction_key(prediction)] = {
+                **prediction,
+                "isCurrentRecommendation": False,
+                "adviceLabel": "Pari déjà publié",
+            }
+        for prediction in current:
+            merged[cls._upcoming_prediction_key(prediction)] = {
+                **prediction,
+                "isCurrentRecommendation": True,
+                "adviceLabel": "Pari recommandé aujourd’hui",
+            }
+        return sorted(merged.values(), key=lambda row: (str(row.get("date", "")), -_float(row.get("edge"))))
 
     def _performance_view(
         self,
