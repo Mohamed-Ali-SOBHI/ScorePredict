@@ -7,7 +7,7 @@ from pathlib import Path
 import pandas as pd
 
 from data_pipeline.market_data import normalize_team_name
-from data_pipeline.team_registry import EXPECTED_TEAM_COUNTS, audit_registry, write_records
+from data_pipeline.team_registry import EXPECTED_TEAM_COUNTS, audit_registry, read_registry, write_records
 
 
 def stable_new_team_id(league: str, normalized_name: str) -> str:
@@ -15,7 +15,12 @@ def stable_new_team_id(league: str, normalized_name: str) -> str:
     return f"new-{digest}"
 
 
-def build_records(fixtures: pd.DataFrame, historical: pd.DataFrame, season: int) -> list[dict[str, object]]:
+def build_records(
+    fixtures: pd.DataFrame,
+    historical: pd.DataFrame,
+    season: int,
+    current_registry: list[dict[str, object]] | None = None,
+) -> list[dict[str, object]]:
     history = historical.copy()
     history["team_name_norm"] = history["team_name"].map(normalize_team_name)
     latest = history.sort_values(["season", "date"]).groupby(
@@ -42,6 +47,27 @@ def build_records(fixtures: pd.DataFrame, historical: pd.DataFrame, season: int)
                 "team_name": known["team_name"] if known else source_name,
             }
         )
+
+    seen = {(str(row["league"]), normalize_team_name(row["team_name"])) for row in records}
+    for row in current_registry or []:
+        league = str(row.get("league", ""))
+        normalized_name = normalize_team_name(row.get("team_name", ""))
+        key = (league, normalized_name)
+        if (
+            int(row.get("season", -1)) == season
+            and league in EXPECTED_TEAM_COUNTS
+            and normalized_name
+            and key not in seen
+        ):
+            records.append(
+                {
+                    "league": league,
+                    "season": season,
+                    "team_id": str(row.get("team_id", "")),
+                    "team_name": str(row.get("team_name", "")).strip(),
+                }
+            )
+            seen.add(key)
     return records
 
 
@@ -71,7 +97,8 @@ def main() -> None:
         ignore_index=True,
     )
     historical["date"] = pd.to_datetime(historical["date"])
-    records = build_records(fixtures, historical, args.season)
+    current_registry = read_registry(args.data_dir).get("teams", [])
+    records = build_records(fixtures, historical, args.season, current_registry)
     candidate = {"generated_at": None, "teams": records}
     audit = audit_registry(candidate, args.season)
     if audit["status"] != "ok":
