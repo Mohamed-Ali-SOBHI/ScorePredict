@@ -13,7 +13,7 @@ class StaticSiteStructureTests(unittest.TestCase):
         landing = (STATIC / "index.html").read_text(encoding="utf-8")
         self.assertIn('href="./dashboard.html"', landing)
         self.assertIn('src="./assets/landing.js?v=journal-6"', landing)
-        self.assertIn('href="./assets/landing.css?v=journal-13"', landing)
+        self.assertIn('href="./assets/landing.css?v=v11"', landing)
         self.assertNotIn('src="./assets/app.js', landing)
 
     def test_how_it_works_follows_the_hero_and_explains_the_filters(self) -> None:
@@ -24,12 +24,12 @@ class StaticSiteStructureTests(unittest.TestCase):
         self.assertLess(process_start, proof_start)
         self.assertIn('aria-label="Les cinq étapes du système"', landing)
         for copy in {
-            "Comment ça marche",
+            "La méthode",
             "L’IA propose.",
-            "Deux IA donnent leur avis.",
-            "Le score le plus bas est retenu.",
-            "Le filtre fait le tri.",
-            "Le calibrage concerne les seuils du filtre, pas les pourcentages de l’IA.",
+            "Double IA",
+            "Auto-censure",
+            "Value Betting",
+            "L'abstention",
         }:
             self.assertIn(copy, landing)
 
@@ -44,17 +44,10 @@ class StaticSiteStructureTests(unittest.TestCase):
     def test_landing_rivalry_carousel_keeps_the_dashboard_as_the_data_surface(self) -> None:
         landing = (STATIC / "index.html").read_text(encoding="utf-8")
         script = (STATIC / "assets" / "landing.js").read_text(encoding="utf-8")
-        for element_id in {
-            "match-object",
-            "object-primary",
-            "object-secondary",
-            "live-settled",
-            "live-return",
-            "memory-state",
-            "test-return",
-            "load-error",
-        }:
+        for element_id in {"match-object", "object-primary", "object-secondary"}:
             self.assertIn(f'id="{element_id}"', landing)
+        for dashboard_only_id in {"live-settled", "live-return", "memory-state", "test-return", "load-error"}:
+            self.assertNotIn(f'id="{dashboard_only_id}"', landing)
         self.assertIn("Grandes rivalités", landing)
         for club in {"FC Barcelone", "Real Madrid", "Liverpool", "Manchester City", "Arsenal", "Chelsea"}:
             self.assertIn(club, landing + script)
@@ -62,10 +55,9 @@ class StaticSiteStructureTests(unittest.TestCase):
         self.assertIn("visibilitychange", script)
         self.assertIn("prefers-reduced-motion", script)
         self.assertIn("Ouvrir le journal", landing)
-        self.assertIn("Le match d’abord.", landing)
-        self.assertIn("Le pari, parfois.", landing)
+        self.assertIn("Tu dois savoir quand jouer.", landing)
+        self.assertIn("Tu dois savoir quand ne pas jouer.", landing)
         self.assertNotIn("Le journal avant match", landing)
-        self.assertNotIn("Savoir quand", landing)
         self.assertNotIn("Les affiches qui font vibrer le football", landing)
         self.assertNotIn("carousel-controls", landing)
         self.assertNotIn("Démonstration", landing + script)
