@@ -7,6 +7,7 @@ import pandas as pd
 
 from inference.portfolio_presets import DEFAULT_PORTFOLIO_NAME
 from inference.result_monitor import (
+    refresh_pending_dates_from_snapshot,
     settle_due_predictions,
     understat_finished_results,
     update_public_snapshot,
@@ -84,6 +85,47 @@ class ResultMonitorTests(unittest.TestCase):
 
         self.assertEqual(updated.iloc[0]["result_status"], "pending")
         self.assertEqual(counters["due"], 0)
+
+    def test_public_kickoff_repairs_stale_supabase_time_before_result_check(self) -> None:
+        ledger = self._ledger()
+        ledger.loc[0, "date"] = "2026-08-22 19:30:00"
+        snapshot = {
+            "predictions": [
+                {
+                    "date": "2026-08-22T16:00:00+02:00",
+                    "league": "EPL",
+                    "homeTeam": "Ipswich",
+                    "awayTeam": "Sunderland",
+                }
+            ],
+            "activity": [],
+        }
+
+        refreshed, count = refresh_pending_dates_from_snapshot(ledger, snapshot)
+
+        self.assertEqual(count, 1)
+        self.assertEqual(refreshed.iloc[0]["date"], "2026-08-22T16:00:00+02:00")
+
+    def test_public_kickoff_never_rewrites_a_settled_prediction(self) -> None:
+        ledger = self._ledger()
+        ledger.loc[0, "date"] = "2026-08-22 19:30:00"
+        ledger.loc[0, "result_status"] = "lost"
+        snapshot = {
+            "predictions": [],
+            "activity": [
+                {
+                    "date": "2026-08-22T16:00:00+02:00",
+                    "league": "EPL",
+                    "homeTeam": "Ipswich",
+                    "awayTeam": "Sunderland",
+                }
+            ],
+        }
+
+        refreshed, count = refresh_pending_dates_from_snapshot(ledger, snapshot)
+
+        self.assertEqual(count, 0)
+        self.assertEqual(refreshed.iloc[0]["date"], "2026-08-22 19:30:00")
 
     def test_understat_history_is_a_finished_result_fallback(self) -> None:
         payload = {
