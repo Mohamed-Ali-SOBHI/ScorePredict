@@ -159,7 +159,7 @@ def infer_season(date_value: pd.Timestamp) -> int:
 
 
 def parse_sportsdb_fixture_times(payload: dict, *, league: str) -> pd.DataFrame:
-    """Convert TheSportsDB's UTC schedule to timezone-naive Europe/Paris times."""
+    """Convert TheSportsDB's UTC schedule and scores to Europe/Paris times."""
     fixtures = payload.get("events") or []
 
     rows: list[dict[str, object]] = []
@@ -180,11 +180,22 @@ def parse_sportsdb_fixture_times(payload: dict, *, league: str) -> pd.DataFrame:
                 "home_team_norm": normalize_team_name(home_name),
                 "away_team_norm": normalize_team_name(away_name),
                 "official_date": date.tz_convert(DISPLAY_TIMEZONE).tz_localize(None),
+                "status": str(fixture.get("strStatus") or "").strip().upper(),
+                "home_score": pd.to_numeric(fixture.get("intHomeScore"), errors="coerce"),
+                "away_score": pd.to_numeric(fixture.get("intAwayScore"), errors="coerce"),
             }
         )
     return pd.DataFrame(
         rows,
-        columns=["league", "home_team_norm", "away_team_norm", "official_date"],
+        columns=[
+            "league",
+            "home_team_norm",
+            "away_team_norm",
+            "official_date",
+            "status",
+            "home_score",
+            "away_score",
+        ],
     )
 
 
