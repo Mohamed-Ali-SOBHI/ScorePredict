@@ -42,6 +42,13 @@ def normalize_date_series(values: pd.Series) -> pd.Series:
     return pd.to_datetime(values, utc=True, format="mixed").dt.tz_localize(None).dt.normalize()
 
 
+def normalize_datetime(value: object) -> pd.Timestamp:
+    timestamp = pd.Timestamp(value)
+    if timestamp.tzinfo is not None:
+        timestamp = timestamp.tz_convert("Europe/Paris").tz_localize(None)
+    return timestamp
+
+
 def numeric_column(frame: pd.DataFrame, column: str, default: float) -> pd.Series:
     if column not in frame.columns:
         return pd.Series(default, index=frame.index, dtype="float64")
@@ -140,6 +147,7 @@ def prepare_ledger(
 
     prepared = ledger.copy()
     prepared["date"] = pd.to_datetime(prepared["date"], utc=True, format="mixed").dt.tz_localize(None)
+    prepared["kickoff_at"] = prepared["date"]
     prepared["match_date"] = prepared["date"].dt.normalize()
     prepared["home_team_norm"] = prepared["team_name"].map(normalize_team_name)
     prepared["away_team_norm"] = prepared["opponent_name"].map(normalize_team_name)
@@ -178,7 +186,8 @@ def evaluate_rows(
     results = results.copy()
     ledger["match_date"] = normalize_date_series(ledger["match_date"])
     results["match_date"] = normalize_date_series(results["match_date"])
-    as_of_date = normalize_date(as_of_date)
+    as_of_datetime = normalize_datetime(as_of_date)
+    as_of_date = as_of_datetime.normalize()
     merge_keys = ["league", "match_date", "home_team_norm", "away_team_norm"]
     evaluated = ledger.merge(results, on=merge_keys, how="left", validate="many_to_one")
     evaluated["match_found"] = evaluated["actual_outcome"].notna()
@@ -199,11 +208,17 @@ def evaluate_rows(
 
     latest_result_date = results["match_date"].max() if not results.empty else pd.NaT
     evaluated["result_status"] = "unmatched"
-    evaluated.loc[evaluated["match_date"] > as_of_date, "result_status"] = "pending"
+    kickoff_at = pd.to_datetime(
+        evaluated.get("kickoff_at", evaluated["match_date"]),
+        errors="coerce",
+        format="mixed",
+    ).fillna(evaluated["match_date"])
+    fixture_has_not_started = kickoff_at > as_of_datetime
+    evaluated.loc[fixture_has_not_started, "result_status"] = "pending"
     if pd.notna(latest_result_date):
         evaluated.loc[
             (~evaluated["match_found"])
-            & (evaluated["match_date"] <= as_of_date)
+            & (~fixture_has_not_started)
             & (evaluated["match_date"] > latest_result_date),
             "result_status",
         ] = "pending_data_refresh"
@@ -298,9 +313,9 @@ def main() -> None:
 
     freeze_date = normalize_date(args.freeze_date)
     as_of_date = (
-        normalize_date(args.as_of_date)
+        normalize_datetime(args.as_of_date)
         if args.as_of_date
-        else normalize_date(pd.Timestamp.today())
+        else pd.Timestamp.now(tz="Europe/Paris").tz_localize(None)
     )
 
     ledger = pd.read_csv(ledger_path)

@@ -87,6 +87,46 @@ class PredictionTrackingTests(unittest.TestCase):
         evaluated = evaluate_rows(ledger, results, as_of_date=pd.Timestamp("2026-08-11"))
         self.assertEqual(evaluated.iloc[0]["result_status"], "pending")
 
+    def test_same_day_prediction_stays_pending_before_kickoff(self) -> None:
+        ledger = pd.DataFrame(
+            [
+                {
+                    "date": "2026-08-22 16:00:00",
+                    "league": "EPL",
+                    "team_name": "Ipswich",
+                    "opponent_name": "Sunderland",
+                    "selected_outcome": "draw",
+                    "selected_odds": 3.5,
+                    "portfolio_name": PRODUCTION_PORTFOLIO_NAME,
+                    "recommended": True,
+                }
+            ]
+        )
+        results = pd.DataFrame(
+            [
+                {
+                    "league": "EPL",
+                    "match_date": pd.Timestamp("2026-05-24"),
+                    "home_team_norm": "arsenal",
+                    "away_team_norm": "liverpool",
+                    "actual_outcome": "draw",
+                }
+            ]
+        )
+        prepared = prepare_ledger(
+            ledger,
+            pd.Timestamp("2026-08-12"),
+            portfolio_name=PRODUCTION_PORTFOLIO_NAME,
+        )
+
+        evaluated = evaluate_rows(
+            prepared,
+            results,
+            as_of_date=pd.Timestamp("2026-08-22 14:30:00"),
+        )
+
+        self.assertEqual(evaluated.iloc[0]["result_status"], "pending")
+
     def test_finished_match_records_the_real_score_and_result(self) -> None:
         ledger = pd.DataFrame(
             [
