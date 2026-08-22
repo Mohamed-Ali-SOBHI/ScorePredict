@@ -172,13 +172,15 @@ function renderPredictions(data) {
   holder.innerHTML = predictions.map((prediction) => predictionMarkup(prediction)).join("");
 }
 
-function resultLabel(status) {
+function resultLabel(status, kickoffAt) {
   if (status === "won") return "Gagné";
   if (status === "lost") return "Perdu";
   if (status === "void") return "Annulé";
-  if (status === "pending_data_refresh") return "Résultat en cours";
+  const kickoff = new Date(kickoffAt).getTime();
+  if (Number.isFinite(kickoff) && kickoff > Date.now()) return "À venir";
+  if (status === "pending_data_refresh") return "Résultat à confirmer";
   if (status === "unmatched") return "Résultat à vérifier";
-  return "En attente";
+  return "Résultat en attente";
 }
 
 function renderTracking(data) {
@@ -225,7 +227,7 @@ function renderTracking(data) {
       <time datetime="${escapeHtml(row.date || "")}">${escapeHtml(formatDate(row.date))}</time>
       <strong>${escapeHtml(row.homeTeam)} — ${escapeHtml(row.awayTeam)}</strong>
       <span>${escapeHtml(row.outcomeLabel || "Choix publié")}${row.actualScore ? ` · score ${escapeHtml(row.actualScore)}` : ""}</span>
-      <b class="${row.status === "won" ? "won" : ""}">${resultLabel(row.status)}</b>
+      <b class="${row.status === "won" ? "won" : ""}">${resultLabel(row.status, row.date)}</b>
     </div>
   `).join("");
 }
