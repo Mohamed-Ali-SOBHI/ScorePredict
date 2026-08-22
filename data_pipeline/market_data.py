@@ -90,6 +90,7 @@ TEAM_NAME_ALIASES = {
     "hull city": "hull",
     "ipswich town": "ipswich",
     "sv elversberg": "elversberg",
+    "spvgg elversberg": "elversberg",
     "fc schalke 04": "schalke 04",
     "schalke": "schalke 04",
     "sc paderborn 07": "paderborn",

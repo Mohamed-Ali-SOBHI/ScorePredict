@@ -7,6 +7,7 @@ const integer = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 0 });
 const decimal = new Intl.NumberFormat("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const decimalOne = new Intl.NumberFormat("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 const percent = new Intl.NumberFormat("fr-FR", { style: "percent", maximumFractionDigits: 0 });
+const MATCH_TIMEZONE = "Europe/Paris";
 
 function setText(selector, value, root = document) {
   const element = $(selector, root);
@@ -37,6 +38,7 @@ function formatDate(value, withTime = false) {
   return new Intl.DateTimeFormat("fr-FR", {
     day: "numeric",
     month: "long",
+    timeZone: MATCH_TIMEZONE,
     ...(withTime ? { hour: "2-digit", minute: "2-digit" } : {}),
   }).format(date);
 }
@@ -45,13 +47,13 @@ function formatFullDate(value) {
   if (!value) return "—";
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "—";
-  return new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long", year: "numeric" }).format(date);
+  return new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long", year: "numeric", timeZone: MATCH_TIMEZONE }).format(date);
 }
 
 function formatChartDate(value) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "—";
-  return new Intl.DateTimeFormat("fr-FR", { day: "2-digit", month: "short", year: "numeric" }).format(date);
+  return new Intl.DateTimeFormat("fr-FR", { day: "2-digit", month: "short", year: "numeric", timeZone: MATCH_TIMEZONE }).format(date);
 }
 
 function escapeHtml(value) {

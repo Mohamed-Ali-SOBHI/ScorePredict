@@ -1,13 +1,19 @@
 from __future__ import annotations
 
+import gzip
+import json
 import os
 import re
 import shutil
 import subprocess
 import time
 from pathlib import Path
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
 
 import pandas as pd
+
+from data_pipeline.market_data import normalize_team_name
 
 
 SPORTYTRADER_LEAGUE_CONFIGS = {
@@ -55,6 +61,14 @@ MONTHS = {
     "Oct": 10,
     "Nov": 11,
     "Dec": 12,
+}
+DISPLAY_TIMEZONE = "Europe/Paris"
+THE_SPORTS_DB_LEAGUE_IDS = {
+    "EPL": "4328",
+    "Bundesliga": "4331",
+    "Serie_A": "4332",
+    "Ligue_1": "4334",
+    "La_liga": "4335",
 }
 
 
@@ -139,6 +153,131 @@ def parse_fixture_timestamp(raw: str, date_from: pd.Timestamp) -> pd.Timestamp:
     return pd.Timestamp(f"{year:04d}-{month:02d}-{int(day_str):02d} {time_part}:00")
 
 
+def infer_season(date_value: pd.Timestamp) -> int:
+    value = pd.Timestamp(date_value)
+    return value.year if value.month >= 7 else value.year - 1
+
+
+def parse_sportsdb_fixture_times(payload: dict, *, league: str) -> pd.DataFrame:
+    """Convert TheSportsDB's UTC schedule to timezone-naive Europe/Paris times."""
+    fixtures = payload.get("events") or []
+
+    rows: list[dict[str, object]] = []
+    for fixture in fixtures:
+        if not isinstance(fixture, dict):
+            continue
+        raw_date = fixture.get("strTimestamp")
+        home_name = str(fixture.get("strHomeTeam") or "").strip()
+        away_name = str(fixture.get("strAwayTeam") or "").strip()
+        if not raw_date or not home_name or not away_name:
+            continue
+        date = pd.to_datetime(raw_date, errors="coerce", utc=True)
+        if pd.isna(date):
+            continue
+        rows.append(
+            {
+                "league": league,
+                "home_team_norm": normalize_team_name(home_name),
+                "away_team_norm": normalize_team_name(away_name),
+                "official_date": date.tz_convert(DISPLAY_TIMEZONE).tz_localize(None),
+            }
+        )
+    return pd.DataFrame(
+        rows,
+        columns=["league", "home_team_norm", "away_team_norm", "official_date"],
+    )
+
+
+def fetch_sportsdb_fixture_times(
+    league: str,
+    season: int,
+    *,
+    timeout_seconds: float,
+) -> pd.DataFrame:
+    try:
+        league_id = THE_SPORTS_DB_LEAGUE_IDS[league]
+    except KeyError as exc:
+        raise KeyError(f"Unsupported TheSportsDB league: {league}") from exc
+
+    attempts = max(1, int(os.getenv("SCOREPREDICT_SCHEDULE_ATTEMPTS", "3")))
+    failures: list[str] = []
+    season_label = f"{season}-{season + 1}"
+    query = urlencode({"id": league_id, "s": season_label})
+    api_key = os.getenv("THESPORTSDB_API_KEY", "123").strip() or "123"
+    url = f"https://www.thesportsdb.com/api/v1/json/{api_key}/eventsseason.php?{query}"
+    for attempt in range(1, attempts + 1):
+        try:
+            request = Request(url, headers={"User-Agent": "Mozilla/5.0", "Accept": "application/json"})
+            with urlopen(request, timeout=timeout_seconds) as response:
+                body = response.read()
+                if response.headers.get("Content-Encoding") == "gzip" or body[:2] == b"\x1f\x8b":
+                    body = gzip.decompress(body)
+            payload = json.loads(body.decode("utf-8"))
+            return parse_sportsdb_fixture_times(payload, league=league)
+        except Exception as exc:
+            failures.append(f"tentative {attempt}: {exc}")
+            if attempt < attempts:
+                time.sleep(min(5, attempt * 2))
+    raise RuntimeError(
+        f"Unable to read reliable fixture times from TheSportsDB for {league} {season} "
+        f"after {attempts} attempt(s): {'; '.join(failures)}"
+    )
+
+
+def reconcile_fixture_times(fixtures: pd.DataFrame, official: pd.DataFrame) -> pd.DataFrame:
+    """Correct SportyTrader's server-local hours using a verified league offset."""
+    if fixtures.empty:
+        return fixtures.copy()
+
+    source = fixtures.copy()
+    source["home_team_norm"] = source["home_team"].map(normalize_team_name)
+    source["away_team_norm"] = source["away_team"].map(normalize_team_name)
+    official_rows = official.copy()
+    offsets_by_league: dict[str, pd.Timedelta] = {}
+
+    for league, league_fixtures in source.groupby("league"):
+        offsets: list[pd.Timedelta] = []
+        for fixture in league_fixtures.itertuples(index=False):
+            candidates = official_rows[
+                (official_rows["league"] == fixture.league)
+                & (official_rows["home_team_norm"] == fixture.home_team_norm)
+                & (official_rows["away_team_norm"] == fixture.away_team_norm)
+            ].copy()
+            if candidates.empty:
+                continue
+            candidates["distance"] = (
+                pd.to_datetime(candidates["official_date"]) - pd.Timestamp(fixture.date)
+            ).abs()
+            candidates = candidates[candidates["distance"] <= pd.Timedelta(days=2)]
+            if candidates.empty:
+                continue
+            official_date = pd.Timestamp(candidates.sort_values("distance").iloc[0]["official_date"])
+            offsets.append(official_date - pd.Timestamp(fixture.date))
+
+        if not offsets:
+            raise ValueError(
+                f"Unable to verify the Europe/Paris kickoff-time offset for {league}."
+            )
+        rounded_minutes = pd.Series(
+            [round(offset.total_seconds() / 60) for offset in offsets],
+            dtype="int64",
+        )
+        mode = rounded_minutes.mode()
+        if mode.empty:
+            raise ValueError(f"Unable to determine a stable kickoff-time offset for {league}.")
+        offset_minutes = int(mode.iloc[0])
+        agreement = int((rounded_minutes == offset_minutes).sum())
+        if agreement * 2 < len(rounded_minutes):
+            raise ValueError(
+                f"Official kickoff times disagree for {league}; refusing to publish uncertain hours."
+            )
+        offsets_by_league[str(league)] = pd.Timedelta(minutes=offset_minutes)
+
+    source["date"] = pd.to_datetime(source["date"]) + source["league"].map(offsets_by_league)
+    source["source"] = source["source"].astype(str) + "+sportsdb_timezone"
+    return source.drop(columns=["home_team_norm", "away_team_norm"])
+
+
 def parse_upcoming_fixtures(
     page_text: str,
     *,
@@ -218,12 +357,33 @@ def fetch_upcoming_league_fixtures(
         wait_seconds=wait_seconds,
         timeout_seconds=timeout_seconds,
     )
-    return parse_upcoming_fixtures(
+    verification_date_to = max(date_to, date_from + pd.Timedelta(days=60))
+    fixtures = parse_upcoming_fixtures(
         page_text,
         date_from=date_from,
-        date_to=date_to,
+        date_to=verification_date_to,
         league=league,
     )
+    if fixtures.empty:
+        return fixtures
+
+    seasons = {infer_season(date_from), infer_season(date_to)}
+    official = pd.concat(
+        [
+            fetch_sportsdb_fixture_times(
+                league,
+                season,
+                timeout_seconds=timeout_seconds,
+            )
+            for season in sorted(seasons)
+        ],
+        ignore_index=True,
+    )
+    corrected = reconcile_fixture_times(fixtures, official)
+    end_of_day = date_to + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
+    return corrected[
+        (corrected["date"] >= date_from) & (corrected["date"] <= end_of_day)
+    ].reset_index(drop=True)
 
 
 def fetch_upcoming_fixtures_for_leagues(

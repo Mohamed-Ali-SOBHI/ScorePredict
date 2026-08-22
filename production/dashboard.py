@@ -11,6 +11,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
+from zoneinfo import ZoneInfo
 
 
 LEAGUE_LABELS = {
@@ -34,6 +35,7 @@ PORTFOLIO_LABELS = {
     "experimental_draw_consensus_plus_anti_overconfidence_2025": "Sélection complémentaire",
     "production_draw_consensus_nonfavorite_2026_08_12": "Stratégie championne",
 }
+DISPLAY_TIMEZONE = ZoneInfo("Europe/Paris")
 
 
 def _float(value: Any, default: float = 0.0) -> float:
@@ -85,6 +87,18 @@ def _parse_date(value: Any) -> datetime | None:
 def _iso(value: Any) -> str | None:
     parsed = _parse_date(value)
     return parsed.isoformat() if parsed else None
+
+
+def _match_iso(value: Any) -> str | None:
+    """Serialize match times with an explicit Paris offset for every visitor."""
+    parsed = _parse_date(value)
+    if not parsed:
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=DISPLAY_TIMEZONE)
+    else:
+        parsed = parsed.astimezone(DISPLAY_TIMEZONE)
+    return parsed.isoformat()
 
 
 def _read_json(path: Path) -> dict[str, Any]:
@@ -471,7 +485,7 @@ class DashboardService:
             )
             prediction = {
                     "id": hashlib.sha1(identity.encode("utf-8")).hexdigest()[:12],
-                    "date": match_date.isoformat() if match_date else str(row.get("date", "")),
+                    "date": _match_iso(match_date) or str(row.get("date", "")),
                     "league": row.get("league", ""),
                     "leagueLabel": LEAGUE_LABELS.get(row.get("league", ""), row.get("league", "")),
                     "homeTeam": row.get("team_name", ""),
@@ -686,7 +700,7 @@ class DashboardService:
             activity.append(
                 {
                     "id": hashlib.sha1(identity).hexdigest()[:12],
-                    "date": _iso(row.get("date")) or row.get("date"),
+                    "date": _match_iso(row.get("date")) or row.get("date"),
                     "league": row.get("league", ""),
                     "leagueLabel": LEAGUE_LABELS.get(row.get("league", ""), row.get("league", "")),
                     "homeTeam": row.get("team_name", ""),

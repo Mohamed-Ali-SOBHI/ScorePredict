@@ -82,7 +82,7 @@ class StaticSiteStructureTests(unittest.TestCase):
         }
         for element_id in required_ids:
             self.assertIn(f'id="{element_id}"', dashboard)
-        self.assertIn('src="./assets/app.js?v=27"', dashboard)
+        self.assertIn('src="./assets/app.js?v=28"', dashboard)
         self.assertIn('href="./assets/styles.css?v=27"', dashboard)
         for removed_copy in {
             "Lecture du choix",

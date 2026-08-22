@@ -24,6 +24,7 @@ class MarketDataTests(unittest.TestCase):
             "Atl. Madrid": "atletico madrid",
             "Dep. A Coruna": "deportivo la coruna",
             "Santander": "racing santander",
+            "Spvgg Elversberg": "elversberg",
         }
 
         for source_name, expected_name in expected_names.items():
