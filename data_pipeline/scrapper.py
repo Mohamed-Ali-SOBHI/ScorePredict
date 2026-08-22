@@ -24,12 +24,102 @@ REPO_ROOT = os.path.dirname(SCRIPT_DIR)
 if REPO_ROOT not in sys.path:
     sys.path.append(REPO_ROOT)
 
-from data_pipeline.market_data import enrich_team_rows_with_market_data
-from data_pipeline.team_registry import write_registry
+from data_pipeline.market_data import enrich_team_rows_with_market_data, normalize_team_name
+from data_pipeline.team_registry import read_registry, write_registry
 
 
 DEFAULT_LEAGUES = ["La_liga", "Bundesliga", "EPL", "Serie_A", "Ligue_1"]
 DEFAULT_SEASONS = ["2025", "2024", "2023", "2022", "2021", "2020", "2019", "2018", "2017", "2016", "2015", "2014"]
+
+
+def _fixture_team_titles(payload):
+    """Return the reliable team id/title pairs exposed in fixture metadata."""
+    fixtures = payload.get("dates") or []
+    if isinstance(fixtures, dict):
+        fixtures = fixtures.values()
+
+    titles = {}
+    for fixture in fixtures:
+        if not isinstance(fixture, dict):
+            continue
+        for side in ("h", "a"):
+            team = fixture.get(side)
+            if not isinstance(team, dict):
+                continue
+            team_id = team.get("id") or team.get("team_id")
+            title = str(team.get("title") or "").strip()
+            if team_id is not None and title:
+                titles[str(team_id)] = title
+    return titles
+
+
+def normalize_understat_teams(payload, fallback_titles=None):
+    """Normalize partial Understat team payloads without inventing club names.
+
+    Understat occasionally omits ``id`` or ``title`` from a team row after a
+    match while keeping the same metadata in ``dates``. The current-season
+    registry is also used to preserve clubs that have not played yet.
+    """
+    if not isinstance(payload, dict):
+        raise ValueError("Understat league payload must be an object")
+
+    raw_teams = payload.get("teams")
+    if not isinstance(raw_teams, (dict, list)):
+        raise ValueError("Understat league payload has no usable teams collection")
+
+    fixture_titles = _fixture_team_titles(payload)
+    registered_titles = {
+        str(team_id): str(title).strip()
+        for team_id, title in (fallback_titles or {}).items()
+        if team_id is not None and str(title).strip()
+    }
+    known_titles = {**registered_titles, **fixture_titles}
+    entries = raw_teams.items() if isinstance(raw_teams, dict) else ((None, team) for team in raw_teams)
+    normalized = {}
+
+    for key, raw_team in entries:
+        if not isinstance(raw_team, dict):
+            raise ValueError(f"Understat team payload is not an object: {raw_team!r}")
+        team = dict(raw_team)
+        team_id = team.get("id") or team.get("team_id") or key
+        if team_id is None:
+            raise ValueError(f"Understat team payload has no id: {raw_team}")
+        team_id = str(team_id)
+        title = str(team.get("title") or known_titles.get(team_id) or "").strip()
+        if not title:
+            raise ValueError(f"Understat team {team_id} has no title in teams, dates, or the current registry")
+        history = team.get("history")
+        if history is None:
+            history = []
+        if not isinstance(history, list):
+            raise ValueError(f"Understat team {team_id} has an invalid history collection")
+        team.update({"id": team_id, "title": title, "history": history})
+        normalized[team_id] = team
+
+    # Early in a season Understat may expose only teams that already played.
+    # Keep fixture and registered clubs with empty histories so the registry
+    # remains complete without creating synthetic match rows.
+    normalized_names = {normalize_team_name(team["title"]) for team in normalized.values()}
+    for team_id, title in known_titles.items():
+        normalized_title = normalize_team_name(title)
+        if team_id in normalized or normalized_title in normalized_names:
+            continue
+        normalized[team_id] = {"id": team_id, "title": title, "history": []}
+        normalized_names.add(normalized_title)
+
+    return normalized
+
+
+def _current_registry_titles(league, season):
+    registry = read_registry(os.path.join(REPO_ROOT, "Data"))
+    return {
+        str(row.get("team_id")): str(row.get("team_name") or "").strip()
+        for row in registry.get("teams", [])
+        if str(row.get("league")) == str(league)
+        and str(row.get("season")) == str(season)
+        and row.get("team_id") is not None
+        and str(row.get("team_name") or "").strip()
+    }
 
 
 def get_league_data(league, season, base_url="https://understat.com"):
@@ -55,18 +145,10 @@ def get_league_data(league, season, base_url="https://understat.com"):
             if response.headers.get("Content-Encoding") == "gzip" or body[:2] == b"\x1f\x8b":
                 body = gzip.decompress(body)
             payload = json.loads(body.decode("utf-8"))
-    # Keep the same shape as the older scraper: a dict of team_id -> team_data.
-    # The current endpoint returns a list for seasons that have not started yet.
-    teams = payload["teams"]
-    if isinstance(teams, list):
-        normalized = {}
-        for team in teams:
-            team_id = team.get("id") or team.get("team_id")
-            if team_id is None:
-                raise ValueError(f"Understat team payload has no id: {team}")
-            normalized[str(team_id)] = team
-        return normalized
-    return teams
+    return normalize_understat_teams(
+        payload,
+        fallback_titles=_current_registry_titles(league, season),
+    )
 
 
 def get_all_league_data(seasons, leagues, base_url):
