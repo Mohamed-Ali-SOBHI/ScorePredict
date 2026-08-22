@@ -3,6 +3,7 @@ from __future__ import annotations
 import gzip
 from io import StringIO
 import re
+import time
 import unicodedata
 from urllib.request import Request, urlopen
 
@@ -124,6 +125,10 @@ CONSENSUS_MARKET_COLS = [
 ]
 
 
+class MarketDataUnavailableError(RuntimeError):
+    """Raised when football-data has not published a usable league CSV yet."""
+
+
 def is_home_mask(values: pd.Series) -> pd.Series:
     if pd.api.types.is_bool_dtype(values):
         return values.fillna(False)
@@ -136,6 +141,40 @@ def normalize_team_name(name: object) -> str:
     text = re.sub(r"[^a-z0-9]+", " ", text)
     text = re.sub(r"\s+", " ", text).strip()
     return TEAM_NAME_ALIASES.get(text, text)
+
+
+def _raise_for_unmatched_market_rows(
+    home_rows: pd.DataFrame,
+    market: pd.DataFrame,
+    missing_match_ids: list[str],
+) -> None:
+    """Distinguish a delayed source file from a genuine team/date mismatch."""
+    missing_rows = home_rows[home_rows["match_id"].isin(missing_match_ids)].copy()
+    latest_dates = (
+        market.groupby(["league", "season"], as_index=False)["market_match_date"]
+        .max()
+        .rename(columns={"market_match_date": "latest_market_date"})
+    )
+    missing_rows = missing_rows.merge(latest_dates, on=["league", "season"], how="left")
+
+    today = pd.Timestamp.now()
+    current_season = today.year if today.month >= 7 else today.year - 1
+    source_is_behind = (
+        (missing_rows["season"] >= current_season)
+        & missing_rows["latest_market_date"].notna()
+        & (missing_rows["match_date"] > missing_rows["latest_market_date"])
+    )
+    if not missing_rows.empty and source_is_behind.all():
+        latest = missing_rows["latest_market_date"].max().date()
+        raise MarketDataUnavailableError(
+            f"Official market CSV is only current through {latest}; "
+            f"{len(missing_match_ids)} newer match(es) deferred"
+        )
+
+    sample = ", ".join(missing_match_ids[:5])
+    raise ValueError(
+        f"Failed to match market data for {len(missing_match_ids)} matches. Sample: {sample}"
+    )
 
 
 def season_to_code(season: int) -> str:
@@ -173,6 +212,59 @@ def parse_market_dates(values: pd.Series) -> pd.Series:
     return parsed.dt.normalize()
 
 
+def parse_market_csv_text(csv_text: str, source_url: str) -> pd.DataFrame:
+    """Parse a football-data CSV only after rejecting HTML/error responses."""
+    stripped = str(csv_text or "").lstrip("\ufeff\r\n\t ")
+    if not stripped or stripped.lower().startswith(("<!doctype html", "<html")):
+        raise MarketDataUnavailableError(f"Market CSV unavailable at {source_url}")
+    try:
+        frame = pd.read_csv(StringIO(csv_text))
+    except pd.errors.ParserError as exc:
+        raise MarketDataUnavailableError(f"Invalid market CSV at {source_url}") from exc
+
+    required = {"Date", "HomeTeam", "AwayTeam", "HS", "AS"}
+    missing = sorted(required - set(frame.columns))
+    if missing:
+        raise MarketDataUnavailableError(
+            f"Market CSV at {source_url} is missing columns: {', '.join(missing)}"
+        )
+    return frame
+
+
+def _download_market_csv(url: str, session, attempts: int = 3) -> str:
+    last_error = None
+    for attempt in range(1, attempts + 1):
+        try:
+            if session is not None:
+                response = session.get(url, timeout=30)
+                if response.status_code != 200:
+                    if response.status_code < 500 and response.status_code != 429:
+                        raise MarketDataUnavailableError(
+                            f"Market CSV unavailable at {url} (HTTP {response.status_code})"
+                        )
+                    response.raise_for_status()
+                return response.text
+
+            request = Request(url, headers={"User-Agent": "Mozilla/5.0"})
+            with urlopen(request, timeout=30) as response:
+                if getattr(response, "status", 200) != 200:
+                    raise MarketDataUnavailableError(
+                        f"Market CSV unavailable at {url} (HTTP {response.status})"
+                    )
+                body = response.read()
+                if response.headers.get("Content-Encoding") == "gzip" or body[:2] == b"\x1f\x8b":
+                    body = gzip.decompress(body)
+                return body.decode("utf-8")
+        except MarketDataUnavailableError:
+            raise
+        except Exception as exc:  # Network errors are retried, then treated as unavailable.
+            last_error = exc
+            if attempt < attempts:
+                time.sleep(attempt)
+
+    raise MarketDataUnavailableError(f"Market CSV unavailable at {url} after {attempts} attempts") from last_error
+
+
 def load_market_data(
     leagues: set[str],
     seasons: set[int],
@@ -191,23 +283,17 @@ def load_market_data(
         session.headers.update({"User-Agent": "Mozilla/5.0"})
 
     frames: list[pd.DataFrame] = []
+    unavailable: list[str] = []
     for league in sorted(leagues):
         league_code = LEAGUE_TO_FOOTBALL_DATA_CODE[league]
         for season in sorted(seasons):
             url = f"https://www.football-data.co.uk/mmz4281/{season_to_code(season)}/{league_code}.csv"
-            if session is not None:
-                response = session.get(url, timeout=30)
-                response.raise_for_status()
-                csv_text = response.text
-            else:
-                request = Request(url, headers={"User-Agent": "Mozilla/5.0"})
-                with urlopen(request, timeout=30) as response:
-                    body = response.read()
-                    if response.headers.get("Content-Encoding") == "gzip" or body[:2] == b"\x1f\x8b":
-                        body = gzip.decompress(body)
-                    csv_text = body.decode("utf-8")
-
-            raw_frame = pd.read_csv(StringIO(csv_text))
+            try:
+                csv_text = _download_market_csv(url, session)
+                raw_frame = parse_market_csv_text(csv_text, url)
+            except MarketDataUnavailableError as exc:
+                unavailable.append(str(exc))
+                continue
             derived_columns = {
                 "league": league,
                 "season": int(season),
@@ -290,6 +376,11 @@ def load_market_data(
                 frame[selected_columns].copy()
             )
 
+    if unavailable:
+        raise MarketDataUnavailableError("; ".join(unavailable))
+    if not frames:
+        raise MarketDataUnavailableError("No market CSV was available for the requested leagues and seasons")
+
     market = pd.concat(frames, ignore_index=True)
     market = market.dropna(subset=["market_match_date", "home_team_norm", "away_team_norm"])
     return market
@@ -350,8 +441,7 @@ def build_match_market_table(
 
     missing = sorted(set(home_rows["match_id"]) - set(matched["match_id"]))
     if missing:
-        sample = ", ".join(missing[:5])
-        raise ValueError(f"Failed to match market data for {len(missing)} matches. Sample: {sample}")
+        _raise_for_unmatched_market_rows(home_rows, market, missing)
 
     output_cols = MATCH_MARKET_COLS
     if include_closing:
