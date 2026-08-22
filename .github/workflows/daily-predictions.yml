@@ -79,10 +79,10 @@ jobs:
           if ($dashboard.quality.protocol.topExperiment -ne "draw_consensus_nonfavorite") { throw "L'audit ne reference pas le champion valide." }
 
       - name: Preparer GitHub Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       - name: Charger le site valide
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           path: production/static
 
@@ -109,4 +109,4 @@ jobs:
     steps:
       - name: Publier sur GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
