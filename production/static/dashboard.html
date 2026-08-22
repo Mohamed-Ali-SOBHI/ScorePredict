@@ -6,11 +6,11 @@
   <meta name="theme-color" content="#f4f6f1">
   <meta name="description" content="Les choix football réellement retenus par ScorePredict, leur suivi et les résultats des essais sur les saisons passées.">
   <meta property="og:title" content="ScorePredict — Tableau de bord">
-  <meta property="og:description" content="Le choix du jour, les résultats vérifiés et les repères de prudence expliqués simplement.">
+  <meta property="og:description" content="Les matchs à venir et les résultats vérifiés de ScorePredict.">
   <meta property="og:image" content="./assets/media/stadium-documentary.webp">
   <title>Tableau de bord — ScorePredict</title>
   <link rel="icon" href="./assets/brand/scorepredict-mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/styles.css?v=26">
+  <link rel="stylesheet" href="./assets/styles.css?v=27">
 </head>
 <body>
   <a class="skip-link" href="#main">Aller au contenu</a>
@@ -28,11 +28,6 @@
         <a href="#suivi">Suivi réel</a>
       </nav>
 
-      <div class="header-status">
-        <span class="status-dot" aria-hidden="true"></span>
-        <span id="header-state">Actualisation en cours</span>
-      </div>
-
       <button class="menu-button" id="menu-button" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Ouvrir le menu">
         <span></span><span></span>
       </button>
@@ -47,36 +42,11 @@
   <main id="main">
     <section class="today-section" id="pronostic" aria-labelledby="hero-title">
       <div class="page-shell">
-        <div class="edition-line">
-          <span>Journal de décision</span>
-          <time id="published-time">Mise à jour automatique</time>
-          <span>Saison <b id="current-season">2026/27</b></span>
-        </div>
-
         <header class="workspace-title" data-reveal>
-          <div>
-            <p class="section-label">Décision du jour</p>
-            <h1 id="hero-title">Vue du jour</h1>
-          </div>
-          <p id="analysis-summary">Lecture des rencontres disponibles…</p>
+          <h1 id="hero-title">Matchs à venir</h1>
         </header>
 
         <div class="today-grid">
-          <aside class="scan-summary" aria-label="Résumé de l’analyse" data-reveal>
-            <div class="scan-counts">
-              <div>
-                <strong id="analysis-total">0</strong>
-                <span>matchs examinés</span>
-              </div>
-              <div class="retained-count">
-                <strong id="analysis-retained">0</strong>
-                <span id="retained-label">pari retenu</span>
-              </div>
-            </div>
-            <p>Seuls les matchs qui franchissent tous les contrôles apparaissent ici. Ne rien publier est aussi une décision.</p>
-            <a class="text-link" href="#suivi">Voir le suivi réel <span aria-hidden="true">↓</span></a>
-          </aside>
-
           <div class="decision-stage">
             <div class="pick-list" id="pick-list" aria-live="polite">
               <article class="prediction prediction-loading" aria-label="Chargement du choix">
@@ -98,14 +68,10 @@
 
     <section class="live-section" id="suivi" aria-labelledby="tracking-title">
       <div class="page-shell">
-        <header class="section-heading split-heading" data-reveal>
+        <header class="section-heading" data-reveal>
           <div>
             <p class="section-label">Depuis la mise en ligne</p>
             <h2 id="tracking-title">Ce qui s’est vraiment passé.</h2>
-          </div>
-          <div class="memory-state">
-            <span class="memory-dot" id="memory-dot" aria-hidden="true"></span>
-            <div><strong id="memory-title">Vérification de l’historique…</strong><p id="memory-copy">Chargement des résultats enregistrés.</p></div>
           </div>
         </header>
 
@@ -138,12 +104,12 @@
           <img src="./assets/brand/scorepredict-logo-imagegen-v2.png" width="1693" height="929" alt="">
         </span>
       </a>
-      <p>Journal actualisé automatiquement. Chaque décision publiée est datée.</p>
+      <p>Mise à jour automatique chaque matin.</p>
       <p>© <span id="current-year">2026</span> ScorePredict</p>
     </div>
   </footer>
 
   <div class="load-error" id="load-error" role="status" hidden>Les données du jour sont momentanément indisponibles. La dernière vue ne peut pas être confirmée.</div>
-  <script type="module" src="./assets/app.js?v=26"></script>
+  <script type="module" src="./assets/app.js?v=27"></script>
 </body>
 </html>

@@ -70,12 +70,9 @@ class StaticSiteStructureTests(unittest.TestCase):
 
     def test_dashboard_keeps_the_dynamic_application_contract(self) -> None:
         dashboard = (STATIC / "dashboard.html").read_text(encoding="utf-8")
+        script = (STATIC / "assets" / "app.js").read_text(encoding="utf-8")
         required_ids = {
-            "header-state",
-            "published-time",
-            "current-season",
             "hero-title",
-            "analysis-summary",
             "pick-list",
             "no-pick",
             "result-list",
@@ -85,15 +82,22 @@ class StaticSiteStructureTests(unittest.TestCase):
         }
         for element_id in required_ids:
             self.assertIn(f'id="{element_id}"', dashboard)
-        self.assertIn('src="./assets/app.js?v=26"', dashboard)
-        self.assertIn('href="./assets/styles.css?v=26"', dashboard)
+        self.assertIn('src="./assets/app.js?v=27"', dashboard)
+        self.assertIn('href="./assets/styles.css?v=27"', dashboard)
         for removed_copy in {
             "Lecture du choix",
             "Essais sur les saisons passées",
             "Comment une décision est publiée",
             "À garder en tête",
+            "Historique permanent actif",
+            "Données du jour prêtes",
+            "décision publiée",
+            "Choix du jour",
+            "matchs examinés",
+            "paris retenus",
+            "Journal de décision",
         }:
-            self.assertNotIn(removed_copy, dashboard)
+            self.assertNotIn(removed_copy, dashboard + script)
 
 
 if __name__ == "__main__":

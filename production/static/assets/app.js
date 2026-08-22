@@ -124,12 +124,10 @@ async function fetchDashboard() {
 
 function predictionMarkup(prediction) {
   const league = prediction.leagueLabel || prediction.league || "Championnat";
-  const timing = prediction.isCurrentRecommendation === false ? "Déjà publié" : "Choix du jour";
-  const heading = `${timing} · ${league}`;
   return `
     <article class="prediction">
       <div class="prediction-head">
-        <span>${escapeHtml(heading)} · décision publiée</span>
+        <span>${escapeHtml(league)}</span>
         <time datetime="${escapeHtml(prediction.date)}">${escapeHtml(formatDate(prediction.date, true))}</time>
       </div>
       <div class="teams">
@@ -155,16 +153,6 @@ function predictionMarkup(prediction) {
     </article>`;
 }
 
-function renderMeta(data) {
-  const seasonStart = numberOrNull(data.meta.currentSeason);
-  const season = Number.isInteger(seasonStart) ? `${seasonStart}/${String(seasonStart + 1).slice(-2)}` : "—";
-  const ready = data.meta.status === "ready";
-  setText("#current-season", season);
-  setText("#header-state", ready ? "Données du jour prêtes" : "Préparation en cours");
-  setText("#published-time", `Mis à jour le ${formatDate(data.meta.generatedAt, true)}`);
-  $(".status-dot")?.classList.toggle("ready", ready);
-}
-
 function resetNoPickCopy() {
   setText(".no-pick .section-label", "Décision enregistrée");
   setText(".no-pick strong", "Aucun pari recommandé aujourd’hui.");
@@ -174,50 +162,12 @@ function resetNoPickCopy() {
 
 function renderPredictions(data) {
   const predictions = data.predictions;
-  const currentRecommendations = numberOrNull(data.summary.currentRecommendations) ?? predictions.length;
   const holder = $("#pick-list");
   const hasPredictions = predictions.length > 0;
   holder.hidden = !hasPredictions;
   $("#no-pick").hidden = hasPredictions;
   resetNoPickCopy();
-  setText("#analysis-total", integer.format(data.summary.scoredFixtures));
-  setText("#analysis-retained", integer.format(currentRecommendations));
-  setText("#retained-label", currentRecommendations > 1 ? "paris retenus" : "pari retenu");
-  setText("#hero-title", "Matchs à venir");
-  setText(
-    "#analysis-summary",
-    hasPredictions
-      ? `${integer.format(data.summary.scoredFixtures)} matchs ont été examinés. ${integer.format(currentRecommendations)} choix du jour, ${integer.format(predictions.length)} pari${predictions.length > 1 ? "s" : ""} encore à jouer.`
-      : `${integer.format(data.summary.scoredFixtures)} matchs ont été examinés. Aucun pari n’est recommandé aujourd’hui.`,
-  );
   holder.innerHTML = predictions.map((prediction) => predictionMarkup(prediction)).join("");
-}
-
-function renderExplanation(data) {
-  const prediction = data.predictions.find((item) => item.isCurrentRecommendation !== false);
-  const retained = numberOrNull(data.summary.currentRecommendations) ?? data.predictions.length;
-  setText("#analysis-total", integer.format(data.summary.scoredFixtures));
-  setText("#analysis-retained", integer.format(retained));
-  setText("#retained-label", retained > 1 ? "paris retenus" : "pari retenu");
-  $("#why-panel")?.classList.toggle("without-pick", !prediction);
-
-  if (!prediction) {
-    setText("#why-title", "Aucune différence suffisante aujourd’hui.");
-    setText("#why-copy", "Les estimations disponibles ne justifient pas la publication d’un pari.");
-    return;
-  }
-
-  setText("#why-title", "Pourquoi ce choix a-t-il été retenu ?");
-  setText("#why-copy", "Notre méthode a classé cette décision au-dessus de ses seuils de publication. L’indice sert à trier les matchs, pas à promettre un résultat.");
-  setText("#gap-explanation", "Cet indice interne n’est pas une probabilité de réussite.");
-  setText("#model-chance", `${integer.format(prediction.modelProbability * 100)} / 100`);
-  setText("#market-chance", "—");
-  setText("#odds-value", decimal.format(prediction.odds));
-  setText("#stake-value", `${decimal.format(prediction.stakeEur)} €`);
-  const maxPastDrop = numberOrNull(data.performance?.metrics?.maxDrawdown);
-  setText("#risk-value", maxPastDrop === null ? "—" : `${decimal.format(Math.abs(maxPastDrop))} mises`);
-  $("#model-bar").style.width = `${Math.min(100, prediction.modelProbability * 100)}%`;
-  $("#market-bar").style.width = "0%";
 }
 
 function resultLabel(status) {
@@ -240,15 +190,6 @@ function renderTracking(data) {
   setText("#tracking-verified", integer.format(verified));
   setText("#tracking-won", integer.format(won));
   setText("#tracking-lost", integer.format(lost));
-  setText("#memory-title", tracking.storageReady ? "Historique permanent actif" : "Historique local seulement");
-  setText(
-    "#memory-copy",
-    tracking.storageReady
-      ? "Les décisions et leurs résultats sont conservés entre chaque mise à jour."
-      : "Le suivi fonctionne ici, mais la conservation en ligne n’est pas encore confirmée.",
-  );
-  $("#memory-dot")?.classList.toggle("ready", Boolean(tracking.storageReady));
-
   const liveReturnBlock = $("#live-return-block");
   liveReturnBlock?.classList.remove("calculated", "negative");
   if (verified > 0) {
@@ -599,7 +540,6 @@ function renderPerformance(data) {
 }
 
 function renderDashboard(data) {
-  renderMeta(data);
   const ready = data.meta.status === "ready";
   const fresh = publicationIsFresh(data.meta.generatedAt);
   if (ready && fresh) {
@@ -612,13 +552,9 @@ function renderDashboard(data) {
       predictions: [],
     };
     renderPredictions(withoutCurrentDecision);
-    setText("#header-state", ready ? "Mise à jour attendue" : "Préparation en cours");
-    setText("#published-time", `Dernière publication le ${formatDate(data.meta.generatedAt, true)}`);
-    setText("#analysis-summary", ready ? "La publication quotidienne n’est pas assez récente pour confirmer la décision du jour." : "Les données ne sont pas encore prêtes à confirmer la décision du jour.");
     setText(".no-pick .section-label", ready ? "Publication à actualiser" : "Préparation en cours");
     setText(".no-pick strong", "Aucun ancien choix n’est présenté comme actuel.");
     setText(".no-pick > p:last-child", "Le tableau de bord réessaie automatiquement et affichera la prochaine décision confirmée.");
-    $(".status-dot")?.classList.remove("ready");
     $("#load-error").textContent = ready
       ? "La dernière publication a plus de 24 heures. La décision du jour est masquée jusqu’à la prochaine mise à jour."
       : "Les données du jour sont encore en préparation. Aucun choix n’est présenté avant leur validation.";
@@ -629,8 +565,6 @@ function renderDashboard(data) {
 
 function renderLoadError() {
   $("#load-error").hidden = false;
-  setText("#header-state", "Données indisponibles");
-  setText("#analysis-summary", "Impossible de confirmer les données du jour pour le moment.");
   $("#pick-list").hidden = true;
   $("#no-pick").hidden = false;
   $("#no-pick")?.classList.add("error-state");
