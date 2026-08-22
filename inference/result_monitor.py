@@ -217,6 +217,48 @@ def active_recommended_rows(ledger: pd.DataFrame, portfolio_name: str) -> pd.Dat
     return ledger.loc[recommended & (portfolio == portfolio_name)].copy()
 
 
+def refresh_pending_dates_from_snapshot(
+    ledger: pd.DataFrame,
+    snapshot: dict[str, Any],
+) -> tuple[pd.DataFrame, int]:
+    """Use the verified public kickoff when Supabase still holds an older time."""
+    updated = ledger.copy()
+    if updated.empty:
+        return updated, 0
+
+    def fixture_key(league: object, home: object, away: object) -> tuple[str, str, str]:
+        return (
+            str(league or ""),
+            normalize_team_name(home),
+            normalize_team_name(away),
+        )
+
+    public_dates: dict[tuple[str, str, str], object] = {}
+    # Predictions contain the latest reconciled kickoff. Activity is a fallback
+    # for a published match that has already left the upcoming list.
+    for collection in ("predictions", "activity"):
+        for item in snapshot.get(collection, []) or []:
+            date = item.get("date")
+            if not date:
+                continue
+            key = fixture_key(item.get("league"), item.get("homeTeam"), item.get("awayTeam"))
+            public_dates.setdefault(key, date)
+
+    statuses = updated.get("result_status", pd.Series("pending", index=updated.index)).astype(str).str.lower()
+    refreshed = 0
+    for index in updated.index[~statuses.isin(TERMINAL_RESULT_STATUSES)]:
+        row = updated.loc[index]
+        key = fixture_key(row.get("league"), row.get("team_name"), row.get("opponent_name"))
+        public_date = public_dates.get(key)
+        if public_date is None:
+            continue
+        if paris_datetime(row.get("date")) == paris_datetime(public_date):
+            continue
+        updated.at[index, "date"] = str(public_date)
+        refreshed += 1
+    return updated, refreshed
+
+
 def update_public_snapshot(
     snapshot: dict[str, Any],
     ledger: pd.DataFrame,
@@ -408,6 +450,8 @@ def main() -> None:
     snapshot_path = Path(args.snapshot).resolve()
     status_path = Path(args.status_output).resolve()
     ledger = pd.read_csv(ledger_path)
+    snapshot = json.loads(snapshot_path.read_text(encoding="utf-8-sig"))
+    ledger, refreshed_dates = refresh_pending_dates_from_snapshot(ledger, snapshot)
     now = (
         paris_datetime(args.as_of)
         if args.as_of
@@ -428,10 +472,9 @@ def main() -> None:
         portfolio_name=args.portfolio,
     )
 
-    changed = counters["settled"] > 0
+    changed = counters["settled"] > 0 or refreshed_dates > 0
     if changed:
         updated.to_csv(ledger_path, index=False)
-        snapshot = json.loads(snapshot_path.read_text(encoding="utf-8-sig"))
         patched = update_public_snapshot(
             snapshot,
             updated,
@@ -443,6 +486,7 @@ def main() -> None:
     status_path.parent.mkdir(parents=True, exist_ok=True)
     status = {
         "changed": changed,
+        "kickoffTimesRefreshed": refreshed_dates,
         **counters,
         "checkedAtParis": now.isoformat(),
         "warnings": warnings,
