@@ -203,15 +203,16 @@ function renderTracking(data) {
   if (verified > 0) {
     const profit = numberOrNull(performanceLive.profitUnits) ?? numberOrNull(data.summary.liveProfitUnits);
     const returnForHundred = numberOrNull(performanceLive["roi"]) ?? numberOrNull(data.summary.liveRoi);
-    setText("#live-return", profit === null ? "Calcul indisponible" : `${signed(profit)} ${Math.abs(profit) === 1 ? "mise" : "mises"}`);
+    const returnPercent = returnForHundred === null ? null : returnForHundred * 100;
+    setText("#live-return", returnPercent === null ? "Rendement indisponible" : `${signed(returnPercent, decimalOne)} %`);
     setText(
       "#live-return-copy",
-      returnForHundred === null
-        ? `${integer.format(verified)} match${verified > 1 ? "s" : ""} terminé${verified > 1 ? "s" : ""}.`
-        : `${signed(returnForHundred * 100, decimalOne)} pour 100 mises identiques.`,
+      profit === null
+        ? `Calculé après ${integer.format(verified)} pari${verified > 1 ? "s" : ""} terminé${verified > 1 ? "s" : ""}.`
+        : `Soit ${signed(profit)} ${Math.abs(profit) === 1 ? "mise" : "mises"} après ${integer.format(verified)} pari${verified > 1 ? "s" : ""} terminé${verified > 1 ? "s" : ""}.`,
     );
     liveReturnBlock?.classList.add("calculated");
-    if (profit !== null && profit < 0) liveReturnBlock?.classList.add("negative");
+    if ((returnPercent ?? profit) < 0) liveReturnBlock?.classList.add("negative");
   } else {
     setText("#live-return", "Pas encore calculable");
     setText("#live-return-copy", "Le calcul commencera après le premier match terminé.");
