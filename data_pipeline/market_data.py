@@ -143,6 +143,40 @@ def normalize_team_name(name: object) -> str:
     return TEAM_NAME_ALIASES.get(text, text)
 
 
+def _raise_for_unmatched_market_rows(
+    home_rows: pd.DataFrame,
+    market: pd.DataFrame,
+    missing_match_ids: list[str],
+) -> None:
+    """Distinguish a delayed source file from a genuine team/date mismatch."""
+    missing_rows = home_rows[home_rows["match_id"].isin(missing_match_ids)].copy()
+    latest_dates = (
+        market.groupby(["league", "season"], as_index=False)["market_match_date"]
+        .max()
+        .rename(columns={"market_match_date": "latest_market_date"})
+    )
+    missing_rows = missing_rows.merge(latest_dates, on=["league", "season"], how="left")
+
+    today = pd.Timestamp.now()
+    current_season = today.year if today.month >= 7 else today.year - 1
+    source_is_behind = (
+        (missing_rows["season"] >= current_season)
+        & missing_rows["latest_market_date"].notna()
+        & (missing_rows["match_date"] > missing_rows["latest_market_date"])
+    )
+    if not missing_rows.empty and source_is_behind.all():
+        latest = missing_rows["latest_market_date"].max().date()
+        raise MarketDataUnavailableError(
+            f"Official market CSV is only current through {latest}; "
+            f"{len(missing_match_ids)} newer match(es) deferred"
+        )
+
+    sample = ", ".join(missing_match_ids[:5])
+    raise ValueError(
+        f"Failed to match market data for {len(missing_match_ids)} matches. Sample: {sample}"
+    )
+
+
 def season_to_code(season: int) -> str:
     return f"{str(season)[-2:]}{str(season + 1)[-2:]}"
 
@@ -407,8 +441,7 @@ def build_match_market_table(
 
     missing = sorted(set(home_rows["match_id"]) - set(matched["match_id"]))
     if missing:
-        sample = ", ".join(missing[:5])
-        raise ValueError(f"Failed to match market data for {len(missing)} matches. Sample: {sample}")
+        _raise_for_unmatched_market_rows(home_rows, market, missing)
 
     output_cols = MATCH_MARKET_COLS
     if include_closing:
