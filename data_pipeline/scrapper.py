@@ -24,7 +24,11 @@ REPO_ROOT = os.path.dirname(SCRIPT_DIR)
 if REPO_ROOT not in sys.path:
     sys.path.append(REPO_ROOT)
 
-from data_pipeline.market_data import enrich_team_rows_with_market_data, normalize_team_name
+from data_pipeline.market_data import (
+    MarketDataUnavailableError,
+    enrich_team_rows_with_market_data,
+    normalize_team_name,
+)
 from data_pipeline.team_registry import read_registry, write_registry
 
 
@@ -290,11 +294,25 @@ def save_data(stats, *, include_closing_market_data=False, include_consensus_mar
         return
 
     all_rows = pd.concat(frames, ignore_index=True)
-    all_rows, _ = enrich_team_rows_with_market_data(
-        all_rows,
-        include_closing=include_closing_market_data,
-        include_consensus=include_consensus_market_data,
-    )
+    enriched_groups = []
+    for (league, season), group in all_rows.groupby(['league', 'season'], sort=False):
+        try:
+            enriched, _ = enrich_team_rows_with_market_data(
+                group,
+                include_closing=include_closing_market_data,
+                include_consensus=include_consensus_market_data,
+            )
+        except MarketDataUnavailableError as exc:
+            print(
+                f"Skipping {league} {season} until its official market CSV is available: {exc}",
+                file=sys.stderr,
+            )
+            continue
+        enriched_groups.append(enriched)
+
+    if not enriched_groups:
+        return
+    all_rows = pd.concat(enriched_groups, ignore_index=True)
 
     for output_file, group in all_rows.groupby('_output_file', sort=False):
         group = group.sort_values('_row_order')
