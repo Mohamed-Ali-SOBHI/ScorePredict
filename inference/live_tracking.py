@@ -140,6 +140,42 @@ def build_tracking_rows(bets: pd.DataFrame, *, portfolio_name: str) -> pd.DataFr
     return tracked[TRACKING_COLUMNS].copy()
 
 
+def refresh_pending_fixture_dates(existing: pd.DataFrame, incoming: pd.DataFrame) -> pd.DataFrame:
+    """Refresh kickoff times without rewriting the original betting decision."""
+    required = {
+        "portfolio_name",
+        "date",
+        "league",
+        "team_name",
+        "opponent_name",
+        "selected_outcome",
+    }
+    if existing.empty or incoming.empty:
+        return existing.copy()
+    if not required.issubset(existing.columns) or not required.issubset(incoming.columns):
+        return existing.copy()
+
+    refreshed = existing.copy()
+    updates = incoming.copy()
+    refreshed["_canonical_key"] = canonical_snapshot_keys(refreshed)
+    updates["_canonical_key"] = canonical_snapshot_keys(updates)
+    updates["_generated_at"] = pd.to_datetime(
+        updates.get("prediction_generated_at_utc"),
+        errors="coerce",
+        utc=True,
+        format="mixed",
+    )
+    updates = updates.sort_values("_generated_at", na_position="first")
+    latest_dates = updates.drop_duplicates("_canonical_key", keep="last").set_index("_canonical_key")["date"]
+    statuses = refreshed.get("result_status", pd.Series("pending", index=refreshed.index))
+    can_refresh = ~statuses.astype(str).str.lower().isin({"won", "lost", "void"})
+    has_update = refreshed["_canonical_key"].isin(latest_dates.index)
+    refreshed.loc[can_refresh & has_update, "date"] = refreshed.loc[
+        can_refresh & has_update, "_canonical_key"
+    ].map(latest_dates)
+    return refreshed.drop(columns="_canonical_key")
+
+
 def append_tracking_rows(tracking_rows: pd.DataFrame, ledger_path: Path) -> None:
     if tracking_rows.empty:
         return
@@ -147,6 +183,7 @@ def append_tracking_rows(tracking_rows: pd.DataFrame, ledger_path: Path) -> None
     ledger_path.parent.mkdir(parents=True, exist_ok=True)
     if ledger_path.exists():
         existing = pd.read_csv(ledger_path)
+        existing = refresh_pending_fixture_dates(existing, tracking_rows)
         combined = pd.concat([existing, tracking_rows], ignore_index=True)
         # Une prévision publiée reste figée : les nouveaux calculs ne réécrivent
         # ni son choix, ni sa cote, ni un résultat déjà vérifié.

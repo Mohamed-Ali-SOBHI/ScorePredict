@@ -125,6 +125,15 @@ class DashboardServiceTests(unittest.TestCase):
         self.assertEqual(payload["quality"]["criticalFailures"], 0)
         self.assertEqual(payload["performance"]["curve"][-1]["value"], 2)
 
+    def test_serializes_match_time_in_the_paris_timezone(self) -> None:
+        rows = _read_for_test(self.root / "inference/output/upcoming_portfolio_bets.csv")
+        rows[0]["date"] = "2026-08-22 16:00:00"
+        write_csv(self.root / "inference/output/upcoming_portfolio_bets.csv", rows)
+
+        payload = DashboardService(self.root, ttl_seconds=0).get_dashboard()
+
+        self.assertEqual(payload["predictions"][0]["date"], "2026-08-22T16:00:00+02:00")
+
     def test_does_not_publish_expired_prediction(self) -> None:
         rows = _read_for_test(self.root / "inference/output/upcoming_portfolio_bets.csv")
         rows[0]["date"] = (datetime.now(timezone.utc) - timedelta(days=1)).isoformat()
