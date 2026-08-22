@@ -10,7 +10,7 @@
   <meta property="og:image" content="./assets/media/stadium-documentary.webp">
   <title>Tableau de bord — ScorePredict</title>
   <link rel="icon" href="./assets/brand/scorepredict-mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/styles.css?v=27">
+  <link rel="stylesheet" href="./assets/styles.css?v=28">
 </head>
 <body>
   <a class="skip-link" href="#main">Aller au contenu</a>
@@ -50,8 +50,9 @@
           <div class="decision-stage">
             <div class="pick-list" id="pick-list" aria-live="polite">
               <article class="prediction prediction-loading" aria-label="Chargement du choix">
-                <div class="prediction-head"><span>Analyse en cours</span><time>—</time></div>
-                <div class="teams"><h2>Lecture des matchs…</h2></div>
+                <div class="prediction-head"><span class="prediction-league"><i aria-hidden="true"></i>Analyse en cours</span><time>—</time></div>
+                <div class="prediction-pitch" aria-hidden="true"><i></i></div>
+                <div class="teams"><p>Football</p><h2>Lecture des matchs…</h2></div>
               </article>
             </div>
 
@@ -110,6 +111,6 @@
   </footer>
 
   <div class="load-error" id="load-error" role="status" hidden>Les données du jour sont momentanément indisponibles. La dernière vue ne peut pas être confirmée.</div>
-  <script type="module" src="./assets/app.js?v=29"></script>
+  <script type="module" src="./assets/app.js?v=30"></script>
 </body>
 </html>

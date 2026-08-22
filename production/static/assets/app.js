@@ -124,34 +124,38 @@ async function fetchDashboard() {
   return data;
 }
 
+const LEAGUE_COUNTRIES = Object.freeze({
+  EPL: "Angleterre",
+  Bundesliga: "Allemagne",
+  Serie_A: "Italie",
+  Ligue_1: "France",
+  La_liga: "Espagne",
+});
+
 function predictionMarkup(prediction) {
   const league = prediction.leagueLabel || prediction.league || "Championnat";
+  const country = LEAGUE_COUNTRIES[prediction.league] || league;
   return `
-    <article class="prediction">
+    <article class="prediction" aria-label="${escapeHtml(`${prediction.homeTeam} contre ${prediction.awayTeam}, ${prediction.outcomeLabel}`)}">
       <div class="prediction-head">
-        <span>${escapeHtml(league)}</span>
+        <span class="prediction-league"><i aria-hidden="true"></i>${escapeHtml(league)}</span>
         <time datetime="${escapeHtml(prediction.date)}">${escapeHtml(formatDate(prediction.date, true))}</time>
       </div>
+      <div class="prediction-pitch" aria-hidden="true"><i></i></div>
       <div class="teams">
+        <p>${escapeHtml(country)}</p>
         <h2>${escapeHtml(prediction.homeTeam)}</h2>
         <span>contre</span>
         <h2>${escapeHtml(prediction.awayTeam)}</h2>
-      </div>
-      <div class="recommendation">
-        <div>
-          <span>${escapeHtml(prediction.adviceLabel || "Pari recommandé")}</span>
+        <div class="prediction-choice">
+          <small>${escapeHtml(prediction.adviceLabel || "Choix publié")}</small>
           <strong>${escapeHtml(prediction.outcomeLabel)}</strong>
         </div>
-        <div class="odds-callout">
-          <span>Cote disponible</span>
-          <b>${decimal.format(prediction.odds)}</b>
-        </div>
       </div>
-      <div class="prediction-data">
-        <div><span>Indice du modèle</span><b>${integer.format(prediction.modelProbability * 100)} / 100</b></div>
+      <div class="prediction-footer">
+        <div><span>Cote</span><b>${decimal.format(prediction.odds)}</b></div>
         <div><span>Mise indicative</span><b>${decimal.format(prediction.stakeEur)} €</b></div>
       </div>
-      <p class="prediction-note">Décision enregistrée avant le match. Aucun résultat n’est garanti.</p>
     </article>`;
 }
 
