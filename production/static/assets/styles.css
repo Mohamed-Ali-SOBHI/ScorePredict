@@ -87,7 +87,7 @@ img, video, svg { display: block; max-width: 100%; }
   isolation: isolate;
 }
 .brand-logo-header { width: 165px; height: 42px; }
-.brand-logo-footer { width: 175px; height: 44px; }
+.brand-logo-footer { width: 190px; height: 58px; }
 .brand-logo-window img {
   position: absolute;
   top: 50%;
@@ -97,6 +97,11 @@ img, video, svg { display: block; max-width: 100%; }
   height: auto;
   mix-blend-mode: multiply;
   transform: translate(-50%, -50%);
+}
+.site-footer .brand-logo-window { isolation: auto; }
+.site-footer .brand-logo-window img {
+  filter: invert(1) grayscale(1) contrast(4) brightness(2);
+  mix-blend-mode: screen;
 }
 .desktop-nav {
   grid-area: nav;
