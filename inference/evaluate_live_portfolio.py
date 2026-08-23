@@ -29,6 +29,18 @@ OUTCOME_FROM_HOME_RESULT = {
     "d": "draw",
     "l": "away_win",
 }
+TERMINAL_RESULT_STATUSES = {"won", "lost", "void"}
+IMMUTABLE_RESULT_COLUMNS = [
+    "result_status",
+    "actual_result",
+    "actual_outcome",
+    "actual_home_score",
+    "actual_away_score",
+    "match_found",
+    "won_live_bet",
+    "realized_profit_units",
+    "realized_profit",
+]
 
 
 def normalize_date(value: object) -> pd.Timestamp:
@@ -151,16 +163,16 @@ def prepare_ledger(
     prepared["match_date"] = prepared["date"].dt.normalize()
     prepared["home_team_norm"] = prepared["team_name"].map(normalize_team_name)
     prepared["away_team_norm"] = prepared["opponent_name"].map(normalize_team_name)
+    # A score confirmed by the fast result monitor is the durable source of
+    # truth. Keep a protected copy before the batch evaluator rebuilds its
+    # columns from the (sometimes slower) raw-data refresh.
+    for column in IMMUTABLE_RESULT_COLUMNS:
+        if column in prepared.columns:
+            prepared[f"_stored_{column}"] = prepared[column]
     recalculated_columns = [
         "actual_home_team",
         "actual_away_team",
-        "actual_result",
-        "actual_outcome",
-        "actual_home_score",
-        "actual_away_score",
-        "match_found",
-        "won_live_bet",
-        "realized_profit_units",
+        *IMMUTABLE_RESULT_COLUMNS,
     ]
     prepared = prepared.drop(columns=[column for column in recalculated_columns if column in prepared.columns])
     prepared = prepared[prepared["match_date"] >= normalize_date(freeze_date)].copy()
@@ -224,7 +236,23 @@ def evaluate_rows(
         ] = "pending_data_refresh"
     evaluated.loc[evaluated["match_found"] & evaluated["won_live_bet"], "result_status"] = "won"
     evaluated.loc[evaluated["match_found"] & ~evaluated["won_live_bet"], "result_status"] = "lost"
-    return evaluated
+
+    stored_status_column = "_stored_result_status"
+    if stored_status_column in evaluated.columns:
+        stored_status = evaluated[stored_status_column].fillna("").astype(str).str.lower()
+        locked = stored_status.isin(TERMINAL_RESULT_STATUSES)
+        for column in IMMUTABLE_RESULT_COLUMNS:
+            stored_column = f"_stored_{column}"
+            if stored_column not in evaluated.columns:
+                continue
+            stored_values = evaluated.loc[locked, stored_column]
+            present = stored_values.notna()
+            if present.any():
+                indexes = stored_values.index[present]
+                evaluated.loc[indexes, column] = stored_values.loc[indexes].to_numpy()
+
+    stored_columns = [f"_stored_{column}" for column in IMMUTABLE_RESULT_COLUMNS]
+    return evaluated.drop(columns=[column for column in stored_columns if column in evaluated.columns])
 
 
 def build_summary(
