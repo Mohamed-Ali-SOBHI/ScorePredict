@@ -101,13 +101,13 @@ section { scroll-margin-top: 68px; }
   overflow: hidden;
   isolation: isolate;
 }
-.logo-window-header { width: 150px; height: 35px; }
-.logo-window-footer { width: 160px; height: 38px; }
+.logo-window-header { width: 165px; height: 42px; }
+.logo-window-footer { width: 175px; height: 44px; }
 .logo-window img {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 100%;
+  width: 120%;
   max-width: none;
   height: auto;
   mix-blend-mode: multiply;
@@ -787,28 +787,31 @@ section { scroll-margin-top: 68px; }
 .risk-lines span { color: var(--forest); font-size: 11px; font-weight: 700; margin-right: 10px; }
 .risk-lines strong { font-size: 13.5px; font-weight: 600; color: var(--ink); }
 
-/* 5. Closing CTA Section (LIGHT-THEME MINIMAL BOX) */
+/* 5. Closing CTA Section */
 .closing {
-  padding: 80px 48px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: 100%;
+  margin: 0;
+  padding: 120px 48px;
   text-align: center;
-  color: var(--ink);
-  background: var(--surface); /* Light theme */
-  border: 1px solid var(--line);
-  border-radius: 24px;
-  width: var(--shell);
-  margin: 120px auto;
+  color: var(--white);
+  background: var(--hero-deep);
+  border: 0;
+  border-radius: 0;
   min-height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.01);
+  box-shadow: none;
 }
-.closing > div { max-width: 640px; display: flex; flex-direction: column; align-items: center; }
-.closing .kicker { color: var(--forest); }
-.closing h2 { margin: 16px 0 32px; font-size: clamp(32px, 5vw, 48px); font-weight: 700; line-height: 1.2; letter-spacing: -.02em; color: var(--ink); }
-.button-light { color: var(--surface); background: var(--ink); box-shadow: none; font-weight: 600; padding: 16px 36px; border-radius: 999px; transition: background 0.2s; }
-.button-light:hover { background: var(--forest); color: var(--white); }
-.responsible { margin-top: 24px; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.closing > div { position: relative; z-index: 1; max-width: 640px; display: flex; flex-direction: column; align-items: center; }
+.closing .kicker { color: var(--hero-lime); }
+.closing h2 { margin: 16px 0 32px; font-size: clamp(32px, 5vw, 48px); font-weight: 700; line-height: 1.2; letter-spacing: -.02em; color: var(--white); }
+.button-light { color: var(--hero-deep); background: var(--white); box-shadow: none; font-weight: 700; padding: 16px 36px; border-radius: 999px; transition: color .2s ease, background .2s ease, transform .2s ease; }
+.button-light:hover { color: var(--hero-deep); background: var(--hero-lime); transform: translateY(-2px); }
+.responsible { margin-top: 24px; color: rgba(255, 255, 255, .62); font-size: 12px; line-height: 1.5; }
 
 /* 6. Footer Section */
 .footer {
@@ -910,7 +913,7 @@ html.js .reveal-delay-2 { transition-delay: .14s; }
   section { scroll-margin-top: 60px; }
   .topbar { height: 60px; }
   .topbar-inner { width: calc(100% - 24px); gap: 10px; }
-  .logo-window-header { width: 132px; height: 35px; }
+  .logo-window-header { width: 140px; height: 38px; }
   .nav-cta { min-height: 44px; padding: 0 15px; gap: 7px; font-size: 11px; }
   .nav-cta-long { display: none; }
   .nav-cta-short { display: inline; }
@@ -1004,7 +1007,7 @@ html.js .reveal-delay-2 { transition-delay: .14s; }
   .risk-lines p { padding: 12px 0; }
   .risk-lines strong { font-size: 12px; }
 
-  .closing { width: calc(100% - 32px); padding: 48px 24px; margin: 40px auto; }
+  .closing { width: 100%; padding: 72px 24px; margin: 0; }
   .closing h2 { font-size: 32px; margin-bottom: 24px; }
   .responsible { font-size: 11px; }
 

@@ -86,13 +86,13 @@ img, video, svg { display: block; max-width: 100%; }
   overflow: hidden;
   isolation: isolate;
 }
-.brand-logo-header { width: 150px; height: 35px; }
-.brand-logo-footer { width: 160px; height: 38px; }
+.brand-logo-header { width: 165px; height: 42px; }
+.brand-logo-footer { width: 175px; height: 44px; }
 .brand-logo-window img {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 100%;
+  width: 120%;
   max-width: none;
   height: auto;
   mix-blend-mode: multiply;
@@ -674,7 +674,7 @@ section:first-of-type {
 
 @media (max-width: 760px) {
   :root { --shell: calc(100% - 32px); --header-height: 64px; }
-  .brand-logo-header { width: 130px; height: 32px; }
+  .brand-logo-header { width: 140px; height: 38px; }
 
   .workspace-title { padding: 0 0 20px; }
   .workspace-title h1 { font-size: 32px; }
