@@ -29,7 +29,7 @@ from data_pipeline.market_data import (
     enrich_team_rows_with_market_data,
     normalize_team_name,
 )
-from data_pipeline.team_registry import read_registry, write_registry
+from data_pipeline.team_registry import EXPECTED_TEAM_COUNTS, read_registry, write_registry
 
 
 DEFAULT_LEAGUES = ["La_liga", "Bundesliga", "EPL", "Serie_A", "Ligue_1"]
@@ -57,7 +57,7 @@ def _fixture_team_titles(payload):
     return titles
 
 
-def normalize_understat_teams(payload, fallback_titles=None):
+def normalize_understat_teams(payload, fallback_titles=None, expected_team_count=None):
     """Normalize partial Understat team payloads without inventing club names.
 
     Understat occasionally omits ``id`` or ``title`` from a team row after a
@@ -77,6 +77,15 @@ def normalize_understat_teams(payload, fallback_titles=None):
         for team_id, title in (fallback_titles or {}).items()
         if team_id is not None and str(title).strip()
     }
+    registered_names = {
+        normalize_team_name(title)
+        for title in registered_titles.values()
+        if normalize_team_name(title)
+    }
+    registry_is_complete = (
+        expected_team_count is not None
+        and len(registered_names) == int(expected_team_count)
+    )
     known_titles = {**registered_titles, **fixture_titles}
     entries = raw_teams.items() if isinstance(raw_teams, dict) else ((None, team) for team in raw_teams)
     normalized = {}
@@ -100,11 +109,28 @@ def normalize_understat_teams(payload, fallback_titles=None):
         team.update({"id": team_id, "title": title, "history": history})
         normalized[team_id] = team
 
+    # Understat can briefly expose relegated or otherwise stale clubs while a
+    # new season is being initialized. Once the checked current-season
+    # registry is complete, it is the allow-list: retain source rows only when
+    # their id or canonical name belongs to that registry. A newly assigned
+    # real id is still accepted when its normalized name matches a synthetic
+    # registry entry.
+    if registry_is_complete:
+        normalized = {
+            team_id: team
+            for team_id, team in normalized.items()
+            if team_id in registered_titles
+            or normalize_team_name(team.get("title", "")) in registered_names
+        }
+        titles_to_preserve = registered_titles
+    else:
+        titles_to_preserve = known_titles
+
     # Early in a season Understat may expose only teams that already played.
     # Keep fixture and registered clubs with empty histories so the registry
     # remains complete without creating synthetic match rows.
     normalized_names = {normalize_team_name(team["title"]) for team in normalized.values()}
-    for team_id, title in known_titles.items():
+    for team_id, title in titles_to_preserve.items():
         normalized_title = normalize_team_name(title)
         if team_id in normalized or normalized_title in normalized_names:
             continue
@@ -152,6 +178,7 @@ def get_league_data(league, season, base_url="https://understat.com"):
     return normalize_understat_teams(
         payload,
         fallback_titles=_current_registry_titles(league, season),
+        expected_team_count=EXPECTED_TEAM_COUNTS.get(league),
     )
 
 
