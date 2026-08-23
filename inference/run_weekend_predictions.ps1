@@ -44,3 +44,4 @@ if ($RefreshRawData) {
 }
 
 powershell @argsList
+exit $LASTEXITCODE
