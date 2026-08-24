@@ -72,6 +72,10 @@ THE_SPORTS_DB_LEAGUE_IDS = {
 }
 
 
+class KickoffTimeVerificationError(ValueError):
+    """Raised when a league cannot independently verify SportyTrader's time offset."""
+
+
 def fetch_league_page_text(
     league: str,
     *,
@@ -235,7 +239,12 @@ def fetch_sportsdb_fixture_times(
     )
 
 
-def reconcile_fixture_times(fixtures: pd.DataFrame, official: pd.DataFrame) -> pd.DataFrame:
+def reconcile_fixture_times(
+    fixtures: pd.DataFrame,
+    official: pd.DataFrame,
+    *,
+    fallback_offset_minutes: int | None = None,
+) -> pd.DataFrame:
     """Correct SportyTrader's server-local hours using a verified league offset."""
     if fixtures.empty:
         return fixtures.copy()
@@ -245,6 +254,7 @@ def reconcile_fixture_times(fixtures: pd.DataFrame, official: pd.DataFrame) -> p
     source["away_team_norm"] = source["away_team"].map(normalize_team_name)
     official_rows = official.copy()
     offsets_by_league: dict[str, pd.Timedelta] = {}
+    fallback_leagues: set[str] = set()
 
     for league, league_fixtures in source.groupby("league"):
         offsets: list[pd.Timedelta] = []
@@ -266,27 +276,47 @@ def reconcile_fixture_times(fixtures: pd.DataFrame, official: pd.DataFrame) -> p
             offsets.append(official_date - pd.Timestamp(fixture.date))
 
         if not offsets:
-            raise ValueError(
-                f"Unable to verify the Europe/Paris kickoff-time offset for {league}."
-            )
+            if fallback_offset_minutes is None:
+                raise KickoffTimeVerificationError(
+                    f"Unable to verify the Europe/Paris kickoff-time offset for {league}."
+                )
+            offsets_by_league[str(league)] = pd.Timedelta(minutes=fallback_offset_minutes)
+            fallback_leagues.add(str(league))
+            continue
         rounded_minutes = pd.Series(
             [round(offset.total_seconds() / 60) for offset in offsets],
             dtype="int64",
         )
         mode = rounded_minutes.mode()
         if mode.empty:
-            raise ValueError(f"Unable to determine a stable kickoff-time offset for {league}.")
+            raise KickoffTimeVerificationError(
+                f"Unable to determine a stable kickoff-time offset for {league}."
+            )
         offset_minutes = int(mode.iloc[0])
         agreement = int((rounded_minutes == offset_minutes).sum())
         if agreement * 2 < len(rounded_minutes):
-            raise ValueError(
+            raise KickoffTimeVerificationError(
                 f"Official kickoff times disagree for {league}; refusing to publish uncertain hours."
             )
         offsets_by_league[str(league)] = pd.Timedelta(minutes=offset_minutes)
 
     source["date"] = pd.to_datetime(source["date"]) + source["league"].map(offsets_by_league)
-    source["source"] = source["source"].astype(str) + "+sportsdb_timezone"
-    return source.drop(columns=["home_team_norm", "away_team_norm"])
+    source["source"] = source.apply(
+        lambda row: str(row["source"])
+        + (
+            "+shared_verified_timezone"
+            if str(row["league"]) in fallback_leagues
+            else "+sportsdb_timezone"
+        ),
+        axis=1,
+    )
+    result = source.drop(columns=["home_team_norm", "away_team_norm"])
+    result.attrs["verified_offset_minutes_by_league"] = {
+        league: int(offset.total_seconds() // 60)
+        for league, offset in offsets_by_league.items()
+    }
+    result.attrs["fallback_leagues"] = sorted(fallback_leagues)
+    return result
 
 
 def parse_upcoming_fixtures(
@@ -362,39 +392,63 @@ def fetch_upcoming_league_fixtures(
     date_to: pd.Timestamp,
     wait_seconds: float,
     timeout_seconds: float,
+    fallback_offset_minutes: int | None = None,
+    _source_cache: dict[str, tuple[pd.DataFrame, pd.DataFrame]] | None = None,
 ) -> pd.DataFrame:
-    page_text = fetch_league_page_text(
-        league,
-        wait_seconds=wait_seconds,
-        timeout_seconds=timeout_seconds,
-    )
-    verification_date_to = max(date_to, date_from + pd.Timedelta(days=60))
-    fixtures = parse_upcoming_fixtures(
-        page_text,
-        date_from=date_from,
-        date_to=verification_date_to,
-        league=league,
-    )
-    if fixtures.empty:
-        return fixtures
+    cached = _source_cache.get(league) if _source_cache is not None else None
+    if cached is not None:
+        fixtures, official = cached
+    else:
+        page_text = fetch_league_page_text(
+            league,
+            wait_seconds=wait_seconds,
+            timeout_seconds=timeout_seconds,
+        )
+        verification_date_to = max(date_to, date_from + pd.Timedelta(days=60))
+        fixtures = parse_upcoming_fixtures(
+            page_text,
+            date_from=date_from,
+            date_to=verification_date_to,
+            league=league,
+        )
+        if fixtures.empty:
+            return fixtures
 
-    seasons = {infer_season(date_from), infer_season(date_to)}
-    official = pd.concat(
-        [
-            fetch_sportsdb_fixture_times(
-                league,
-                season,
-                timeout_seconds=timeout_seconds,
-            )
-            for season in sorted(seasons)
-        ],
-        ignore_index=True,
+        seasons = {infer_season(date_from), infer_season(date_to)}
+        official = pd.concat(
+            [
+                fetch_sportsdb_fixture_times(
+                    league,
+                    season,
+                    timeout_seconds=timeout_seconds,
+                )
+                for season in sorted(seasons)
+            ],
+            ignore_index=True,
+        )
+        if _source_cache is not None:
+            _source_cache[league] = (fixtures, official)
+    corrected = reconcile_fixture_times(
+        fixtures,
+        official,
+        fallback_offset_minutes=fallback_offset_minutes,
     )
-    corrected = reconcile_fixture_times(fixtures, official)
+    correction_metadata = dict(corrected.attrs)
     end_of_day = date_to + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
-    return corrected[
+    result = corrected[
         (corrected["date"] >= date_from) & (corrected["date"] <= end_of_day)
     ].reset_index(drop=True)
+    result.attrs.update(correction_metadata)
+    return result
+
+
+def _shared_verified_offset(offsets: list[int]) -> int | None:
+    if not offsets:
+        return None
+    values = pd.Series(offsets, dtype="int64")
+    if int(values.nunique()) != 1:
+        return None
+    return int(values.iloc[0])
 
 
 def fetch_upcoming_fixtures_for_leagues(
@@ -405,16 +459,49 @@ def fetch_upcoming_fixtures_for_leagues(
     wait_seconds: float,
     timeout_seconds: float,
 ) -> pd.DataFrame:
-    frames = [
-        fetch_upcoming_league_fixtures(
-            league,
-            date_from=date_from,
-            date_to=date_to,
-            wait_seconds=wait_seconds,
-            timeout_seconds=timeout_seconds,
-        )
-        for league in leagues
-    ]
+    frames: list[pd.DataFrame] = []
+    deferred: list[tuple[str, KickoffTimeVerificationError]] = []
+    verified_offsets: list[int] = []
+    source_cache: dict[str, tuple[pd.DataFrame, pd.DataFrame]] = {}
+
+    for league in leagues:
+        try:
+            frame = fetch_upcoming_league_fixtures(
+                league,
+                date_from=date_from,
+                date_to=date_to,
+                wait_seconds=wait_seconds,
+                timeout_seconds=timeout_seconds,
+                _source_cache=source_cache,
+            )
+        except KickoffTimeVerificationError as exc:
+            deferred.append((league, exc))
+            continue
+        frames.append(frame)
+        offset = frame.attrs.get("verified_offset_minutes_by_league", {}).get(league)
+        if offset is not None:
+            verified_offsets.append(int(offset))
+
+    if deferred:
+        shared_offset = _shared_verified_offset(verified_offsets)
+        if shared_offset is None:
+            raise deferred[0][1]
+        for league, _ in deferred:
+            print(
+                f"Using the {shared_offset:+d}-minute offset verified on the other "
+                f"SportyTrader league pages for {league}."
+            )
+            frames.append(
+                fetch_upcoming_league_fixtures(
+                    league,
+                    date_from=date_from,
+                    date_to=date_to,
+                    wait_seconds=wait_seconds,
+                    timeout_seconds=timeout_seconds,
+                    fallback_offset_minutes=shared_offset,
+                    _source_cache=source_cache,
+                )
+            )
     if not frames:
         return pd.DataFrame(
             columns=[
