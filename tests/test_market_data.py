@@ -23,7 +23,10 @@ class MarketDataTests(unittest.TestCase):
         expected_names = {
             "Atl. Madrid": "atletico madrid",
             "Dep. A Coruna": "deportivo la coruna",
+            "Deportivo de A Coruña": "deportivo la coruna",
+            "Deportivo Alavés": "alaves",
             "Santander": "racing santander",
+            "Racing de Santander": "racing santander",
             "Spvgg Elversberg": "elversberg",
         }
 
