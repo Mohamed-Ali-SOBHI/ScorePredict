@@ -446,9 +446,12 @@ def _shared_verified_offset(offsets: list[int]) -> int | None:
     if not offsets:
         return None
     values = pd.Series(offsets, dtype="int64")
-    if int(values.nunique()) != 1:
+    counts = values.value_counts()
+    selected = int(counts.index[0])
+    agreement = int(counts.iloc[0])
+    if agreement < 2 or agreement * 2 <= len(values):
         return None
-    return int(values.iloc[0])
+    return selected
 
 
 def fetch_upcoming_fixtures_for_leagues(
@@ -483,6 +486,7 @@ def fetch_upcoming_fixtures_for_leagues(
             verified_offsets.append(int(offset))
 
     if deferred:
+        print({"verified_kickoff_offsets_minutes": verified_offsets})
         shared_offset = _shared_verified_offset(verified_offsets)
         if shared_offset is None:
             raise deferred[0][1]

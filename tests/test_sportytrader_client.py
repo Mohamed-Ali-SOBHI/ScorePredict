@@ -6,6 +6,7 @@ from unittest.mock import patch
 import pandas as pd
 
 from inference.sportytrader_client import (
+    _shared_verified_offset,
     fetch_upcoming_fixtures_for_leagues,
     parse_sportsdb_fixture_times,
     reconcile_fixture_times,
@@ -108,14 +109,14 @@ class SportyTraderClientTests(unittest.TestCase):
         fetch_league.side_effect = fake_fetch
 
         fixtures = fetch_upcoming_fixtures_for_leagues(
-            ["EPL", "La_liga"],
+            ["EPL", "Bundesliga", "La_liga"],
             date_from=pd.Timestamp("2026-08-24"),
             date_to=pd.Timestamp("2026-09-14"),
             wait_seconds=0,
             timeout_seconds=1,
         )
 
-        self.assertEqual(set(fixtures["league"]), {"EPL", "La_liga"})
+        self.assertEqual(set(fixtures["league"]), {"EPL", "Bundesliga", "La_liga"})
         retry = [
             call
             for call in fetch_league.call_args_list
@@ -123,6 +124,12 @@ class SportyTraderClientTests(unittest.TestCase):
             and call.kwargs.get("fallback_offset_minutes") == 360
         ]
         self.assertEqual(len(retry), 1)
+
+    def test_shared_offset_requires_a_strict_multi_league_majority(self) -> None:
+        self.assertEqual(_shared_verified_offset([360, 360, 360, 300]), 360)
+        self.assertIsNone(_shared_verified_offset([360]))
+        self.assertIsNone(_shared_verified_offset([360, 300]))
+        self.assertIsNone(_shared_verified_offset([360, 360, 300, 300]))
 
     @patch("inference.sportytrader_client.fetch_sportsdb_fixture_times")
     @patch("inference.sportytrader_client.fetch_league_page_text")
