@@ -13,7 +13,7 @@ class StaticSiteStructureTests(unittest.TestCase):
         landing = (STATIC / "index.html").read_text(encoding="utf-8")
         self.assertIn('href="./dashboard.html"', landing)
         self.assertIn('src="./assets/landing.js?v=journal-6"', landing)
-        self.assertIn('href="./assets/landing.css?v=v16"', landing)
+        self.assertIn('href="./assets/landing.css?v=v21"', landing)
         self.assertNotIn('src="./assets/app.js', landing)
 
     def test_how_it_works_follows_the_hero_and_explains_the_filters(self) -> None:
@@ -24,12 +24,15 @@ class StaticSiteStructureTests(unittest.TestCase):
         self.assertLess(process_start, results_start)
         self.assertIn('aria-label="Les cinq étapes du système"', landing)
         for copy in {
-            "La méthode",
-            "L’IA propose.",
-            "Double IA",
-            "Auto-censure",
-            "Value Betting",
-            "L'abstention",
+            "Comment ça marche",
+            "Chaque parieur sait que",
+            "le secret pour survivre,",
+            "c’est de savoir quoi jeter",
+            "et quoi garder.",
+            "Deux IA donnent leur lecture",
+            "Le doute élimine le match",
+            "Seuls les écarts nets passent",
+            "Jouer ou laisser passer",
         }:
             self.assertIn(copy, landing)
 
@@ -56,7 +59,7 @@ class StaticSiteStructureTests(unittest.TestCase):
         self.assertIn("prefers-reduced-motion", script)
         self.assertIn("Ouvrir le journal", landing)
         self.assertIn("Tu dois savoir quand jouer.", landing)
-        self.assertIn("Tu dois savoir quand te coucher.", landing)
+        self.assertIn("Tu dois savoir quand ne pas jouer.", landing)
         self.assertNotIn("Le journal avant match", landing)
         self.assertNotIn("Les affiches qui font vibrer le football", landing)
         self.assertNotIn("carousel-controls", landing)
