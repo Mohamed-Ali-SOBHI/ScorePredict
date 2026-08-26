@@ -50,6 +50,7 @@ try {
             --date-from $catalogFrom `
             --date-to $catalogTo `
             --leagues "EPL,Bundesliga,Serie_A,Ligue_1,La_liga" `
+            --allow-partial-leagues `
             --output $catalogPath
         Assert-LastExitCode "current season fixture catalog"
 

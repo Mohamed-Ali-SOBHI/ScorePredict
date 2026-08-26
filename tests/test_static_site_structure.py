@@ -13,15 +13,15 @@ class StaticSiteStructureTests(unittest.TestCase):
         landing = (STATIC / "index.html").read_text(encoding="utf-8")
         self.assertIn('href="./dashboard.html"', landing)
         self.assertIn('src="./assets/landing.js?v=journal-6"', landing)
-        self.assertIn('href="./assets/landing.css?v=v14"', landing)
+        self.assertIn('href="./assets/landing.css?v=v16"', landing)
         self.assertNotIn('src="./assets/app.js', landing)
 
     def test_how_it_works_follows_the_hero_and_explains_the_filters(self) -> None:
         landing = (STATIC / "index.html").read_text(encoding="utf-8")
         process_start = landing.index('id="fonctionnement"')
-        proof_start = landing.index('id="preuve"')
+        results_start = landing.index('id="resultats"')
         self.assertLess(landing.index('id="journal"'), process_start)
-        self.assertLess(process_start, proof_start)
+        self.assertLess(process_start, results_start)
         self.assertIn('aria-label="Les cinq étapes du système"', landing)
         for copy in {
             "La méthode",
@@ -38,7 +38,7 @@ class StaticSiteStructureTests(unittest.TestCase):
         self.assertIn("Content-Security-Policy", landing)
         self.assertNotIn("https://", landing)
         self.assertNotIn("http://", landing)
-        self.assertIn("scorepredict-logo-imagegen-v2.png", landing)
+        self.assertIn("scorepredict-logo-v3.png", landing)
         self.assertNotIn("scorepredict-mark-concept-v1", landing)
 
     def test_landing_rivalry_carousel_keeps_the_dashboard_as_the_data_surface(self) -> None:
@@ -83,7 +83,7 @@ class StaticSiteStructureTests(unittest.TestCase):
         for element_id in required_ids:
             self.assertIn(f'id="{element_id}"', dashboard)
         self.assertIn('src="./assets/app.js?v=31"', dashboard)
-        self.assertIn('href="./assets/styles.css?v=29"', dashboard)
+        self.assertIn('href="./assets/styles.css?v=31"', dashboard)
         self.assertIn("Rendement des mises publiées", dashboard)
         self.assertIn('`${signed(returnPercent, decimalOne)} %`', script)
         self.assertIn("Soit ${signed(profit)}", script)

@@ -461,9 +461,11 @@ def fetch_upcoming_fixtures_for_leagues(
     date_to: pd.Timestamp,
     wait_seconds: float,
     timeout_seconds: float,
+    allow_partial: bool = False,
 ) -> pd.DataFrame:
     frames: list[pd.DataFrame] = []
     deferred: list[tuple[str, KickoffTimeVerificationError]] = []
+    unavailable: list[tuple[str, RuntimeError]] = []
     verified_offsets: list[int] = []
     source_cache: dict[str, tuple[pd.DataFrame, pd.DataFrame]] = {}
 
@@ -480,6 +482,12 @@ def fetch_upcoming_fixtures_for_leagues(
         except KickoffTimeVerificationError as exc:
             deferred.append((league, exc))
             continue
+        except RuntimeError as exc:
+            if not allow_partial:
+                raise
+            unavailable.append((league, exc))
+            print(f"Skipping unavailable league {league}: {exc}")
+            continue
         frames.append(frame)
         offset = frame.attrs.get("verified_offset_minutes_by_league", {}).get(league)
         if offset is not None:
@@ -489,24 +497,31 @@ def fetch_upcoming_fixtures_for_leagues(
         print({"verified_kickoff_offsets_minutes": verified_offsets})
         shared_offset = _shared_verified_offset(verified_offsets)
         if shared_offset is None:
-            raise deferred[0][1]
-        for league, _ in deferred:
-            print(
-                f"Using the {shared_offset:+d}-minute offset verified on the other "
-                f"SportyTrader league pages for {league}."
-            )
-            frames.append(
-                fetch_upcoming_league_fixtures(
-                    league,
-                    date_from=date_from,
-                    date_to=date_to,
-                    wait_seconds=wait_seconds,
-                    timeout_seconds=timeout_seconds,
-                    fallback_offset_minutes=shared_offset,
-                    _source_cache=source_cache,
+            if not allow_partial:
+                raise deferred[0][1]
+            for league, exc in deferred:
+                print(f"Skipping league with unverified kickoff times {league}: {exc}")
+        else:
+            for league, _ in deferred:
+                print(
+                    f"Using the {shared_offset:+d}-minute offset verified on the other "
+                    f"SportyTrader league pages for {league}."
                 )
-            )
+                frames.append(
+                    fetch_upcoming_league_fixtures(
+                        league,
+                        date_from=date_from,
+                        date_to=date_to,
+                        wait_seconds=wait_seconds,
+                        timeout_seconds=timeout_seconds,
+                        fallback_offset_minutes=shared_offset,
+                        _source_cache=source_cache,
+                    )
+                )
     if not frames:
+        if unavailable or deferred:
+            failures = [f"{league}: {exc}" for league, exc in [*unavailable, *deferred]]
+            raise RuntimeError("No league fixture source succeeded: " + "; ".join(failures))
         return pd.DataFrame(
             columns=[
                 "date",

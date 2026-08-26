@@ -131,6 +131,41 @@ class SportyTraderClientTests(unittest.TestCase):
         self.assertIsNone(_shared_verified_offset([360, 300]))
         self.assertIsNone(_shared_verified_offset([360, 360, 300, 300]))
 
+    @patch("inference.sportytrader_client.fetch_upcoming_league_fixtures")
+    def test_partial_catalog_skips_only_the_unverifiable_league(self, fetch_league) -> None:
+        def fake_fetch(league: str, **kwargs) -> pd.DataFrame:
+            if league == "La_liga":
+                from inference.sportytrader_client import KickoffTimeVerificationError
+
+                raise KickoffTimeVerificationError("official schedule is delayed")
+            frame = pd.DataFrame(
+                [
+                    {
+                        "date": pd.Timestamp("2026-08-29 16:00:00"),
+                        "league": league,
+                        "home_team": "Home",
+                        "away_team": "Away",
+                        "source": "test",
+                    }
+                ]
+            )
+            offset = 360 if league == "EPL" else 420
+            frame.attrs["verified_offset_minutes_by_league"] = {league: offset}
+            return frame
+
+        fetch_league.side_effect = fake_fetch
+
+        fixtures = fetch_upcoming_fixtures_for_leagues(
+            ["EPL", "Serie_A", "La_liga"],
+            date_from=pd.Timestamp("2026-08-26"),
+            date_to=pd.Timestamp("2026-09-16"),
+            wait_seconds=0,
+            timeout_seconds=1,
+            allow_partial=True,
+        )
+
+        self.assertEqual(set(fixtures["league"]), {"EPL", "Serie_A"})
+
     @patch("inference.sportytrader_client.fetch_sportsdb_fixture_times")
     @patch("inference.sportytrader_client.fetch_league_page_text")
     def test_shared_offset_retry_reuses_the_first_download(
