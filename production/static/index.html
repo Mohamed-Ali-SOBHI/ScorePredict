@@ -8,7 +8,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'">
   <title>ScorePredict — Le match d’abord</title>
   <link rel="icon" href="./assets/brand/scorepredict-mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/landing.css?v=v16">
+  <link rel="stylesheet" href="./assets/landing.css?v=v21">
 </head>
 <body data-page-state="ready">
   <a class="skip-link" href="#contenu">Aller au contenu</a>
@@ -22,7 +22,7 @@
       </a>
       <nav aria-label="Navigation principale">
         <a href="#fonctionnement">Comment ça marche</a>
-        <a href="#resultats">Les résultats</a>
+        <a href="#resultats">Le suivi</a>
       </nav>
       <a class="nav-cta" href="./dashboard.html"><span class="nav-cta-long">Ouvrir le journal</span><span class="nav-cta-short">Journal</span><span aria-hidden="true">→</span></a>
     </div>
@@ -34,8 +34,8 @@
         <div class="hero-copy">
           <blockquote id="hero-title" data-reveal>
             <p class="hero-quote">Tu dois savoir quand jouer.</p>
-            <p class="hero-quote">Tu dois savoir quand te coucher.</p>
-            <footer class="hero-source">— Kenny Rogers, <cite>The Gambler</cite></footer>
+            <p class="hero-quote">Tu dois savoir quand ne pas jouer.</p>
+            <footer class="hero-source">— d’après Kenny Rogers</footer>
           </blockquote>
           <p class="hero-tagline reveal-delay-1" data-reveal>Deux modèles XGBoost analysent chaque rencontre de football, mais rejettent 98 % des matchs. C'est l'approche de ScorePredict : ne parier que lorsque la statistique est parfaite, ignorer le reste.</p>
         </div>
@@ -44,7 +44,7 @@
           <div class="object-orbit orbit-one" aria-hidden="true"></div>
           <div class="object-orbit orbit-two" aria-hidden="true"></div>
           <div class="object-shadow" aria-hidden="true"></div>
-          <article class="object" id="match-object" tabindex="0" aria-roledescription="carrousel" aria-label="Six grandes rivalités du football. Le défilement s’arrête lorsque la carte reçoit le focus.">
+          <article class="object" id="match-object" tabindex="0" aria-roledescription="carrousel" aria-label="Six grandes rivalités du football. Le défilement s’arrête lorsque le visuel reçoit le focus.">
             <div class="object-depth" aria-hidden="true"></div>
             <div class="object-face">
               <div class="object-header">
@@ -79,51 +79,51 @@
       <div class="process-shell">
         <div class="process-intro" data-reveal>
           <div>
-            <p class="kicker">La méthode</p>
-            <h2 id="process-title">L’IA propose.<br><span>La rigueur décide.</span></h2>
+            <p class="kicker">Comment ça marche</p>
+            <h2 class="process-title-quote" id="process-title">Chaque parieur sait que le secret pour survivre,<br><span>c’est de savoir quoi jeter et quoi garder.</span></h2>
           </div>
-          <p>Pas de voyance. Une analyse brute, froide et mathématique avant le coup d'envoi.</p>
+          <p>Deux IA analysent le même match. Le filtre ne retient un choix que lorsque leurs estimations et la cote vont dans le même sens.</p>
         </div>
 
         <ol class="process-list" aria-label="Les cinq étapes du système">
           <li data-reveal>
             <span class="process-number">01</span>
             <div>
-              <p class="process-label">Portrait</p>
-              <h3>Données brutes</h3>
-              <p>Elo, xG, forme récente et repos : chaque match est converti en 51 variables clés.</p>
+              <p class="process-label">Le contexte</p>
+              <h3>Le match est décortiqué</h3>
+              <p>Forme récente, occasions créées, repos et cote disponible composent le portrait du match.</p>
             </div>
           </li>
           <li data-reveal>
             <span class="process-number">02</span>
             <div>
-              <p class="process-label">Verdict</p>
-              <h3>Double IA</h3>
-              <p>Deux modèles XGBoost distincts évaluent chaque rencontre de façon indépendante.</p>
+              <p class="process-label">L’analyse</p>
+              <h3>Deux IA donnent leur lecture</h3>
+              <p>Chacune évalue la rencontre de son côté pour éviter qu'une seule lecture décide de tout.</p>
             </div>
           </li>
           <li data-reveal>
             <span class="process-number">03</span>
             <div>
-              <p class="process-label">Prudence</p>
-              <h3>Auto-censure</h3>
-              <p>En cas de désaccord sur le nul, l'estimation la plus basse et prudente l'emporte.</p>
+              <p class="process-label">La prudence</p>
+              <h3>Le doute élimine le match</h3>
+              <p>Si les deux lectures ne se confirment pas, le match est écarté. Aucun pari n'est forcé.</p>
             </div>
           </li>
           <li data-reveal>
             <span class="process-number">04</span>
             <div>
-              <p class="process-label">Tri</p>
-              <h3>Value Betting</h3>
-              <p>Le pari est envisagé uniquement si la cote offerte par le marché est anormalement haute.</p>
+              <p class="process-label">Le filtre</p>
+              <h3>Seuls les écarts nets passent</h3>
+              <p>Le choix reste en jeu seulement si l'écart avec la cote est assez net pour passer tous les seuils.</p>
             </div>
           </li>
           <li data-reveal>
             <span class="process-number">05</span>
             <div>
-              <p class="process-label">Discipline</p>
-              <h3>L'abstention</h3>
-              <p>98% des matchs sont jetés. Mieux vaut ne pas parier que de risquer une mise inutile.</p>
+              <p class="process-label">La décision</p>
+              <h3>Jouer ou laisser passer</h3>
+              <p>Environ 98 % des matchs sont écartés. Seuls les rares choix entièrement validés sont publiés.</p>
             </div>
           </li>
         </ol>
@@ -134,16 +134,15 @@
     <section class="sealed" id="resultats" aria-labelledby="sealed-title">
       <div class="section-grid">
         <div class="section-heading" data-reveal>
-          <p class="kicker">Suivi en temps réel</p>
-          <h2 id="sealed-title">Du choix au résultat.<br><span>Tout se met à jour.</span></h2>
-          <p>Chaque pari publié est suivi automatiquement, de son annonce jusqu'au résultat final.</p>
+          <p class="kicker">Le compte se fait au coup de sifflet</p>
+          <h2 class="sealed-title-long" id="sealed-title">Il y aura bien assez de temps<br><span>pour compter quand la partie sera terminée.</span></h2>
         </div>
 
         <ol class="sealed-list" data-reveal>
-          <li><span>01</span><div><strong>Le choix publié</strong><p>Le match, le pari proposé, la cote et l'heure sont affichés avant le coup d'envoi.</p></div></li>
-          <li><span>02</span><div><strong>Le match suivi</strong><p>Son statut évolue à mesure que la rencontre approche puis se termine.</p></div></li>
-          <li><span>03</span><div><strong>Le résultat confirmé</strong><p>Après le coup de sifflet final et le temps additionnel, le score est récupéré automatiquement.</p></div></li>
-          <li><span>04</span><div><strong>Le bilan actualisé</strong><p>Le pari passe en gagné ou perdu et le rendement global est recalculé.</p></div></li>
+          <li><span>01</span><div><strong>Le choix est publié</strong><p>Le match, le pronostic, la cote et l'heure sont inscrits avant le coup d'envoi.</p></div></li>
+          <li><span>02</span><div><strong>Le match est suivi</strong><p>Son statut évolue sans modifier la décision prise au départ.</p></div></li>
+          <li><span>03</span><div><strong>Le score est confirmé</strong><p>Après le temps additionnel et le coup de sifflet final, le vrai résultat est récupéré.</p></div></li>
+          <li><span>04</span><div><strong>Le bilan est mis à jour</strong><p>Gagné ou perdu : le verdict rejoint le journal et le rendement est recalculé.</p></div></li>
         </ol>
       </div>
     </section>
@@ -151,8 +150,8 @@
 
     <section class="closing" aria-labelledby="closing-title">
       <div data-reveal>
-        <p class="kicker">Le journal reste public</p>
-        <h2 id="closing-title">Voir le choix.<br>Ou constater l’abstention.</h2>
+        <p class="kicker">Chaque décision reste visible</p>
+        <h2 id="closing-title">Voir les choix retenus.<br>Et les matchs laissés de côté.</h2>
         <a class="button button-light" href="./dashboard.html">Ouvrir le journal <span aria-hidden="true">→</span></a>
         <p class="responsible">Les pronostics restent des estimations statistiques. Pas de promesse. Jouez responsable.</p>
       </div>

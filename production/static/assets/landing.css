@@ -481,7 +481,15 @@ section { scroll-margin-top: 68px; }
    ULTRA-EPURE/MINIMALIST SECTIONS BELOW HERO (LIGHT, FLAT & SPACIOUS)
    ========================================================================== */
 
-.kicker { color: var(--forest); font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 8px; }
+.kicker {
+  margin-bottom: 14px;
+  color: var(--forest);
+  font-size: clamp(14px, 1.2vw, 16px);
+  font-weight: 650;
+  line-height: 1.4;
+  letter-spacing: -.01em;
+  text-transform: none;
+}
 
 /* 1. Process Section: Flat white cards, zero heavy shadows */
 .process {
@@ -513,6 +521,11 @@ section { scroll-margin-top: 68px; }
   line-height: 1.15;
   letter-spacing: -.03em;
   color: var(--ink);
+}
+.process-intro .process-title-quote {
+  max-width: 15ch;
+  font-size: clamp(32px, 3.1vw, 36px);
+  text-wrap: balance;
 }
 .process-intro h2 span { color: var(--forest); }
 .process-intro > p {
@@ -621,6 +634,10 @@ section { scroll-margin-top: 68px; }
   line-height: 1.15;
   letter-spacing: -.03em;
   color: var(--ink);
+}
+.sealed .section-heading .sealed-title-long {
+  font-size: clamp(32px, 3.2vw, 40px);
+  text-wrap: balance;
 }
 .sealed .section-heading h2 span { color: var(--forest); }
 .sealed .section-heading > p:last-child {
@@ -975,7 +992,6 @@ html.js .reveal-delay-2 { transition-delay: .14s; }
   .process { padding: 60px 16px; }
   .process-intro h2 { font-size: 32px; }
   .process-intro p { font-size: 14px; }
-
   .process-list { grid-template-columns: 1fr; gap: 16px; margin-top: 36px; }
   .process-list li { padding: 24px; grid-template-columns: auto 1fr; gap: 16px; }
   .process-number { width: 28px; height: 28px; font-size: 10px; }
