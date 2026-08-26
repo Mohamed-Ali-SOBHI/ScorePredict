@@ -6,6 +6,7 @@ import tempfile
 import unittest
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 from production.dashboard import DashboardService
 
@@ -127,12 +128,18 @@ class DashboardServiceTests(unittest.TestCase):
 
     def test_serializes_match_time_in_the_paris_timezone(self) -> None:
         rows = _read_for_test(self.root / "inference/output/upcoming_portfolio_bets.csv")
-        rows[0]["date"] = "2026-08-22 16:00:00"
+        future_paris = (datetime.now(ZoneInfo("Europe/Paris")) + timedelta(days=2)).replace(
+            hour=16,
+            minute=0,
+            second=0,
+            microsecond=0,
+        )
+        rows[0]["date"] = future_paris.strftime("%Y-%m-%d %H:%M:%S")
         write_csv(self.root / "inference/output/upcoming_portfolio_bets.csv", rows)
 
         payload = DashboardService(self.root, ttl_seconds=0).get_dashboard()
 
-        self.assertEqual(payload["predictions"][0]["date"], "2026-08-22T16:00:00+02:00")
+        self.assertEqual(payload["predictions"][0]["date"], future_paris.isoformat())
 
     def test_does_not_publish_expired_prediction(self) -> None:
         rows = _read_for_test(self.root / "inference/output/upcoming_portfolio_bets.csv")

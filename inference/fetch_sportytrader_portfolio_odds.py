@@ -26,6 +26,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output", default=str(DEFAULT_OUTPUT))
     parser.add_argument("--wait-seconds", type=float, default=8.0)
     parser.add_argument("--timeout-seconds", type=float, default=45.0)
+    parser.add_argument(
+        "--allow-partial-leagues",
+        action="store_true",
+        help="Keep successful leagues when a catalog-only source is temporarily unavailable.",
+    )
     return parser.parse_args()
 
 
@@ -61,6 +66,7 @@ def main() -> None:
         date_to=date_to,
         wait_seconds=args.wait_seconds,
         timeout_seconds=args.timeout_seconds,
+        allow_partial=args.allow_partial_leagues,
     )
 
     output_path = resolve_path(args.output)
