@@ -5,6 +5,8 @@ on:
   schedule:
     - cron: "15 6 * * *"
       timezone: "Europe/Paris"
+    - cron: "15 12 * * *"
+      timezone: "Europe/Paris"
 
 concurrency:
   group: scorepredict-pages

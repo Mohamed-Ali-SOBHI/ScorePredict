@@ -27,6 +27,13 @@ function publicationIsFresh(value) {
   return age >= -10 * 60 * 1000 && age <= 24 * 60 * 60 * 1000;
 }
 
+function futurePublishedPredictions(data, now = Date.now()) {
+  return data.predictions.filter((prediction) => {
+    const kickoff = new Date(prediction.date).getTime();
+    return Number.isFinite(kickoff) && kickoff > now;
+  });
+}
+
 function validText(value) {
   return typeof value === "string" && value.trim().length > 0;
 }
@@ -551,9 +558,16 @@ function renderPerformance(data) {
 function renderDashboard(data) {
   const ready = data.meta.status === "ready";
   const fresh = publicationIsFresh(data.meta.generatedAt);
+  const futurePredictions = futurePublishedPredictions(data);
+  const visibleData = { ...data, predictions: futurePredictions };
+
   if (ready && fresh) {
-    renderPredictions(data);
+    renderPredictions(visibleData);
     $("#load-error").hidden = true;
+  } else if (ready && futurePredictions.length > 0) {
+    renderPredictions(visibleData);
+    $("#load-error").textContent = "La mise à jour quotidienne est en retard. Les choix déjà publiés restent visibles jusqu’au coup d’envoi.";
+    $("#load-error").hidden = false;
   } else {
     const withoutCurrentDecision = {
       ...data,
@@ -562,10 +576,10 @@ function renderDashboard(data) {
     };
     renderPredictions(withoutCurrentDecision);
     setText(".no-pick .section-label", ready ? "Publication à actualiser" : "Préparation en cours");
-    setText(".no-pick strong", "Aucun ancien choix n’est présenté comme actuel.");
+    setText(".no-pick strong", ready ? "Aucun choix à venir dans la dernière publication." : "Aucun choix n’est encore disponible.");
     setText(".no-pick > p:last-child", "Le tableau de bord réessaie automatiquement et affichera la prochaine décision confirmée.");
     $("#load-error").textContent = ready
-      ? "La dernière publication a plus de 24 heures. La décision du jour est masquée jusqu’à la prochaine mise à jour."
+      ? "La dernière publication a plus de 24 heures et ne contient plus de match à venir."
       : "Les données du jour sont encore en préparation. Aucun choix n’est présenté avant leur validation.";
     $("#load-error").hidden = false;
   }
