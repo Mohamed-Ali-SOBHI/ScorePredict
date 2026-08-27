@@ -13,7 +13,7 @@ class StaticSiteStructureTests(unittest.TestCase):
         landing = (STATIC / "index.html").read_text(encoding="utf-8")
         self.assertIn('href="./dashboard.html"', landing)
         self.assertIn('src="./assets/landing.js?v=journal-6"', landing)
-        self.assertIn('href="./assets/landing.css?v=v21"', landing)
+        self.assertIn('href="./assets/landing.css?v=v22"', landing)
         self.assertNotIn('src="./assets/app.js', landing)
 
     def test_how_it_works_follows_the_hero_and_explains_the_filters(self) -> None:
@@ -26,7 +26,7 @@ class StaticSiteStructureTests(unittest.TestCase):
         for copy in {
             "Comment ça marche",
             "Chaque parieur sait que",
-            "le secret pour survivre,",
+            "le secret pour survivre",
             "c’est de savoir quoi jeter",
             "et quoi garder.",
             "Deux IA donnent leur lecture",
@@ -85,7 +85,7 @@ class StaticSiteStructureTests(unittest.TestCase):
         }
         for element_id in required_ids:
             self.assertIn(f'id="{element_id}"', dashboard)
-        self.assertIn('src="./assets/app.js?v=31"', dashboard)
+        self.assertIn('src="./assets/app.js?v=32"', dashboard)
         self.assertIn('href="./assets/styles.css?v=31"', dashboard)
         self.assertIn("Rendement des mises publiées", dashboard)
         self.assertIn('`${signed(returnPercent, decimalOne)} %`', script)
@@ -95,6 +95,9 @@ class StaticSiteStructureTests(unittest.TestCase):
         self.assertIn('LEAGUE_COUNTRIES', script)
         self.assertIn('resultLabel(row.status, row.date)', script)
         self.assertIn('return "À venir"', script)
+        self.assertIn("futurePublishedPredictions", script)
+        self.assertIn("kickoff > now", script)
+        self.assertIn("Les choix déjà publiés restent visibles jusqu’au coup d’envoi.", script)
         for removed_copy in {
             "Lecture du choix",
             "Essais sur les saisons passées",
@@ -109,6 +112,12 @@ class StaticSiteStructureTests(unittest.TestCase):
             "Journal de décision",
         }:
             self.assertNotIn(removed_copy, dashboard + script)
+
+    def test_daily_workflow_has_a_second_automatic_run(self) -> None:
+        workflow = (ROOT / ".github" / "workflows" / "daily-predictions.yml").read_text(encoding="utf-8")
+        self.assertIn('cron: "15 6 * * *"', workflow)
+        self.assertIn('cron: "15 12 * * *"', workflow)
+        self.assertEqual(workflow.count('timezone: "Europe/Paris"'), 2)
 
 
 if __name__ == "__main__":

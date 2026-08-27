@@ -523,8 +523,8 @@ section { scroll-margin-top: 68px; }
   color: var(--ink);
 }
 .process-intro .process-title-quote {
-  max-width: 15ch;
-  font-size: clamp(32px, 3.1vw, 36px);
+  max-width: 17ch;
+  font-size: clamp(35px, 3.5vw, 42px);
   text-wrap: balance;
 }
 .process-intro h2 span { color: var(--forest); }
