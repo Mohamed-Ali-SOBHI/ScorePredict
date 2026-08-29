@@ -176,6 +176,73 @@ def refresh_pending_fixture_dates(existing: pd.DataFrame, incoming: pd.DataFrame
     return refreshed.drop(columns="_canonical_key")
 
 
+def refresh_pending_fixture_dates_from_catalog(
+    existing: pd.DataFrame,
+    catalog: pd.DataFrame,
+) -> tuple[pd.DataFrame, int]:
+    """Repair pending kickoff times from a verified fixture catalog.
+
+    This deliberately ignores whether the bet is still recommended at the
+    latest odds. Once published, its kickoff must follow the fixture itself.
+    """
+    required_existing = {"date", "league", "team_name", "opponent_name"}
+    if existing.empty or catalog.empty or not required_existing.issubset(existing.columns):
+        return existing.copy(), 0
+
+    date_column = "official_date" if "official_date" in catalog.columns else "date"
+    if date_column not in catalog.columns or "league" not in catalog.columns:
+        return existing.copy(), 0
+
+    fixtures = catalog.copy()
+    if {"home_team", "away_team"}.issubset(fixtures.columns):
+        fixtures["_home_norm"] = fixtures["home_team"].map(normalize_team_name)
+        fixtures["_away_norm"] = fixtures["away_team"].map(normalize_team_name)
+    elif {"home_team_norm", "away_team_norm"}.issubset(fixtures.columns):
+        fixtures["_home_norm"] = fixtures["home_team_norm"].astype(str)
+        fixtures["_away_norm"] = fixtures["away_team_norm"].astype(str)
+    else:
+        return existing.copy(), 0
+
+    fixtures["_catalog_date"] = pd.to_datetime(
+        fixtures[date_column], errors="coerce", utc=True, format="mixed"
+    )
+    fixtures = fixtures[fixtures["_catalog_date"].notna()].copy()
+    if fixtures.empty:
+        return existing.copy(), 0
+
+    refreshed = existing.copy()
+    statuses = refreshed.get("result_status", pd.Series("pending", index=refreshed.index))
+    terminal = statuses.fillna("pending").astype(str).str.lower().isin({"won", "lost", "void"})
+    refreshed_count = 0
+
+    for index in refreshed.index[~terminal]:
+        row = refreshed.loc[index]
+        candidates = fixtures[
+            (fixtures["league"].astype(str) == str(row.get("league")))
+            & (fixtures["_home_norm"] == normalize_team_name(row.get("team_name")))
+            & (fixtures["_away_norm"] == normalize_team_name(row.get("opponent_name")))
+        ].copy()
+        if candidates.empty:
+            continue
+
+        current_date = pd.to_datetime(row.get("date"), errors="coerce", utc=True)
+        if pd.notna(current_date):
+            candidates["_distance"] = (candidates["_catalog_date"] - current_date).abs()
+            candidates = candidates[candidates["_distance"] <= pd.Timedelta(days=2)]
+        if candidates.empty:
+            continue
+
+        selected = candidates.sort_values("_distance" if "_distance" in candidates else "_catalog_date").iloc[0]
+        corrected_date = selected[date_column]
+        corrected_utc = pd.to_datetime(corrected_date, errors="coerce", utc=True)
+        if pd.notna(current_date) and pd.notna(corrected_utc) and current_date == corrected_utc:
+            continue
+        refreshed.at[index, "date"] = str(corrected_date)
+        refreshed_count += 1
+
+    return refreshed, refreshed_count
+
+
 def append_tracking_rows(tracking_rows: pd.DataFrame, ledger_path: Path) -> None:
     if tracking_rows.empty:
         return

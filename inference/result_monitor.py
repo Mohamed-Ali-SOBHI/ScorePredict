@@ -11,6 +11,7 @@ import pandas as pd
 
 from data_pipeline.market_data import normalize_team_name
 from data_pipeline.scrapper import get_league_data
+from inference.live_tracking import refresh_pending_fixture_dates_from_catalog
 from inference.portfolio_presets import DEFAULT_PORTFOLIO_NAME
 from inference.sportytrader_client import DISPLAY_TIMEZONE, fetch_sportsdb_fixture_times, infer_season
 
@@ -291,6 +292,7 @@ def update_public_snapshot(
         if row is None:
             continue
         status = str(row.get("result_status") or "pending")
+        item["date"] = str(row.get("date"))
         item["status"] = status
         item["profitUnits"] = _number(row.get("realized_profit_units"))
         if status in TERMINAL_RESULT_STATUSES and pd.notna(row.get("actual_home_score")):
@@ -328,11 +330,52 @@ def update_public_snapshot(
         for key, row in ledger_by_match.items()
         if str(row.get("result_status") or "pending") in TERMINAL_RESULT_STATUSES
     }
-    output["predictions"] = [
-        prediction
-        for prediction in output.get("predictions", [])
-        if row_key(prediction.get("date"), prediction.get("homeTeam"), prediction.get("awayTeam")) not in final_keys
-    ]
+    predictions_by_match: dict[tuple[str, str, str], dict[str, Any]] = {}
+    for prediction in output.get("predictions", []):
+        key = row_key(prediction.get("date"), prediction.get("homeTeam"), prediction.get("awayTeam"))
+        if key in final_keys:
+            continue
+        row = ledger_by_match.get(key)
+        if row is not None:
+            prediction["date"] = str(row.get("date"))
+        predictions_by_match[key] = prediction
+
+    generated_at_paris = paris_datetime(generated_at)
+    for key, row in ledger_by_match.items():
+        status = str(row.get("result_status") or "pending")
+        if status in TERMINAL_RESULT_STATUSES or paris_datetime(row.get("date")) <= generated_at_paris:
+            continue
+        if key in predictions_by_match:
+            continue
+        odds = _number(row.get("selected_odds"))
+        probability = _number(row.get("predicted_probability"))
+        stake = _number(row.get("stake_eur"))
+        if odds <= 1 or not 0 < probability <= 1 or stake <= 0:
+            continue
+        identity = str(row.get("snapshot_key") or "|").encode("utf-8")
+        selected_outcome = str(row.get("selected_outcome") or "")
+        predictions_by_match[key] = {
+            "id": hashlib.sha1(identity).hexdigest()[:12],
+            "date": str(row.get("date")),
+            "league": row.get("league", ""),
+            "leagueLabel": LEAGUE_LABELS.get(str(row.get("league")), str(row.get("league", ""))),
+            "homeTeam": row.get("team_name", ""),
+            "awayTeam": row.get("opponent_name", ""),
+            "outcome": selected_outcome,
+            "outcomeLabel": OUTCOME_LABELS.get(selected_outcome, "Choix publié"),
+            "odds": odds,
+            "modelProbability": probability,
+            "marketProbability": _number(row.get("market_probability")),
+            "edge": _number(row.get("edge")),
+            "stakeEur": stake,
+            "recommended": True,
+            "isCurrentRecommendation": False,
+            "adviceLabel": "Pari déjà publié",
+        }
+    output["predictions"] = sorted(
+        predictions_by_match.values(),
+        key=lambda prediction: str(prediction.get("date", "")),
+    )
 
     statuses = active.get("result_status", pd.Series("pending", index=active.index)).fillna("pending").astype(str)
     won = int((statuses == "won").sum())
@@ -464,6 +507,8 @@ def main() -> None:
         portfolio_name=args.portfolio,
         timeout_seconds=args.timeout_seconds,
     )
+    ledger, official_refreshed_dates = refresh_pending_fixture_dates_from_catalog(ledger, results)
+    refreshed_dates += official_refreshed_dates
     updated, counters = settle_due_predictions(
         ledger,
         results,

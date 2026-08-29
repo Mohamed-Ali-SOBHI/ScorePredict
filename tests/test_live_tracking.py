@@ -6,10 +6,70 @@ from pathlib import Path
 
 import pandas as pd
 
-from inference.live_tracking import append_tracking_rows, build_tracking_rows
+from inference.live_tracking import (
+    append_tracking_rows,
+    build_tracking_rows,
+    refresh_pending_fixture_dates_from_catalog,
+)
 
 
 class LiveTrackingTests(unittest.TestCase):
+    def test_fixture_catalog_repairs_a_published_bet_even_when_not_recommended_again(self) -> None:
+        ledger = pd.DataFrame(
+            [
+                {
+                    "date": "2026-08-29T07:30:00+02:00",
+                    "league": "Bundesliga",
+                    "team_name": "Spvgg Elversberg",
+                    "opponent_name": "Bayer Leverkusen",
+                    "result_status": "pending_data_refresh",
+                }
+            ]
+        )
+        fixtures = pd.DataFrame(
+            [
+                {
+                    "date": pd.Timestamp("2026-08-29 15:30:00"),
+                    "league": "Bundesliga",
+                    "home_team": "Spvgg Elversberg",
+                    "away_team": "Bayer Leverkusen",
+                }
+            ]
+        )
+
+        refreshed, count = refresh_pending_fixture_dates_from_catalog(ledger, fixtures)
+
+        self.assertEqual(count, 1)
+        self.assertEqual(refreshed.iloc[0]["date"], "2026-08-29 15:30:00")
+
+    def test_fixture_catalog_never_rewrites_a_settled_bet(self) -> None:
+        ledger = pd.DataFrame(
+            [
+                {
+                    "date": "2026-08-29 07:30:00",
+                    "league": "Bundesliga",
+                    "team_name": "Spvgg Elversberg",
+                    "opponent_name": "Bayer Leverkusen",
+                    "result_status": "lost",
+                }
+            ]
+        )
+        fixtures = pd.DataFrame(
+            [
+                {
+                    "official_date": pd.Timestamp("2026-08-29 15:30:00"),
+                    "league": "Bundesliga",
+                    "home_team_norm": "spvgg elversberg",
+                    "away_team_norm": "bayer leverkusen",
+                }
+            ]
+        )
+
+        refreshed, count = refresh_pending_fixture_dates_from_catalog(ledger, fixtures)
+
+        self.assertEqual(count, 0)
+        self.assertEqual(refreshed.iloc[0]["date"], "2026-08-29 07:30:00")
+
     def test_pending_prediction_refreshes_only_the_kickoff_time(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             ledger = Path(tmp) / "ledger.csv"
