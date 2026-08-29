@@ -11,7 +11,11 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.append(str(REPO_ROOT))
 
 from inference.portfolio_presets import DEFAULT_PORTFOLIO_NAME, PORTFOLIO_PRESETS
-from inference.live_tracking import append_tracking_rows, build_tracking_rows
+from inference.live_tracking import (
+    append_tracking_rows,
+    build_tracking_rows,
+    refresh_pending_fixture_dates_from_catalog,
+)
 from inference.upcoming_portfolio_strategy import (
     DEFAULT_LIVE_TRAIN_MAX_SEASON,
     assign_flat_stakes,
@@ -137,6 +141,16 @@ def main() -> None:
     team_rows = load_historical_team_rows(data_dir)
     registry_rows = load_current_team_registry(data_dir)
     fixtures = prepare_fixture_frame(pd.read_csv(resolve_path(args.fixtures_csv)))
+    tracking_ledger = resolve_path(args.tracking_ledger)
+    if tracking_ledger.exists():
+        existing_tracking = pd.read_csv(tracking_ledger)
+        existing_tracking, refreshed_kickoffs = refresh_pending_fixture_dates_from_catalog(
+            existing_tracking,
+            fixtures,
+        )
+        if refreshed_kickoffs:
+            existing_tracking.to_csv(tracking_ledger, index=False)
+            print({"published_kickoff_times_refreshed": refreshed_kickoffs})
     dataset, future_match_ids = build_dataset_with_fixtures(team_rows, fixtures, registry_rows)
 
     if not future_match_ids:
@@ -177,7 +191,6 @@ def main() -> None:
     output_bets = resolve_path(args.output_bets)
     write_exports(scored, bets, output_all=output_all, output_bets=output_bets)
 
-    tracking_ledger = resolve_path(args.tracking_ledger)
     tracking_rows = build_tracking_rows(bets, portfolio_name=args.portfolio)
     append_tracking_rows(tracking_rows, tracking_ledger)
 

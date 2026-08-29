@@ -206,6 +206,39 @@ class ResultMonitorTests(unittest.TestCase):
         self.assertEqual(patched["tracking"]["verified"], 1)
         self.assertEqual(patched["summary"]["liveProfitUnits"], 2.5)
 
+    def test_snapshot_restores_a_pending_published_card_with_corrected_kickoff(self) -> None:
+        ledger = self._ledger()
+        ledger.loc[0, "date"] = "2026-08-29 15:30:00"
+        ledger.loc[0, "predicted_probability"] = 0.43
+        snapshot = {
+            "meta": {"activePortfolio": DEFAULT_PORTFOLIO_NAME},
+            "summary": {"upcomingBets": 0},
+            "tracking": {},
+            "performance": {"live": {}},
+            "predictions": [],
+            "activity": [
+                {
+                    "date": "2026-08-29T07:30:00+02:00",
+                    "league": "EPL",
+                    "homeTeam": "Ipswich",
+                    "awayTeam": "Sunderland",
+                    "status": "pending_data_refresh",
+                }
+            ],
+        }
+
+        patched = update_public_snapshot(
+            snapshot,
+            ledger,
+            portfolio_name=DEFAULT_PORTFOLIO_NAME,
+            generated_at=datetime(2026, 8, 29, 11, 15, tzinfo=timezone.utc),
+        )
+
+        self.assertEqual(len(patched["predictions"]), 1)
+        self.assertEqual(patched["predictions"][0]["date"], "2026-08-29 15:30:00")
+        self.assertEqual(patched["predictions"][0]["adviceLabel"], "Pari déjà publié")
+        self.assertEqual(patched["activity"][0]["date"], "2026-08-29 15:30:00")
+
 
 if __name__ == "__main__":
     unittest.main()
