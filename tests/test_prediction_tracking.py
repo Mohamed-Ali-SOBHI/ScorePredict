@@ -336,7 +336,7 @@ class PredictionTrackingTests(unittest.TestCase):
         self.assertEqual(len(prepared), 2)
         self.assertEqual(
             prepared["date"].tolist(),
-            [pd.Timestamp("2026-08-30 11:30:00"), pd.Timestamp("2026-08-31 15:00:00")],
+            [pd.Timestamp("2026-08-30 13:30:00"), pd.Timestamp("2026-08-31 15:00:00")],
         )
         self.assertIsNone(prepared["date"].dt.tz)
 

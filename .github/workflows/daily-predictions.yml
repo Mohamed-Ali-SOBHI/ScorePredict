@@ -76,6 +76,10 @@ jobs:
       - name: Refuser une publication incomplete
         shell: pwsh
         run: |
+          python -m inference.validate_publication_kickoffs `
+            --snapshot production/static/data/dashboard.json `
+            --fixtures inference/output/sportytrader_upcoming_portfolio_odds.csv
+          if ($LASTEXITCODE -ne 0) { throw "Les horaires publics ne correspondent pas au calendrier vérifié." }
           $dashboard = Get-Content -Raw production/static/data/dashboard.json | ConvertFrom-Json
           $expectedPortfolio = python -c "from inference.portfolio_presets import DEFAULT_PORTFOLIO_NAME; print(DEFAULT_PORTFOLIO_NAME)"
           if ($dashboard.meta.status -ne "ready") { throw "Le tableau de bord n'est pas pret." }

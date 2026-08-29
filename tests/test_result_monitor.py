@@ -235,9 +235,9 @@ class ResultMonitorTests(unittest.TestCase):
         )
 
         self.assertEqual(len(patched["predictions"]), 1)
-        self.assertEqual(patched["predictions"][0]["date"], "2026-08-29 15:30:00")
+        self.assertEqual(patched["predictions"][0]["date"], "2026-08-29T15:30:00+02:00")
         self.assertEqual(patched["predictions"][0]["adviceLabel"], "Pari déjà publié")
-        self.assertEqual(patched["activity"][0]["date"], "2026-08-29 15:30:00")
+        self.assertEqual(patched["activity"][0]["date"], "2026-08-29T15:30:00+02:00")
 
 
 if __name__ == "__main__":
