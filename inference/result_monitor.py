@@ -12,6 +12,7 @@ import pandas as pd
 from data_pipeline.market_data import normalize_team_name
 from data_pipeline.scrapper import get_league_data
 from inference.live_tracking import refresh_pending_fixture_dates_from_catalog
+from inference.kickoff_time import paris_iso, paris_naive
 from inference.portfolio_presets import DEFAULT_PORTFOLIO_NAME
 from inference.sportytrader_client import DISPLAY_TIMEZONE, fetch_sportsdb_fixture_times, infer_season
 
@@ -47,10 +48,7 @@ def _number(value: object, default: float = 0.0) -> float:
 
 
 def paris_datetime(value: object) -> pd.Timestamp:
-    timestamp = pd.Timestamp(value)
-    if timestamp.tzinfo is not None:
-        timestamp = timestamp.tz_convert(DISPLAY_TIMEZONE).tz_localize(None)
-    return timestamp
+    return paris_naive(value)
 
 
 def result_outcome(home_score: int, away_score: int) -> str:
@@ -292,7 +290,7 @@ def update_public_snapshot(
         if row is None:
             continue
         status = str(row.get("result_status") or "pending")
-        item["date"] = str(row.get("date"))
+        item["date"] = paris_iso(row.get("date"))
         item["status"] = status
         item["profitUnits"] = _number(row.get("realized_profit_units"))
         if status in TERMINAL_RESULT_STATUSES and pd.notna(row.get("actual_home_score")):
@@ -306,7 +304,7 @@ def update_public_snapshot(
         activity.append(
             {
                 "id": hashlib.sha1(identity).hexdigest()[:12],
-                "date": str(row.get("date")),
+                "date": paris_iso(row.get("date")),
                 "league": row.get("league", ""),
                 "leagueLabel": LEAGUE_LABELS.get(str(row.get("league")), str(row.get("league", ""))),
                 "homeTeam": row.get("team_name", ""),
@@ -337,7 +335,7 @@ def update_public_snapshot(
             continue
         row = ledger_by_match.get(key)
         if row is not None:
-            prediction["date"] = str(row.get("date"))
+            prediction["date"] = paris_iso(row.get("date"))
         predictions_by_match[key] = prediction
 
     generated_at_paris = paris_datetime(generated_at)
@@ -356,7 +354,7 @@ def update_public_snapshot(
         selected_outcome = str(row.get("selected_outcome") or "")
         predictions_by_match[key] = {
             "id": hashlib.sha1(identity).hexdigest()[:12],
-            "date": str(row.get("date")),
+            "date": paris_iso(row.get("date")),
             "league": row.get("league", ""),
             "leagueLabel": LEAGUE_LABELS.get(str(row.get("league")), str(row.get("league", ""))),
             "homeTeam": row.get("team_name", ""),

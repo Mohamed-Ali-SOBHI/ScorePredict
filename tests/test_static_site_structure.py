@@ -118,6 +118,8 @@ class StaticSiteStructureTests(unittest.TestCase):
         self.assertIn('cron: "15 6 * * *"', workflow)
         self.assertIn('cron: "15 12 * * *"', workflow)
         self.assertEqual(workflow.count('timezone: "Europe/Paris"'), 2)
+        self.assertIn("python -m inference.validate_publication_kickoffs", workflow)
+        self.assertIn("Les horaires publics ne correspondent pas au calendrier vérifié.", workflow)
 
 
 if __name__ == "__main__":

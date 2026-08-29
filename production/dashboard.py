@@ -446,7 +446,7 @@ class DashboardService:
         for row in rows:
             match_date = _parse_date(row.get("date"))
             if match_date:
-                comparable = match_date if match_date.tzinfo else match_date.replace(tzinfo=timezone.utc)
+                comparable = match_date if match_date.tzinfo else match_date.replace(tzinfo=DISPLAY_TIMEZONE)
                 if comparable.astimezone(timezone.utc) < now.replace(minute=0, second=0, microsecond=0):
                     continue
             recommended = _bool(row.get("recommended_bet"))

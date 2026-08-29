@@ -16,6 +16,7 @@ if str(REPO_ROOT) not in sys.path:
 
 from data_pipeline.market_data import is_home_mask, normalize_team_name
 from inference.portfolio_presets import DEFAULT_PORTFOLIO_NAME, PRODUCTION_FREEZE_DATE
+from inference.kickoff_time import paris_naive
 from train.make_dataset import load_team_match_rows
 
 
@@ -44,14 +45,11 @@ IMMUTABLE_RESULT_COLUMNS = [
 
 
 def normalize_date(value: object) -> pd.Timestamp:
-    timestamp = pd.Timestamp(value)
-    if timestamp.tzinfo is not None:
-        timestamp = timestamp.tz_convert("UTC").tz_localize(None)
-    return timestamp.normalize()
+    return paris_naive(value).normalize()
 
 
 def normalize_date_series(values: pd.Series) -> pd.Series:
-    return pd.to_datetime(values, utc=True, format="mixed").dt.tz_localize(None).dt.normalize()
+    return values.map(normalize_date)
 
 
 def normalize_datetime(value: object) -> pd.Timestamp:
@@ -158,7 +156,7 @@ def prepare_ledger(
         raise ValueError(f"Ledger is missing required columns: {', '.join(missing)}")
 
     prepared = ledger.copy()
-    prepared["date"] = pd.to_datetime(prepared["date"], utc=True, format="mixed").dt.tz_localize(None)
+    prepared["date"] = prepared["date"].map(paris_naive)
     prepared["kickoff_at"] = prepared["date"]
     prepared["match_date"] = prepared["date"].dt.normalize()
     prepared["home_team_norm"] = prepared["team_name"].map(normalize_team_name)

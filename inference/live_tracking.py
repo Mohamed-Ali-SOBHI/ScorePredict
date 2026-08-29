@@ -6,6 +6,12 @@ from pathlib import Path
 import pandas as pd
 
 from data_pipeline.market_data import normalize_team_name
+from inference.kickoff_time import (
+    coerce_paris_timestamp,
+    paris_date_key,
+    paris_iso,
+    paris_naive,
+)
 
 
 TRACKING_COLUMNS = [
@@ -55,9 +61,8 @@ def canonical_snapshot_keys(frame: pd.DataFrame) -> pd.Series:
     if missing:
         raise ValueError(f"Cannot build canonical tracking keys without: {', '.join(missing)}")
 
-    dates = pd.to_datetime(frame["date"], errors="coerce", utc=True, format="mixed")
-    date_keys = dates.dt.strftime("%Y-%m-%d")
-    date_keys = date_keys.fillna(frame["date"].astype(str).str.slice(0, 10))
+    date_keys = frame["date"].map(paris_date_key)
+    date_keys = date_keys.mask(date_keys == "", frame["date"].astype(str).str.slice(0, 10))
     home = frame["team_name"].map(normalize_team_name)
     away = frame["opponent_name"].map(normalize_team_name)
     return (
@@ -126,6 +131,7 @@ def build_tracking_rows(bets: pd.DataFrame, *, portfolio_name: str) -> pd.DataFr
         return bets.copy()
 
     tracked = bets.copy()
+    tracked["date"] = tracked["date"].map(paris_iso)
     tracked["prediction_generated_at_utc"] = datetime.now(timezone.utc).isoformat()
     tracked["portfolio_name"] = portfolio_name
     tracked["snapshot_key"] = canonical_snapshot_keys(tracked)
@@ -166,7 +172,7 @@ def refresh_pending_fixture_dates(existing: pd.DataFrame, incoming: pd.DataFrame
         format="mixed",
     )
     updates = updates.sort_values("_generated_at", na_position="first")
-    latest_dates = updates.drop_duplicates("_canonical_key", keep="last").set_index("_canonical_key")["date"]
+    latest_dates = updates.drop_duplicates("_canonical_key", keep="last").set_index("_canonical_key")["date"].map(paris_iso)
     statuses = refreshed.get("result_status", pd.Series("pending", index=refreshed.index))
     can_refresh = ~statuses.astype(str).str.lower().isin({"won", "lost", "void"})
     has_update = refreshed["_canonical_key"].isin(latest_dates.index)
@@ -203,9 +209,7 @@ def refresh_pending_fixture_dates_from_catalog(
     else:
         return existing.copy(), 0
 
-    fixtures["_catalog_date"] = pd.to_datetime(
-        fixtures[date_column], errors="coerce", utc=True, format="mixed"
-    )
+    fixtures["_catalog_date"] = fixtures[date_column].map(coerce_paris_timestamp)
     fixtures = fixtures[fixtures["_catalog_date"].notna()].copy()
     if fixtures.empty:
         return existing.copy(), 0
@@ -225,7 +229,7 @@ def refresh_pending_fixture_dates_from_catalog(
         if candidates.empty:
             continue
 
-        current_date = pd.to_datetime(row.get("date"), errors="coerce", utc=True)
+        current_date = coerce_paris_timestamp(row.get("date"))
         if pd.notna(current_date):
             candidates["_distance"] = (candidates["_catalog_date"] - current_date).abs()
             candidates = candidates[candidates["_distance"] <= pd.Timedelta(days=2)]
@@ -234,10 +238,10 @@ def refresh_pending_fixture_dates_from_catalog(
 
         selected = candidates.sort_values("_distance" if "_distance" in candidates else "_catalog_date").iloc[0]
         corrected_date = selected[date_column]
-        corrected_utc = pd.to_datetime(corrected_date, errors="coerce", utc=True)
-        if pd.notna(current_date) and pd.notna(corrected_utc) and current_date == corrected_utc:
+        corrected_paris = coerce_paris_timestamp(corrected_date)
+        if pd.notna(current_date) and pd.notna(corrected_paris) and current_date == corrected_paris:
             continue
-        refreshed.at[index, "date"] = str(corrected_date)
+        refreshed.at[index, "date"] = paris_iso(corrected_date)
         refreshed_count += 1
 
     return refreshed, refreshed_count

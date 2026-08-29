@@ -40,7 +40,7 @@ class LiveTrackingTests(unittest.TestCase):
         refreshed, count = refresh_pending_fixture_dates_from_catalog(ledger, fixtures)
 
         self.assertEqual(count, 1)
-        self.assertEqual(refreshed.iloc[0]["date"], "2026-08-29 15:30:00")
+        self.assertEqual(refreshed.iloc[0]["date"], "2026-08-29T15:30:00+02:00")
 
     def test_fixture_catalog_never_rewrites_a_settled_bet(self) -> None:
         ledger = pd.DataFrame(
@@ -95,7 +95,7 @@ class LiveTrackingTests(unittest.TestCase):
 
             saved = pd.read_csv(ledger)
             self.assertEqual(len(saved), 1)
-            self.assertEqual(saved.iloc[0]["date"], "2026-08-22 16:00:00")
+            self.assertEqual(saved.iloc[0]["date"], "2026-08-22T16:00:00+02:00")
             self.assertEqual(saved.iloc[0]["selected_odds"], 3.5)
 
 

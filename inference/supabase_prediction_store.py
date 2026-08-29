@@ -11,6 +11,7 @@ import pandas as pd
 import requests
 
 from inference.live_tracking import canonical_snapshot_keys, canonicalize_tracking_rows
+from inference.kickoff_time import paris_iso
 
 
 DEFAULT_LEDGER = Path(__file__).resolve().parent / "output" / "live_portfolio_bet_log.csv"
@@ -132,6 +133,7 @@ def remote_records(local: pd.DataFrame) -> list[dict[str, Any]]:
             record[column] = clean_integer(record.get(column))
         record["recommended"] = bool(record.get("recommended"))
         record["result_status"] = record.get("result_status") or "pending"
+        record["date"] = paris_iso(record["date"])
         payload.append(record)
     return payload
 
