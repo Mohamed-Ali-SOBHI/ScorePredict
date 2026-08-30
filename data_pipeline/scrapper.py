@@ -330,11 +330,41 @@ def save_data(stats, *, include_closing_market_data=False, include_consensus_mar
                 include_consensus=include_consensus_market_data,
             )
         except MarketDataUnavailableError as exc:
+            # The current-season Understat observations are still essential
+            # for live form, xG, PPDA and deep-progression features. Historical
+            # market files are a separate source: their temporary absence must
+            # not erase fresh sporting data. Future fixture odds are collected
+            # independently by the inference pipeline.
             print(
-                f"Skipping {league} {season} until its official market CSV is available: {exc}",
+                f"Keeping {league} {season} Understat rows without historical market data: {exc}",
                 file=sys.stderr,
             )
-            continue
+            enriched = group.copy()
+            missing_market_columns = [
+                "team_shots",
+                "opponent_shots",
+                "team_win_odds_open",
+                "draw_odds_open",
+                "opponent_win_odds_open",
+            ]
+            if include_closing_market_data:
+                missing_market_columns += [
+                    "team_win_odds_close",
+                    "draw_odds_close",
+                    "opponent_win_odds_close",
+                ]
+            if include_consensus_market_data:
+                missing_market_columns += [
+                    "team_win_consensus_odds_open",
+                    "draw_consensus_odds_open",
+                    "opponent_win_consensus_odds_open",
+                    "team_win_consensus_odds_close",
+                    "draw_consensus_odds_close",
+                    "opponent_win_consensus_odds_close",
+                ]
+            for column in missing_market_columns:
+                if column not in enriched.columns:
+                    enriched[column] = pd.NA
         enriched_groups.append(enriched)
 
     if not enriched_groups:
