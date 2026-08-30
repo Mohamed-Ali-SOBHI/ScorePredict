@@ -83,6 +83,7 @@ try {
             --date-from $DateFrom `
             --date-to $DateTo `
             --portfolio $Portfolio `
+            --allow-partial-leagues `
             --output $FixturesCsv
         Assert-LastExitCode "fetch_sportytrader_portfolio_odds.py"
     }
