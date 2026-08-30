@@ -19,6 +19,8 @@ DEFAULT_STATUS = Path(__file__).resolve().parent / "output" / "prediction_store_
 TABLE = "prediction_history"
 REMOTE_COLUMNS = [
     "snapshot_key",
+    "fixture_id",
+    "kickoff_utc",
     "prediction_generated_at_utc",
     "portfolio_name",
     "date",
@@ -134,6 +136,13 @@ def remote_records(local: pd.DataFrame) -> list[dict[str, Any]]:
         record["recommended"] = bool(record.get("recommended"))
         record["result_status"] = record.get("result_status") or "pending"
         record["date"] = paris_iso(record["date"])
+        record["fixture_id"] = str(record.get("fixture_id") or "").strip() or None
+        raw_kickoff = str(record.get("kickoff_utc") or "").strip()
+        record["kickoff_utc"] = (
+            pd.to_datetime(raw_kickoff, errors="raise", utc=True).isoformat()
+            if raw_kickoff
+            else None
+        )
         payload.append(record)
     return payload
 

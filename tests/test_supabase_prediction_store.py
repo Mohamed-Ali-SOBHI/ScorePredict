@@ -12,6 +12,8 @@ class SupabasePredictionStoreTests(unittest.TestCase):
                 [
                     {
                         "snapshot_key": "fixture-1",
+                        "fixture_id": "sportytrader:123",
+                        "kickoff_utc": "2026-08-29T13:30:00Z",
                         "date": "2026-08-29 15:30:00",
                         "recommended": 1.0,
                         "match_found": "True",
@@ -30,6 +32,8 @@ class SupabasePredictionStoreTests(unittest.TestCase):
         self.assertEqual(records[0]["actual_away_score"], 1)
         self.assertEqual(records[0]["train_max_season"], 2025)
         self.assertEqual(records[0]["date"], "2026-08-29T15:30:00+02:00")
+        self.assertEqual(records[0]["fixture_id"], "sportytrader:123")
+        self.assertEqual(records[0]["kickoff_utc"], "2026-08-29T13:30:00+00:00")
 
     def test_keeps_only_recommended_rows_for_remote_storage(self) -> None:
         rows = recommended_rows(

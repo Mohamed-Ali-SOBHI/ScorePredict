@@ -6,10 +6,12 @@ from unittest.mock import patch
 import pandas as pd
 
 from inference.sportytrader_client import (
-    _shared_verified_offset,
+    KickoffTimeVerificationError,
+    apply_structured_fixture_times,
+    fetch_upcoming_league_fixtures,
     fetch_upcoming_fixtures_for_leagues,
+    parse_structured_fixture_times,
     parse_sportsdb_fixture_times,
-    reconcile_fixture_times,
 )
 
 
@@ -41,7 +43,36 @@ class SportyTraderClientTests(unittest.TestCase):
             ]
         )
 
-    def test_sportsdb_utc_time_is_converted_to_paris_summer_time(self) -> None:
+    @staticmethod
+    def _structured_event() -> list[dict[str, object]]:
+        return [
+            {
+                "@type": "SportsEvent",
+                "url": "https://www.sportytrader.com/en/odds/ipswich-sunderland-8595825/",
+                "startDate": "2026-08-22T14:00:00+00:00",
+                "homeTeam": {"name": "Ipswich Town"},
+                "awayTeam": {"name": "Sunderland"},
+            }
+        ]
+
+    def test_jsonld_utc_time_is_canonical_and_has_a_stable_id(self) -> None:
+        canonical = parse_structured_fixture_times(self._structured_event(), league="EPL")
+
+        self.assertEqual(canonical.iloc[0]["fixture_id"], "sportytrader:8595825")
+        self.assertEqual(canonical.iloc[0]["official_date"], pd.Timestamp("2026-08-22 16:00:00"))
+        self.assertEqual(canonical.iloc[0]["kickoff_utc"], "2026-08-22T14:00:00+00:00")
+
+    def test_visible_server_time_is_replaced_by_jsonld_utc_time(self) -> None:
+        canonical = parse_structured_fixture_times(self._structured_event(), league="EPL")
+        corrected = apply_structured_fixture_times(self._scraped_fixture().iloc[[0]], canonical)
+
+        self.assertEqual(corrected.iloc[0]["date"], pd.Timestamp("2026-08-22 16:00:00"))
+        self.assertEqual(
+            corrected.iloc[0]["source"],
+            "sportytrader_playwright+sportytrader_jsonld_utc",
+        )
+
+    def test_sportsdb_utc_time_is_still_available_for_final_results(self) -> None:
         payload = {
             "events": [
                 {
@@ -53,83 +84,13 @@ class SportyTraderClientTests(unittest.TestCase):
         }
 
         official = parse_sportsdb_fixture_times(payload, league="EPL")
-        corrected = reconcile_fixture_times(self._scraped_fixture(), official)
+        self.assertEqual(official.iloc[0]["official_date"], pd.Timestamp("2026-08-22 16:00:00"))
 
-        self.assertEqual(corrected.iloc[0]["date"], pd.Timestamp("2026-08-22 16:00:00"))
-        self.assertEqual(corrected.iloc[1]["date"], pd.Timestamp("2026-08-23 15:00:00"))
-        self.assertEqual(corrected.iloc[0]["source"], "sportytrader_playwright+sportsdb_timezone")
+    def test_refuses_a_visible_time_without_its_canonical_event(self) -> None:
+        canonical = parse_structured_fixture_times(self._structured_event(), league="EPL")
 
-    def test_refuses_to_publish_an_unverified_kickoff_time(self) -> None:
-        official = pd.DataFrame(
-            columns=["league", "home_team_norm", "away_team_norm", "official_date"]
-        )
-
-        with self.assertRaisesRegex(ValueError, "Unable to verify"):
-            reconcile_fixture_times(self._scraped_fixture(), official)
-
-    def test_accepts_an_offset_verified_on_another_league_page(self) -> None:
-        official = pd.DataFrame(
-            columns=["league", "home_team_norm", "away_team_norm", "official_date"]
-        )
-
-        corrected = reconcile_fixture_times(
-            self._scraped_fixture(),
-            official,
-            fallback_offset_minutes=360,
-        )
-
-        self.assertEqual(corrected.iloc[0]["date"], pd.Timestamp("2026-08-22 16:00:00"))
-        self.assertEqual(
-            corrected.iloc[0]["source"],
-            "sportytrader_playwright+shared_verified_timezone",
-        )
-
-    @patch("inference.sportytrader_client.fetch_upcoming_league_fixtures")
-    def test_retries_a_league_with_the_shared_verified_offset(self, fetch_league) -> None:
-        def fake_fetch(league: str, **kwargs) -> pd.DataFrame:
-            fallback = kwargs.get("fallback_offset_minutes")
-            if league == "La_liga" and fallback is None:
-                from inference.sportytrader_client import KickoffTimeVerificationError
-
-                raise KickoffTimeVerificationError("Unable to verify La_liga")
-            frame = pd.DataFrame(
-                [
-                    {
-                        "date": pd.Timestamp("2026-08-25 16:00:00"),
-                        "league": league,
-                        "home_team": "Home",
-                        "away_team": "Away",
-                        "source": "test",
-                    }
-                ]
-            )
-            frame.attrs["verified_offset_minutes_by_league"] = {league: fallback or 360}
-            return frame
-
-        fetch_league.side_effect = fake_fetch
-
-        fixtures = fetch_upcoming_fixtures_for_leagues(
-            ["EPL", "Bundesliga", "La_liga"],
-            date_from=pd.Timestamp("2026-08-24"),
-            date_to=pd.Timestamp("2026-09-14"),
-            wait_seconds=0,
-            timeout_seconds=1,
-        )
-
-        self.assertEqual(set(fixtures["league"]), {"EPL", "Bundesliga", "La_liga"})
-        retry = [
-            call
-            for call in fetch_league.call_args_list
-            if call.args[0] == "La_liga"
-            and call.kwargs.get("fallback_offset_minutes") == 360
-        ]
-        self.assertEqual(len(retry), 1)
-
-    def test_shared_offset_requires_a_strict_multi_league_majority(self) -> None:
-        self.assertEqual(_shared_verified_offset([360, 360, 360, 300]), 360)
-        self.assertIsNone(_shared_verified_offset([360]))
-        self.assertIsNone(_shared_verified_offset([360, 300]))
-        self.assertIsNone(_shared_verified_offset([360, 360, 300, 300]))
+        with self.assertRaisesRegex(KickoffTimeVerificationError, "Canonical UTC kickoff missing"):
+            apply_structured_fixture_times(self._scraped_fixture(), canonical)
 
     @patch("inference.sportytrader_client.fetch_upcoming_league_fixtures")
     def test_partial_catalog_skips_only_the_unverifiable_league(self, fetch_league) -> None:
@@ -166,14 +127,11 @@ class SportyTraderClientTests(unittest.TestCase):
 
         self.assertEqual(set(fixtures["league"]), {"EPL", "Serie_A"})
 
-    @patch("inference.sportytrader_client.fetch_sportsdb_fixture_times")
-    @patch("inference.sportytrader_client.fetch_league_page_text")
-    def test_shared_offset_retry_reuses_the_first_download(
-        self,
-        fetch_page,
-        fetch_official,
-    ) -> None:
-        fetch_page.return_value = """Upcoming LaLiga matches
+    @patch("inference.sportytrader_client.fetch_league_page_payload")
+    def test_fetch_uses_jsonld_without_a_second_schedule_source(self, fetch_page) -> None:
+        fetch_page.return_value = {
+            "title": "LaLiga odds",
+            "pageText": """Upcoming LaLiga matches
 25 Aug - 10:00
 Home - Away
 1
@@ -182,37 +140,29 @@ X
 3.5
 2
 4.0
-"""
-        fetch_official.return_value = pd.DataFrame(
-            columns=["league", "home_team_norm", "away_team_norm", "official_date"]
-        )
-        source_cache: dict[str, tuple[pd.DataFrame, pd.DataFrame]] = {}
+""",
+            "sportsEvents": [
+                {
+                    "@type": "SportsEvent",
+                    "url": "https://www.sportytrader.com/en/odds/home-away-12345/",
+                    "startDate": "2026-08-25T14:00:00+00:00",
+                    "homeTeam": {"name": "Home"},
+                    "awayTeam": {"name": "Away"},
+                }
+            ],
+        }
 
-        with self.assertRaisesRegex(ValueError, "Unable to verify"):
-            from inference.sportytrader_client import fetch_upcoming_league_fixtures
-
-            fetch_upcoming_league_fixtures(
-                "La_liga",
-                date_from=pd.Timestamp("2026-08-24"),
-                date_to=pd.Timestamp("2026-09-14"),
-                wait_seconds=0,
-                timeout_seconds=1,
-                _source_cache=source_cache,
-            )
-
-        corrected = fetch_upcoming_league_fixtures(
+        fixtures = fetch_upcoming_league_fixtures(
             "La_liga",
             date_from=pd.Timestamp("2026-08-24"),
             date_to=pd.Timestamp("2026-09-14"),
             wait_seconds=0,
             timeout_seconds=1,
-            fallback_offset_minutes=360,
-            _source_cache=source_cache,
         )
 
         self.assertEqual(fetch_page.call_count, 1)
-        self.assertEqual(fetch_official.call_count, 1)
-        self.assertEqual(corrected.iloc[0]["date"], pd.Timestamp("2026-08-25 16:00:00"))
+        self.assertEqual(fixtures.iloc[0]["date"], pd.Timestamp("2026-08-25 16:00:00"))
+        self.assertEqual(fixtures.iloc[0]["fixture_id"], "sportytrader:12345")
 
 
 if __name__ == "__main__":

@@ -44,7 +44,8 @@ Après avoir envoyé le workflow sur la branche principale, sélectionner **Sett
 La grande courbe de simulation historique n'est plus affichée aux utilisateurs. Le site montre uniquement les prévisions réellement publiées avant les matchs, puis leur état : en attente, gagnée, perdue ou annulée.
 
 1. Créer un projet Supabase gratuit.
-2. Exécuter `supabase/migrations/202608110001_prediction_history.sql` dans l'éditeur SQL Supabase.
+2. Exécuter `supabase/migrations/202608110001_prediction_history.sql`, puis
+   `supabase/migrations/202608300001_fixture_registry.sql` dans l'éditeur SQL Supabase.
 3. Dans **GitHub → Settings → Secrets and variables → Actions**, créer `SUPABASE_URL` et `SUPABASE_SECRET_KEY`.
 4. Relancer le workflow **Prévisions quotidiennes et site**.
 

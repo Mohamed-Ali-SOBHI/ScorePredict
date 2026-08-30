@@ -36,6 +36,8 @@ DEFAULT_OUTPUT_BETS = SCRIPT_DIR / "output" / "upcoming_portfolio_bets.csv"
 DEFAULT_TRACKING_LEDGER = SCRIPT_DIR / "output" / "live_portfolio_bet_log.csv"
 
 ALL_EXPORT_COLUMNS = [
+    "fixture_id",
+    "kickoff_utc",
     "date",
     "league",
     "team_name",
@@ -65,6 +67,8 @@ ALL_EXPORT_COLUMNS = [
 ]
 
 BET_EXPORT_COLUMNS = [
+    "fixture_id",
+    "kickoff_utc",
     "date",
     "league",
     "team_name",
@@ -177,6 +181,10 @@ def main() -> None:
 
     bundles = train_frozen_models(dataset, strategies, train_max_season=args.train_max_season)
     future_df = dataset[dataset["match_id"].isin(future_match_ids)].copy()
+    fixture_ids = fixtures.get("fixture_id", pd.Series("", index=fixtures.index)).astype(str)
+    kickoff_times = fixtures.get("kickoff_utc", pd.Series("", index=fixtures.index)).astype(str)
+    future_df["fixture_id"] = future_df["match_id"].map(dict(zip(future_match_ids, fixture_ids)))
+    future_df["kickoff_utc"] = future_df["match_id"].map(dict(zip(future_match_ids, kickoff_times)))
     future_df = future_df.sort_values(["date", "league", "team_name"]).reset_index(drop=True)
     scored = score_strategy_rows(future_df, bundles, strategies)
     bets = dedupe_recommended_bets(scored)

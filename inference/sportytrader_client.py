@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import gzip
+import hashlib
 import json
 import os
 import re
@@ -76,12 +77,12 @@ class KickoffTimeVerificationError(ValueError):
     """Raised when a league cannot independently verify SportyTrader's time offset."""
 
 
-def fetch_league_page_text(
+def fetch_league_page_payload(
     league: str,
     *,
     wait_seconds: float,
     timeout_seconds: float,
-) -> str:
+) -> dict[str, object]:
     if league not in SPORTYTRADER_LEAGUE_CONFIGS:
         raise KeyError(f"Unsupported Sportytrader league: {league}")
 
@@ -122,14 +123,31 @@ def fetch_league_page_text(
             f"Unable to read Sportytrader for {league} after {attempts} attempt(s).\n"
             + "\n".join(failures)
         )
-    import json
-
     payload = json.loads(proc.stdout)
     title = str(payload.get("title", ""))
     page_text = payload.get("pageText")
     if config["title_contains"] not in title or not isinstance(page_text, str):
         raise ValueError(f"Unexpected Sportytrader response for {league}: {title!r}")
-    return page_text
+    sports_events = payload.get("sportsEvents")
+    if not isinstance(sports_events, list):
+        raise ValueError(f"Sportytrader JSON-LD events are missing for {league}")
+    return {"title": title, "pageText": page_text, "sportsEvents": sports_events}
+
+
+def fetch_league_page_text(
+    league: str,
+    *,
+    wait_seconds: float,
+    timeout_seconds: float,
+) -> str:
+    """Compatibility wrapper for callers that only need rendered text."""
+    return str(
+        fetch_league_page_payload(
+            league,
+            wait_seconds=wait_seconds,
+            timeout_seconds=timeout_seconds,
+        )["pageText"]
+    )
 
 
 def choose_year(day: int, month: int, date_from: pd.Timestamp) -> int:
@@ -155,6 +173,84 @@ def parse_fixture_timestamp(raw: str, date_from: pd.Timestamp) -> pd.Timestamp:
     month = MONTHS[month_abbrev]
     year = choose_year(int(day_str), month, date_from)
     return pd.Timestamp(f"{year:04d}-{month:02d}-{int(day_str):02d} {time_part}:00")
+
+
+def parse_structured_fixture_times(events: list[object], *, league: str) -> pd.DataFrame:
+    """Read canonical UTC kickoffs and stable fixture ids from SportsEvent JSON-LD."""
+    rows: list[dict[str, object]] = []
+    for event in events:
+        if not isinstance(event, dict):
+            continue
+        raw_start = event.get("startDate")
+        home = event.get("homeTeam") or {}
+        away = event.get("awayTeam") or {}
+        home_name = str(home.get("name") or "").strip() if isinstance(home, dict) else ""
+        away_name = str(away.get("name") or "").strip() if isinstance(away, dict) else ""
+        kickoff_utc = pd.to_datetime(raw_start, errors="coerce", utc=True)
+        if pd.isna(kickoff_utc) or not home_name or not away_name:
+            continue
+        event_url = str(event.get("url") or "").strip()
+        id_match = re.search(r"-(\d+)/?$", event_url)
+        source_id = id_match.group(1) if id_match else hashlib.sha256(
+            f"{league}|{home_name}|{away_name}|{kickoff_utc.isoformat()}".encode("utf-8")
+        ).hexdigest()[:16]
+        rows.append(
+            {
+                "fixture_id": f"sportytrader:{source_id}",
+                "league": league,
+                "home_team": home_name,
+                "away_team": away_name,
+                "home_team_norm": normalize_team_name(home_name),
+                "away_team_norm": normalize_team_name(away_name),
+                "kickoff_utc": kickoff_utc.isoformat(),
+                "official_date": kickoff_utc.tz_convert(DISPLAY_TIMEZONE).tz_localize(None),
+                "schedule_source": "sportytrader_jsonld_utc",
+            }
+        )
+    return pd.DataFrame(rows)
+
+
+def apply_structured_fixture_times(fixtures: pd.DataFrame, canonical: pd.DataFrame) -> pd.DataFrame:
+    """Attach canonical JSON-LD times to the separately parsed 1X2 odds rows."""
+    if fixtures.empty:
+        return fixtures.copy()
+    if canonical.empty:
+        raise KickoffTimeVerificationError("Sportytrader did not expose canonical SportsEvent timestamps.")
+
+    odds = fixtures.copy()
+    odds["home_team_norm"] = odds["home_team"].map(normalize_team_name)
+    odds["away_team_norm"] = odds["away_team"].map(normalize_team_name)
+    canonical_rows = canonical.drop_duplicates(
+        subset=["league", "home_team_norm", "away_team_norm"], keep="first"
+    )
+    merged = odds.merge(
+        canonical_rows[
+            [
+                "fixture_id",
+                "league",
+                "home_team_norm",
+                "away_team_norm",
+                "kickoff_utc",
+                "official_date",
+                "schedule_source",
+            ]
+        ],
+        on=["league", "home_team_norm", "away_team_norm"],
+        how="left",
+        validate="many_to_one",
+    )
+    missing = merged["fixture_id"].isna()
+    if missing.any():
+        sample = ", ".join(
+            f"{row.home_team} - {row.away_team}"
+            for row in merged.loc[missing].head(3).itertuples(index=False)
+        )
+        raise KickoffTimeVerificationError(
+            f"Canonical UTC kickoff missing for {int(missing.sum())} fixture(s): {sample}"
+        )
+    merged["date"] = pd.to_datetime(merged.pop("official_date"), errors="raise")
+    merged["source"] = "sportytrader_playwright+sportytrader_jsonld_utc"
+    return merged.drop(columns=["home_team_norm", "away_team_norm"])
 
 
 def infer_season(date_value: pd.Timestamp) -> int:
@@ -395,50 +491,37 @@ def fetch_upcoming_league_fixtures(
     fallback_offset_minutes: int | None = None,
     _source_cache: dict[str, tuple[pd.DataFrame, pd.DataFrame]] | None = None,
 ) -> pd.DataFrame:
+    del fallback_offset_minutes  # Les heures viennent désormais d'un timestamp UTC absolu.
     cached = _source_cache.get(league) if _source_cache is not None else None
     if cached is not None:
-        fixtures, official = cached
+        fixtures, canonical = cached
     else:
-        page_text = fetch_league_page_text(
+        payload = fetch_league_page_payload(
             league,
             wait_seconds=wait_seconds,
             timeout_seconds=timeout_seconds,
         )
-        verification_date_to = max(date_to, date_from + pd.Timedelta(days=60))
+        collection_date_from = date_from - pd.Timedelta(days=1)
+        collection_date_to = max(date_to, date_from + pd.Timedelta(days=60))
         fixtures = parse_upcoming_fixtures(
-            page_text,
-            date_from=date_from,
-            date_to=verification_date_to,
+            str(payload["pageText"]),
+            date_from=collection_date_from,
+            date_to=collection_date_to,
             league=league,
         )
         if fixtures.empty:
             return fixtures
-
-        seasons = {infer_season(date_from), infer_season(date_to)}
-        official = pd.concat(
-            [
-                fetch_sportsdb_fixture_times(
-                    league,
-                    season,
-                    timeout_seconds=timeout_seconds,
-                )
-                for season in sorted(seasons)
-            ],
-            ignore_index=True,
+        canonical = parse_structured_fixture_times(
+            list(payload["sportsEvents"]),
+            league=league,
         )
         if _source_cache is not None:
-            _source_cache[league] = (fixtures, official)
-    corrected = reconcile_fixture_times(
-        fixtures,
-        official,
-        fallback_offset_minutes=fallback_offset_minutes,
-    )
-    correction_metadata = dict(corrected.attrs)
+            _source_cache[league] = (fixtures, canonical)
+    corrected = apply_structured_fixture_times(fixtures, canonical)
     end_of_day = date_to + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
     result = corrected[
         (corrected["date"] >= date_from) & (corrected["date"] <= end_of_day)
     ].reset_index(drop=True)
-    result.attrs.update(correction_metadata)
     return result
 
 
@@ -466,7 +549,6 @@ def fetch_upcoming_fixtures_for_leagues(
     frames: list[pd.DataFrame] = []
     deferred: list[tuple[str, KickoffTimeVerificationError]] = []
     unavailable: list[tuple[str, RuntimeError]] = []
-    verified_offsets: list[int] = []
     source_cache: dict[str, tuple[pd.DataFrame, pd.DataFrame]] = {}
 
     for league in leagues:
@@ -489,35 +571,12 @@ def fetch_upcoming_fixtures_for_leagues(
             print(f"Skipping unavailable league {league}: {exc}")
             continue
         frames.append(frame)
-        offset = frame.attrs.get("verified_offset_minutes_by_league", {}).get(league)
-        if offset is not None:
-            verified_offsets.append(int(offset))
 
     if deferred:
-        print({"verified_kickoff_offsets_minutes": verified_offsets})
-        shared_offset = _shared_verified_offset(verified_offsets)
-        if shared_offset is None:
-            if not allow_partial:
-                raise deferred[0][1]
-            for league, exc in deferred:
-                print(f"Skipping league with unverified kickoff times {league}: {exc}")
-        else:
-            for league, _ in deferred:
-                print(
-                    f"Using the {shared_offset:+d}-minute offset verified on the other "
-                    f"SportyTrader league pages for {league}."
-                )
-                frames.append(
-                    fetch_upcoming_league_fixtures(
-                        league,
-                        date_from=date_from,
-                        date_to=date_to,
-                        wait_seconds=wait_seconds,
-                        timeout_seconds=timeout_seconds,
-                        fallback_offset_minutes=shared_offset,
-                        _source_cache=source_cache,
-                    )
-                )
+        if not allow_partial:
+            raise deferred[0][1]
+        for league, exc in deferred:
+            print(f"Skipping league without a canonical UTC kickoff {league}: {exc}")
     if not frames:
         if unavailable or deferred:
             failures = [f"{league}: {exc}" for league, exc in [*unavailable, *deferred]]
@@ -532,6 +591,9 @@ def fetch_upcoming_fixtures_for_leagues(
                 "draw_odds_open",
                 "away_win_odds_open",
                 "source",
+                "fixture_id",
+                "kickoff_utc",
+                "schedule_source",
             ]
         )
     return pd.concat(frames, ignore_index=True).sort_values(["date", "league", "home_team"]).reset_index(drop=True)

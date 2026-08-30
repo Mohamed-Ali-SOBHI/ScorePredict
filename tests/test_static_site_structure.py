@@ -126,6 +126,7 @@ class StaticSiteStructureTests(unittest.TestCase):
             encoding="utf-8"
         )
         self.assertEqual(pipeline.count("--allow-partial-leagues"), 2)
+        self.assertIn("inference.supabase_fixture_store push", pipeline)
 
 
 if __name__ == "__main__":
