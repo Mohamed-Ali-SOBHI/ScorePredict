@@ -10,12 +10,60 @@ from inference.sportytrader_client import (
     apply_structured_fixture_times,
     fetch_upcoming_league_fixtures,
     fetch_upcoming_fixtures_for_leagues,
+    parse_fixture_timestamp,
+    parse_upcoming_fixtures,
     parse_structured_fixture_times,
     parse_sportsdb_fixture_times,
 )
 
 
 class SportyTraderClientTests(unittest.TestCase):
+    def test_september_label_does_not_stop_the_fixture_list(self) -> None:
+        fixtures = parse_upcoming_fixtures(
+            """Upcoming Premier League matches
+31 Aug - 21:00
+Aston Villa - Arsenal
+1
+6.8
+X
+4.5
+2
+1.56
+04 Sept - 21:00
+Ipswich Town - Liverpool
+1
+5.25
+X
+4.47
+2
+1.68
+05 Sept - 13:30
+Newcastle - Bournemouth
+1
+2.36
+X
+3.81
+2
+3.04
+""",
+            date_from=pd.Timestamp("2026-08-30"),
+            date_to=pd.Timestamp("2026-09-20"),
+            league="EPL",
+        )
+
+        self.assertEqual(len(fixtures), 3)
+        self.assertEqual(fixtures.iloc[1]["date"], pd.Timestamp("2026-09-04 21:00:00"))
+
+    def test_french_month_labels_remain_supported(self) -> None:
+        self.assertEqual(
+            parse_fixture_timestamp("04 sept. - 21:00", pd.Timestamp("2026-08-30")),
+            pd.Timestamp("2026-09-04 21:00:00"),
+        )
+        self.assertEqual(
+            parse_fixture_timestamp("31 août - 21:00", pd.Timestamp("2026-08-30")),
+            pd.Timestamp("2026-08-31 21:00:00"),
+        )
+
     @staticmethod
     def _scraped_fixture() -> pd.DataFrame:
         return pd.DataFrame(
