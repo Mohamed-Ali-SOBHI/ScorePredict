@@ -286,6 +286,39 @@ section:first-of-type {
 .prediction-choice { margin-top: 28px; }
 .prediction-choice small { display: block; color: rgba(255, 255, 255, .46); font-size: 8px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
 .prediction-choice strong { display: block; margin-top: 4px; color: rgba(255, 255, 255, .82); font-size: 13px; font-weight: 650; letter-spacing: .02em; }
+.prediction-confidence {
+  position: relative;
+  z-index: 3;
+  margin-bottom: 17px;
+}
+.prediction-confidence > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 7px;
+}
+.prediction-confidence span {
+  color: rgba(255, 255, 255, .54);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.prediction-confidence b { color: #fff; font-size: 13px; font-weight: 730; }
+.prediction-confidence > i {
+  display: block;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .12);
+}
+.prediction-confidence > i span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #a8d65b;
+}
 .prediction-footer {
   position: relative;
   z-index: 3;

@@ -142,6 +142,8 @@ const LEAGUE_COUNTRIES = Object.freeze({
 function predictionMarkup(prediction) {
   const league = prediction.leagueLabel || prediction.league || "Championnat";
   const country = LEAGUE_COUNTRIES[prediction.league] || league;
+  const confidence = numberOrNull(prediction.modelProbability) ?? 0;
+  const confidenceWidth = Math.max(0, Math.min(100, confidence * 100));
   return `
     <article class="prediction" aria-label="${escapeHtml(`${prediction.homeTeam} contre ${prediction.awayTeam}, ${prediction.outcomeLabel}`)}">
       <div class="prediction-head">
@@ -158,6 +160,10 @@ function predictionMarkup(prediction) {
           <small>${escapeHtml(prediction.adviceLabel || "Choix publié")}</small>
           <strong>${escapeHtml(prediction.outcomeLabel)}</strong>
         </div>
+      </div>
+      <div class="prediction-confidence" aria-label="Confiance du modèle : ${escapeHtml(percent.format(confidence))}">
+        <div><span>Confiance du modèle</span><b>${escapeHtml(percent.format(confidence))}</b></div>
+        <i aria-hidden="true"><span style="width: ${confidenceWidth.toFixed(1)}%"></span></i>
       </div>
       <div class="prediction-footer">
         <div><span>Cote</span><b>${decimal.format(prediction.odds)}</b></div>
