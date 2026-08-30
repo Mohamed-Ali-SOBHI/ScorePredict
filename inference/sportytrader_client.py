@@ -8,6 +8,7 @@ import re
 import shutil
 import subprocess
 import time
+import unicodedata
 from pathlib import Path
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
@@ -48,20 +49,43 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent
 NODE_EXECUTABLE = shutil.which("node") or "node"
 PAGE_READER = SCRIPT_DIR / "sportytrader_page_text.mjs"
-DATE_LINE_RE = re.compile(r"^\d{1,2}\s+[A-Z][a-z]{2}\s+-\s+\d{2}:\d{2}$")
+DATE_LINE_RE = re.compile(
+    r"^\d{1,2}\s+[^\W\d_]+\.?\s+-\s+\d{2}:\d{2}$",
+    flags=re.UNICODE,
+)
 MONTHS = {
-    "Jan": 1,
-    "Feb": 2,
-    "Mar": 3,
-    "Apr": 4,
-    "May": 5,
-    "Jun": 6,
-    "Jul": 7,
-    "Aug": 8,
-    "Sep": 9,
-    "Oct": 10,
-    "Nov": 11,
-    "Dec": 12,
+    "jan": 1,
+    "january": 1,
+    "janv": 1,
+    "feb": 2,
+    "february": 2,
+    "fevr": 2,
+    "mar": 3,
+    "march": 3,
+    "mars": 3,
+    "apr": 4,
+    "april": 4,
+    "avr": 4,
+    "may": 5,
+    "mai": 5,
+    "jun": 6,
+    "june": 6,
+    "juin": 6,
+    "jul": 7,
+    "july": 7,
+    "juil": 7,
+    "aug": 8,
+    "august": 8,
+    "aout": 8,
+    "sep": 9,
+    "sept": 9,
+    "september": 9,
+    "oct": 10,
+    "october": 10,
+    "nov": 11,
+    "november": 11,
+    "dec": 12,
+    "december": 12,
 }
 DISPLAY_TIMEZONE = "Europe/Paris"
 THE_SPORTS_DB_LEAGUE_IDS = {
@@ -170,7 +194,16 @@ def choose_year(day: int, month: int, date_from: pd.Timestamp) -> int:
 def parse_fixture_timestamp(raw: str, date_from: pd.Timestamp) -> pd.Timestamp:
     date_part, time_part = raw.split(" - ", maxsplit=1)
     day_str, month_abbrev = date_part.split()
-    month = MONTHS[month_abbrev]
+    month_key = (
+        unicodedata.normalize("NFKD", month_abbrev.rstrip("."))
+        .encode("ascii", "ignore")
+        .decode("ascii")
+        .lower()
+    )
+    try:
+        month = MONTHS[month_key]
+    except KeyError as exc:
+        raise ValueError(f"Unsupported month label: {month_abbrev!r}") from exc
     year = choose_year(int(day_str), month, date_from)
     return pd.Timestamp(f"{year:04d}-{month:02d}-{int(day_str):02d} {time_part}:00")
 
