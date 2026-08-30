@@ -121,6 +121,12 @@ class StaticSiteStructureTests(unittest.TestCase):
         self.assertIn("python -m inference.validate_publication_kickoffs", workflow)
         self.assertIn("Les horaires publics ne correspondent pas au calendrier vérifié.", workflow)
 
+    def test_daily_pipeline_keeps_valid_leagues_when_one_source_is_late(self) -> None:
+        pipeline = (ROOT / "inference" / "run_upcoming_portfolio.ps1").read_text(
+            encoding="utf-8"
+        )
+        self.assertEqual(pipeline.count("--allow-partial-leagues"), 2)
+
 
 if __name__ == "__main__":
     unittest.main()
