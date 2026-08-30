@@ -104,6 +104,7 @@ jobs:
           path: |
             inference/output/browser-failures
             inference/output/*.csv
+            inference/output/*.json
             train/output/*.json
           if-no-files-found: ignore
           retention-days: 7

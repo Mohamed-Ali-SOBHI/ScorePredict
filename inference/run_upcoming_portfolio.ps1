@@ -54,6 +54,11 @@ try {
             --output $catalogPath
         Assert-LastExitCode "current season fixture catalog"
 
+        & $PythonExe -m inference.supabase_fixture_store push `
+            --fixtures $catalogPath `
+            --status-output .\inference\output\fixture_store_status.json
+        Assert-LastExitCode "Supabase fixture registry"
+
         & $PythonExe .\train\make_dataset.py --data-dir .\Data --output .\train\dataset_home.csv
         Assert-LastExitCode "train\\make_dataset.py"
 

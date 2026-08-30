@@ -30,6 +30,8 @@ class LiveTrackingTests(unittest.TestCase):
             [
                 {
                     "date": pd.Timestamp("2026-08-29 15:30:00"),
+                    "fixture_id": "sportytrader:123",
+                    "kickoff_utc": "2026-08-29T13:30:00+00:00",
                     "league": "Bundesliga",
                     "home_team": "Spvgg Elversberg",
                     "away_team": "Bayer Leverkusen",
@@ -41,6 +43,39 @@ class LiveTrackingTests(unittest.TestCase):
 
         self.assertEqual(count, 1)
         self.assertEqual(refreshed.iloc[0]["date"], "2026-08-29T15:30:00+02:00")
+        self.assertEqual(refreshed.iloc[0]["fixture_id"], "sportytrader:123")
+        self.assertEqual(refreshed.iloc[0]["kickoff_utc"], "2026-08-29T13:30:00+00:00")
+
+    def test_fixture_id_is_preferred_over_names(self) -> None:
+        ledger = pd.DataFrame(
+            [
+                {
+                    "date": "2026-08-29T15:30:00+02:00",
+                    "fixture_id": "sportytrader:123",
+                    "league": "Bundesliga",
+                    "team_name": "Ancien nom",
+                    "opponent_name": "Autre ancien nom",
+                    "result_status": "pending",
+                }
+            ]
+        )
+        fixtures = pd.DataFrame(
+            [
+                {
+                    "official_date": "2026-08-29T15:30:00+02:00",
+                    "fixture_id": "sportytrader:123",
+                    "kickoff_utc": "2026-08-29T13:30:00Z",
+                    "league": "Bundesliga",
+                    "home_team": "Nouveau nom",
+                    "away_team": "Nouvel adversaire",
+                }
+            ]
+        )
+
+        refreshed, count = refresh_pending_fixture_dates_from_catalog(ledger, fixtures)
+
+        self.assertEqual(count, 1)
+        self.assertEqual(refreshed.iloc[0]["kickoff_utc"], "2026-08-29T13:30:00+00:00")
 
     def test_fixture_catalog_never_rewrites_a_settled_bet(self) -> None:
         ledger = pd.DataFrame(

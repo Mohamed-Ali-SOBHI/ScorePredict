@@ -34,7 +34,28 @@ try {
     { timeout: timeoutMs },
   );
   const pageText = await page.locator("body").innerText();
-  process.stdout.write(JSON.stringify({ title: await page.title(), pageText }));
+  const sportsEvents = await page.locator('script[type="application/ld+json"]').evaluateAll((scripts) => {
+    const events = [];
+    const visit = (value) => {
+      if (Array.isArray(value)) {
+        value.forEach(visit);
+        return;
+      }
+      if (!value || typeof value !== "object") return;
+      const types = Array.isArray(value["@type"]) ? value["@type"] : [value["@type"]];
+      if (types.includes("SportsEvent")) events.push(value);
+      if (value["@graph"]) visit(value["@graph"]);
+    };
+    for (const script of scripts) {
+      try {
+        visit(JSON.parse(script.textContent || "null"));
+      } catch {
+        // Un bloc JSON-LD sans rapport avec les matchs ne doit pas bloquer la collecte.
+      }
+    }
+    return events;
+  });
+  process.stdout.write(JSON.stringify({ title: await page.title(), pageText, sportsEvents }));
 } catch (error) {
   if (failureDir && page) {
     try {

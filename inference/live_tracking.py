@@ -16,6 +16,8 @@ from inference.kickoff_time import (
 
 TRACKING_COLUMNS = [
     "snapshot_key",
+    "fixture_id",
+    "kickoff_utc",
     "prediction_generated_at_utc",
     "portfolio_name",
     "date",
@@ -215,17 +217,25 @@ def refresh_pending_fixture_dates_from_catalog(
         return existing.copy(), 0
 
     refreshed = existing.copy()
+    for column in ("fixture_id", "kickoff_utc"):
+        if column not in refreshed.columns:
+            refreshed[column] = pd.NA
     statuses = refreshed.get("result_status", pd.Series("pending", index=refreshed.index))
     terminal = statuses.fillna("pending").astype(str).str.lower().isin({"won", "lost", "void"})
     refreshed_count = 0
 
     for index in refreshed.index[~terminal]:
         row = refreshed.loc[index]
-        candidates = fixtures[
-            (fixtures["league"].astype(str) == str(row.get("league")))
-            & (fixtures["_home_norm"] == normalize_team_name(row.get("team_name")))
-            & (fixtures["_away_norm"] == normalize_team_name(row.get("opponent_name")))
-        ].copy()
+        raw_fixture_id = row.get("fixture_id")
+        fixture_id = "" if pd.isna(raw_fixture_id) else str(raw_fixture_id).strip()
+        if fixture_id and fixture_id.lower() not in {"nan", "<na>"} and "fixture_id" in fixtures.columns:
+            candidates = fixtures[fixtures["fixture_id"].astype(str) == fixture_id].copy()
+        else:
+            candidates = fixtures[
+                (fixtures["league"].astype(str) == str(row.get("league")))
+                & (fixtures["_home_norm"] == normalize_team_name(row.get("team_name")))
+                & (fixtures["_away_norm"] == normalize_team_name(row.get("opponent_name")))
+            ].copy()
         if candidates.empty:
             continue
 
@@ -239,10 +249,32 @@ def refresh_pending_fixture_dates_from_catalog(
         selected = candidates.sort_values("_distance" if "_distance" in candidates else "_catalog_date").iloc[0]
         corrected_date = selected[date_column]
         corrected_paris = coerce_paris_timestamp(corrected_date)
-        if pd.notna(current_date) and pd.notna(corrected_paris) and current_date == corrected_paris:
-            continue
-        refreshed.at[index, "date"] = paris_iso(corrected_date)
-        refreshed_count += 1
+        changed = False
+        if not (pd.notna(current_date) and pd.notna(corrected_paris) and current_date == corrected_paris):
+            refreshed.at[index, "date"] = paris_iso(corrected_date)
+            changed = True
+
+        raw_selected_fixture_id = selected.get("fixture_id")
+        selected_fixture_id = "" if pd.isna(raw_selected_fixture_id) else str(raw_selected_fixture_id).strip()
+        if selected_fixture_id and selected_fixture_id.lower() not in {"nan", "<na>"}:
+            current_fixture_id = "" if pd.isna(raw_fixture_id) else str(raw_fixture_id).strip()
+            if current_fixture_id.lower() in {"", "nan", "<na>"}:
+                refreshed.at[index, "fixture_id"] = selected_fixture_id
+                changed = True
+
+        selected_kickoff_utc = selected.get("kickoff_utc")
+        if pd.notna(selected_kickoff_utc):
+            normalized_utc = pd.to_datetime(selected_kickoff_utc, errors="raise", utc=True).isoformat()
+            raw_current_kickoff = row.get("kickoff_utc")
+            current_kickoff = "" if pd.isna(raw_current_kickoff) else str(raw_current_kickoff).strip()
+            if current_kickoff.lower() in {"", "nan", "<na>"} or pd.to_datetime(
+                current_kickoff, errors="coerce", utc=True
+            ) != pd.to_datetime(normalized_utc, utc=True):
+                refreshed.at[index, "kickoff_utc"] = normalized_utc
+                changed = True
+
+        if changed:
+            refreshed_count += 1
 
     return refreshed, refreshed_count
 
