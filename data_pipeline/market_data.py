@@ -396,6 +396,7 @@ def build_match_market_table(
     *,
     include_closing: bool = False,
     include_consensus: bool = False,
+    allow_unmatched_current_season: bool = False,
 ) -> pd.DataFrame:
     rows = add_league_and_season(team_rows)
     home_rows = rows.loc[
@@ -443,15 +444,40 @@ def build_match_market_table(
     matched = pd.concat([exact, fallback], ignore_index=True, sort=False)
     matched = matched.drop_duplicates(subset=["match_id"], keep="first")
 
-    missing = sorted(set(home_rows["match_id"]) - set(matched["match_id"]))
-    if missing:
-        _raise_for_unmatched_market_rows(home_rows, market, missing)
-
-    output_cols = MATCH_MARKET_COLS
+    output_cols = list(MATCH_MARKET_COLS)
     if include_closing:
         output_cols += CLOSING_MARKET_COLS
     if include_consensus:
         output_cols += CONSENSUS_MARKET_COLS
+
+    missing = sorted(set(home_rows["match_id"]) - set(matched["match_id"]))
+    if missing:
+        missing_rows = home_rows[home_rows["match_id"].isin(missing)].copy()
+        today = pd.Timestamp.now()
+        current_season = today.year if today.month >= 7 else today.year - 1
+        current_missing = missing_rows.loc[
+            missing_rows["season"] >= current_season,
+            "match_id",
+        ].tolist()
+        blocking_missing = sorted(set(missing) - set(current_missing))
+
+        if blocking_missing or not allow_unmatched_current_season:
+            _raise_for_unmatched_market_rows(
+                home_rows,
+                market,
+                blocking_missing or missing,
+            )
+
+        # A current-season provider file can be only partially synchronized:
+        # postponed fixtures, promoted clubs or corrected kickoff dates may be
+        # absent for a few hours. Keep the fresh sporting observations and
+        # leave only their historical market fields empty. Future fixture odds
+        # are collected independently by the live inference pipeline.
+        placeholders = pd.DataFrame({"match_id": current_missing})
+        for column in output_cols[1:]:
+            placeholders[column] = pd.NaT if column == "market_match_date" else np.nan
+        matched = pd.concat([matched, placeholders], ignore_index=True, sort=False)
+
     return matched[output_cols].copy()
 
 
@@ -461,6 +487,7 @@ def enrich_team_rows_with_market_data(
     *,
     include_closing: bool = False,
     include_consensus: bool = False,
+    allow_unmatched_current_season: bool = False,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     original_cols = list(team_rows.columns)
     rows = team_rows.copy()
@@ -469,6 +496,7 @@ def enrich_team_rows_with_market_data(
         max_date_diff_days=max_date_diff_days,
         include_closing=include_closing,
         include_consensus=include_consensus,
+        allow_unmatched_current_season=allow_unmatched_current_season,
     )
 
     replaceable_cols = [
