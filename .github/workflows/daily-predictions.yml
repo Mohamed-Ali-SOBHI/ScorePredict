@@ -63,7 +63,7 @@ jobs:
           "versions=$versions" >> $env:GITHUB_OUTPUT
 
       - name: Restaurer les modeles figes
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: inference/model_cache
           key: scorepredict-models-${{ runner.os }}-${{ steps.model-runtime.outputs.versions }}-${{ hashFiles('inference/portfolio_presets.py', 'inference/upcoming_portfolio_strategy.py', 'train/make_dataset.py', 'train/ml_common.py', 'Data/**/*.csv', 'requirements-pipeline.txt') }}
