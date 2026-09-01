@@ -97,6 +97,18 @@ class MarketDataTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "Failed to match market data"):
                 build_match_market_table(self._team_rows(f"{season}-08-19"))
 
+    def test_can_preserve_an_unmatched_current_season_row(self) -> None:
+        season = self._current_season()
+        with patch("data_pipeline.market_data.load_market_data", return_value=self._market_rows()):
+            result = build_match_market_table(
+                self._team_rows(f"{season}-08-19"),
+                allow_unmatched_current_season=True,
+            )
+
+        self.assertEqual(result["match_id"].tolist(), [f"La_liga {season}_delayed"])
+        self.assertTrue(pd.isna(result.loc[0, "market_match_date"]))
+        self.assertTrue(pd.isna(result.loc[0, "draw_odds_open"]))
+
 
 if __name__ == "__main__":
     unittest.main()

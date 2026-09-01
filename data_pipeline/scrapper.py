@@ -328,6 +328,7 @@ def save_data(stats, *, include_closing_market_data=False, include_consensus_mar
                 group,
                 include_closing=include_closing_market_data,
                 include_consensus=include_consensus_market_data,
+                allow_unmatched_current_season=True,
             )
         except MarketDataUnavailableError as exc:
             # The current-season Understat observations are still essential
