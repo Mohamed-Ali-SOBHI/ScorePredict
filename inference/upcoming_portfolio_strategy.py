@@ -1,8 +1,14 @@
 from __future__ import annotations
 
+from dataclasses import asdict, dataclass
+import hashlib
+from importlib.metadata import version as package_version
+import json
+import os
+import pickle
 import sys
-from dataclasses import dataclass
 from pathlib import Path
+from typing import Sequence
 
 import numpy as np
 import pandas as pd
@@ -58,6 +64,7 @@ MARKET_PROB_COLS_MODEL_ORDER = [
     "market_draw_prob_open",
     "market_home_prob_open",
 ]
+MODEL_CACHE_FORMAT_VERSION = 1
 
 
 @dataclass(frozen=True)
@@ -69,6 +76,132 @@ class ModelBundle:
     model: object
     secondary_feature_cols: list[str] | None = None
     secondary_model: object | None = None
+
+
+def _model_training_code_fingerprint() -> str:
+    paths = [
+        Path(__file__),
+        REPO_ROOT / "inference" / "portfolio_presets.py",
+        REPO_ROOT / "train" / "make_dataset.py",
+        REPO_ROOT / "train" / "ml_common.py",
+    ]
+    digest = hashlib.sha256()
+    for path in paths:
+        digest.update(path.relative_to(REPO_ROOT).as_posix().encode("utf-8"))
+        digest.update(path.read_bytes())
+    return digest.hexdigest()
+
+
+def _model_runtime_signature() -> dict[str, str]:
+    return {
+        "python": f"{sys.version_info.major}.{sys.version_info.minor}",
+        "numpy": package_version("numpy"),
+        "pandas": package_version("pandas"),
+        "scikit-learn": package_version("scikit-learn"),
+        "xgboost": package_version("xgboost"),
+    }
+
+
+def _model_cache_fingerprint(
+    dataset: pd.DataFrame,
+    strategies: Sequence[FrozenStrategy],
+    *,
+    train_max_season: int,
+) -> str:
+    """Identify the exact frozen strategy, code and labelled rows used for fitting."""
+    digest = hashlib.sha256()
+    manifest = {
+        "format_version": MODEL_CACHE_FORMAT_VERSION,
+        "train_max_season": int(train_max_season),
+        "strategies": [asdict(strategy) for strategy in strategies],
+        "runtime": _model_runtime_signature(),
+        "training_code": _model_training_code_fingerprint(),
+    }
+    digest.update(json.dumps(manifest, sort_keys=True, separators=(",", ":")).encode("utf-8"))
+
+    for strategy in sorted(strategies, key=lambda item: item.name):
+        train_df = dataset[
+            (dataset["season"] <= train_max_season) & dataset["target"].notna()
+        ].copy()
+        if strategy.train_league:
+            train_df = train_df[train_df["league"] == strategy.train_league].copy()
+        if train_df.empty:
+            raise ValueError(
+                f"No training rows available for train_league={strategy.train_league or 'ALL'}"
+            )
+
+        feature_cols = get_feature_cols(
+            train_df,
+            include_draw_features=(strategy.model_variant == "draw_binary"),
+        )
+        if strategy.model_variant == "draw_consensus":
+            feature_cols += get_feature_cols(train_df, include_draw_features=True)
+        fingerprint_cols = sorted(
+            set(feature_cols + ["match_id", "league", "season", "target"])
+        )
+        stable = train_df[fingerprint_cols].sort_values(
+            ["season", "league", "match_id"],
+            kind="mergesort",
+        )
+        digest.update(strategy.name.encode("utf-8"))
+        digest.update("\x1f".join(fingerprint_cols).encode("utf-8"))
+        digest.update(pd.util.hash_pandas_object(stable, index=False).values.tobytes())
+    return digest.hexdigest()
+
+
+def load_or_train_frozen_models(
+    dataset: pd.DataFrame,
+    strategies: Sequence[FrozenStrategy],
+    *,
+    train_max_season: int = DEFAULT_LIVE_TRAIN_MAX_SEASON,
+    cache_path: str | Path | None = None,
+    force_retrain: bool = False,
+) -> tuple[dict[str, ModelBundle], str]:
+    """Load a validated immutable model bundle, fitting only on a cache miss."""
+    expected_fingerprint = _model_cache_fingerprint(
+        dataset,
+        strategies,
+        train_max_season=train_max_season,
+    )
+    resolved_cache = Path(cache_path).resolve() if cache_path else None
+
+    if resolved_cache is not None and resolved_cache.exists() and not force_retrain:
+        try:
+            with resolved_cache.open("rb") as handle:
+                payload = pickle.load(handle)
+            bundles = payload["bundles"]
+            expected_names = {strategy.name for strategy in strategies}
+            if payload.get("format_version") != MODEL_CACHE_FORMAT_VERSION:
+                raise ValueError("unsupported model cache format")
+            if payload.get("fingerprint") != expected_fingerprint:
+                raise ValueError("model cache fingerprint does not match")
+            if set(bundles) != expected_names:
+                raise ValueError("model cache does not contain the expected strategies")
+            return bundles, "cache"
+        except Exception as exc:  # A broken cache must never block live predictions.
+            print(f"Ignoring invalid frozen model cache {resolved_cache}: {exc}", file=sys.stderr)
+
+    bundles = train_frozen_models(
+        dataset,
+        list(strategies),
+        train_max_season=train_max_season,
+    )
+    if resolved_cache is not None:
+        try:
+            resolved_cache.parent.mkdir(parents=True, exist_ok=True)
+            temporary_path = resolved_cache.with_suffix(resolved_cache.suffix + ".tmp")
+            payload = {
+                "format_version": MODEL_CACHE_FORMAT_VERSION,
+                "fingerprint": expected_fingerprint,
+                "runtime": _model_runtime_signature(),
+                "bundles": bundles,
+            }
+            with temporary_path.open("wb") as handle:
+                pickle.dump(payload, handle, protocol=pickle.HIGHEST_PROTOCOL)
+            os.replace(temporary_path, resolved_cache)
+        except (OSError, pickle.PickleError) as exc:
+            print(f"Unable to save frozen model cache {resolved_cache}: {exc}", file=sys.stderr)
+    return bundles, "trained"
 
 
 def infer_season_from_date(date_value: pd.Timestamp) -> int:

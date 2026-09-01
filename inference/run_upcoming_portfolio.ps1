@@ -8,6 +8,8 @@ param(
     [double]$BankrollEur = 50.0,
     [string]$PythonExe = $env:SCOREPREDICT_PYTHON,
     [string]$TrackingLedger = ".\\inference\\output\\live_portfolio_bet_log.csv",
+    [string]$ModelCacheDir = ".\\inference\\model_cache",
+    [switch]$RetrainModels,
     [switch]$RefreshRawData
 )
 
@@ -93,12 +95,17 @@ try {
         Assert-LastExitCode "fetch_sportytrader_portfolio_odds.py"
     }
 
-    & $PythonExe .\inference\predict_upcoming_portfolio.py `
-        --fixtures-csv $FixturesCsv `
-        --portfolio $Portfolio `
-        --train-max-season $TrainMaxSeason `
-        --bankroll-eur $BankrollEur `
-        --tracking-ledger $TrackingLedger
+    $predictionArgs = @(
+        ".\inference\predict_upcoming_portfolio.py",
+        "--fixtures-csv", $FixturesCsv,
+        "--portfolio", $Portfolio,
+        "--train-max-season", $TrainMaxSeason,
+        "--bankroll-eur", $BankrollEur,
+        "--tracking-ledger", $TrackingLedger,
+        "--model-cache-dir", $ModelCacheDir
+    )
+    if ($RetrainModels) { $predictionArgs += "--retrain-models" }
+    & $PythonExe @predictionArgs
     Assert-LastExitCode "predict_upcoming_portfolio.py"
 }
 finally {

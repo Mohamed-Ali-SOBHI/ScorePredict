@@ -13,6 +13,7 @@ production/*.lock
 train/dataset_home.csv
 train/output/*
 inference/output/*
+inference/model_cache/
 !inference/output/.gitkeep
 !train/output/positive_strategy_portfolio_bets.csv
 !train/output/positive_strategy_portfolio_bets_scientific_report.json

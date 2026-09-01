@@ -55,6 +55,19 @@ jobs:
           python -m pip install -r requirements-pipeline.txt -r requirements-web.txt
           npm ci
 
+      - name: Identifier l'environnement des modeles
+        id: model-runtime
+        shell: pwsh
+        run: |
+          $versions = python -c "import sys,numpy,pandas,sklearn,xgboost; print(f'py{sys.version_info.major}{sys.version_info.minor}-np{numpy.__version__}-pd{pandas.__version__}-sk{sklearn.__version__}-xgb{xgboost.__version__}')"
+          "versions=$versions" >> $env:GITHUB_OUTPUT
+
+      - name: Restaurer les modeles figes
+        uses: actions/cache@v4
+        with:
+          path: inference/model_cache
+          key: scorepredict-models-${{ runner.os }}-${{ steps.model-runtime.outputs.versions }}-${{ hashFiles('inference/portfolio_presets.py', 'inference/upcoming_portfolio_strategy.py', 'train/make_dataset.py', 'train/ml_common.py', 'Data/**/*.csv', 'requirements-pipeline.txt') }}
+
       - name: Verifier le code
         shell: pwsh
         run: |
