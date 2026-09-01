@@ -23,9 +23,9 @@ from inference.upcoming_portfolio_strategy import (
     dedupe_recommended_bets,
     load_current_team_registry,
     load_historical_team_rows,
+    load_or_train_frozen_models,
     prepare_fixture_frame,
     score_strategy_rows,
-    train_frozen_models,
 )
 
 
@@ -34,6 +34,7 @@ DEFAULT_FIXTURES_PATH = SCRIPT_DIR / "output" / "sportytrader_upcoming_portfolio
 DEFAULT_OUTPUT_ALL = SCRIPT_DIR / "output" / "upcoming_portfolio_predictions.csv"
 DEFAULT_OUTPUT_BETS = SCRIPT_DIR / "output" / "upcoming_portfolio_bets.csv"
 DEFAULT_TRACKING_LEDGER = SCRIPT_DIR / "output" / "live_portfolio_bet_log.csv"
+DEFAULT_MODEL_CACHE_DIR = SCRIPT_DIR / "model_cache"
 
 ALL_EXPORT_COLUMNS = [
     "fixture_id",
@@ -110,6 +111,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-all", default=str(DEFAULT_OUTPUT_ALL))
     parser.add_argument("--output-bets", default=str(DEFAULT_OUTPUT_BETS))
     parser.add_argument("--tracking-ledger", default=str(DEFAULT_TRACKING_LEDGER))
+    parser.add_argument("--model-cache-dir", default=str(DEFAULT_MODEL_CACHE_DIR))
+    parser.add_argument("--retrain-models", action="store_true")
     return parser.parse_args()
 
 
@@ -179,7 +182,17 @@ def main() -> None:
         )
         return
 
-    bundles = train_frozen_models(dataset, strategies, train_max_season=args.train_max_season)
+    cache_path = (
+        resolve_path(args.model_cache_dir)
+        / f"{args.portfolio}-through-{args.train_max_season}.pickle"
+    )
+    bundles, model_source = load_or_train_frozen_models(
+        dataset,
+        strategies,
+        train_max_season=args.train_max_season,
+        cache_path=cache_path,
+        force_retrain=args.retrain_models,
+    )
     future_df = dataset[dataset["match_id"].isin(future_match_ids)].copy()
     fixture_ids = fixtures.get("fixture_id", pd.Series("", index=fixtures.index)).astype(str)
     kickoff_times = fixtures.get("kickoff_utc", pd.Series("", index=fixtures.index)).astype(str)
@@ -210,6 +223,8 @@ def main() -> None:
             "strategy_rows": int(len(scored)),
             "recommended_bets": int(len(bets)),
             "bankroll_eur": round(args.bankroll_eur, 2),
+            "model_source": model_source,
+            "model_cache": str(cache_path),
             "output_all": str(output_all),
             "output_bets": str(output_bets),
             "tracking_ledger": str(tracking_ledger),
