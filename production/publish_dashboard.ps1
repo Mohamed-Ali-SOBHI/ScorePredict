@@ -32,6 +32,7 @@ try {
 
     & $PythonExe -m inference.supabase_prediction_store pull `
         --ledger $ledger `
+        --portfolio $Portfolio `
         --status-output $storeStatus
     if ($LASTEXITCODE -ne 0) { throw "La lecture de la mémoire des prévisions a échoué ($LASTEXITCODE)." }
 
@@ -62,6 +63,7 @@ try {
 
     & $PythonExe -m inference.supabase_prediction_store push `
         --ledger $ledger `
+        --portfolio $Portfolio `
         --status-output $storeStatus
     if ($LASTEXITCODE -ne 0) { throw "L'enregistrement de la mémoire a échoué ($LASTEXITCODE)." }
 

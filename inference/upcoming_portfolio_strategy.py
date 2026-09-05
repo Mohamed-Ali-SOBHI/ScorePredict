@@ -64,7 +64,12 @@ MARKET_PROB_COLS_MODEL_ORDER = [
     "market_draw_prob_open",
     "market_home_prob_open",
 ]
-MODEL_CACHE_FORMAT_VERSION = 1
+MODEL_CACHE_FORMAT_VERSION = 2
+SUPPORTED_TRAINING_WEIGHT_MODES = {
+    "balanced",
+    "unweighted",
+    "recency_decay_0_80",
+}
 
 
 @dataclass(frozen=True)
@@ -387,6 +392,28 @@ def build_dataset_with_fixtures(
     return dataset, future_match_ids
 
 
+def make_strategy_sample_weight(
+    train_df: pd.DataFrame,
+    y_train: pd.Series,
+    strategy: FrozenStrategy,
+    *,
+    train_max_season: int,
+) -> pd.Series | None:
+    mode = strategy.training_weight_mode
+    if mode not in SUPPORTED_TRAINING_WEIGHT_MODES:
+        raise ValueError(f"Unsupported training_weight_mode: {mode}")
+    if mode == "unweighted":
+        return None
+
+    weights = make_sample_weight(y_train).astype(float)
+    if mode == "recency_decay_0_80":
+        ages = (train_max_season - pd.to_numeric(train_df["season"], errors="raise")).clip(
+            lower=0
+        )
+        weights = weights * np.power(0.80, ages.to_numpy(dtype=float))
+    return weights / float(weights.mean())
+
+
 def train_frozen_models(
     dataset: pd.DataFrame,
     strategies: list[FrozenStrategy],
@@ -429,7 +456,12 @@ def train_frozen_models(
             secondary_model.fit(
                 train_df[secondary_feature_cols],
                 y_draw,
-                sample_weight=make_sample_weight(y_draw),
+                sample_weight=make_strategy_sample_weight(
+                    train_df,
+                    y_draw,
+                    strategy,
+                    train_max_season=train_max_season,
+                ),
             )
         else:
             model = build_xgb_model(seed=42, n_estimators=strategy.n_estimators, **strategy.params)
@@ -439,7 +471,12 @@ def train_frozen_models(
         model.fit(
             train_df[feature_cols],
             y_train,
-            sample_weight=make_sample_weight(y_train),
+            sample_weight=make_strategy_sample_weight(
+                train_df,
+                y_train,
+                strategy,
+                train_max_season=train_max_season,
+            ),
         )
         bundles[strategy.name] = ModelBundle(
             model_variant=strategy.model_variant,

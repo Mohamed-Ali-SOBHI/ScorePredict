@@ -10,12 +10,15 @@ REPO_ROOT = SCRIPT_DIR.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.append(str(REPO_ROOT))
 
-from inference.portfolio_presets import DEFAULT_PORTFOLIO_NAME, PORTFOLIO_PRESETS
+from inference.portfolio_presets import DEFAULT_PORTFOLIO_NAME, PORTFOLIO_PRESETS, PRODUCTION_PORTFOLIO_NAME, PRODUCTION_REFIT_TRAIN_MAX_SEASON
+from inference.pooled_release import load_release_models
 from inference.live_tracking import (
+    TRACKING_COLUMNS,
     append_tracking_rows,
     build_tracking_rows,
     refresh_pending_fixture_dates_from_catalog,
 )
+from inference.kickoff_time import paris_timestamp
 from inference.upcoming_portfolio_strategy import (
     DEFAULT_LIVE_TRAIN_MAX_SEASON,
     assign_flat_stakes,
@@ -37,6 +40,7 @@ DEFAULT_TRACKING_LEDGER = SCRIPT_DIR / "output" / "live_portfolio_bet_log.csv"
 DEFAULT_MODEL_CACHE_DIR = SCRIPT_DIR / "model_cache"
 
 ALL_EXPORT_COLUMNS = [
+    "portfolio_name",
     "fixture_id",
     "kickoff_utc",
     "date",
@@ -68,6 +72,7 @@ ALL_EXPORT_COLUMNS = [
 ]
 
 BET_EXPORT_COLUMNS = [
+    "portfolio_name",
     "fixture_id",
     "kickoff_utc",
     "date",
@@ -104,7 +109,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--data-dir", default=str(DEFAULT_DATA_DIR))
     parser.add_argument("--fixtures-csv", default=str(DEFAULT_FIXTURES_PATH))
     parser.add_argument("--portfolio", default=DEFAULT_PORTFOLIO_NAME)
-    parser.add_argument("--train-max-season", type=int, default=DEFAULT_LIVE_TRAIN_MAX_SEASON)
+    parser.add_argument("--train-max-season", type=int, default=PRODUCTION_REFIT_TRAIN_MAX_SEASON)
     parser.add_argument("--bankroll-eur", type=float, default=50.0)
     parser.add_argument("--stake-fraction", type=float, default=0.05)
     parser.add_argument("--max-total-exposure-fraction", type=float, default=0.25)
@@ -113,7 +118,27 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--tracking-ledger", default=str(DEFAULT_TRACKING_LEDGER))
     parser.add_argument("--model-cache-dir", default=str(DEFAULT_MODEL_CACHE_DIR))
     parser.add_argument("--retrain-models", action="store_true")
+    parser.add_argument(
+        "--as-of",
+        default="",
+        help="Reference time used to reject fixtures whose kickoff already passed.",
+    )
     return parser.parse_args()
+
+
+def keep_fixtures_before_kickoff(fixtures: pd.DataFrame, as_of: str = "") -> pd.DataFrame:
+    if fixtures.empty:
+        return fixtures.copy()
+    reference = paris_timestamp(as_of) if as_of else pd.Timestamp.now(tz="Europe/Paris")
+    kickoffs = fixtures["date"].map(paris_timestamp)
+    return fixtures.loc[kickoffs > reference].reset_index(drop=True)
+
+
+def ensure_tracking_ledger(path: Path) -> None:
+    if path.exists():
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    pd.DataFrame(columns=TRACKING_COLUMNS).to_csv(path, index=False)
 
 
 def write_exports(
@@ -148,7 +173,13 @@ def main() -> None:
     team_rows = load_historical_team_rows(data_dir)
     registry_rows = load_current_team_registry(data_dir)
     fixtures = prepare_fixture_frame(pd.read_csv(resolve_path(args.fixtures_csv)))
+    fixture_count_before_kickoff_guard = len(fixtures)
+    fixtures = keep_fixtures_before_kickoff(fixtures, args.as_of)
+    rejected_started_fixtures = fixture_count_before_kickoff_guard - len(fixtures)
+    if rejected_started_fixtures:
+        print({"fixtures_rejected_after_kickoff": rejected_started_fixtures})
     tracking_ledger = resolve_path(args.tracking_ledger)
+    ensure_tracking_ledger(tracking_ledger)
     if tracking_ledger.exists():
         existing_tracking = pd.read_csv(tracking_ledger)
         existing_tracking, refreshed_kickoffs = refresh_pending_fixture_dates_from_catalog(
@@ -186,13 +217,14 @@ def main() -> None:
         resolve_path(args.model_cache_dir)
         / f"{args.portfolio}-through-{args.train_max_season}.pickle"
     )
-    bundles, model_source = load_or_train_frozen_models(
-        dataset,
-        strategies,
-        train_max_season=args.train_max_season,
-        cache_path=cache_path,
-        force_retrain=args.retrain_models,
-    )
+    if args.portfolio == PRODUCTION_PORTFOLIO_NAME:
+        bundles, model_source = load_release_models(strategies, train_max_season=args.train_max_season,
+                                                   force_retrain=args.retrain_models)
+    else:
+        bundles, model_source = load_or_train_frozen_models(
+            dataset, strategies, train_max_season=args.train_max_season,
+            cache_path=cache_path, force_retrain=args.retrain_models,
+        )
     future_df = dataset[dataset["match_id"].isin(future_match_ids)].copy()
     fixture_ids = fixtures.get("fixture_id", pd.Series("", index=fixtures.index)).astype(str)
     kickoff_times = fixtures.get("kickoff_utc", pd.Series("", index=fixtures.index)).astype(str)
@@ -210,6 +242,8 @@ def main() -> None:
 
     output_all = resolve_path(args.output_all)
     output_bets = resolve_path(args.output_bets)
+    scored["portfolio_name"] = args.portfolio
+    bets["portfolio_name"] = args.portfolio
     write_exports(scored, bets, output_all=output_all, output_bets=output_bets)
 
     tracking_rows = build_tracking_rows(bets, portfolio_name=args.portfolio)

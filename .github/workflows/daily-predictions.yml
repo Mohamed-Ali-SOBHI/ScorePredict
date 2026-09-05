@@ -73,6 +73,8 @@ jobs:
         run: |
           python -m unittest discover -s tests -p "test_*.py"
           if ($LASTEXITCODE -ne 0) { throw "Les tests Python ont échoué." }
+          python -m inference.pooled_release
+          if ($LASTEXITCODE -ne 0) { throw "La version figee des modeles est invalide." }
           node --check inference/sportytrader_page_text.mjs
           if ($LASTEXITCODE -ne 0) { throw "La syntaxe du lecteur de calendrier est invalide." }
           node --check production/static/assets/app.js
@@ -85,6 +87,18 @@ jobs:
         run: |
           $pythonExe = (Get-Command python).Source
           ./production/publish_dashboard.ps1 -PythonExe $pythonExe
+
+      - name: Evaluer les challengers en mode fantome
+        id: shadows
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          $pythonExe = (Get-Command python).Source
+          ./inference/run_shadow_portfolios.ps1 `
+            -PythonExe $pythonExe `
+            -FixturesCsv .\inference\output\sportytrader_upcoming_portfolio_odds.csv `
+            -TrainMaxSeason 2025 `
+            -Strict
 
       - name: Refuser une publication incomplete
         shell: pwsh
@@ -99,7 +113,7 @@ jobs:
           if ($dashboard.predictions.Count -ne $dashboard.summary.upcomingBets) { throw "Le site contient des tendances non recommandees." }
           if (-not $dashboard.quality.teamRegistryReady) { throw "La liste des clubs est incomplete." }
           if ($dashboard.meta.activePortfolio -ne $expectedPortfolio) { throw "Le snapshot ne correspond pas au portefeuille de production." }
-          if ($dashboard.quality.protocol.topExperiment -ne "draw_consensus_nonfavorite") { throw "L'audit ne reference pas le champion valide." }
+          if ($dashboard.meta.strategyPolicy -ne "unweighted__pooled_cautious") { throw "La politique publiee ne correspond pas au filtre commun approuve." }
 
       - name: Preparer GitHub Pages
         uses: actions/configure-pages@v6
@@ -110,7 +124,7 @@ jobs:
           path: production/static
 
       - name: Conserver les diagnostics en cas d'echec
-        if: ${{ failure() }}
+        if: ${{ failure() || steps.shadows.outcome == 'failure' }}
         uses: actions/upload-artifact@v5
         with:
           name: scorepredict-diagnostics-${{ github.run_id }}
@@ -118,6 +132,7 @@ jobs:
             inference/output/browser-failures
             inference/output/*.csv
             inference/output/*.json
+            inference/output/shadow/**/*
             train/output/*.json
           if-no-files-found: ignore
           retention-days: 7

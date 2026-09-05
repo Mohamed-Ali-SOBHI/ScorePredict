@@ -8,7 +8,11 @@ from unittest.mock import patch
 import pandas as pd
 
 from inference.portfolio_presets import FrozenStrategy
-from inference.upcoming_portfolio_strategy import ModelBundle, load_or_train_frozen_models
+from inference.upcoming_portfolio_strategy import (
+    ModelBundle,
+    load_or_train_frozen_models,
+    make_strategy_sample_weight,
+)
 
 
 class FrozenModelCacheTests(unittest.TestCase):
@@ -94,6 +98,39 @@ class FrozenModelCacheTests(unittest.TestCase):
 
             self.assertEqual(train_models.call_count, 2)
             self.assertEqual(source, "trained")
+
+    def test_unweighted_shadow_does_not_pass_sample_weights(self) -> None:
+        strategy = FrozenStrategy(
+            **{
+                **self.strategy.__dict__,
+                "training_weight_mode": "unweighted",
+            }
+        )
+        train = pd.DataFrame({"season": [2024, 2025], "target": [0, 1]})
+        weights = make_strategy_sample_weight(
+            train,
+            train["target"],
+            strategy,
+            train_max_season=2025,
+        )
+        self.assertIsNone(weights)
+
+    def test_recency_shadow_gives_more_weight_to_recent_rows(self) -> None:
+        strategy = FrozenStrategy(
+            **{
+                **self.strategy.__dict__,
+                "training_weight_mode": "recency_decay_0_80",
+            }
+        )
+        train = pd.DataFrame({"season": [2023, 2025], "target": [1, 1]})
+        weights = make_strategy_sample_weight(
+            train,
+            train["target"],
+            strategy,
+            train_max_season=2025,
+        )
+        self.assertIsNotNone(weights)
+        self.assertGreater(float(weights.iloc[1]), float(weights.iloc[0]))
 
 
 if __name__ == "__main__":

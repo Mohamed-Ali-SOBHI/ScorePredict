@@ -2,7 +2,7 @@ import unittest
 
 import pandas as pd
 
-from inference.supabase_prediction_store import recommended_rows, remote_records
+from inference.supabase_prediction_store import portfolio_rows, recommended_rows, remote_records
 
 
 class SupabasePredictionStoreTests(unittest.TestCase):
@@ -45,6 +45,18 @@ class SupabasePredictionStoreTests(unittest.TestCase):
             )
         )
         self.assertEqual(rows["snapshot_key"].tolist(), ["bet"])
+
+    def test_isolates_each_portfolio_before_remote_storage(self) -> None:
+        rows = portfolio_rows(
+            pd.DataFrame(
+                [
+                    {"snapshot_key": "live", "portfolio_name": "production"},
+                    {"snapshot_key": "shadow", "portfolio_name": "shadow_candidate"},
+                ]
+            ),
+            "shadow_candidate",
+        )
+        self.assertEqual(rows["snapshot_key"].tolist(), ["shadow"])
 
 
 if __name__ == "__main__":

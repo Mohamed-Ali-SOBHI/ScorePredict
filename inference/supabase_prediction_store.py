@@ -154,22 +154,44 @@ def recommended_rows(frame: pd.DataFrame) -> pd.DataFrame:
     return frame.loc[mask].copy()
 
 
-def pull(ledger: Path, status_path: Path, *, timeout: float = 30.0) -> int:
+def portfolio_rows(frame: pd.DataFrame, portfolio_name: str = "") -> pd.DataFrame:
+    if not portfolio_name:
+        return frame.copy()
+    if "portfolio_name" not in frame.columns:
+        return frame.iloc[0:0].copy()
+    return frame.loc[frame["portfolio_name"].astype(str) == portfolio_name].copy()
+
+
+def pull(
+    ledger: Path,
+    status_path: Path,
+    *,
+    portfolio_name: str = "",
+    timeout: float = 30.0,
+) -> int:
     url, key = configuration()
     if not url or not key:
         local_rows = len(pd.read_csv(ledger)) if ledger.exists() else 0
         write_status(status_path, backend="local", configured=False, rows=local_rows, action="pull")
         return local_rows
 
+    params = {"select": ",".join(REMOTE_COLUMNS), "recommended": "eq.true", "order": "date.asc"}
+    if portfolio_name:
+        params["portfolio_name"] = f"eq.{portfolio_name}"
     response = requests.get(
         f"{url}/rest/v1/{TABLE}",
         headers=request_headers(key),
-        params={"select": ",".join(REMOTE_COLUMNS), "recommended": "eq.true", "order": "date.asc"},
+        params=params,
         timeout=timeout,
     )
     response.raise_for_status()
     rows = response.json()
     local = canonicalize_tracking_rows(pd.DataFrame(rows, columns=REMOTE_COLUMNS))
+    # Switching the active portfolio must not erase other versions locally.
+    if ledger.exists() and portfolio_name:
+        existing = pd.read_csv(ledger)
+        other = existing[existing.get("portfolio_name", pd.Series("", index=existing.index)).astype(str) != portfolio_name]
+        local = pd.concat([other, local], ignore_index=True)
     ledger.parent.mkdir(parents=True, exist_ok=True)
     local.to_csv(ledger, index=False)
     write_status(status_path, backend="supabase", configured=True, rows=len(local), action="pull")
@@ -181,15 +203,19 @@ def delete_superseded_remote_rows(
     key: str,
     canonical_keys: set[str],
     *,
+    portfolio_name: str = "",
     timeout: float,
 ) -> int:
+    params = {
+        "select": "snapshot_key,portfolio_name,date,league,team_name,opponent_name,selected_outcome",
+        "recommended": "eq.true",
+    }
+    if portfolio_name:
+        params["portfolio_name"] = f"eq.{portfolio_name}"
     response = requests.get(
         f"{url}/rest/v1/{TABLE}",
         headers=request_headers(key),
-        params={
-            "select": "snapshot_key,portfolio_name,date,league,team_name,opponent_name,selected_outcome",
-            "recommended": "eq.true",
-        },
+        params=params,
         timeout=timeout,
     )
     response.raise_for_status()
@@ -216,10 +242,16 @@ def delete_superseded_remote_rows(
     return deleted
 
 
-def push(ledger: Path, status_path: Path, *, timeout: float = 30.0) -> int:
+def push(
+    ledger: Path,
+    status_path: Path,
+    *,
+    portfolio_name: str = "",
+    timeout: float = 30.0,
+) -> int:
     url, key = configuration()
     local = pd.read_csv(ledger) if ledger.exists() else pd.DataFrame(columns=REMOTE_COLUMNS)
-    local = canonicalize_tracking_rows(recommended_rows(local))
+    local = canonicalize_tracking_rows(portfolio_rows(recommended_rows(local), portfolio_name))
     if not url or not key:
         write_status(status_path, backend="local", configured=False, rows=len(local), action="push")
         return len(local)
@@ -241,6 +273,7 @@ def push(ledger: Path, status_path: Path, *, timeout: float = 30.0) -> int:
         url,
         key,
         {str(row["snapshot_key"]) for row in payload},
+        portfolio_name=portfolio_name,
         timeout=timeout,
     )
     write_status(status_path, backend="supabase", configured=True, rows=len(payload), action="push")
@@ -252,11 +285,16 @@ def main() -> None:
     parser.add_argument("action", choices=["pull", "push"])
     parser.add_argument("--ledger", default=str(DEFAULT_LEDGER))
     parser.add_argument("--status-output", default=str(DEFAULT_STATUS))
+    parser.add_argument("--portfolio", default="")
     args = parser.parse_args()
 
     ledger = Path(args.ledger).resolve()
     status_path = Path(args.status_output).resolve()
-    rows = pull(ledger, status_path) if args.action == "pull" else push(ledger, status_path)
+    rows = (
+        pull(ledger, status_path, portfolio_name=args.portfolio)
+        if args.action == "pull"
+        else push(ledger, status_path, portfolio_name=args.portfolio)
+    )
     backend = "supabase" if all(configuration()) else "local"
     print({"action": args.action, "backend": backend, "rows": rows})
 

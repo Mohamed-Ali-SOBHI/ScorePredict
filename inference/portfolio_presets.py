@@ -1,13 +1,17 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
+import json
+from pathlib import Path
 
 
 FROZEN_REFERENCE_FREEZE_DATE = "2026-03-12"
 FROZEN_REFERENCE_TRAIN_MAX_SEASON = 2023
-PRODUCTION_REFIT_TRAIN_MAX_SEASON = 2025
-PRODUCTION_PORTFOLIO_NAME = "production_draw_consensus_nonfavorite_2026_08_12"
-PRODUCTION_FREEZE_DATE = "2026-08-12"
+PRODUCTION_REFIT_TRAIN_MAX_SEASON = 2024
+LEGACY_PRODUCTION_PORTFOLIO_NAME = "production_draw_consensus_nonfavorite_2026_08_12"
+PRODUCTION_PORTFOLIO_NAME = "production_draw_pooled_unweighted_2026_09_05"
+PRODUCTION_FREEZE_DATE = "2026-09-05"
+PRODUCTION_RELEASE_PATH = Path(__file__).resolve().parent / "releases" / "draw_pooled_2026_09_05"
 
 
 @dataclass(frozen=True)
@@ -25,6 +29,7 @@ class FrozenStrategy:
     model_variant: str = "multiclass"
     n_estimators: int = 500
     profile_filter: str = "any"
+    training_weight_mode: str = "balanced"
 
 
 EXPLORATORY_MULTI_STRATEGY_PORTFOLIO_2025 = [
@@ -386,7 +391,79 @@ EXPERIMENTAL_DRAW_CONSENSUS_PLUS_ANTI_OVERCONFIDENCE_2025 = [
 PRODUCTION_DRAW_CONSENSUS_NONFAVORITE_2026 = tuple(EXPERIMENTAL_DRAW_CONSENSUS_NONFAVORITE_2025)
 
 
+SHADOW_UNWEIGHTED_PORTFOLIO_NAME = "shadow_draw_consensus_unweighted_2026_09_01"
+SHADOW_RECENCY_PORTFOLIO_NAME = "shadow_draw_consensus_recency_2026_09_01"
+
+_PRODUCTION_BY_NAME = {
+    strategy.name: strategy for strategy in PRODUCTION_DRAW_CONSENSUS_NONFAVORITE_2026
+}
+
+SHADOW_DRAW_CONSENSUS_UNWEIGHTED_2026 = (
+    replace(
+        _PRODUCTION_BY_NAME["bundesliga_draw_2_20_4_00_nonfavorite_1"],
+        name="shadow_unweighted_bundesliga_draw_2_20_4_00_1",
+        threshold=0.05,
+        edge_min=0.00,
+        training_weight_mode="unweighted",
+    ),
+    replace(
+        _PRODUCTION_BY_NAME["epl_draw_2_00_10_00_nonfavorite_3"],
+        name="shadow_unweighted_epl_draw_2_00_10_00_2",
+        threshold=0.05,
+        edge_min=0.04,
+        training_weight_mode="unweighted",
+    ),
+    replace(
+        _PRODUCTION_BY_NAME["bundesliga_draw_4_00_10_00_nonfavorite_4"],
+        name="shadow_unweighted_bundesliga_draw_4_00_10_00_3",
+        threshold=0.05,
+        edge_min=0.04,
+        training_weight_mode="unweighted",
+    ),
+)
+
+SHADOW_DRAW_CONSENSUS_RECENCY_2026 = (
+    replace(
+        _PRODUCTION_BY_NAME["bundesliga_draw_2_20_4_00_nonfavorite_1"],
+        name="shadow_recency_bundesliga_draw_2_20_4_00_1",
+        threshold=0.20,
+        edge_min=0.00,
+        training_weight_mode="recency_decay_0_80",
+    ),
+    replace(
+        _PRODUCTION_BY_NAME["serie_a_draw_4_00_10_00_nonfavorite_2"],
+        name="shadow_recency_serie_a_draw_4_00_10_00_2",
+        threshold=0.40,
+        edge_min=0.06,
+        training_weight_mode="recency_decay_0_80",
+    ),
+    replace(
+        _PRODUCTION_BY_NAME["epl_draw_2_00_10_00_nonfavorite_3"],
+        name="shadow_recency_epl_draw_2_00_10_00_3",
+        threshold=0.50,
+        edge_min=0.08,
+        training_weight_mode="recency_decay_0_80",
+    ),
+    replace(
+        _PRODUCTION_BY_NAME["bundesliga_draw_4_00_10_00_nonfavorite_4"],
+        name="shadow_recency_bundesliga_draw_4_00_10_00_4",
+        threshold=0.05,
+        edge_min=0.10,
+        training_weight_mode="recency_decay_0_80",
+    ),
+)
+
+SHADOW_PORTFOLIO_NAMES = (
+    SHADOW_UNWEIGHTED_PORTFOLIO_NAME,
+    SHADOW_RECENCY_PORTFOLIO_NAME,
+)
+
+
 DEFAULT_PORTFOLIO_NAME = PRODUCTION_PORTFOLIO_NAME
+POOLED_RELEASE_MANIFEST = json.loads((PRODUCTION_RELEASE_PATH / "manifest.json").read_text(encoding="utf-8"))
+if POOLED_RELEASE_MANIFEST["portfolio_name"] != PRODUCTION_PORTFOLIO_NAME:
+    raise ValueError("Production release identity does not match the selected portfolio")
+PRODUCTION_POOLED_STRATEGIES = tuple(FrozenStrategy(**entry["strategy"]) for entry in POOLED_RELEASE_MANIFEST["entries"])
 PORTFOLIO_PRESETS = {
     "validation_multi_strategy_portfolio_2024": VALIDATION_MULTI_STRATEGY_PORTFOLIO_2024,
     "exploratory_multi_strategy_portfolio_2025": EXPLORATORY_MULTI_STRATEGY_PORTFOLIO_2025,
@@ -394,5 +471,8 @@ PORTFOLIO_PRESETS = {
     "experimental_draw_consensus_plus_anti_overconfidence_2025": (
         EXPERIMENTAL_DRAW_CONSENSUS_PLUS_ANTI_OVERCONFIDENCE_2025
     ),
-    PRODUCTION_PORTFOLIO_NAME: PRODUCTION_DRAW_CONSENSUS_NONFAVORITE_2026,
+    LEGACY_PRODUCTION_PORTFOLIO_NAME: PRODUCTION_DRAW_CONSENSUS_NONFAVORITE_2026,
+    PRODUCTION_PORTFOLIO_NAME: PRODUCTION_POOLED_STRATEGIES,
+    SHADOW_UNWEIGHTED_PORTFOLIO_NAME: SHADOW_DRAW_CONSENSUS_UNWEIGHTED_2026,
+    SHADOW_RECENCY_PORTFOLIO_NAME: SHADOW_DRAW_CONSENSUS_RECENCY_2026,
 }

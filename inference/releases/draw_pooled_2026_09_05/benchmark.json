@@ -1,0 +1,37 @@
+{
+  "portfolio_name": "production_draw_pooled_unweighted_2026_09_05",
+  "selection_mode": "exploratory_pooled_policy_walk_forward",
+  "strategy_count": 4,
+  "scope": {
+    "label": "Simulation exploratoire 2025/26 — pas le suivi réel",
+    "training_max_season": 2023,
+    "validation_season": 2024,
+    "test_season": 2025
+  },
+  "metrics": {
+    "bet_count": 63,
+    "total_profit": 31.93,
+    "roi": 0.5068253968253968,
+    "roi_ci_low": -0.006871810207336508,
+    "roi_ci_high": 1.0244801587301586,
+    "hit_rate": 0.38095238095238093,
+    "avg_odds": 4.2220634920634925,
+    "max_drawdown": -6.0,
+    "start_date": "2025-08-30",
+    "end_date": "2026-05-24"
+  },
+  "clv_metrics": {
+    "available": false
+  },
+  "verdict": {
+    "evidence_level": "exploratoire, non validée sur de nouveaux matchs",
+    "strengths": [],
+    "risks": [
+      "Choisi après comparaison de nombreuses variantes historiques.",
+      "Le rendement varie fortement entre entraînements.",
+      "La saison live utilise le même protocole avec une année supplémentaire de données, pas les modèles du backtest."
+    ]
+  },
+  "monthly_rows": [],
+  "league_rows": []
+}
