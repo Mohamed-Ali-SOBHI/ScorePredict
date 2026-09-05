@@ -267,6 +267,9 @@ def update_public_snapshot(
 ) -> dict[str, Any]:
     """Patch the deployed read model without rerunning models or changing recommendations."""
     output = json.loads(json.dumps(snapshot))
+    published_portfolio = output.get("meta", {}).get("activePortfolio")
+    if published_portfolio and published_portfolio != portfolio_name:
+        raise ValueError("Cannot patch a snapshot belonging to another portfolio")
     active = active_recommended_rows(ledger, portfolio_name)
 
     def row_key(date: object, home: object, away: object) -> tuple[str, str, str]:
@@ -482,6 +485,8 @@ def main() -> None:
     parser.add_argument("--snapshot", required=True)
     parser.add_argument("--status-output", required=True)
     parser.add_argument("--portfolio", default=DEFAULT_PORTFOLIO_NAME)
+    parser.add_argument("--include-retired", action="store_true",
+                        help="Continue settling the retired public portfolio, without mixing its public metrics")
     parser.add_argument("--minimum-elapsed-minutes", type=int, default=105)
     parser.add_argument("--timeout-seconds", type=float, default=30.0)
     parser.add_argument("--as-of", default="")
@@ -492,28 +497,38 @@ def main() -> None:
     status_path = Path(args.status_output).resolve()
     ledger = pd.read_csv(ledger_path)
     snapshot = json.loads(snapshot_path.read_text(encoding="utf-8-sig"))
+    if snapshot.get("meta", {}).get("activePortfolio") not in (None, args.portfolio):
+        status = {"changed": False, "reason": "waiting_for_new_portfolio_publication"}
+        status_path.parent.mkdir(parents=True, exist_ok=True)
+        status_path.write_text(json.dumps(status), encoding="utf-8")
+        print(status)
+        return
     ledger, refreshed_dates = refresh_pending_dates_from_snapshot(ledger, snapshot)
     now = (
         paris_datetime(args.as_of)
         if args.as_of
         else pd.Timestamp.now(tz=DISPLAY_TIMEZONE).tz_localize(None)
     )
-    results, warnings = collect_results_for_due_rows(
-        ledger,
-        now=now,
-        minimum_elapsed_minutes=args.minimum_elapsed_minutes,
-        portfolio_name=args.portfolio,
-        timeout_seconds=args.timeout_seconds,
-    )
-    ledger, official_refreshed_dates = refresh_pending_fixture_dates_from_catalog(ledger, results)
-    refreshed_dates += official_refreshed_dates
-    updated, counters = settle_due_predictions(
-        ledger,
-        results,
-        now=now,
-        minimum_elapsed_minutes=args.minimum_elapsed_minutes,
-        portfolio_name=args.portfolio,
-    )
+    portfolios = [args.portfolio]
+    if args.include_retired:
+        from inference.portfolio_presets import LEGACY_PRODUCTION_PORTFOLIO_NAME
+        if LEGACY_PRODUCTION_PORTFOLIO_NAME not in portfolios:
+            portfolios.append(LEGACY_PRODUCTION_PORTFOLIO_NAME)
+    updated, warnings, counters = ledger, [], {}
+    for portfolio in portfolios:
+        results, messages = collect_results_for_due_rows(
+            updated, now=now, minimum_elapsed_minutes=args.minimum_elapsed_minutes,
+            portfolio_name=portfolio, timeout_seconds=args.timeout_seconds,
+        )
+        warnings.extend(messages)
+        updated, official_refreshed_dates = refresh_pending_fixture_dates_from_catalog(updated, results)
+        refreshed_dates += official_refreshed_dates
+        updated, counts = settle_due_predictions(
+            updated, results, now=now, minimum_elapsed_minutes=args.minimum_elapsed_minutes,
+            portfolio_name=portfolio,
+        )
+        for key, count in counts.items():
+            counters[key] = counters.get(key, 0) + count
 
     changed = counters["settled"] > 0 or refreshed_dates > 0
     if changed:

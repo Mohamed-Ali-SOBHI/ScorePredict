@@ -16,6 +16,8 @@ def main() -> None:
     service = DashboardService(root=args.root, ttl_seconds=0)
     payload = service.get_dashboard(force=True)
     quality = payload.get("quality", {})
+    if payload.get("meta", {}).get("status") == "blocked":
+        raise SystemExit("Publication refusée : données bloquées ou export d'une autre stratégie.")
     if not args.allow_stale and quality.get("overallStatus") != "pass":
         raise SystemExit(
             "Publication refusée : les contrôles de qualité/fraîcheur ne sont pas tous au vert. "

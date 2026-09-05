@@ -156,7 +156,14 @@ def prepare_ledger(
         raise ValueError(f"Ledger is missing required columns: {', '.join(missing)}")
 
     prepared = ledger.copy()
-    prepared["date"] = prepared["date"].map(paris_naive)
+    # Force a datetime dtype even for a header-only ledger. Pandas otherwise
+    # keeps an empty mapped Series as ``object`` and the .dt accessor crashes,
+    # turning the perfectly normal "no shadow bet today" state into a failed
+    # workflow.
+    prepared["date"] = pd.to_datetime(
+        prepared["date"].map(paris_naive),
+        errors="coerce",
+    )
     prepared["kickoff_at"] = prepared["date"]
     prepared["match_date"] = prepared["date"].dt.normalize()
     prepared["home_team_norm"] = prepared["team_name"].map(normalize_team_name)

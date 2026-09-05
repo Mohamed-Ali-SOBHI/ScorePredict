@@ -1,0 +1,2 @@
+# Release fingerprints cover exact bytes, including JSON/CSV line endings.
+inference/releases/** -text whitespace=cr-at-eol

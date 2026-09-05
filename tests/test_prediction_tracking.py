@@ -7,9 +7,25 @@ from pathlib import Path
 import pandas as pd
 
 from inference.evaluate_live_portfolio import build_summary, evaluate_rows, prepare_ledger
-from inference.live_tracking import append_tracking_rows, build_tracking_rows, canonicalize_tracking_rows
-from inference.portfolio_presets import DEFAULT_PORTFOLIO_NAME, PRODUCTION_PORTFOLIO_NAME
-from inference.predict_upcoming_portfolio import ALL_EXPORT_COLUMNS, BET_EXPORT_COLUMNS, write_exports
+from inference.live_tracking import (
+    TRACKING_COLUMNS,
+    append_tracking_rows,
+    build_tracking_rows,
+    canonicalize_tracking_rows,
+)
+from inference.portfolio_presets import (
+    DEFAULT_PORTFOLIO_NAME,
+    PORTFOLIO_PRESETS,
+    PRODUCTION_PORTFOLIO_NAME,
+    SHADOW_PORTFOLIO_NAMES,
+)
+from inference.predict_upcoming_portfolio import (
+    ALL_EXPORT_COLUMNS,
+    BET_EXPORT_COLUMNS,
+    ensure_tracking_ledger,
+    keep_fixtures_before_kickoff,
+    write_exports,
+)
 from inference.track_published_predictions import published_rows
 
 
@@ -343,6 +359,25 @@ class PredictionTrackingTests(unittest.TestCase):
     def test_default_portfolio_is_the_versioned_champion(self) -> None:
         self.assertEqual(DEFAULT_PORTFOLIO_NAME, PRODUCTION_PORTFOLIO_NAME)
 
+    def test_shadow_portfolios_are_versioned_and_never_become_the_default(self) -> None:
+        self.assertNotIn(DEFAULT_PORTFOLIO_NAME, SHADOW_PORTFOLIO_NAMES)
+        self.assertEqual(len(SHADOW_PORTFOLIO_NAMES), 2)
+        for portfolio_name in SHADOW_PORTFOLIO_NAMES:
+            self.assertIn(portfolio_name, PORTFOLIO_PRESETS)
+            self.assertTrue(portfolio_name.startswith("shadow_"))
+
+    def test_prediction_run_rejects_fixtures_after_kickoff(self) -> None:
+        fixtures = pd.DataFrame(
+            {
+                "date": [
+                    "2026-09-01 14:00:00",
+                    "2026-09-01 16:00:00",
+                ]
+            }
+        )
+        remaining = keep_fixtures_before_kickoff(fixtures, "2026-09-01 15:00:00")
+        self.assertEqual(remaining["date"].tolist(), ["2026-09-01 16:00:00"])
+
     def test_empty_active_portfolio_keeps_ledger_schema(self) -> None:
         ledger = pd.DataFrame(
             [
@@ -373,6 +408,23 @@ class PredictionTrackingTests(unittest.TestCase):
             write_exports(pd.DataFrame(), pd.DataFrame(), output_all=output_all, output_bets=output_bets)
             self.assertEqual(list(pd.read_csv(output_all).columns), ALL_EXPORT_COLUMNS)
             self.assertEqual(list(pd.read_csv(output_bets).columns), BET_EXPORT_COLUMNS)
+
+    def test_empty_shadow_run_still_creates_a_ledger_schema(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            ledger = Path(tmp) / "shadow" / "ledger.csv"
+            ensure_tracking_ledger(ledger)
+            self.assertTrue(ledger.exists())
+            self.assertIn("portfolio_name", pd.read_csv(ledger).columns)
+
+    def test_header_only_shadow_ledger_is_a_valid_empty_evaluation(self) -> None:
+        prepared = prepare_ledger(
+            pd.DataFrame(columns=TRACKING_COLUMNS),
+            pd.Timestamp("2026-09-01"),
+            portfolio_name=SHADOW_PORTFOLIO_NAMES[0],
+        )
+        self.assertTrue(prepared.empty)
+        self.assertTrue(pd.api.types.is_datetime64_any_dtype(prepared["date"]))
+        self.assertTrue(pd.api.types.is_datetime64_any_dtype(prepared["match_date"]))
 
 
 if __name__ == "__main__":

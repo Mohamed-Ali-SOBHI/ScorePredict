@@ -9,6 +9,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from production.dashboard import DashboardService
+from inference.portfolio_presets import DEFAULT_PORTFOLIO_NAME
 
 
 def write_json(path: Path, payload: dict) -> None:
@@ -17,6 +18,8 @@ def write_json(path: Path, payload: dict) -> None:
 
 
 def write_csv(path: Path, rows: list[dict]) -> None:
+    if path.name in {"upcoming_portfolio_bets.csv", "upcoming_portfolio_predictions.csv"}:
+        rows = [{"portfolio_name": DEFAULT_PORTFOLIO_NAME, **row} for row in rows]
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
@@ -56,7 +59,7 @@ class DashboardServiceTests(unittest.TestCase):
         )
         write_json(
             self.root
-            / "train/output/experimental_protocol_targeted_favorite_fix/best_strategy_scientific_report.json",
+            / "inference/releases/draw_pooled_2026_09_05/benchmark.json",
             {
                 "selection_mode": "val",
                 "strategy_count": 2,
@@ -82,7 +85,7 @@ class DashboardServiceTests(unittest.TestCase):
             },
         )
         write_csv(
-            self.root / "train/output/experimental_protocol_targeted_favorite_fix/best_strategy_bets.csv",
+            self.root / "inference/releases/draw_pooled_2026_09_05/benchmark_bets.csv",
             [{"date": "2025-08-01", "profit": "-1"}, {"date": "2025-08-10", "profit": "3"}],
         )
         write_csv(
@@ -148,6 +151,15 @@ class DashboardServiceTests(unittest.TestCase):
         payload = DashboardService(self.root, ttl_seconds=0).get_dashboard()
         self.assertEqual(payload["predictions"], [])
         self.assertEqual(payload["meta"]["status"], "ready")
+
+    def test_retired_export_cannot_be_presented_as_the_new_strategy(self) -> None:
+        path = self.root / "inference/output/upcoming_portfolio_bets.csv"
+        rows = _read_for_test(path)
+        rows[0]["portfolio_name"] = "retired_portfolio"
+        write_csv(path, rows)
+        payload = DashboardService(self.root, ttl_seconds=0).get_dashboard()
+        self.assertEqual(payload["predictions"], [])
+        self.assertEqual(payload["meta"]["status"], "blocked")
 
     def test_counts_only_recommended_predictions_as_upcoming_bets(self) -> None:
         existing_bet = _read_for_test(self.root / "inference/output/upcoming_portfolio_bets.csv")[0]
@@ -253,14 +265,14 @@ class DashboardServiceTests(unittest.TestCase):
         now = datetime.now(timezone.utc)
         write_json(
             self.root / "inference/output/live_portfolio_evaluation_summary.json",
-            {"portfolio_name": "production_portfolio", "pending_bets": 2},
+            {"portfolio_name": DEFAULT_PORTFOLIO_NAME, "pending_bets": 2},
         )
         write_csv(
             self.root / "inference/output/live_portfolio_evaluation.csv",
             [
                 {
                     "snapshot_key": "older-published-bet",
-                    "portfolio_name": "production_portfolio",
+                    "portfolio_name": DEFAULT_PORTFOLIO_NAME,
                     "date": (now + timedelta(days=1)).isoformat(),
                     "league": "EPL",
                     "team_name": "Hull",

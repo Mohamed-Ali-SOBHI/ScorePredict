@@ -12,6 +12,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
 from zoneinfo import ZoneInfo
+from inference.portfolio_presets import DEFAULT_PORTFOLIO_NAME, POOLED_RELEASE_MANIFEST
 
 
 LEAGUE_LABELS = {
@@ -34,6 +35,7 @@ PORTFOLIO_LABELS = {
     "experimental_draw_consensus_nonfavorite_2025": "Sélection complémentaire",
     "experimental_draw_consensus_plus_anti_overconfidence_2025": "Sélection complémentaire",
     "production_draw_consensus_nonfavorite_2026_08_12": "Stratégie championne",
+    "production_draw_pooled_unweighted_2026_09_05": "Sélection à filtre commun",
 }
 DISPLAY_TIMEZONE = ZoneInfo("Europe/Paris")
 
@@ -179,17 +181,11 @@ class SourcePaths:
             team_registry_audit=root / "train" / "output" / "team_registry_audit.json",
             scientific=(
                 root
-                / "train"
-                / "output"
-                / "experimental_protocol_targeted_favorite_fix"
-                / "best_strategy_scientific_report.json"
+                / "inference/releases/draw_pooled_2026_09_05/benchmark.json"
             ),
             portfolio_bets=(
                 root
-                / "train"
-                / "output"
-                / "experimental_protocol_targeted_favorite_fix"
-                / "best_strategy_bets.csv"
+                / "inference/releases/draw_pooled_2026_09_05/benchmark_bets.csv"
             ),
             upcoming_bets=root / "inference" / "output" / "upcoming_portfolio_bets.csv",
             upcoming_all=root / "inference" / "output" / "upcoming_portfolio_predictions.csv",
@@ -244,6 +240,14 @@ class DashboardService:
         upcoming_all = _read_csv(self.paths.upcoming_all)
         live_rows = _read_csv(self.paths.live_evaluation) or _read_csv(self.paths.live_log)
         portfolio_rows = _read_csv(self.paths.portfolio_bets)
+        # Never relabel stale exports or retired live results as the new strategy.
+        wrong_exports = any(row.get("portfolio_name") != DEFAULT_PORTFOLIO_NAME for row in upcoming_rows)
+        upcoming_rows = [row for row in upcoming_rows if row.get("portfolio_name") == DEFAULT_PORTFOLIO_NAME]
+        upcoming_all = [row for row in upcoming_all if row.get("portfolio_name") == DEFAULT_PORTFOLIO_NAME]
+        live_rows = [row for row in live_rows if row.get("portfolio_name") == DEFAULT_PORTFOLIO_NAME]
+        if live_summary.get("portfolio_name") not in (None, DEFAULT_PORTFOLIO_NAME):
+            live_summary = {}
+        live_summary.setdefault("portfolio_name", DEFAULT_PORTFOLIO_NAME)
 
         quality_view = self._quality_view(quality, team_registry_audit, now)
         prediction_rows = [{**row, "recommended_bet": True} for row in upcoming_rows]
@@ -281,6 +285,8 @@ class DashboardService:
             meta_status = "attention"
         if quality_view["criticalFailures"]:
             meta_status = "blocked"
+        if wrong_exports:
+            meta_status = "blocked"
 
         return {
             "meta": {
@@ -297,6 +303,10 @@ class DashboardService:
                 "currentSeason": self._current_season(now),
                 "latestPredictionAt": latest_prediction.isoformat() if latest_prediction else None,
                 "activePortfolio": live_summary.get("portfolio_name"),
+                "strategyPolicy": POOLED_RELEASE_MANIFEST["policy"],
+                "strategyActivatedAt": POOLED_RELEASE_MANIFEST["activated_at_utc"],
+                "trainingMaxSeason": POOLED_RELEASE_MANIFEST["train_max_season"],
+                "filterValidationSeason": POOLED_RELEASE_MANIFEST["filter_validation_season"],
                 "disclaimer": "Les prévisions sont indicatives : elles aident à comparer les rencontres, sans garantir un résultat.",
             },
             "summary": {
@@ -570,7 +580,7 @@ class DashboardService:
         verdict = science.get("verdict") or {}
         return {
             "scope": {
-                "label": "Saison passée",
+                "label": (science.get("scope") or {}).get("label", "Test historique"),
                 "startDate": metrics.get("start_date"),
                 "endDate": metrics.get("end_date"),
                 "selectionMode": science.get("selection_mode", "unknown"),
