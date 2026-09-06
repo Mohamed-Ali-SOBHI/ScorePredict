@@ -261,7 +261,7 @@ class DashboardServiceTests(unittest.TestCase):
         self.assertEqual(activity[0]["status"], "won")
         self.assertEqual(activity[0]["actualScore"], "1 - 1")
 
-    def test_keeps_a_card_for_each_published_bet_still_to_play(self) -> None:
+    def test_keeps_published_bets_visible_only_inside_the_three_day_window(self) -> None:
         now = datetime.now(timezone.utc)
         write_json(
             self.root / "inference/output/live_portfolio_evaluation_summary.json",
@@ -283,6 +283,23 @@ class DashboardServiceTests(unittest.TestCase):
                     "market_probability": "0.24",
                     "edge": "0.07",
                     "expected_value": "0.27",
+                    "stake_eur": "2.5",
+                    "result_status": "pending",
+                    "recommended": "true",
+                },
+                {
+                    "snapshot_key": "published-bet-outside-window",
+                    "portfolio_name": DEFAULT_PORTFOLIO_NAME,
+                    "date": (now + timedelta(days=5)).isoformat(),
+                    "league": "Bundesliga",
+                    "team_name": "Augsburg",
+                    "opponent_name": "Bayer Leverkusen",
+                    "selected_outcome": "draw",
+                    "selected_odds": "4.5",
+                    "predicted_probability": "0.34",
+                    "market_probability": "0.22",
+                    "edge": "0.12",
+                    "expected_value": "0.53",
                     "stake_eur": "2.5",
                     "result_status": "pending",
                     "recommended": "true",
@@ -311,6 +328,7 @@ class DashboardServiceTests(unittest.TestCase):
         self.assertEqual([row["homeTeam"] for row in payload["predictions"]], ["Hull", "Arsenal"])
         self.assertFalse(payload["predictions"][0]["isCurrentRecommendation"])
         self.assertEqual(payload["predictions"][0]["adviceLabel"], "Pari déjà publié")
+        self.assertIn("Augsburg", [row["homeTeam"] for row in payload["activity"]])
 
 
 def _read_for_test(path: Path) -> list[dict[str, str]]:

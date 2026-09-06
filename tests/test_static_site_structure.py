@@ -119,6 +119,7 @@ class StaticSiteStructureTests(unittest.TestCase):
         self.assertIn('cron: "15 12 * * *"', workflow)
         self.assertEqual(workflow.count('timezone: "Europe/Paris"'), 2)
         self.assertIn("python -m inference.validate_publication_kickoffs", workflow)
+        self.assertIn("--fixtures inference/output/current_season_fixture_catalog.csv", workflow)
         self.assertIn("Les horaires publics ne correspondent pas au calendrier vérifié.", workflow)
 
     def test_daily_pipeline_keeps_valid_leagues_when_one_source_is_late(self) -> None:
