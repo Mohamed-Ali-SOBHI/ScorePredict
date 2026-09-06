@@ -79,6 +79,8 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw "La syntaxe du lecteur de calendrier est invalide." }
           node --check production/static/assets/app.js
           if ($LASTEXITCODE -ne 0) { throw "La syntaxe du dashboard est invalide." }
+          node tests/test_dashboard_client.cjs
+          if ($LASTEXITCODE -ne 0) { throw "Le filtrage et le suivi du dashboard sont invalides." }
           node --check production/static/assets/landing.js
           if ($LASTEXITCODE -ne 0) { throw "La syntaxe de la landing page est invalide." }
 

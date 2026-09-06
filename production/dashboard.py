@@ -8,11 +8,12 @@ import os
 import threading
 import time
 from dataclasses import dataclass
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
 from zoneinfo import ZoneInfo
 from inference.portfolio_presets import DEFAULT_PORTFOLIO_NAME, POOLED_RELEASE_MANIFEST
+from inference.prediction_window import in_prediction_window
 
 
 LEAGUE_LABELS = {
@@ -38,7 +39,6 @@ PORTFOLIO_LABELS = {
     "production_draw_pooled_unweighted_2026_09_05": "Sélection à filtre commun",
 }
 DISPLAY_TIMEZONE = ZoneInfo("Europe/Paris")
-PREDICTION_WINDOW_DAYS = 3
 
 
 def _float(value: Any, default: float = 0.0) -> float:
@@ -282,6 +282,8 @@ class DashboardService:
         )
         predictions = self._merge_upcoming_predictions(current_predictions, published_predictions)
         tracking = self._tracking_view(live_summary, activity, prediction_store_status)
+        tracking["pendingAll"] = tracking["pending"]
+        tracking["pending"] = sum(in_prediction_window(row.get("date"), now) for row in published_rows)
         risk = self._risk_view(quality_view, tracking, current_predictions)
 
         latest_prediction = _file_mtime(self.paths.upcoming_all) or _file_mtime(self.paths.upcoming_bets)
@@ -543,17 +545,7 @@ class DashboardService:
     def _limit_to_prediction_window(
         predictions: Iterable[dict[str, Any]], now: datetime
     ) -> list[dict[str, Any]]:
-        today = now.astimezone(DISPLAY_TIMEZONE).date()
-        last_day = today + timedelta(days=PREDICTION_WINDOW_DAYS - 1)
-        visible: list[dict[str, Any]] = []
-        for prediction in predictions:
-            match_date = _parse_date(prediction.get("date"))
-            if match_date is None:
-                continue
-            localized = match_date if match_date.tzinfo else match_date.replace(tzinfo=DISPLAY_TIMEZONE)
-            if today <= localized.astimezone(DISPLAY_TIMEZONE).date() <= last_day:
-                visible.append(prediction)
-        return visible
+        return [prediction for prediction in predictions if in_prediction_window(prediction.get("date"), now)]
 
     @classmethod
     def _merge_upcoming_predictions(
@@ -769,7 +761,11 @@ class DashboardService:
                 and str(row.get("date", "")) > str(previous.get("date", ""))
             ):
                 unique[key] = row
-        return sorted(unique.values(), key=lambda row: str(row.get("date", "")), reverse=True)[:30]
+        ordered = sorted(unique.values(), key=lambda row: str(row.get("date", "")), reverse=True)
+        # Keep every unresolved choice so the client can scope counts at Paris midnight.
+        completed = [row for row in ordered if row["status"] in {"won", "lost", "void"}][:30]
+        unresolved = [row for row in ordered if row["status"] not in {"won", "lost", "void"}]
+        return sorted(unresolved + completed, key=lambda row: str(row.get("date", "")), reverse=True)
 
 
 def write_snapshot(service: DashboardService, output: Path | None = None) -> Path:

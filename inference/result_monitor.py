@@ -12,6 +12,7 @@ import pandas as pd
 from data_pipeline.market_data import normalize_team_name
 from data_pipeline.scrapper import get_league_data
 from inference.live_tracking import refresh_pending_fixture_dates_from_catalog
+from inference.prediction_window import in_prediction_window
 from inference.kickoff_time import paris_iso, paris_naive
 from inference.portfolio_presets import DEFAULT_PORTFOLIO_NAME
 from inference.sportytrader_client import DISPLAY_TIMEZONE, fetch_sportsdb_fixture_times, infer_season
@@ -374,7 +375,9 @@ def update_public_snapshot(
             "adviceLabel": "Pari déjà publié",
         }
     output["predictions"] = sorted(
-        predictions_by_match.values(),
+        (prediction for prediction in predictions_by_match.values()
+         if in_prediction_window(prediction.get("date"), generated_at)
+         and paris_datetime(prediction.get("date")) > generated_at_paris),
         key=lambda prediction: str(prediction.get("date", "")),
     )
 
@@ -384,6 +387,12 @@ def update_public_snapshot(
     void = int((statuses == "void").sum())
     settled = won + lost
     pending = int((~statuses.isin(TERMINAL_RESULT_STATUSES)).sum())
+    pending_all = pending
+    pending = sum(
+        str(row.get("result_status") or "pending") not in TERMINAL_RESULT_STATUSES
+        and in_prediction_window(row.get("date"), generated_at)
+        for row in active.to_dict(orient="records")
+    )
     profit_values = (
         active["realized_profit_units"]
         if "realized_profit_units" in active.columns
@@ -410,6 +419,7 @@ def update_public_snapshot(
     tracking.update(
         {
             "pending": pending,
+            "pendingAll": pending_all,
             "verified": settled,
             "won": won,
             "lost": lost,

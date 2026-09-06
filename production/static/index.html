@@ -9,8 +9,9 @@
   <title>ScorePredict — Le match d’abord</title>
   <link rel="icon" href="./assets/brand/scorepredict-mark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/landing.css?v=v22">
+  <link rel="stylesheet" href="./assets/journal.css?v=1">
 </head>
-<body data-page-state="ready">
+<body class="journal-landing" data-page-state="ready">
   <a class="skip-link" href="#contenu">Aller au contenu</a>
 
   <header class="topbar" id="topbar">
@@ -37,7 +38,7 @@
             <p class="hero-quote">Tu dois savoir quand ne pas jouer.</p>
             <footer class="hero-source">— Kenny Rogers, <cite>The Gambler</cite></footer>
           </blockquote>
-          <p class="hero-tagline reveal-delay-1" data-reveal>Deux modèles XGBoost analysent chaque rencontre de football, mais rejettent 98 % des matchs. C'est l'approche de ScorePredict : ne parier que lorsque la statistique est parfaite, ignorer le reste.</p>
+          <p class="hero-tagline reveal-delay-1" data-reveal>Deux IA analysent les rencontres et comparent leurs estimations aux cotes. Seuls les matchs qui passent notre filtre sont retenus.</p>
         </div>
 
         <div class="hero-object-wrap" id="hero-object-wrap" aria-label="Carrousel de grandes rivalités du football">
@@ -69,7 +70,7 @@
         </div>
 
         <div class="hero-actions reveal-delay-2" data-reveal>
-          <a class="button" href="./dashboard.html">Ouvrir le journal</a>
+          <a class="button" href="./dashboard.html">Voir les matchs retenus</a>
           <a class="quiet-link" href="#fonctionnement">Comment ça marche <span aria-hidden="true">↓</span></a>
         </div>
       </div>
@@ -85,48 +86,38 @@
           <p>Deux IA analysent le même match. Le filtre ne retient un choix que lorsque leurs estimations et la cote vont dans le même sens.</p>
         </div>
 
-        <ol class="process-list" aria-label="Les cinq étapes du système">
+        <ol class="process-list" aria-label="Les trois étapes du système">
           <li data-reveal>
             <span class="process-number">01</span>
             <div>
-              <p class="process-label">Le contexte</p>
-              <h3>Le match est décortiqué</h3>
-              <p>Forme récente, occasions créées, repos et cote disponible composent le portrait du match.</p>
+              <p class="process-label">Analyser</p>
+              <h3>Le football avant les chiffres.</h3>
+              <p>Forme récente, occasions créées et repos : deux IA évaluent la rencontre à partir des dernières données disponibles.</p>
             </div>
           </li>
           <li data-reveal>
             <span class="process-number">02</span>
             <div>
-              <p class="process-label">L’analyse</p>
-              <h3>Deux IA donnent leur lecture</h3>
-              <p>Chacune évalue la rencontre de son côté pour éviter qu'une seule lecture décide de tout.</p>
+              <p class="process-label">Sélectionner</p>
+              <h3>Un écart qui mérite l’attention.</h3>
+              <p>Le filtre compare l’estimation la plus prudente des deux IA à la cote. Le choix doit franchir tous les seuils pour être publié.</p>
             </div>
           </li>
           <li data-reveal>
             <span class="process-number">03</span>
             <div>
-              <p class="process-label">La prudence</p>
-              <h3>Le doute élimine le match</h3>
-              <p>Si les deux lectures ne se confirment pas, le match est écarté. Aucun pari n'est forcé.</p>
-            </div>
-          </li>
-          <li data-reveal>
-            <span class="process-number">04</span>
-            <div>
-              <p class="process-label">Le filtre</p>
-              <h3>Seuls les écarts nets passent</h3>
-              <p>Le choix reste en jeu seulement si l'écart avec la cote est assez net pour passer tous les seuils.</p>
-            </div>
-          </li>
-          <li data-reveal>
-            <span class="process-number">05</span>
-            <div>
-              <p class="process-label">La décision</p>
-              <h3>Jouer ou laisser passer</h3>
-              <p>Environ 98 % des matchs sont écartés. Seuls les rares choix entièrement validés sont publiés.</p>
+              <p class="process-label">Suivre</p>
+              <h3>Chaque choix jusqu’au score final.</h3>
+              <p>La décision et la cote sont conservées. Après le match, le résultat rejoint le journal et le rendement est recalculé.</p>
             </div>
           </li>
         </ol>
+
+        <details class="method-detail">
+          <summary>Comment le filtre est-il réglé ?</summary>
+          <p>Les IA apprennent sur les saisons anciennes. Les seuils du filtre sont ensuite réglés sur une saison plus récente, distincte de leur entraînement, puis figés avant les nouvelles rencontres. Les données des équipes et les cotes continuent, elles, d’être actualisées.</p>
+          <p>Ces réglages sont issus d’essais historiques. Le suivi des nouveaux matchs permet d’observer ce qu’ils donnent réellement.</p>
+        </details>
 
       </div>
     </section>
@@ -150,9 +141,9 @@
 
     <section class="closing" aria-labelledby="closing-title">
       <div data-reveal>
-        <p class="kicker">Chaque décision reste visible</p>
-        <h2 id="closing-title">Voir les choix retenus.<br>Et les matchs laissés de côté.</h2>
-        <a class="button button-light" href="./dashboard.html">Ouvrir le journal</a>
+        <p class="kicker">Le journal reste public</p>
+        <h2 id="closing-title">Les choix sont faits.<br>Le terrain aura le dernier mot.</h2>
+        <a class="button button-light" href="./dashboard.html">Voir les matchs retenus</a>
         <p class="responsible">Les pronostics restent des estimations statistiques. Pas de promesse. Jouez responsable.</p>
       </div>
     </section>
@@ -164,7 +155,7 @@
           <img src="./assets/brand/scorepredict-logo-v3.png" width="1024" height="482" alt="ScorePredict">
       </span>
     </a>
-    <p id="footer-updated">Mise à jour automatique chaque matin</p>
+    <p id="footer-updated">Actualisé le matin et à midi</p>
     <p>© <span id="year">2026</span></p>
   </footer>
 
