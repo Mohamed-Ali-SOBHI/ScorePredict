@@ -33,7 +33,9 @@ Ce flux exécute : collecte de la saison courante, enrichissement, reconstructio
 
 ## Mise à jour et publication avec GitHub
 
-Le workflow `.github/workflows/daily-predictions.yml` lance le calcul chaque jour à 06:15 dans le fuseau `Europe/Paris`, analyse les 21 prochains jours, puis publie `production/static` sur GitHub Pages. Cette fenêtre évite de conserver un ancien export lorsque le champion n'a aucun championnat actif pendant le week-end immédiat. Le workflow peut aussi être lancé manuellement depuis l'onglet **Actions** du dépôt.
+Le workflow `.github/workflows/daily-predictions.yml` lance le calcul chaque jour à 06:15 et 12:15 dans le fuseau `Europe/Paris`, analyse aujourd'hui et les deux jours suivants, puis publie `production/static` sur GitHub Pages. Le workflow peut aussi être lancé manuellement depuis l'onglet **Actions** du dépôt.
+
+Les scripts `install_daily_task.ps1` et `run_daily_update.ps1` sont uniquement un mode de secours local. Ils ne doivent pas être activés sur un PC lorsque la publication GitHub Actions est utilisée, sinon la collecte est exécutée deux fois.
 
 Le navigateur s'exécute sur une machine Windows temporaire fournie par GitHub : aucune fenêtre ne s'ouvre sur le PC de l'utilisateur. La collecte est tentée trois fois. Si le site de cotes bloque l'adresse du serveur GitHub, le workflow échoue et la dernière version valide de GitHub Pages reste en ligne. Des captures de diagnostic sont alors conservées pendant sept jours dans les fichiers du workflow.
 

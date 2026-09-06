@@ -82,7 +82,7 @@ jobs:
           node --check production/static/assets/landing.js
           if ($LASTEXITCODE -ne 0) { throw "La syntaxe de la landing page est invalide." }
 
-      - name: Calculer les 21 prochains jours
+      - name: Calculer les 3 prochains jours
         shell: pwsh
         run: |
           $pythonExe = (Get-Command python).Source
