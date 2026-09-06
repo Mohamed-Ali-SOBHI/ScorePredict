@@ -1095,7 +1095,7 @@ Regenerer les graphiques du README :
 python .\train\generate_readme_figures.py
 ```
 
-Predire automatiquement les 21 prochains jours :
+Predire automatiquement aujourd'hui et les deux jours suivants :
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\inference\run_weekend_predictions.ps1 -BankrollEur 50

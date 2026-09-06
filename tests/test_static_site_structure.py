@@ -128,6 +128,14 @@ class StaticSiteStructureTests(unittest.TestCase):
         self.assertEqual(pipeline.count("--allow-partial-leagues"), 2)
         self.assertIn("inference.supabase_fixture_store push", pipeline)
 
+    def test_default_prediction_window_covers_exactly_three_calendar_days(self) -> None:
+        runner = (ROOT / "inference" / "run_weekend_predictions.ps1").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("$predictionWindowDays = 3", runner)
+        self.assertIn("AddDays($predictionWindowDays - 1)", runner)
+        self.assertNotIn("AddDays(21)", runner)
+
 
 if __name__ == "__main__":
     unittest.main()

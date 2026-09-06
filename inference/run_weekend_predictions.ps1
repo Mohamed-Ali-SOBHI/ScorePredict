@@ -11,9 +11,10 @@ param(
 
 function Get-PredictionWindow {
     $today = (Get-Date).Date
+    $predictionWindowDays = 3
     return @{
         DateFrom = $today.ToString("yyyy-MM-dd")
-        DateTo = $today.AddDays(21).ToString("yyyy-MM-dd")
+        DateTo = $today.AddDays($predictionWindowDays - 1).ToString("yyyy-MM-dd")
     }
 }
 
