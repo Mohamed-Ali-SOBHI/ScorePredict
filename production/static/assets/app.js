@@ -30,8 +30,19 @@ function publicationIsFresh(value) {
 function futurePublishedPredictions(data, now = Date.now()) {
   return data.predictions.filter((prediction) => {
     const kickoff = new Date(prediction.date).getTime();
-    return Number.isFinite(kickoff) && kickoff > now;
+    return Number.isFinite(kickoff) && kickoff > now && inPublicWindow(prediction.date, now);
   });
+}
+
+function parisDay(value) {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: MATCH_TIMEZONE, year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date(value));
+}
+
+function inPublicWindow(value, now = Date.now()) {
+  if (!Number.isFinite(new Date(value).getTime())) return false;
+  const today = Date.parse(`${parisDay(now)}T00:00:00Z`);
+  const day = Date.parse(`${parisDay(value)}T00:00:00Z`);
+  return day >= today && day < today + 3 * 86400000;
 }
 
 function validText(value) {
@@ -157,13 +168,14 @@ function predictionMarkup(prediction) {
         <span>contre</span>
         <h2>${escapeHtml(prediction.awayTeam)}</h2>
         <div class="prediction-choice">
-          <small>${escapeHtml(prediction.adviceLabel || "Choix publié")}</small>
+          <small>Choix publié</small>
           <strong>${escapeHtml(prediction.outcomeLabel)}</strong>
         </div>
       </div>
-      <div class="prediction-confidence" aria-label="Confiance du modèle : ${escapeHtml(percent.format(confidence))}">
-        <div><span>Confiance du modèle</span><b>${escapeHtml(percent.format(confidence))}</b></div>
+      <div class="prediction-confidence" aria-label="Estimation du ${escapeHtml(prediction.outcomeLabel.toLowerCase())} : ${escapeHtml(percent.format(confidence))}">
+        <div><span>Estimation du ${escapeHtml(prediction.outcomeLabel.toLowerCase())}</span><b>${escapeHtml(percent.format(confidence))}</b></div>
         <i aria-hidden="true"><span style="width: ${confidenceWidth.toFixed(1)}%"></span></i>
+        <details class="estimate-explanation"><summary>Comprendre cette estimation</summary><p>Lecture la plus prudente des deux IA. Ce chiffre est une estimation brute : il ne garantit pas la fréquence réelle des résultats.</p></details>
       </div>
       <div class="prediction-footer">
         <div><span>Cote</span><b>${decimal.format(prediction.odds)}</b></div>
@@ -174,7 +186,7 @@ function predictionMarkup(prediction) {
 
 function resetNoPickCopy() {
   setText(".no-pick .section-label", "Décision enregistrée");
-  setText(".no-pick strong", "Aucun pari recommandé aujourd’hui.");
+  setText(".no-pick strong", "Aucun choix pour ces trois jours.");
   setText(".no-pick > p:last-child", "Aucun match n’a franchi tous les contrôles. Le tableau de bord sera actualisé automatiquement.");
   $("#no-pick")?.classList.remove("error-state");
 }
@@ -186,7 +198,14 @@ function renderPredictions(data) {
   holder.hidden = !hasPredictions;
   $("#no-pick").hidden = hasPredictions;
   resetNoPickCopy();
+  const awaitingResult = (data.activity || []).some(row => row.recommended === true && !terminalResult(row) && new Date(row.date).getTime() <= Date.now());
+  if (!hasPredictions && awaitingResult) {
+    setText(".no-pick .section-label", "Le suivi continue");
+    setText(".no-pick strong", "Les choix publiés attendent leur résultat.");
+    setText(".no-pick > p:last-child", "Aucun autre choix à venir pour ces trois jours. Retrouvez les rencontres déjà commencées dans le suivi ci-dessous.");
+  }
   holder.innerHTML = predictions.map((prediction) => predictionMarkup(prediction)).join("");
+  $(".today-grid")?.classList.toggle("has-many", predictions.length > 1);
 }
 
 function resultLabel(status, kickoffAt) {
@@ -200,10 +219,35 @@ function resultLabel(status, kickoffAt) {
   return "Résultat en attente";
 }
 
+let historyRows = [];
+let historyFilter = "all";
+const terminalResult = (row) => ["won", "lost", "void"].includes(row.status);
+
+function resultMarkup(row) {
+  return `<div class="result-row">
+    <time datetime="${escapeHtml(row.date || "")}">${escapeHtml(formatDate(row.date, true))}</time>
+    <strong>${escapeHtml(row.homeTeam)} <span class="result-versus">—</span> ${escapeHtml(row.awayTeam)}</strong>
+    <span>${escapeHtml(row.outcomeLabel || "Choix publié")}</span>
+    <div class="result-verdict">${row.actualScore ? `<strong class="final-score">${escapeHtml(row.actualScore)}</strong>` : ""}<b class="${row.status === "won" ? "won" : row.status === "lost" ? "lost" : ""}">${resultLabel(row.status, row.date)}</b></div>
+  </div>`;
+}
+
+function renderHistory() {
+  const visible = historyRows.filter(row => historyFilter === "all" || (historyFilter === "settled" ? terminalResult(row) : !terminalResult(row) && new Date(row.date).getTime() > Date.now()));
+  $("#result-list").innerHTML = visible.length ? visible.map(resultMarkup).join("") : '<p class="empty-results">Aucune décision dans cette catégorie pour le moment.</p>';
+}
+
+document.querySelectorAll("[data-history-filter]").forEach(button => button.addEventListener("click", () => {
+  historyFilter = button.dataset.historyFilter;
+  document.querySelectorAll("[data-history-filter]").forEach(item => item.setAttribute("aria-pressed", String(item === button)));
+  renderHistory();
+}));
+
 function renderTracking(data) {
   const tracking = data.tracking || {};
   const performanceLive = data.performance?.live || {};
-  const pending = numberOrNull(tracking.pending) ?? 0;
+  const allRows = (Array.isArray(data.activity) ? data.activity : []).filter(row => row?.recommended === true);
+  const pending = allRows.filter(row => !terminalResult(row) && inPublicWindow(row.date)).length;
   const verified = numberOrNull(tracking.verified) ?? numberOrNull(performanceLive.settledBets) ?? 0;
   const won = numberOrNull(tracking.won) ?? 0;
   const lost = numberOrNull(tracking.lost) ?? 0;
@@ -211,6 +255,8 @@ function renderTracking(data) {
   setText("#tracking-verified", integer.format(verified));
   setText("#tracking-won", integer.format(won));
   setText("#tracking-lost", integer.format(lost));
+  setText("#summary-pending", integer.format(pending));
+  setText("#summary-settled", integer.format(verified));
   const liveReturnBlock = $("#live-return-block");
   liveReturnBlock?.classList.remove("calculated", "negative");
   if (verified > 0) {
@@ -218,6 +264,8 @@ function renderTracking(data) {
     const returnForHundred = numberOrNull(performanceLive["roi"]) ?? numberOrNull(data.summary.liveRoi);
     const returnPercent = returnForHundred === null ? null : returnForHundred * 100;
     setText("#live-return", returnPercent === null ? "Rendement indisponible" : `${signed(returnPercent, decimalOne)} %`);
+    setText("#summary-roi", returnPercent === null ? "—" : `${signed(returnPercent, decimalOne)} %`);
+    setText("#summary-description", "Rendement des mises publiées, depuis le début de cette stratégie.");
     setText(
       "#live-return-copy",
       profit === null
@@ -229,25 +277,15 @@ function renderTracking(data) {
   } else {
     setText("#live-return", "Pas encore calculable");
     setText("#live-return-copy", "Le calcul commencera après le premier match terminé.");
+    setText("#summary-roi", "—");
+    setText("#summary-description", "Le rendement apparaîtra après le premier résultat confirmé.");
   }
-
-  const rows = (Array.isArray(data.activity) ? data.activity : [])
-    .filter((row) => row?.recommended === true)
-    .slice(0, 10);
-  const holder = $("#result-list");
-  if (!rows.length) {
-    holder.innerHTML = '<p class="empty-results">Aucune décision n’a encore été enregistrée dans le suivi.</p>';
-    return;
-  }
-
-  holder.innerHTML = rows.map((row) => `
-    <div class="result-row">
-      <time datetime="${escapeHtml(row.date || "")}">${escapeHtml(formatDate(row.date))}</time>
-      <strong>${escapeHtml(row.homeTeam)} — ${escapeHtml(row.awayTeam)}</strong>
-      <span>${escapeHtml(row.outcomeLabel || "Choix publié")}${row.actualScore ? ` · score ${escapeHtml(row.actualScore)}` : ""}</span>
-      <b class="${row.status === "won" ? "won" : ""}">${resultLabel(row.status, row.date)}</b>
-    </div>
-  `).join("");
+  const archived = allRows.filter(row => !terminalResult(row) && new Date(row.date).getTime() > Date.now() && !inPublicWindow(row.date));
+  const archivedIds = new Set(archived.map(row => row.id));
+  historyRows = allRows.filter(row => !archivedIds.has(row.id)).sort((a, b) => new Date(b.date) - new Date(a.date));
+  $("#archived-decisions").hidden = archived.length === 0;
+  $("#archived-list").innerHTML = archived.map(resultMarkup).join("");
+  renderHistory();
 }
 
 function usableCurve(rows) {

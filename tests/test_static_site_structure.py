@@ -22,17 +22,17 @@ class StaticSiteStructureTests(unittest.TestCase):
         results_start = landing.index('id="resultats"')
         self.assertLess(landing.index('id="journal"'), process_start)
         self.assertLess(process_start, results_start)
-        self.assertIn('aria-label="Les cinq étapes du système"', landing)
+        self.assertIn('aria-label="Les trois étapes du système"', landing)
         for copy in {
             "Comment ça marche",
             "Chaque parieur sait que",
             "le secret pour survivre",
             "c’est de savoir quoi jeter",
             "et quoi garder.",
-            "Deux IA donnent leur lecture",
-            "Le doute élimine le match",
-            "Seuls les écarts nets passent",
-            "Jouer ou laisser passer",
+            "Le football avant les chiffres.",
+            "Un écart qui mérite l’attention.",
+            "Chaque choix jusqu’au score final.",
+            "Comment le filtre est-il réglé ?",
         }:
             self.assertIn(copy, landing)
 
@@ -85,7 +85,7 @@ class StaticSiteStructureTests(unittest.TestCase):
         }
         for element_id in required_ids:
             self.assertIn(f'id="{element_id}"', dashboard)
-        self.assertIn('src="./assets/app.js?v=32"', dashboard)
+        self.assertIn('src="./assets/app.js?v=34"', dashboard)
         self.assertIn('href="./assets/styles.css?v=31"', dashboard)
         self.assertIn("Rendement des mises publiées", dashboard)
         self.assertIn('`${signed(returnPercent, decimalOne)} %`', script)
