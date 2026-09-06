@@ -8,7 +8,7 @@ import os
 import threading
 import time
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Iterable
 from zoneinfo import ZoneInfo
@@ -38,6 +38,7 @@ PORTFOLIO_LABELS = {
     "production_draw_pooled_unweighted_2026_09_05": "Sélection à filtre commun",
 }
 DISPLAY_TIMEZONE = ZoneInfo("Europe/Paris")
+PREDICTION_WINDOW_DAYS = 3
 
 
 def _float(value: Any, default: float = 0.0) -> float:
@@ -251,7 +252,9 @@ class DashboardService:
 
         quality_view = self._quality_view(quality, team_registry_audit, now)
         prediction_rows = [{**row, "recommended_bet": True} for row in upcoming_rows]
-        current_predictions = self._prediction_view(prediction_rows, now)
+        current_predictions = self._limit_to_prediction_window(
+            self._prediction_view(prediction_rows, now), now
+        )
         scored_fixture_count = len(
             {
                 (
@@ -274,7 +277,9 @@ class DashboardService:
             and str(row.get("result_status") or "pending") not in {"won", "lost", "void"}
             and (not active_portfolio or str(row.get("portfolio_name") or "").strip() == active_portfolio)
         ]
-        published_predictions = self._prediction_view(published_rows, now)
+        published_predictions = self._limit_to_prediction_window(
+            self._prediction_view(published_rows, now), now
+        )
         predictions = self._merge_upcoming_predictions(current_predictions, published_predictions)
         tracking = self._tracking_view(live_summary, activity, prediction_store_status)
         risk = self._risk_view(quality_view, tracking, current_predictions)
@@ -533,6 +538,22 @@ class DashboardService:
             str(prediction.get("awayTeam", "")).casefold(),
             str(prediction.get("outcome", "")),
         )
+
+    @staticmethod
+    def _limit_to_prediction_window(
+        predictions: Iterable[dict[str, Any]], now: datetime
+    ) -> list[dict[str, Any]]:
+        today = now.astimezone(DISPLAY_TIMEZONE).date()
+        last_day = today + timedelta(days=PREDICTION_WINDOW_DAYS - 1)
+        visible: list[dict[str, Any]] = []
+        for prediction in predictions:
+            match_date = _parse_date(prediction.get("date"))
+            if match_date is None:
+                continue
+            localized = match_date if match_date.tzinfo else match_date.replace(tzinfo=DISPLAY_TIMEZONE)
+            if today <= localized.astimezone(DISPLAY_TIMEZONE).date() <= last_day:
+                visible.append(prediction)
+        return visible
 
     @classmethod
     def _merge_upcoming_predictions(
