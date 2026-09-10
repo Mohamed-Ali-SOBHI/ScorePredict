@@ -38,6 +38,21 @@ function parisDay(value) {
   return new Intl.DateTimeFormat("en-CA", { timeZone: MATCH_TIMEZONE, year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date(value));
 }
 
+function matchCards(data, now = Date.now()) {
+  const key = row => [row.league, row.homeTeam, row.awayTeam, parisDay(row.date)].join('|');
+  const cards = new Map(futurePublishedPredictions(data, now).map(row => [key(row), row]));
+  // The ledger takes over after kickoff, even when the daily export no longer has the prediction.
+  for (const row of [...data.predictions, ...(data.activity || [])]) {
+    const kickoff = new Date(row.date).getTime();
+    if (row.recommended !== true || !Number.isFinite(kickoff) || kickoff > now) continue;
+    const previous = cards.get(key(row));
+    if (previous && terminalResult(previous) && !terminalResult(row)) continue;
+    cards.set(key(row), {...previous, ...row, started: true});
+  }
+  return [...cards.values()].filter(row => !terminalResult(row) || parisDay(row.date) === parisDay(now))
+    .sort((a,b) => new Date(a.date)-new Date(b.date));
+}
+
 function inPublicWindow(value, now = Date.now()) {
   if (!Number.isFinite(new Date(value).getTime())) return false;
   const today = Date.parse(`${parisDay(now)}T00:00:00Z`);
@@ -151,6 +166,7 @@ const LEAGUE_COUNTRIES = Object.freeze({
 });
 
 function predictionMarkup(prediction) {
+  if (prediction.started) return followedMatchMarkup(prediction);
   const league = prediction.leagueLabel || prediction.league || "Championnat";
   const country = LEAGUE_COUNTRIES[prediction.league] || league;
   const confidence = numberOrNull(prediction.modelProbability) ?? 0;
@@ -184,10 +200,24 @@ function predictionMarkup(prediction) {
     </article>`;
 }
 
+function followedMatchMarkup(match) {
+  const confirmed = terminalResult(match);
+  const score = confirmed && match.status !== 'void' && match.actualScore ? match.actualScore : '—';
+  const label = resultLabel(match.status, match.date);
+  const odds = numberOrNull(match.odds);
+  return `<article class="prediction prediction-followed" aria-label="${escapeHtml(`${match.homeTeam} contre ${match.awayTeam}, ${label}`)}">
+    <div class="prediction-head"><span>${escapeHtml(match.leagueLabel || match.league)}</span><time datetime="${escapeHtml(match.date)}">${escapeHtml(formatDate(match.date,true))}</time></div>
+    <div class="prediction-pitch" aria-hidden="true"><i></i></div>
+    <div class="teams"><p>Football</p><h2>${escapeHtml(match.homeTeam)}</h2><span>contre</span><h2>${escapeHtml(match.awayTeam)}</h2></div>
+    <div class="match-verdict" role="status"><strong>${escapeHtml(score)}</strong><span>${escapeHtml(label)}</span></div>
+    <div class="prediction-footer"><div><span>Choix publié</span><b>${escapeHtml(match.outcomeLabel)}</b></div><div><span>Cote publiée</span><b>${odds === null ? '—' : decimal.format(odds)}</b></div></div>
+  </article>`;
+}
+
 function resetNoPickCopy() {
   setText(".no-pick .section-label", "Décision enregistrée");
-  setText(".no-pick strong", "Aucun choix pour ces trois jours.");
-  setText(".no-pick > p:last-child", "Aucun match n’a franchi tous les contrôles. Le tableau de bord sera actualisé automatiquement.");
+  setText(".no-pick strong", "Aucun match retenu pour le moment.");
+  setText(".no-pick > p:last-child", "Les prochains choix apparaîtront ici.");
   $("#no-pick")?.classList.remove("error-state");
 }
 
@@ -201,10 +231,15 @@ function renderPredictions(data) {
   const awaitingResult = (data.activity || []).some(row => row.recommended === true && !terminalResult(row) && new Date(row.date).getTime() <= Date.now());
   if (!hasPredictions && awaitingResult) {
     setText(".no-pick .section-label", "Le suivi continue");
-    setText(".no-pick strong", "Les choix publiés attendent leur résultat.");
-    setText(".no-pick > p:last-child", "Aucun autre choix à venir pour ces trois jours. Retrouvez les rencontres déjà commencées dans le suivi ci-dessous.");
+    setText(".no-pick strong", "Aucun autre match à venir.");
+    setText(".no-pick > p:last-child", "Les rencontres déjà commencées restent dans les résultats ci-dessous.");
   }
-  holder.innerHTML = predictions.map((prediction) => predictionMarkup(prediction)).join("");
+  const markup = predictions.map((prediction) => predictionMarkup(prediction)).join("");
+  // Leave the DOM intact between unchanged polls (focus and expanded details stay in place).
+  if (holder.dataset.markup !== markup) {
+    holder.innerHTML = markup;
+    holder.dataset.markup = markup;
+  }
   $(".today-grid")?.classList.toggle("has-many", predictions.length > 1);
 }
 
@@ -221,6 +256,7 @@ function resultLabel(status, kickoffAt) {
 
 let historyRows = [];
 let historyFilter = "all";
+let historyLimit = 8;
 const terminalResult = (row) => ["won", "lost", "void"].includes(row.status);
 
 function resultMarkup(row) {
@@ -234,14 +270,70 @@ function resultMarkup(row) {
 
 function renderHistory() {
   const visible = historyRows.filter(row => historyFilter === "all" || (historyFilter === "settled" ? terminalResult(row) : !terminalResult(row) && new Date(row.date).getTime() > Date.now()));
-  $("#result-list").innerHTML = visible.length ? visible.map(resultMarkup).join("") : '<p class="empty-results">Aucune décision dans cette catégorie pour le moment.</p>';
+  let month = '';
+  const markup = visible.slice(0, historyLimit).map(row => {
+    const date = new Date(row.date);
+    const label = Number.isFinite(date.getTime()) ? new Intl.DateTimeFormat('fr-FR', {month:'long',year:'numeric',timeZone:MATCH_TIMEZONE}).format(date) : 'Date à confirmer';
+    const heading = label !== month ? `<h3 class="history-month">${escapeHtml(label)}</h3>` : '';
+    month = label;
+    return heading + resultMarkup(row);
+  }).join('');
+  $("#result-list").innerHTML = markup || '<p class="empty-results">Aucune décision dans cette catégorie pour le moment.</p>';
+  $("#history-more").hidden = visible.length <= historyLimit;
 }
+
+$("#history-more")?.addEventListener('click', () => { historyLimit += 8; renderHistory(); });
 
 document.querySelectorAll("[data-history-filter]").forEach(button => button.addEventListener("click", () => {
   historyFilter = button.dataset.historyFilter;
+  historyLimit = 8;
   document.querySelectorAll("[data-history-filter]").forEach(item => item.setAttribute("aria-pressed", String(item === button)));
   renderHistory();
 }));
+
+function liveRoiPoints(rows, verified, expectedRoi) {
+  const settled = rows.filter(row => row.recommended === true && ['won','lost'].includes(row.status))
+    .sort((a,b) => new Date(a.date)-new Date(b.date));
+  if (verified < 5 || settled.length !== verified || settled.some(row => numberOrNull(row.profitUnits) === null || !Number.isFinite(new Date(row.date).getTime()))) return [];
+  let profit = 0;
+  const points = settled.map((row,i) => ({...row, roi: (profit += Number(row.profitUnits)) / (i+1) * 100}));
+  if (numberOrNull(expectedRoi) === null || Math.abs(points.at(-1).roi - expectedRoi*100) > .01) return [];
+  return points;
+}
+
+let roiPoints = [];
+let roiSignature = '';
+function selectRoiPoint(index) {
+  const point = roiPoints[index];
+  if (!point) return;
+  setText('#roi-caption', `${formatDate(point.date)} · ${point.homeTeam} — ${point.awayTeam} · ${signed(point.roi,decimalOne)} %`);
+  $('#roi-cursor')?.setAttribute('cx', point.x);
+  $('#roi-cursor')?.setAttribute('cy', point.y);
+  $('#roi-position')?.setAttribute('aria-valuetext', `${point.homeTeam} contre ${point.awayTeam}, rendement ${signed(point.roi,decimalOne)} pour cent`);
+}
+
+$('#roi-position')?.addEventListener('input', event => selectRoiPoint(Number(event.target.value)));
+
+function renderLiveCurve(rows, verified, expectedRoi) {
+  const nextPoints = liveRoiPoints(rows, verified, expectedRoi);
+  const signature = JSON.stringify(nextPoints);
+  if (signature === roiSignature) return;
+  roiSignature = signature;
+  roiPoints = nextPoints;
+  $('#live-curve').hidden = roiPoints.length === 0;
+  if (!roiPoints.length) return;
+  const low = Math.min(0,...roiPoints.map(p=>p.roi));
+  const high = Math.max(0,...roiPoints.map(p=>p.roi));
+  const y = value => 104-(value-low)/(high-low || 1)*88;
+  roiPoints = roiPoints.map((point,i) => ({...point,x:12+i/(roiPoints.length-1)*576,y:y(point.roi)}));
+  $('#roi-line').setAttribute('d', roiPoints.map((p,i)=>`${i?'L':'M'}${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(' '));
+  $('#roi-zero').setAttribute('y1',y(0));
+  $('#roi-zero').setAttribute('y2',y(0));
+  const slider = $('#roi-position');
+  slider.max = roiPoints.length-1;
+  slider.value = slider.max;
+  selectRoiPoint(roiPoints.length-1);
+}
 
 function renderTracking(data) {
   const tracking = data.tracking || {};
@@ -251,6 +343,7 @@ function renderTracking(data) {
   const verified = numberOrNull(tracking.verified) ?? numberOrNull(performanceLive.settledBets) ?? 0;
   const won = numberOrNull(tracking.won) ?? 0;
   const lost = numberOrNull(tracking.lost) ?? 0;
+  renderLiveCurve(allRows, verified, performanceLive.roi ?? data.summary.liveRoi);
   setText("#tracking-pending", integer.format(pending));
   setText("#tracking-verified", integer.format(verified));
   setText("#tracking-won", integer.format(won));
@@ -275,16 +368,14 @@ function renderTracking(data) {
     liveReturnBlock?.classList.add("calculated");
     if ((returnPercent ?? profit) < 0) liveReturnBlock?.classList.add("negative");
   } else {
-    setText("#live-return", "Pas encore calculable");
-    setText("#live-return-copy", "Le calcul commencera après le premier match terminé.");
+    setText("#live-return", "—");
+    setText("#live-return-copy", "Après le premier résultat confirmé.");
     setText("#summary-roi", "—");
     setText("#summary-description", "Le rendement apparaîtra après le premier résultat confirmé.");
   }
-  const archived = allRows.filter(row => !terminalResult(row) && new Date(row.date).getTime() > Date.now() && !inPublicWindow(row.date));
-  const archivedIds = new Set(archived.map(row => row.id));
-  historyRows = allRows.filter(row => !archivedIds.has(row.id)).sort((a, b) => new Date(b.date) - new Date(a.date));
-  $("#archived-decisions").hidden = archived.length === 0;
-  $("#archived-list").innerHTML = archived.map(resultMarkup).join("");
+  // A single journal: keep past results, but never expose future choices outside the window.
+  historyRows = allRows.filter(row => new Date(row.date).getTime() <= Date.now() || inPublicWindow(row.date))
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
   renderHistory();
 }
 
@@ -602,7 +693,7 @@ function renderPerformance(data) {
 function renderDashboard(data) {
   const ready = data.meta.status === "ready";
   const fresh = publicationIsFresh(data.meta.generatedAt);
-  const futurePredictions = futurePublishedPredictions(data);
+  const futurePredictions = matchCards(data);
   const visibleData = { ...data, predictions: futurePredictions };
 
   if (ready && fresh) {
@@ -610,7 +701,7 @@ function renderDashboard(data) {
     $("#load-error").hidden = true;
   } else if (ready && futurePredictions.length > 0) {
     renderPredictions(visibleData);
-    $("#load-error").textContent = "La mise à jour quotidienne est en retard. Les choix déjà publiés restent visibles jusqu’au coup d’envoi.";
+    $("#load-error").textContent = "La mise à jour est en retard. Les choix publiés restent visibles, sans supposer de nouveau résultat.";
     $("#load-error").hidden = false;
   } else {
     const withoutCurrentDecision = {
@@ -640,10 +731,14 @@ function renderLoadError() {
   setText(".no-pick > p:last-child", "Aucun ancien choix n’est présenté comme actuel. Une nouvelle tentative aura lieu automatiquement.");
 }
 
+let latestDashboard = null;
 async function loadDashboard() {
   try {
-    renderDashboard(await fetchDashboard());
+    const data = await fetchDashboard();
+    renderDashboard(data);
+    latestDashboard = data;
   } catch (error) {
+    latestDashboard = null;
     console.error(error);
     renderLoadError();
   }
@@ -774,3 +869,5 @@ setText("#current-year", String(new Date().getFullYear()));
 syncVideoControl();
 loadDashboard();
 setInterval(loadDashboard, 5 * 60 * 1000);
+// Update the kickoff state locally without an extra network poll or invented live score.
+setInterval(() => { if (latestDashboard) renderDashboard(latestDashboard); }, 30 * 1000);

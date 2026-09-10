@@ -417,8 +417,8 @@ section { scroll-margin-top: 68px; }
   letter-spacing: .12em;
   text-transform: uppercase;
 }
-.rivalry-label { display: inline-flex; align-items: center; gap: 8px; font-size: 9px; }
-.rivalry-label i { width: 6px; height: 6px; border-radius: 50%; background: var(--hero-lime); box-shadow: 0 0 0 5px rgba(168, 214, 91, .1); }
+.rivalry-label { display: inline-flex; align-items: center; font-size: 9px; }
+.rivalry-label i { display: none; }
 .pitch-geometry {
   position: absolute;
   z-index: 0;
