@@ -763,7 +763,7 @@ class DashboardService:
                 unique[key] = row
         ordered = sorted(unique.values(), key=lambda row: str(row.get("date", "")), reverse=True)
         # Keep every unresolved choice so the client can scope counts at Paris midnight.
-        completed = [row for row in ordered if row["status"] in {"won", "lost", "void"}][:30]
+        completed = [row for row in ordered if row["status"] in {"won", "lost", "void"}]
         unresolved = [row for row in ordered if row["status"] not in {"won", "lost", "void"}]
         return sorted(unresolved + completed, key=lambda row: str(row.get("date", "")), reverse=True)
 

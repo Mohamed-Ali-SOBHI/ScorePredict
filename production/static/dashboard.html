@@ -10,8 +10,8 @@
   <meta property="og:image" content="./assets/media/stadium-documentary.webp">
   <title>Tableau de bord — ScorePredict</title>
   <link rel="icon" href="./assets/brand/scorepredict-mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/styles.css?v=31">
-  <link rel="stylesheet" href="./assets/journal.css?v=1">
+  <link rel="stylesheet" href="./assets/styles.css?v=32">
+  <link rel="stylesheet" href="./assets/journal.css?v=3">
 </head>
 <body class="journal-dashboard">
   <a class="skip-link" href="#main">Aller au contenu</a>
@@ -25,8 +25,8 @@
       </a>
 
       <nav class="desktop-nav" aria-label="Navigation principale">
-        <a href="#pronostic">Les 3 prochains jours</a>
-        <a href="#suivi">Le suivi</a>
+        <a href="#pronostic">Matchs</a>
+        <a href="#suivi">Résultats</a>
       </nav>
 
     </div>
@@ -37,9 +37,7 @@
     <section class="today-section" id="pronostic" aria-labelledby="hero-title">
       <div class="page-shell">
         <header class="workspace-title" data-reveal>
-          <p class="section-label">Le journal du match</p>
-          <h1 id="hero-title">Les 3 prochains jours</h1>
-          <p class="window-caption" id="window-caption">Aujourd’hui, demain et après-demain · heures de Paris</p>
+          <h1 id="hero-title">Les matchs.</h1>
         </header>
 
         <div class="today-grid">
@@ -53,23 +51,10 @@
             </div>
 
             <div class="no-pick" id="no-pick" hidden>
-              <span class="no-pick-mark" aria-hidden="true"></span>
-              <p class="section-label">Décision enregistrée</p>
-              <strong>Aucun choix pour ces trois jours.</strong>
-              <p>Aucun match n’a franchi tous les contrôles. Le tableau de bord sera actualisé automatiquement.</p>
+              <strong>Aucun match retenu pour le moment.</strong>
+              <p>Les prochains choix apparaîtront ici.</p>
             </div>
           </div>
-          <aside class="journal-summary" aria-labelledby="summary-title">
-            <p class="section-label">La stratégie actuelle</p>
-            <h2 id="summary-title">Le bilan, au fil des matchs.</h2>
-            <p class="summary-number" id="summary-roi">—</p>
-            <p class="summary-description" id="summary-description">Le rendement apparaîtra après le premier résultat confirmé.</p>
-            <dl class="summary-stats">
-              <div><dt>En attente · 3 jours</dt><dd id="summary-pending">—</dd></div>
-              <div><dt>Paris terminés</dt><dd id="summary-settled">—</dd></div>
-            </dl>
-            <a class="summary-link" href="#suivi">Consulter le suivi</a>
-          </aside>
         </div>
       </div>
     </section>
@@ -78,28 +63,35 @@
       <div class="page-shell">
         <header class="section-heading" data-reveal>
           <div>
-            <p class="section-label">La stratégie actuelle</p>
-            <h2 id="tracking-title">Le suivi des résultats</h2>
-            <p>Le bilan cumule les paris terminés. Les rencontres en attente couvrent les trois prochains jours.</p>
+            <h2 id="tracking-title">Les résultats.</h2>
           </div>
         </header>
 
         <div class="live-overview" data-reveal>
           <div class="tracking-totals">
-            <div><span>En attente · 3 jours</span><strong id="tracking-pending">0</strong></div>
+            <div title="Rencontres non terminées dans la fenêtre de trois jours, heures de Paris"><span>En attente</span><strong id="tracking-pending">0</strong></div>
             <div><span>Terminés</span><strong id="tracking-verified">0</strong></div>
             <div><span>Gagnés</span><strong id="tracking-won">0</strong></div>
             <div><span>Perdus</span><strong id="tracking-lost">0</strong></div>
           </div>
           <div class="live-return" id="live-return-block">
-            <span>Rendement des mises publiées</span>
-            <strong id="live-return">Pas encore calculable</strong>
-            <p id="live-return-copy">Le calcul commencera après le premier match terminé.</p>
+            <span>Rendement</span>
+            <strong id="live-return">—</strong>
+            <p id="live-return-copy">Après le premier résultat confirmé.</p>
           </div>
         </div>
 
+        <figure class="live-curve" id="live-curve" hidden aria-label="Évolution du rendement des paris terminés">
+          <svg viewBox="0 0 600 120" role="img" aria-label="Rendement cumulé après chaque pari terminé">
+            <line id="roi-zero" x1="12" x2="588" y1="104" y2="104" />
+            <path id="roi-line" d="" />
+            <circle id="roi-cursor" r="4" cx="12" cy="104" />
+          </svg>
+          <input id="roi-position" type="range" min="0" max="0" value="0" step="1" aria-label="Parcourir les matchs de la courbe">
+          <figcaption id="roi-caption"></figcaption>
+        </figure>
+
         <div class="history-toolbar">
-          <h3>Les décisions</h3>
           <div class="history-filters" role="group" aria-label="Filtrer les décisions">
             <button type="button" data-history-filter="all" aria-pressed="true">Tous</button>
             <button type="button" data-history-filter="pending" aria-pressed="false">À venir</button>
@@ -110,11 +102,7 @@
         <div class="result-table" id="result-list" data-reveal>
           <p class="empty-results">Les premiers résultats apparaîtront ici après les matchs recommandés.</p>
         </div>
-        <details class="archived-decisions" id="archived-decisions" hidden>
-          <summary>Décisions antérieures hors des trois jours</summary>
-          <p>Publiées avant la réduction de la fenêtre, elles restent conservées et leur résultat sera suivi.</p>
-          <div class="result-table" id="archived-list"></div>
-        </details>
+        <button class="history-more" id="history-more" type="button" hidden>Voir plus</button>
       </div>
     </section>
 
@@ -127,12 +115,11 @@
           <img src="./assets/brand/scorepredict-logo-v3.png" width="1024" height="482" alt="">
         </span>
       </a>
-      <p>Actualisé le matin et à midi.</p>
       <p>© <span id="current-year">2026</span> ScorePredict</p>
     </div>
   </footer>
 
   <div class="load-error" id="load-error" role="status" hidden>Les données du jour sont momentanément indisponibles. La dernière vue ne peut pas être confirmée.</div>
-  <script type="module" src="./assets/app.js?v=34"></script>
+  <script type="module" src="./assets/app.js?v=38"></script>
 </body>
 </html>

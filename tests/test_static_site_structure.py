@@ -13,7 +13,7 @@ class StaticSiteStructureTests(unittest.TestCase):
         landing = (STATIC / "index.html").read_text(encoding="utf-8")
         self.assertIn('href="./dashboard.html"', landing)
         self.assertIn('src="./assets/landing.js?v=journal-6"', landing)
-        self.assertIn('href="./assets/landing.css?v=v22"', landing)
+        self.assertIn('href="./assets/landing.css?v=v23"', landing)
         self.assertNotIn('src="./assets/app.js', landing)
 
     def test_how_it_works_follows_the_hero_and_explains_the_filters(self) -> None:
@@ -85,9 +85,13 @@ class StaticSiteStructureTests(unittest.TestCase):
         }
         for element_id in required_ids:
             self.assertIn(f'id="{element_id}"', dashboard)
-        self.assertIn('src="./assets/app.js?v=34"', dashboard)
-        self.assertIn('href="./assets/styles.css?v=31"', dashboard)
-        self.assertIn("Rendement des mises publiées", dashboard)
+        self.assertIn('src="./assets/app.js?v=38"', dashboard)
+        self.assertNotIn('id="archived-decisions"', dashboard)
+        self.assertNotIn('id="archived-list"', dashboard)
+        self.assertIn('href="./assets/styles.css?v=32"', dashboard)
+        self.assertIn("Rendement", dashboard)
+        self.assertNotIn('class="journal-summary"', dashboard)
+        self.assertNotIn('class="window-caption"', dashboard)
         self.assertIn('`${signed(returnPercent, decimalOne)} %`', script)
         self.assertIn("Soit ${signed(profit)}", script)
         self.assertIn('class="prediction-pitch"', dashboard)
@@ -97,7 +101,7 @@ class StaticSiteStructureTests(unittest.TestCase):
         self.assertIn('return "À venir"', script)
         self.assertIn("futurePublishedPredictions", script)
         self.assertIn("kickoff > now", script)
-        self.assertIn("Les choix déjà publiés restent visibles jusqu’au coup d’envoi.", script)
+        self.assertIn("sans supposer de nouveau résultat", script)
         for removed_copy in {
             "Lecture du choix",
             "Essais sur les saisons passées",
