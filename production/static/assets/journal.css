@@ -38,7 +38,7 @@
 .journal-dashboard .today-grid { grid-template-columns: minmax(0, 1fr); margin-top: 52px; }
 .journal-dashboard .pick-list { grid-template-columns: minmax(0, 400px); justify-content: center; }
 .journal-dashboard .pick-list > .prediction:last-child:nth-child(odd) { width: 100%; grid-column: auto; }
-.journal-dashboard .prediction { aspect-ratio: auto; min-height: 470px; padding: 24px 28px; border-radius: 28px; transform: none; box-shadow: 6px 7px 0 #06281a, 8px 18px 30px #143b2214; background: linear-gradient(145deg, var(--deep), #0a1f15 33%, #041a0e 80%); border: 1px solid rgba(255,255,255,.08); }
+.journal-dashboard .prediction { aspect-ratio: auto; min-height: 470px; padding: 24px 28px; border-radius: 28px; transform: none; box-shadow: 6px 7px 0 #02170e, inset 0 1px 1px rgba(255,255,255,.08), inset -18px -24px 40px rgba(0,0,0,.12), 0 20px 40px rgba(5,39,25,.08); background: radial-gradient(circle at 18% 2%, rgba(255,255,255,.07), transparent 29%), linear-gradient(145deg, #0d5b38, #0b4a2c 33%, #052719 80%); border: 1px solid rgba(255,255,255,.12); }
 .journal-dashboard .prediction:hover { transform: translateY(-3px); }
 .journal-dashboard .prediction-head { font-size: 12px; text-transform: none; letter-spacing: 0; gap: 10px; color: rgba(255,255,255,.7); }
 .journal-dashboard .teams { padding: 28px 0 22px; }
