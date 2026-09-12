@@ -35,6 +35,10 @@
 .window-caption { margin: 0; font-size: 15px; color: var(--muted); }
 
 .journal-dashboard .today-section { padding-block: 64px 96px; }
+.journal-dashboard .today-section {
+  position: relative;
+  background: linear-gradient(180deg, #f4f6f1 0%, #edf5ef 52%, #f7f9f5 100%);
+}
 .journal-dashboard .today-grid { grid-template-columns: minmax(0, 1fr); margin-top: 52px; }
 .journal-dashboard .pick-list { grid-template-columns: minmax(0, 400px); justify-content: center; }
 .journal-dashboard .pick-list > .prediction:last-child:nth-child(odd) { width: 100%; grid-column: auto; }
@@ -193,7 +197,7 @@
   margin-top: 8px;
 }
 
-.journal-dashboard .live-section { background: var(--paper); padding-block: 72px 88px; border-top: 1px solid var(--line); }
+.journal-dashboard .live-section { background: linear-gradient(180deg, #f7f9f5 0%, #ffffff 100%); padding-block: 72px 88px; border-top: 1px solid rgba(11,74,44,.12); }
 .journal-dashboard .section-heading h2 { font-size: 32px; letter-spacing: -.04em; }
 .journal-dashboard .section-heading p:not(.section-label) { max-width: 62ch; font-size: 15px; color: var(--muted); }
 .journal-dashboard .section-heading p { max-width: 62ch; font-size: 15px; color: var(--muted); line-height: 1.6; margin-top: 8px; }
@@ -238,7 +242,7 @@
 .journal-dashboard .no-pick-state p { max-width: 42ch; margin: 0 auto; color: var(--muted); font-size: 14px; }
 
 /* History section */
-.history-section { padding-block: 88px; border-top: 1px solid var(--line); }
+.history-section { padding-block: 88px; border-top: 1px solid var(--line); background: linear-gradient(180deg, #ffffff 0%, #f4f6f1 100%); }
 .history-kpis { margin-top: 32px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
 .history-kpis div { min-height: 110px; padding: 20px 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); display: flex; flex-direction: column; justify-content: space-between; }
 .history-kpis strong { font-size: 26px; font-weight: 700; line-height: 1; color: var(--ink); margin-bottom: 8px; }
@@ -359,6 +363,12 @@
 .journal-dashboard .prediction { animation: predictionIn .62s cubic-bezier(.22, 1, .36, 1) both; }
 .journal-dashboard .prediction:nth-child(2) { animation-delay: .07s; }
 .journal-dashboard .prediction:nth-child(3) { animation-delay: .14s; }
+
+/* Soft colour transitions keep the long dashboard readable without adding chrome */
+.journal-dashboard .today-section,
+.journal-dashboard .live-section,
+.journal-dashboard .history-section,
+.journal-dashboard .responsible-section { background-clip: border-box; transition: background .6s ease; }
 
 @media (prefers-reduced-motion: reduce) {
   .journal-dashboard .prediction:hover { transform: none; }
