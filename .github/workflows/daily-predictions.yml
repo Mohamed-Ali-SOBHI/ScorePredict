@@ -148,6 +148,18 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Attendre le service d'authentification GitHub
+        uses: actions/github-script@v8
+        with:
+          script: |
+            for (let attempt = 1; attempt <= 3; attempt++) {
+              try { await core.getIDToken(); break; }
+              catch (error) {
+                if (attempt === 3) throw error;
+                core.warning(`Authentification temporairement indisponible, tentative ${attempt}/3.`);
+                await new Promise(resolve => setTimeout(resolve, 10000));
+              }
+            }
       - name: Publier sur GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5

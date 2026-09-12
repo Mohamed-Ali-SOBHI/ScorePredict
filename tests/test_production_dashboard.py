@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from production.dashboard import DashboardService
+from production.dashboard import DashboardService, write_snapshot
 from inference.portfolio_presets import DEFAULT_PORTFOLIO_NAME
 
 
@@ -28,6 +28,14 @@ def write_csv(path: Path, rows: list[dict]) -> None:
 
 
 class DashboardServiceTests(unittest.TestCase):
+    def test_export_rebuilds_instead_of_reusing_snapshot(self) -> None:
+        write_json(self.root / "production/static/data/dashboard.json", {"meta":{"status":"ready"},"demo":True})
+        service = DashboardService(self.root)
+        path = write_snapshot(service)
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        self.assertNotIn("demo", payload)
+        self.assertEqual(payload["meta"]["activePortfolio"], DEFAULT_PORTFOLIO_NAME)
+
     def setUp(self) -> None:
         self.tempdir = tempfile.TemporaryDirectory()
         self.root = Path(self.tempdir.name)

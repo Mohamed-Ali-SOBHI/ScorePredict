@@ -85,13 +85,15 @@ class StaticSiteStructureTests(unittest.TestCase):
         }
         for element_id in required_ids:
             self.assertIn(f'id="{element_id}"', dashboard)
-        self.assertIn('src="./assets/app.js?v=38"', dashboard)
+        self.assertIn('src="./assets/app.js?v=41"', dashboard)
         self.assertNotIn('id="archived-decisions"', dashboard)
         self.assertNotIn('id="archived-list"', dashboard)
-        self.assertIn('href="./assets/styles.css?v=32"', dashboard)
+        self.assertIn('href="./assets/styles.css?v=34"', dashboard)
         self.assertIn("Rendement", dashboard)
         self.assertNotIn('class="journal-summary"', dashboard)
-        self.assertNotIn('class="window-caption"', dashboard)
+        self.assertIn('id="season-scope"', dashboard)
+        self.assertNotIn('530 paris', dashboard)
+        self.assertNotIn('3 sur 4', dashboard)
         self.assertIn('`${signed(returnPercent, decimalOne)} %`', script)
         self.assertIn("Soit ${signed(profit)}", script)
         self.assertIn('class="prediction-pitch"', dashboard)

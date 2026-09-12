@@ -224,12 +224,14 @@ class DashboardService:
     def _has_live_sources(self) -> bool:
         return self.paths.quality.exists() or self.paths.scientific.exists() or self.paths.live_log.exists()
 
-    def _build_payload(self) -> dict[str, Any]:
-        if not self._has_live_sources() and self.paths.snapshot.exists():
+    def _build_payload(self, prefer_snapshot: bool = True) -> dict[str, Any]:
+        if prefer_snapshot and self.paths.snapshot.exists():
             snapshot = _read_json(self.paths.snapshot)
-            if snapshot:
+            if snapshot and isinstance(snapshot, dict) and "meta" in snapshot:
                 snapshot.setdefault("meta", {})["servingMode"] = "snapshot"
                 return snapshot
+        if not self._has_live_sources():
+            return {"meta": {"status": "blocked"}, "summary": {"upcomingBets": 0}, "predictions": [], "performance": {}, "risk": {}, "quality": {}, "tracking": {}, "activity": {}}
 
         now = datetime.now(timezone.utc)
         quality = _read_json(self.paths.quality)
@@ -325,10 +327,10 @@ class DashboardService:
                 "wonPredictions": tracking["won"],
                 "lostPredictions": tracking["lost"],
                 "liveProfitUnits": _float(live_summary.get("profit_units")),
-                "liveRoi": _float(live_summary.get("roi_units")),
+                "liveReturn": _float(live_summary.get("roi_units")),
                 "testBets": performance["metrics"]["betCount"],
-                "testRoi": performance["metrics"]["roi"],
-                "positiveClvRate": performance["metrics"]["positiveClvRate"],
+                "testReturn": performance["metrics"]["roi"],
+                "positivePeriods": performance["metrics"]["positiveClvRate"],
                 "maxDrawdown": performance["metrics"]["maxDrawdown"],
             },
             "predictions": predictions,
@@ -513,22 +515,19 @@ class DashboardService:
                     "modelProbability": model_probability,
                     "rawModelProbability": _float(row.get("raw_model_probability")),
                     "marketProbability": _float(row.get("market_probability")),
-                    "edge": edge,
                     "valueScore": _float(row.get("value_score"), _float(row.get("expected_value"))),
                     "expectedValue": _float(row.get("expected_value")),
                     "stakeEur": _float(row.get("stake_eur")),
                     "potentialProfitEur": _float(row.get("potential_profit_eur_if_win")),
                     "strategy": row.get("strategy_names", ""),
-                    "riskScore": round(risk_score),
-                    "riskLabel": _risk_label(risk_score),
                     "recommended": recommended,
                     "adviceLabel": "Pari recommandé",
-                    "probabilityNote": row.get("probability_note") or "Probabilité brute non calibrée.",
+                    "recommendationNote": "Indice du modèle : " + str(round(model_probability * 100)) + "/100. Sert à comparer les matchs ; ne garantit pas le succès.",
                 }
             previous = predictions_by_fixture.get(fixture_key)
             if previous is None or (recommended and not previous["recommended"]):
                 predictions_by_fixture[fixture_key] = prediction
-        return sorted(predictions_by_fixture.values(), key=lambda row: (row["date"], -row["edge"]))
+        return sorted(predictions_by_fixture.values(), key=lambda row: row["date"])
 
     @staticmethod
     def _upcoming_prediction_key(prediction: dict[str, Any]) -> tuple[str, str, str, str, str]:
@@ -664,9 +663,9 @@ class DashboardService:
             recommendation = "Commencer prudemment : une prévision reste incertaine même lorsqu'elle est conseillée."
         return {
             "score": round(score),
-            "label": _risk_label(score),
+            "label": "Prudence",
             "components": components,
-            "method": "Indice de prudence de 0 à 100 : plus il est élevé, plus il faut attendre et observer avant de suivre un nouveau choix.",
+            "method": "Indice de prudence de 0 à 100 : plus il est élevé, plus il faut observer avant de suivre un nouveau choix.",
             "recommendation": recommendation,
         }
 
@@ -695,7 +694,7 @@ class DashboardService:
             "won": won,
             "lost": lost,
             "void": void,
-            "hitRate": won / verified if verified else None,
+            "wonBetsCount": won,
             "storageReady": configured,
             "storageLabel": "Mémoire Supabase" if configured else "Mémoire locale",
             "storageCopy": (
@@ -771,7 +770,7 @@ class DashboardService:
 def write_snapshot(service: DashboardService, output: Path | None = None) -> Path:
     target = output or service.paths.snapshot
     target.parent.mkdir(parents=True, exist_ok=True)
-    payload = service.get_dashboard(force=True)
+    payload = service._build_payload(prefer_snapshot=False)
     temporary = target.with_suffix(target.suffix + ".tmp")
     temporary.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     temporary.replace(target)

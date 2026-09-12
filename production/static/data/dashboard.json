@@ -2,1602 +2,494 @@
   "meta": {
     "product": "ScorePredict",
     "apiVersion": "1.0",
-    "generatedAt": "2026-08-21T16:24:52.268630+00:00",
+    "generatedAt": "2026-09-12T08:41:37.049936+00:00",
     "servingMode": "live-files",
     "status": "ready",
     "statusLabel": "Prêt",
     "currentSeason": 2026,
-    "latestPredictionAt": "2026-08-21T16:24:42.020454+00:00",
-    "activePortfolio": "production_draw_consensus_nonfavorite_2026_08_12",
+    "latestPredictionAt": "2026-09-12T08:41:25.224433+00:00",
+    "activePortfolio": "production_draw_pooled_unweighted_2026_09_05",
+    "strategyPolicy": "unweighted__pooled_cautious",
+    "strategyActivatedAt": "2026-09-05T19:03:03.815326+00:00",
+    "trainingMaxSeason": 2024,
+    "filterValidationSeason": 2025,
     "disclaimer": "Les prévisions sont indicatives : elles aident à comparer les rencontres, sans garantir un résultat."
   },
   "summary": {
     "upcomingBets": 3,
-    "scoredFixtures": 37,
-    "settledLiveBets": 0,
-    "pendingPredictions": 4,
+    "currentRecommendations": 2,
+    "scoredFixtures": 27,
+    "settledLiveBets": 2,
+    "pendingPredictions": 3,
     "wonPredictions": 0,
-    "lostPredictions": 0,
-    "liveProfitUnits": 0.0,
-    "liveRoi": 0.0,
-    "testBets": 530,
-    "testRoi": 0.07898113207547171,
-    "positiveClvRate": 0.6037735849056604,
-    "maxDrawdown": -32.77
+    "lostPredictions": 2,
+    "liveProfitUnits": -2.0,
+    "liveRoi": -1.0,
+    "testBets": 63,
+    "testRoi": 0.5068253968253968,
+    "positiveClvRate": 0.0,
+    "maxDrawdown": -6.0
   },
   "predictions": [
     {
-      "id": "eeed70d186ab",
-      "date": "2026-08-22T10:00:00",
-      "league": "EPL",
-      "leagueLabel": "Premier League",
-      "homeTeam": "Ipswich",
-      "awayTeam": "Sunderland",
-      "outcome": "draw",
-      "outcomeLabel": "Match nul",
-      "odds": 3.5,
-      "modelProbability": 0.45309553,
-      "rawModelProbability": 0.45309553,
-      "marketProbability": 0.2860259626922657,
-      "edge": 0.16706956281089286,
-      "valueScore": 0.16706956281089286,
-      "expectedValue": 0.585834339261055,
-      "stakeEur": 2.5,
-      "potentialProfitEur": 6.25,
-      "strategy": "epl_draw_2_00_10_00_nonfavorite_3",
-      "riskScore": 32,
-      "riskLabel": "Faible",
-      "recommended": true,
-      "adviceLabel": "Pari recommandé",
-      "probabilityNote": "min_multiclass_draw_and_binary_draw_raw_probability"
-    },
-    {
-      "id": "defaf2d9db34",
-      "date": "2026-08-29T09:30:00",
+      "id": "9d8a63bb3a8f",
+      "date": "2026-09-12T15:30:00+02:00",
       "league": "Bundesliga",
       "leagueLabel": "Bundesliga",
-      "homeTeam": "Spvgg Elversberg",
+      "homeTeam": "Freiburg",
+      "awayTeam": "Borussia M.Gladbach",
+      "outcome": "draw",
+      "outcomeLabel": "Match nul",
+      "odds": 4.32,
+      "modelProbability": 0.3472357,
+      "rawModelProbability": 0.3472357,
+      "marketProbability": 0.2308098127143234,
+      "edge": 0.11642589671446382,
+      "valueScore": 0.11642589671446382,
+      "expectedValue": 0.500058264732361,
+      "stakeEur": 2.5,
+      "potentialProfitEur": 8.3,
+      "strategy": "bundesliga_draw_4_00_10_00_nonfavorite_4",
+      "riskScore": 41,
+      "riskLabel": "Modéré",
+      "recommended": true,
+      "adviceLabel": "Pari recommandé aujourd’hui",
+      "probabilityNote": "min_multiclass_draw_and_binary_draw_raw_probability",
+      "isCurrentRecommendation": true
+    },
+    {
+      "id": "ccffc145ac14",
+      "date": "2026-09-12T15:30:00+02:00",
+      "league": "Bundesliga",
+      "leagueLabel": "Bundesliga",
+      "homeTeam": "Augsburg",
       "awayTeam": "Bayer Leverkusen",
       "outcome": "draw",
       "outcomeLabel": "Match nul",
-      "odds": 4.82,
-      "modelProbability": 0.29568496,
-      "rawModelProbability": 0.29568496,
-      "marketProbability": 0.2047456183789738,
-      "edge": 0.09093934508576315,
-      "valueScore": 0.09093934508576315,
-      "expectedValue": 0.4252015239000322,
+      "odds": 4.2,
+      "modelProbability": 0.29133752,
+      "rawModelProbability": 0.29133752,
+      "marketProbability": 0.2350602044539546,
+      "edge": 0.056277315430154906,
+      "valueScore": 0.056277315430154906,
+      "expectedValue": 0.2236175835132599,
       "stakeEur": 2.5,
-      "potentialProfitEur": 9.55,
+      "potentialProfitEur": 8.0,
       "strategy": "bundesliga_draw_4_00_10_00_nonfavorite_4",
       "riskScore": 46,
       "riskLabel": "Modéré",
       "recommended": true,
-      "adviceLabel": "Pari recommandé",
-      "probabilityNote": "min_multiclass_draw_and_binary_draw_raw_probability"
+      "adviceLabel": "Pari recommandé aujourd’hui",
+      "probabilityNote": "min_multiclass_draw_and_binary_draw_raw_probability",
+      "isCurrentRecommendation": true
     },
     {
-      "id": "95f2b8856f1e",
-      "date": "2026-08-30T11:30:00",
+      "id": "064b2830e63c",
+      "date": "2026-09-12T15:30:00+02:00",
       "league": "Bundesliga",
       "leagueLabel": "Bundesliga",
-      "homeTeam": "Augsburg",
-      "awayTeam": "Schalke 04",
+      "homeTeam": "Mainz 05",
+      "awayTeam": "Eintracht Frankfurt",
       "outcome": "draw",
       "outcomeLabel": "Match nul",
-      "odds": 3.9,
-      "modelProbability": 0.41258284,
-      "rawModelProbability": 0.41258284,
-      "marketProbability": 0.2547451367342897,
-      "edge": 0.1578377077614836,
-      "valueScore": 0.1578377077614836,
-      "expectedValue": 0.6090730935335158,
+      "odds": 3.93,
+      "modelProbability": 0.291934072971344,
+      "rawModelProbability": 0.291934072971344,
+      "marketProbability": 0.251017289631372,
+      "edge": 0.040916783339972,
+      "valueScore": 0.040916783339972,
+      "expectedValue": 0.147300906777382,
       "stakeEur": 2.5,
-      "potentialProfitEur": 7.25,
+      "potentialProfitEur": 0.0,
       "strategy": "bundesliga_draw_2_20_4_00_nonfavorite_1",
-      "riskScore": 36,
-      "riskLabel": "Faible",
+      "riskScore": 45,
+      "riskLabel": "Modéré",
       "recommended": true,
-      "adviceLabel": "Pari recommandé",
-      "probabilityNote": "min_multiclass_draw_and_binary_draw_raw_probability"
+      "adviceLabel": "Pari déjà publié",
+      "probabilityNote": "min_multiclass_draw_and_binary_draw_raw_probability",
+      "isCurrentRecommendation": false
     }
   ],
   "performance": {
     "scope": {
-      "label": "Saison passée",
-      "startDate": "2022-08-07",
+      "label": "Simulation exploratoire 2025/26 — pas le suivi réel",
+      "startDate": "2025-08-30",
       "endDate": "2026-05-24",
-      "selectionMode": "val",
-      "strategyCount": 75
+      "selectionMode": "exploratory_pooled_policy_walk_forward",
+      "strategyCount": 4
     },
     "metrics": {
-      "betCount": 530,
-      "profit": 41.86000000000001,
-      "roi": 0.07898113207547171,
-      "roiCiLow": -0.07123066037735845,
-      "roiCiHigh": 0.24357216981132074,
-      "bootstrapPositive": 0.8236666666666667,
-      "hitRate": 0.25471698113207547,
-      "averageOdds": 4.499301886792453,
-      "averageEdge": 0.14428415868435168,
-      "maxDrawdown": -32.77,
-      "longestLosingStreak": 21,
-      "positiveClvRate": 0.6037735849056604,
-      "averageClvOddsDiff": 0.020094339622641514
+      "betCount": 63,
+      "profit": 31.93,
+      "roi": 0.5068253968253968,
+      "roiCiLow": -0.006871810207336508,
+      "roiCiHigh": 1.0244801587301586,
+      "bootstrapPositive": 0.0,
+      "hitRate": 0.38095238095238093,
+      "averageOdds": 4.2220634920634925,
+      "averageEdge": 0.0,
+      "maxDrawdown": -6.0,
+      "longestLosingStreak": 0,
+      "positiveClvRate": 0.0,
+      "averageClvOddsDiff": 0.0
     },
     "live": {
-      "settledBets": 0,
+      "settledBets": 2,
       "wonBets": 0,
-      "profitUnits": 0.0,
-      "roi": 0.0,
-      "asOf": "2026-08-21"
+      "profitUnits": -2.0,
+      "roi": -1.0,
+      "asOf": "2026-09-12"
     },
     "evidence": {
-      "level": "encourageante",
-      "strengths": [
-        "Le portefeuille a ete choisi sur une saison de validation separee.",
-        "Le ROI observe est positif.",
-        "Le volume de paris commence a etre correct.",
-        "La closing line historique est disponible sur tous les paris du test 2025/26.",
-        "Le CLV historique est positif : le portefeuille prend en moyenne une meilleure cote que la cloture."
-      ],
+      "level": "exploratoire, non validée sur de nouveaux matchs",
+      "strengths": [],
       "risks": [
-        "L'intervalle bootstrap du ROI recouvre encore zero."
+        "Choisi après comparaison de nombreuses variantes historiques.",
+        "Le rendement varie fortement entre entraînements.",
+        "La saison live utilise le même protocole avec une année supplémentaire de données, pas les modèles du backtest."
       ]
     },
     "curve": [
       {
-        "date": "2022-08-07",
+        "date": "2025-08-30",
         "value": -1.0,
         "drawdown": -1.0
       },
       {
-        "date": "2022-08-13",
+        "date": "2025-08-30",
+        "value": -2.0,
+        "drawdown": -2.0
+      },
+      {
+        "date": "2025-08-30",
         "value": -3.0,
         "drawdown": -3.0
       },
       {
-        "date": "2022-08-20",
-        "value": -2.05,
-        "drawdown": -2.05
+        "date": "2025-08-31",
+        "value": -0.32,
+        "drawdown": -0.32
       },
       {
-        "date": "2022-08-31",
-        "value": -0.66,
-        "drawdown": -0.66
+        "date": "2025-09-14",
+        "value": -1.32,
+        "drawdown": -1.32
       },
       {
-        "date": "2022-09-01",
-        "value": -3.66,
-        "drawdown": -3.66
-      },
-      {
-        "date": "2022-09-05",
-        "value": -2.19,
-        "drawdown": -2.19
-      },
-      {
-        "date": "2022-09-10",
-        "value": -4.19,
-        "drawdown": -4.19
-      },
-      {
-        "date": "2022-09-17",
-        "value": -7.19,
-        "drawdown": -7.19
-      },
-      {
-        "date": "2022-09-18",
-        "value": -9.19,
-        "drawdown": -9.19
-      },
-      {
-        "date": "2022-10-01",
-        "value": -12.19,
-        "drawdown": -12.19
-      },
-      {
-        "date": "2022-10-02",
-        "value": -14.19,
-        "drawdown": -14.19
-      },
-      {
-        "date": "2022-10-09",
-        "value": -8.76,
-        "drawdown": -8.76
-      },
-      {
-        "date": "2022-10-15",
-        "value": -7.71,
-        "drawdown": -7.71
-      },
-      {
-        "date": "2022-10-20",
-        "value": -9.71,
-        "drawdown": -9.71
-      },
-      {
-        "date": "2022-10-23",
-        "value": -9.15,
-        "drawdown": -9.15
-      },
-      {
-        "date": "2022-10-24",
-        "value": -11.15,
-        "drawdown": -11.15
-      },
-      {
-        "date": "2022-11-04",
-        "value": -10.22,
-        "drawdown": -10.22
-      },
-      {
-        "date": "2022-11-05",
-        "value": -8.75,
-        "drawdown": -8.75
-      },
-      {
-        "date": "2022-11-06",
-        "value": -6.26,
-        "drawdown": -6.26
-      },
-      {
-        "date": "2022-11-12",
-        "value": -9.26,
-        "drawdown": -9.26
-      },
-      {
-        "date": "2023-01-04",
-        "value": -11.26,
-        "drawdown": -11.26
-      },
-      {
-        "date": "2023-01-04",
-        "value": -6.65,
-        "drawdown": -6.65
-      },
-      {
-        "date": "2023-01-07",
-        "value": -8.65,
-        "drawdown": -8.65
-      },
-      {
-        "date": "2023-01-15",
-        "value": -11.65,
-        "drawdown": -11.65
-      },
-      {
-        "date": "2023-01-21",
-        "value": -13.65,
-        "drawdown": -13.65
-      },
-      {
-        "date": "2023-01-22",
-        "value": -15.65,
-        "drawdown": -15.65
-      },
-      {
-        "date": "2023-01-27",
-        "value": -15.28,
-        "drawdown": -15.28
-      },
-      {
-        "date": "2023-01-29",
-        "value": -13.91,
-        "drawdown": -13.91
-      },
-      {
-        "date": "2023-02-05",
-        "value": -13.24,
-        "drawdown": -13.24
-      },
-      {
-        "date": "2023-02-11",
-        "value": -11.77,
-        "drawdown": -11.77
-      },
-      {
-        "date": "2023-02-12",
-        "value": -13.77,
-        "drawdown": -13.77
-      },
-      {
-        "date": "2023-02-26",
-        "value": -12.86,
-        "drawdown": -12.86
-      },
-      {
-        "date": "2023-02-28",
-        "value": -14.86,
-        "drawdown": -14.86
-      },
-      {
-        "date": "2023-03-05",
-        "value": -17.86,
-        "drawdown": -17.86
-      },
-      {
-        "date": "2023-03-06",
-        "value": -16.79,
-        "drawdown": -16.79
-      },
-      {
-        "date": "2023-03-17",
-        "value": -11.09,
-        "drawdown": -11.09
-      },
-      {
-        "date": "2023-03-18",
-        "value": -9.42,
-        "drawdown": -9.42
-      },
-      {
-        "date": "2023-03-31",
-        "value": -6.71,
-        "drawdown": -6.71
-      },
-      {
-        "date": "2023-04-02",
-        "value": -9.71,
-        "drawdown": -9.71
-      },
-      {
-        "date": "2023-04-03",
-        "value": -8.38,
-        "drawdown": -8.38
-      },
-      {
-        "date": "2023-04-08",
-        "value": -7.89,
-        "drawdown": -7.89
-      },
-      {
-        "date": "2023-04-15",
-        "value": -9.89,
-        "drawdown": -9.89
-      },
-      {
-        "date": "2023-04-22",
-        "value": -11.89,
-        "drawdown": -11.89
-      },
-      {
-        "date": "2023-04-27",
-        "value": -11.56,
-        "drawdown": -11.56
-      },
-      {
-        "date": "2023-04-29",
-        "value": -10.47,
-        "drawdown": -10.47
-      },
-      {
-        "date": "2023-04-30",
-        "value": -10.14,
-        "drawdown": -10.14
-      },
-      {
-        "date": "2023-05-02",
-        "value": -12.14,
-        "drawdown": -12.14
-      },
-      {
-        "date": "2023-05-12",
-        "value": -7.95,
-        "drawdown": -7.95
-      },
-      {
-        "date": "2023-05-14",
-        "value": -9.95,
-        "drawdown": -9.95
-      },
-      {
-        "date": "2023-05-21",
-        "value": -11.95,
-        "drawdown": -11.95
-      },
-      {
-        "date": "2023-05-27",
-        "value": -14.95,
-        "drawdown": -14.95
-      },
-      {
-        "date": "2023-05-27",
-        "value": -16.95,
-        "drawdown": -16.95
-      },
-      {
-        "date": "2023-05-28",
-        "value": -15.97,
-        "drawdown": -15.97
-      },
-      {
-        "date": "2023-05-28",
-        "value": -17.97,
-        "drawdown": -17.97
-      },
-      {
-        "date": "2023-06-03",
-        "value": -19.97,
-        "drawdown": -19.97
-      },
-      {
-        "date": "2023-06-04",
-        "value": -15.94,
-        "drawdown": -15.94
-      },
-      {
-        "date": "2023-08-11",
-        "value": -17.94,
-        "drawdown": -17.94
-      },
-      {
-        "date": "2023-08-14",
-        "value": -15.21,
-        "drawdown": -15.21
-      },
-      {
-        "date": "2023-08-18",
-        "value": -13.08,
-        "drawdown": -13.08
-      },
-      {
-        "date": "2023-08-20",
-        "value": -16.08,
-        "drawdown": -16.08
-      },
-      {
-        "date": "2023-08-20",
-        "value": -18.08,
-        "drawdown": -18.08
-      },
-      {
-        "date": "2023-08-26",
-        "value": -20.08,
-        "drawdown": -20.08
-      },
-      {
-        "date": "2023-09-03",
-        "value": -16.01,
-        "drawdown": -16.01
-      },
-      {
-        "date": "2023-09-15",
-        "value": -13.31,
-        "drawdown": -13.31
-      },
-      {
-        "date": "2023-09-17",
-        "value": -11.44,
-        "drawdown": -11.44
-      },
-      {
-        "date": "2023-09-22",
-        "value": -13.44,
-        "drawdown": -13.44
-      },
-      {
-        "date": "2023-09-24",
-        "value": -15.44,
-        "drawdown": -15.44
-      },
-      {
-        "date": "2023-10-01",
-        "value": -18.44,
-        "drawdown": -18.44
-      },
-      {
-        "date": "2023-10-07",
-        "value": -13.57,
-        "drawdown": -13.57
-      },
-      {
-        "date": "2023-10-20",
-        "value": -12.51,
-        "drawdown": -12.51
-      },
-      {
-        "date": "2023-10-22",
-        "value": -10.53,
-        "drawdown": -10.53
-      },
-      {
-        "date": "2023-10-28",
-        "value": -13.53,
-        "drawdown": -13.53
-      },
-      {
-        "date": "2023-11-05",
-        "value": -15.53,
-        "drawdown": -15.53
-      },
-      {
-        "date": "2023-11-11",
-        "value": -17.53,
-        "drawdown": -17.53
-      },
-      {
-        "date": "2023-11-24",
-        "value": -16.2,
-        "drawdown": -16.2
-      },
-      {
-        "date": "2023-11-25",
-        "value": -10.13,
-        "drawdown": -10.13
-      },
-      {
-        "date": "2023-11-26",
-        "value": -9.05,
-        "drawdown": -9.05
-      },
-      {
-        "date": "2023-12-02",
-        "value": -11.05,
-        "drawdown": -11.05
-      },
-      {
-        "date": "2023-12-03",
-        "value": -13.05,
-        "drawdown": -13.05
-      },
-      {
-        "date": "2023-12-09",
-        "value": -11.59,
-        "drawdown": -11.59
-      },
-      {
-        "date": "2023-12-10",
-        "value": -13.59,
-        "drawdown": -13.59
-      },
-      {
-        "date": "2023-12-16",
-        "value": -12.35,
-        "drawdown": -12.35
-      },
-      {
-        "date": "2023-12-17",
-        "value": -11.05,
-        "drawdown": -11.05
-      },
-      {
-        "date": "2023-12-17",
-        "value": -13.05,
-        "drawdown": -13.05
-      },
-      {
-        "date": "2023-12-19",
-        "value": -10.91,
-        "drawdown": -10.91
-      },
-      {
-        "date": "2023-12-20",
-        "value": -8.07,
-        "drawdown": -8.07
-      },
-      {
-        "date": "2024-01-12",
-        "value": -11.07,
-        "drawdown": -11.07
-      },
-      {
-        "date": "2024-01-14",
-        "value": -9.06,
-        "drawdown": -9.06
-      },
-      {
-        "date": "2024-01-24",
-        "value": -12.06,
-        "drawdown": -12.06
-      },
-      {
-        "date": "2024-01-27",
-        "value": -3.22,
-        "drawdown": -3.22
-      },
-      {
-        "date": "2024-01-28",
-        "value": 0.23,
-        "drawdown": 0.0
-      },
-      {
-        "date": "2024-02-03",
-        "value": -2.77,
-        "drawdown": -3.0
-      },
-      {
-        "date": "2024-02-03",
-        "value": -1.12,
-        "drawdown": -1.35
-      },
-      {
-        "date": "2024-02-09",
-        "value": 3.96,
-        "drawdown": -1.0
-      },
-      {
-        "date": "2024-02-17",
-        "value": 9.79,
-        "drawdown": -1.0
-      },
-      {
-        "date": "2024-02-18",
-        "value": 7.79,
-        "drawdown": -3.0
-      },
-      {
-        "date": "2024-02-25",
-        "value": 9.1,
-        "drawdown": -1.69
-      },
-      {
-        "date": "2024-03-03",
-        "value": 7.1,
-        "drawdown": -3.69
-      },
-      {
-        "date": "2024-03-10",
-        "value": 4.1,
-        "drawdown": -6.69
-      },
-      {
-        "date": "2024-03-17",
-        "value": 2.1,
-        "drawdown": -8.69
-      },
-      {
-        "date": "2024-03-30",
-        "value": 4.44,
-        "drawdown": -6.35
-      },
-      {
-        "date": "2024-04-06",
-        "value": 6.74,
-        "drawdown": -4.05
-      },
-      {
-        "date": "2024-04-13",
-        "value": 4.74,
-        "drawdown": -6.05
-      },
-      {
-        "date": "2024-04-14",
-        "value": 5.45,
-        "drawdown": -5.34
-      },
-      {
-        "date": "2024-04-20",
-        "value": 3.45,
-        "drawdown": -7.34
-      },
-      {
-        "date": "2024-04-26",
-        "value": 0.45,
-        "drawdown": -10.34
-      },
-      {
-        "date": "2024-04-27",
-        "value": 2.76,
-        "drawdown": -8.03
-      },
-      {
-        "date": "2024-04-28",
-        "value": 5.13,
-        "drawdown": -5.66
-      },
-      {
-        "date": "2024-05-04",
-        "value": 7.37,
-        "drawdown": -3.42
-      },
-      {
-        "date": "2024-05-05",
-        "value": 8.95,
-        "drawdown": -1.84
-      },
-      {
-        "date": "2024-05-11",
-        "value": 12.67,
-        "drawdown": 0.0
-      },
-      {
-        "date": "2024-05-12",
-        "value": 10.67,
-        "drawdown": -2.0
-      },
-      {
-        "date": "2024-05-18",
-        "value": 7.67,
-        "drawdown": -5.0
-      },
-      {
-        "date": "2024-05-19",
-        "value": 14.84,
-        "drawdown": 0.0
-      },
-      {
-        "date": "2024-05-25",
-        "value": 18.51,
-        "drawdown": 0.0
-      },
-      {
-        "date": "2024-08-24",
-        "value": 15.51,
-        "drawdown": -3.0
-      },
-      {
-        "date": "2024-08-25",
-        "value": 13.51,
-        "drawdown": -5.0
-      },
-      {
-        "date": "2024-08-31",
-        "value": 14.74,
-        "drawdown": -3.77
-      },
-      {
-        "date": "2024-09-01",
-        "value": 16.48,
-        "drawdown": -2.03
-      },
-      {
-        "date": "2024-09-01",
-        "value": 18.34,
-        "drawdown": -1.0
-      },
-      {
-        "date": "2024-09-13",
-        "value": 19.07,
-        "drawdown": -2.0
-      },
-      {
-        "date": "2024-09-15",
-        "value": 21.76,
-        "drawdown": -1.0
-      },
-      {
-        "date": "2024-09-16",
-        "value": 22.58,
-        "drawdown": -1.0
-      },
-      {
-        "date": "2024-09-21",
-        "value": 24.46,
-        "drawdown": 0.0
-      },
-      {
-        "date": "2024-09-28",
-        "value": 21.46,
-        "drawdown": -3.0
-      },
-      {
-        "date": "2024-10-04",
-        "value": 19.46,
-        "drawdown": -5.0
-      },
-      {
-        "date": "2024-10-06",
-        "value": 17.46,
-        "drawdown": -7.0
-      },
-      {
-        "date": "2024-10-19",
-        "value": 21.98,
-        "drawdown": -2.48
-      },
-      {
-        "date": "2024-10-19",
-        "value": 19.98,
-        "drawdown": -4.48
-      },
-      {
-        "date": "2024-10-20",
-        "value": 20.93,
-        "drawdown": -3.53
-      },
-      {
-        "date": "2024-10-26",
-        "value": 18.93,
-        "drawdown": -5.53
-      },
-      {
-        "date": "2024-10-26",
-        "value": 16.93,
-        "drawdown": -7.53
-      },
-      {
-        "date": "2024-10-27",
-        "value": 17.51,
-        "drawdown": -6.95
-      },
-      {
-        "date": "2024-10-30",
-        "value": 15.51,
-        "drawdown": -8.95
-      },
-      {
-        "date": "2024-11-02",
-        "value": 16.2,
-        "drawdown": -8.26
-      },
-      {
-        "date": "2024-11-04",
-        "value": 14.2,
-        "drawdown": -10.26
-      },
-      {
-        "date": "2024-11-09",
-        "value": 15.87,
-        "drawdown": -8.59
-      },
-      {
-        "date": "2024-11-23",
-        "value": 17.59,
-        "drawdown": -6.87
-      },
-      {
-        "date": "2024-11-30",
-        "value": 15.59,
-        "drawdown": -8.87
-      },
-      {
-        "date": "2024-12-07",
-        "value": 12.59,
-        "drawdown": -11.87
-      },
-      {
-        "date": "2024-12-08",
-        "value": 14.09,
-        "drawdown": -10.37
-      },
-      {
-        "date": "2024-12-09",
-        "value": 14.41,
-        "drawdown": -10.05
-      },
-      {
-        "date": "2024-12-14",
-        "value": 16.42,
-        "drawdown": -8.04
-      },
-      {
-        "date": "2024-12-20",
-        "value": 14.42,
-        "drawdown": -10.04
-      },
-      {
-        "date": "2025-01-05",
-        "value": 18.02,
-        "drawdown": -6.44
-      },
-      {
-        "date": "2025-01-11",
-        "value": 19.45,
-        "drawdown": -5.01
-      },
-      {
-        "date": "2025-01-12",
-        "value": 16.45,
-        "drawdown": -8.01
-      },
-      {
-        "date": "2025-01-12",
-        "value": 14.45,
-        "drawdown": -10.01
-      },
-      {
-        "date": "2025-01-14",
-        "value": 15.72,
-        "drawdown": -8.74
-      },
-      {
-        "date": "2025-01-18",
-        "value": 17.14,
-        "drawdown": -7.32
-      },
-      {
-        "date": "2025-01-18",
-        "value": 19.07,
-        "drawdown": -5.39
-      },
-      {
-        "date": "2025-01-19",
-        "value": 24.58,
-        "drawdown": 0.0
-      },
-      {
-        "date": "2025-01-25",
-        "value": 31.69,
-        "drawdown": 0.0
-      },
-      {
-        "date": "2025-01-26",
-        "value": 33.13,
-        "drawdown": -2.0
-      },
-      {
-        "date": "2025-02-01",
-        "value": 31.13,
-        "drawdown": -4.0
-      },
-      {
-        "date": "2025-02-09",
-        "value": 29.13,
-        "drawdown": -6.0
-      },
-      {
-        "date": "2025-02-16",
-        "value": 29.32,
-        "drawdown": -5.81
-      },
-      {
-        "date": "2025-02-16",
-        "value": 30.46,
-        "drawdown": -4.67
-      },
-      {
-        "date": "2025-03-01",
-        "value": 31.99,
-        "drawdown": -3.14
-      },
-      {
-        "date": "2025-03-02",
-        "value": 29.99,
-        "drawdown": -5.14
-      },
-      {
-        "date": "2025-03-08",
-        "value": 31.98,
-        "drawdown": -3.15
-      },
-      {
-        "date": "2025-03-15",
-        "value": 36.88,
-        "drawdown": -1.0
-      },
-      {
-        "date": "2025-03-16",
-        "value": 34.88,
-        "drawdown": -3.0
-      },
-      {
-        "date": "2025-03-30",
-        "value": 31.88,
-        "drawdown": -6.0
-      },
-      {
-        "date": "2025-03-31",
-        "value": 33.52,
-        "drawdown": -4.36
-      },
-      {
-        "date": "2025-04-06",
-        "value": 39.28,
-        "drawdown": -1.0
-      },
-      {
-        "date": "2025-04-12",
-        "value": 42.89,
-        "drawdown": 0.0
-      },
-      {
-        "date": "2025-04-13",
-        "value": 46.25,
-        "drawdown": -1.0
-      },
-      {
-        "date": "2025-04-19",
-        "value": 53.21,
-        "drawdown": 0.0
-      },
-      {
-        "date": "2025-04-20",
-        "value": 51.21,
-        "drawdown": -2.0
-      },
-      {
-        "date": "2025-04-26",
-        "value": 48.21,
-        "drawdown": -5.0
-      },
-      {
-        "date": "2025-04-27",
-        "value": 46.21,
-        "drawdown": -7.0
-      },
-      {
-        "date": "2025-05-03",
-        "value": 44.21,
-        "drawdown": -9.0
-      },
-      {
-        "date": "2025-05-10",
-        "value": 41.21,
-        "drawdown": -12.0
-      },
-      {
-        "date": "2025-05-10",
-        "value": 42.78,
-        "drawdown": -10.43
-      },
-      {
-        "date": "2025-05-17",
-        "value": 39.78,
-        "drawdown": -13.43
-      },
-      {
-        "date": "2025-05-17",
-        "value": 37.78,
-        "drawdown": -15.43
-      },
-      {
-        "date": "2025-05-25",
-        "value": 34.78,
-        "drawdown": -18.43
-      },
-      {
-        "date": "2025-08-22",
-        "value": 32.78,
-        "drawdown": -20.43
-      },
-      {
-        "date": "2025-08-23",
-        "value": 30.78,
-        "drawdown": -22.43
-      },
-      {
-        "date": "2025-08-30",
-        "value": 27.78,
-        "drawdown": -25.43
-      },
-      {
-        "date": "2025-09-19",
-        "value": 25.78,
-        "drawdown": -27.43
+        "date": "2025-09-14",
+        "value": -2.32,
+        "drawdown": -2.32
       },
       {
         "date": "2025-09-21",
-        "value": 27.55,
-        "drawdown": -25.66
+        "value": -3.32,
+        "drawdown": -3.32
+      },
+      {
+        "date": "2025-09-27",
+        "value": -4.32,
+        "drawdown": -4.32
       },
       {
         "date": "2025-09-28",
-        "value": 29.25,
-        "drawdown": -23.96
+        "value": -5.32,
+        "drawdown": -5.32
       },
       {
-        "date": "2025-10-04",
-        "value": 27.25,
-        "drawdown": -25.96
+        "date": "2025-09-28",
+        "value": -2.62,
+        "drawdown": -2.62
       },
       {
-        "date": "2025-10-05",
-        "value": 24.25,
-        "drawdown": -28.96
+        "date": "2025-10-03",
+        "value": -3.62,
+        "drawdown": -3.62
       },
       {
-        "date": "2025-10-19",
-        "value": 25.93,
-        "drawdown": -27.28
+        "date": "2025-10-18",
+        "value": -1.01,
+        "drawdown": -1.01
       },
       {
         "date": "2025-10-25",
-        "value": 22.93,
-        "drawdown": -30.28
+        "value": -2.01,
+        "drawdown": -2.01
+      },
+      {
+        "date": "2025-10-26",
+        "value": -3.01,
+        "drawdown": -3.01
+      },
+      {
+        "date": "2025-10-29",
+        "value": -4.01,
+        "drawdown": -4.01
       },
       {
         "date": "2025-11-01",
-        "value": 20.93,
-        "drawdown": -32.28
+        "value": -0.83,
+        "drawdown": -0.83
+      },
+      {
+        "date": "2025-11-01",
+        "value": 1.44,
+        "drawdown": 0.0
+      },
+      {
+        "date": "2025-11-02",
+        "value": 0.44,
+        "drawdown": -1.0
+      },
+      {
+        "date": "2025-11-02",
+        "value": -0.56,
+        "drawdown": -2.0
+      },
+      {
+        "date": "2025-11-08",
+        "value": 2.95,
+        "drawdown": 0.0
       },
       {
         "date": "2025-11-09",
-        "value": 22.44,
-        "drawdown": -30.77
-      },
-      {
-        "date": "2025-11-09",
-        "value": 20.44,
-        "drawdown": -32.77
+        "value": 1.95,
+        "drawdown": -1.0
       },
       {
         "date": "2025-11-22",
-        "value": 22.55,
-        "drawdown": -30.66
+        "value": 5.06,
+        "drawdown": 0.0
+      },
+      {
+        "date": "2025-11-22",
+        "value": 4.06,
+        "drawdown": -1.0
+      },
+      {
+        "date": "2025-11-23",
+        "value": 3.06,
+        "drawdown": -2.0
       },
       {
         "date": "2025-11-29",
-        "value": 23.46,
-        "drawdown": -29.75
+        "value": 2.06,
+        "drawdown": -3.0
+      },
+      {
+        "date": "2025-11-30",
+        "value": 5.34,
+        "drawdown": 0.0
       },
       {
         "date": "2025-12-06",
-        "value": 25.74,
-        "drawdown": -27.47
+        "value": 4.34,
+        "drawdown": -1.0
+      },
+      {
+        "date": "2025-12-13",
+        "value": 3.34,
+        "drawdown": -2.0
       },
       {
         "date": "2025-12-19",
-        "value": 22.74,
-        "drawdown": -30.47
+        "value": 2.34,
+        "drawdown": -3.0
       },
       {
-        "date": "2026-01-13",
-        "value": 24.3,
-        "drawdown": -28.91
+        "date": "2025-12-20",
+        "value": 5.2,
+        "drawdown": -0.14
       },
       {
-        "date": "2026-01-17",
-        "value": 27.63,
-        "drawdown": -25.58
+        "date": "2025-12-20",
+        "value": 7.76,
+        "drawdown": 0.0
+      },
+      {
+        "date": "2026-01-07",
+        "value": 11.95,
+        "drawdown": 0.0
+      },
+      {
+        "date": "2026-01-14",
+        "value": 16.28,
+        "drawdown": 0.0
+      },
+      {
+        "date": "2026-01-18",
+        "value": 19.18,
+        "drawdown": 0.0
+      },
+      {
+        "date": "2026-01-18",
+        "value": 21.48,
+        "drawdown": 0.0
       },
       {
         "date": "2026-01-24",
-        "value": 31.13,
-        "drawdown": -22.08
+        "value": 20.48,
+        "drawdown": -1.0
+      },
+      {
+        "date": "2026-01-25",
+        "value": 19.48,
+        "drawdown": -2.0
       },
       {
         "date": "2026-01-30",
-        "value": 29.13,
-        "drawdown": -24.08
+        "value": 18.48,
+        "drawdown": -3.0
+      },
+      {
+        "date": "2026-01-31",
+        "value": 17.48,
+        "drawdown": -4.0
       },
       {
         "date": "2026-02-06",
-        "value": 29.63,
-        "drawdown": -23.58
+        "value": 19.98,
+        "drawdown": -1.5
       },
       {
         "date": "2026-02-07",
-        "value": 27.63,
-        "drawdown": -25.58
+        "value": 18.98,
+        "drawdown": -2.5
+      },
+      {
+        "date": "2026-02-07",
+        "value": 21.73,
+        "drawdown": 0.0
+      },
+      {
+        "date": "2026-02-14",
+        "value": 20.73,
+        "drawdown": -1.0
       },
       {
         "date": "2026-02-15",
-        "value": 33.18,
-        "drawdown": -20.03
+        "value": 24.48,
+        "drawdown": 0.0
       },
       {
         "date": "2026-02-22",
-        "value": 37.68,
-        "drawdown": -15.53
-      },
-      {
-        "date": "2026-02-28",
-        "value": 39.68,
-        "drawdown": -13.53
+        "value": 23.48,
+        "drawdown": -1.0
       },
       {
         "date": "2026-03-14",
-        "value": 36.68,
-        "drawdown": -16.53
+        "value": 22.48,
+        "drawdown": -2.0
       },
       {
         "date": "2026-03-14",
-        "value": 34.68,
-        "drawdown": -18.53
+        "value": 21.48,
+        "drawdown": -3.0
       },
       {
         "date": "2026-03-15",
-        "value": 37.93,
-        "drawdown": -15.28
+        "value": 20.48,
+        "drawdown": -4.0
       },
       {
         "date": "2026-03-21",
-        "value": 41.18,
-        "drawdown": -12.03
+        "value": 19.48,
+        "drawdown": -5.0
       },
       {
         "date": "2026-03-22",
-        "value": 39.18,
-        "drawdown": -14.03
+        "value": 18.48,
+        "drawdown": -6.0
       },
       {
-        "date": "2026-04-10",
-        "value": 40.51,
-        "drawdown": -12.7
+        "date": "2026-04-04",
+        "value": 20.98,
+        "drawdown": -3.5
       },
       {
         "date": "2026-04-12",
-        "value": 38.51,
-        "drawdown": -14.7
+        "value": 19.98,
+        "drawdown": -4.5
+      },
+      {
+        "date": "2026-04-17",
+        "value": 22.28,
+        "drawdown": -2.2
       },
       {
         "date": "2026-04-25",
-        "value": 39.26,
-        "drawdown": -13.95
+        "value": 25.03,
+        "drawdown": 0.0
       },
       {
-        "date": "2026-04-26",
-        "value": 42.26,
-        "drawdown": -10.95
+        "date": "2026-05-02",
+        "value": 28.23,
+        "drawdown": 0.0
       },
       {
-        "date": "2026-05-03",
-        "value": 43.46,
-        "drawdown": -9.75
-      },
-      {
-        "date": "2026-05-09",
-        "value": 45.46,
-        "drawdown": -7.75
+        "date": "2026-05-02",
+        "value": 30.53,
+        "drawdown": 0.0
       },
       {
         "date": "2026-05-09",
-        "value": 43.46,
-        "drawdown": -9.75
+        "value": 29.53,
+        "drawdown": -1.0
       },
       {
         "date": "2026-05-16",
-        "value": 40.46,
-        "drawdown": -12.75
+        "value": 28.53,
+        "drawdown": -2.0
+      },
+      {
+        "date": "2026-05-16",
+        "value": 27.53,
+        "drawdown": -3.0
       },
       {
         "date": "2026-05-17",
-        "value": 38.46,
-        "drawdown": -14.75
+        "value": 26.53,
+        "drawdown": -4.0
       },
       {
         "date": "2026-05-17",
-        "value": 39.66,
-        "drawdown": -13.55
+        "value": 29.73,
+        "drawdown": -0.8
       },
       {
         "date": "2026-05-24",
-        "value": 41.86,
-        "drawdown": -11.35
+        "value": 32.93,
+        "drawdown": 0.0
+      },
+      {
+        "date": "2026-05-24",
+        "value": 31.93,
+        "drawdown": -1.0
       }
     ],
-    "monthly": [
-      {
-        "month": "2022-08",
-        "bets": 10,
-        "roi": -0.26599999999999996,
-        "profit": -2.6599999999999997,
-        "hit_rate": 0.2
-      },
-      {
-        "month": "2022-09",
-        "bets": 12,
-        "roi": -0.7108333333333333,
-        "profit": -8.53,
-        "hit_rate": 0.08333333333333333
-      },
-      {
-        "month": "2022-10",
-        "bets": 17,
-        "roi": -0.11529411764705882,
-        "profit": -1.96,
-        "hit_rate": 0.23529411764705882
-      },
-      {
-        "month": "2022-11",
-        "bets": 9,
-        "roi": 0.3211111111111112,
-        "profit": 2.8900000000000006,
-        "hit_rate": 0.3333333333333333
-      },
-      {
-        "month": "2023-01",
-        "bets": 19,
-        "roi": -0.05157894736842105,
-        "profit": -0.98,
-        "hit_rate": 0.2631578947368421
-      },
-      {
-        "month": "2023-02",
-        "bets": 11,
-        "roi": -0.32909090909090905,
-        "profit": -3.6199999999999997,
-        "hit_rate": 0.18181818181818182
-      },
-      {
-        "month": "2023-03",
-        "bets": 12,
-        "roi": 0.6791666666666667,
-        "profit": 8.15,
-        "hit_rate": 0.4166666666666667
-      },
-      {
-        "month": "2023-04",
-        "bets": 21,
-        "roi": -0.21095238095238095,
-        "profit": -4.43,
-        "hit_rate": 0.23809523809523808
-      },
-      {
-        "month": "2023-05",
-        "bets": 19,
-        "roi": -0.41210526315789475,
-        "profit": -7.83,
-        "hit_rate": 0.15789473684210525
-      },
-      {
-        "month": "2023-06",
-        "bets": 5,
-        "roi": 0.40599999999999997,
-        "profit": 2.03,
-        "hit_rate": 0.4
-      },
-      {
-        "month": "2023-08",
-        "bets": 13,
-        "roi": -0.2415384615384615,
-        "profit": -3.1399999999999997,
-        "hit_rate": 0.15384615384615385
-      },
-      {
-        "month": "2023-09",
-        "bets": 14,
-        "roi": 0.1885714285714286,
-        "profit": 2.6400000000000006,
-        "hit_rate": 0.21428571428571427
-      },
-      {
-        "month": "2023-10",
-        "bets": 12,
-        "roi": 0.24250000000000002,
-        "profit": 2.91,
-        "hit_rate": 0.25
-      },
-      {
-        "month": "2023-11",
-        "bets": 11,
-        "roi": 0.4981818181818182,
-        "profit": 5.48,
-        "hit_rate": 0.36363636363636365
-      },
-      {
-        "month": "2023-12",
-        "bets": 23,
-        "roi": -0.04434782608695654,
-        "profit": -1.0200000000000005,
-        "hit_rate": 0.21739130434782608
-      },
-      {
-        "month": "2024-01",
-        "bets": 11,
-        "roi": 0.8454545454545453,
-        "profit": 9.299999999999999,
-        "hit_rate": 0.36363636363636365
-      },
-      {
-        "month": "2024-02",
-        "bets": 15,
-        "roi": 0.5913333333333334,
-        "profit": 8.870000000000001,
-        "hit_rate": 0.3333333333333333
-      },
-      {
-        "month": "2024-03",
-        "bets": 10,
-        "roi": -0.03600000000000003,
-        "profit": -0.3600000000000003,
-        "hit_rate": 0.2
-      },
-      {
-        "month": "2024-04",
-        "bets": 15,
-        "roi": -0.174,
-        "profit": -2.61,
-        "hit_rate": 0.2
-      },
-      {
-        "month": "2024-05",
-        "bets": 17,
-        "roi": 0.7870588235294117,
-        "profit": 13.379999999999999,
-        "hit_rate": 0.35294117647058826
-      },
-      {
-        "month": "2024-08",
-        "bets": 8,
-        "roi": -0.47124999999999995,
-        "profit": -3.7699999999999996,
-        "hit_rate": 0.125
-      },
-      {
-        "month": "2024-09",
-        "bets": 18,
-        "roi": 0.31777777777777777,
-        "profit": 5.72,
-        "hit_rate": 0.3333333333333333
-      },
-      {
-        "month": "2024-10",
-        "bets": 20,
-        "roi": -0.24749999999999997,
-        "profit": -4.949999999999999,
-        "hit_rate": 0.2
-      },
-      {
-        "month": "2024-11",
-        "bets": 12,
-        "roi": 0.006666666666666672,
-        "profit": 0.08000000000000007,
-        "hit_rate": 0.25
-      },
-      {
-        "month": "2024-12",
-        "bets": 13,
-        "roi": -0.16692307692307695,
-        "profit": -2.1700000000000004,
-        "hit_rate": 0.23076923076923078
-      },
-      {
-        "month": "2025-01",
-        "bets": 25,
-        "roi": 0.7484000000000001,
-        "profit": 18.71,
-        "hit_rate": 0.44
-      },
-      {
-        "month": "2025-02",
-        "bets": 10,
-        "roi": 0.086,
-        "profit": 0.8599999999999999,
-        "hit_rate": 0.3
-      },
-      {
-        "month": "2025-03",
-        "bets": 15,
-        "roi": 0.03533333333333335,
-        "profit": 0.5300000000000002,
-        "hit_rate": 0.26666666666666666
-      },
-      {
-        "month": "2025-04",
-        "bets": 17,
-        "roi": 0.7464705882352942,
-        "profit": 12.690000000000001,
-        "hit_rate": 0.35294117647058826
-      },
-      {
-        "month": "2025-05",
-        "bets": 15,
-        "roi": -0.762,
-        "profit": -11.43,
-        "hit_rate": 0.06666666666666667
-      },
-      {
-        "month": "2025-08",
-        "bets": 7,
-        "roi": -1.0,
-        "profit": -7.0,
-        "hit_rate": 0.0
-      },
-      {
-        "month": "2025-09",
-        "bets": 7,
-        "roi": 0.21000000000000002,
-        "profit": 1.4700000000000002,
-        "hit_rate": 0.2857142857142857
-      },
-      {
-        "month": "2025-10",
-        "bets": 11,
-        "roi": -0.6654545454545455,
-        "profit": -7.32,
-        "hit_rate": 0.09090909090909091
-      },
-      {
-        "month": "2025-11",
-        "bets": 12,
-        "roi": 0.4008333333333334,
-        "profit": 4.8100000000000005,
-        "hit_rate": 0.3333333333333333
-      },
-      {
-        "month": "2025-12",
-        "bets": 5,
-        "roi": -0.288,
-        "profit": -1.44,
-        "hit_rate": 0.2
-      },
-      {
-        "month": "2026-01",
-        "bets": 9,
-        "roi": 0.31444444444444447,
-        "profit": 2.83,
-        "hit_rate": 0.2222222222222222
-      },
-      {
-        "month": "2026-02",
-        "bets": 12,
-        "roi": 0.8791666666666668,
-        "profit": 10.55,
-        "hit_rate": 0.4166666666666667
-      },
-      {
-        "month": "2026-03",
-        "bets": 11,
-        "roi": 0.045454545454545456,
-        "profit": 0.5,
-        "hit_rate": 0.18181818181818182
-      },
-      {
-        "month": "2026-04",
-        "bets": 10,
-        "roi": 0.308,
-        "profit": 3.08,
-        "hit_rate": 0.3
-      },
-      {
-        "month": "2026-05",
-        "bets": 17,
-        "roi": -0.02352941176470585,
-        "profit": -0.39999999999999947,
-        "hit_rate": 0.23529411764705882
-      }
-    ],
-    "leagues": [
-      {
-        "league": "Bundesliga",
-        "bets": 170,
-        "roi": 0.27276470588235296,
-        "profit": 46.370000000000005,
-        "hit_rate": 0.27647058823529413,
-        "avg_odds": 5.1610588235294115,
-        "leagueLabel": "Bundesliga"
-      },
-      {
-        "league": "EPL",
-        "bets": 33,
-        "roi": 0.07424242424242425,
-        "profit": 2.45,
-        "hit_rate": 0.21212121212121213,
-        "avg_odds": 5.044242424242425,
-        "leagueLabel": "Premier League"
-      },
-      {
-        "league": "Serie_A",
-        "bets": 160,
-        "roi": 0.017437500000000015,
-        "profit": 2.7900000000000027,
-        "hit_rate": 0.275,
-        "avg_odds": 3.7414375,
-        "leagueLabel": "Serie A"
-      },
-      {
-        "league": "Ligue_1",
-        "bets": 108,
-        "roi": -0.009259259259259259,
-        "profit": -1.0,
-        "hit_rate": 0.23148148148148148,
-        "avg_odds": 4.444537037037037,
-        "leagueLabel": "Ligue 1"
-      },
-      {
-        "league": "La_liga",
-        "bets": 59,
-        "roi": -0.1483050847457627,
-        "profit": -8.75,
-        "hit_rate": 0.2033898305084746,
-        "avg_odds": 4.443220338983051,
-        "leagueLabel": "La Liga"
-      }
-    ]
+    "monthly": [],
+    "leagues": []
   },
   "risk": {
-    "score": 54,
+    "score": 52,
     "label": "Modéré",
     "components": [
       {
         "label": "Résultats réellement vérifiés",
-        "score": 40,
+        "score": 39,
         "max": 40,
-        "detail": "0 prévision(s) disposent aujourd'hui d'un score final."
+        "detail": "2 prévision(s) disposent aujourd'hui d'un score final."
       },
       {
         "label": "Paris recommandés à venir",
         "score": 8,
         "max": 25,
-        "detail": "3 pari(s) recommandé(s) parmi 3 sélection(s) publiée(s)."
+        "detail": "2 pari(s) recommandé(s) parmi 2 sélection(s) publiée(s)."
       },
       {
         "label": "Rencontres encore en attente",
-        "score": 6,
+        "score": 4,
         "max": 15,
-        "detail": "4 prévision(s) seront vérifiées après le match."
+        "detail": "3 prévision(s) seront vérifiées après le match."
       },
       {
         "label": "Données récentes",
@@ -1611,15 +503,15 @@
   },
   "quality": {
     "overallStatus": "pass",
-    "generatedAt": "2026-08-21T16:23:50",
+    "generatedAt": "2026-09-12T08:40:46",
     "ageDays": 0.0,
     "dateRange": {
       "from": "2014-08-08T19:30:00",
-      "to": "2026-08-19T19:00:00"
+      "to": "2026-09-11T19:00:00"
     },
-    "rawMatches": 21594,
-    "datasetRows": 21593,
-    "completedRows": 21593,
+    "rawMatches": 21738,
+    "datasetRows": 21727,
+    "completedRows": 21727,
     "features": 51,
     "seasonMax": 2026,
     "currentSeasonTeams": 96,
@@ -1644,14 +536,14 @@
         "id": "raw",
         "label": "Données brutes",
         "status": "pass",
-        "value": "21 594 matchs",
+        "value": "21 738 matchs",
         "detail": "Structure et doublons contrôlés par l'audit."
       },
       {
         "id": "dataset",
         "label": "Dataset modèle",
         "status": "pass",
-        "value": "21 593 lignes",
+        "value": "21 727 lignes",
         "detail": "51 variables pré-match."
       },
       {
@@ -1694,77 +586,93 @@
     "criticalFailures": 0
   },
   "tracking": {
-    "pending": 4,
-    "verified": 0,
+    "pending": 3,
+    "verified": 2,
     "won": 0,
-    "lost": 0,
+    "lost": 2,
     "void": 0,
-    "hitRate": null,
+    "hitRate": 0.0,
     "storageReady": true,
     "storageLabel": "Mémoire Supabase",
     "storageCopy": "Chaque prévision et son résultat sont conservés entre les exécutions GitHub.",
-    "lastSyncAt": "2026-08-21T16:24:52.090618+00:00"
+    "lastSyncAt": "2026-09-12T08:41:36.877584+00:00",
+    "pendingAll": 3
   },
   "activity": [
     {
-      "id": "f426c080cff5",
-      "date": "2026-08-30T11:30:00",
+      "id": "7baee21308e7",
+      "date": "2026-09-12T15:30:00+02:00",
       "league": "Bundesliga",
       "leagueLabel": "Bundesliga",
       "homeTeam": "Augsburg",
-      "awayTeam": "Schalke 04",
-      "outcomeLabel": "Match nul",
-      "portfolioLabel": "Stratégie championne",
-      "odds": 3.9,
-      "status": "pending",
-      "actualScore": null,
-      "recommended": true,
-      "profitUnits": 0.0
-    },
-    {
-      "id": "3a63e61d9d10",
-      "date": "2026-08-29T09:30:00",
-      "league": "Bundesliga",
-      "leagueLabel": "Bundesliga",
-      "homeTeam": "Spvgg Elversberg",
       "awayTeam": "Bayer Leverkusen",
       "outcomeLabel": "Match nul",
-      "portfolioLabel": "Stratégie championne",
-      "odds": 4.82,
+      "portfolioLabel": "Sélection à filtre commun",
+      "odds": 4.47,
       "status": "pending",
       "actualScore": null,
       "recommended": true,
       "profitUnits": 0.0
     },
     {
-      "id": "3a975a865c5e",
-      "date": "2026-08-22T10:00:00",
-      "league": "EPL",
-      "leagueLabel": "Premier League",
-      "homeTeam": "Ipswich",
-      "awayTeam": "Sunderland",
+      "id": "b248420654eb",
+      "date": "2026-09-12T15:30:00+02:00",
+      "league": "Bundesliga",
+      "leagueLabel": "Bundesliga",
+      "homeTeam": "Freiburg",
+      "awayTeam": "Borussia M.Gladbach",
       "outcomeLabel": "Match nul",
-      "portfolioLabel": "Stratégie championne",
-      "odds": 3.5,
+      "portfolioLabel": "Sélection à filtre commun",
+      "odds": 4.17,
       "status": "pending",
       "actualScore": null,
       "recommended": true,
       "profitUnits": 0.0
     },
     {
-      "id": "82969f41f21b",
-      "date": "2026-08-22T07:30:00",
-      "league": "EPL",
-      "leagueLabel": "Premier League",
-      "homeTeam": "Hull",
-      "awayTeam": "Manchester United",
+      "id": "b7a148a63b1c",
+      "date": "2026-09-12T15:30:00+02:00",
+      "league": "Bundesliga",
+      "leagueLabel": "Bundesliga",
+      "homeTeam": "Mainz 05",
+      "awayTeam": "Eintracht Frankfurt",
       "outcomeLabel": "Match nul",
-      "portfolioLabel": "Stratégie championne",
-      "odds": 5.26,
+      "portfolioLabel": "Sélection à filtre commun",
+      "odds": 3.93,
       "status": "pending",
       "actualScore": null,
       "recommended": true,
       "profitUnits": 0.0
+    },
+    {
+      "id": "d8689db089ba",
+      "date": "2026-09-11T18:30:00+02:00",
+      "league": "Bundesliga",
+      "leagueLabel": "Bundesliga",
+      "homeTeam": "Union Berlin",
+      "awayTeam": "Schalke 04",
+      "outcomeLabel": "Match nul",
+      "portfolioLabel": "Sélection à filtre commun",
+      "odds": 3.8,
+      "status": "lost",
+      "actualScore": "1 - 3",
+      "recommended": true,
+      "profitUnits": -1.0
+    },
+    {
+      "id": "7753515d1733",
+      "date": "2026-09-06T15:30:00+02:00",
+      "league": "Bundesliga",
+      "leagueLabel": "Bundesliga",
+      "homeTeam": "Eintracht Frankfurt",
+      "awayTeam": "Augsburg",
+      "outcomeLabel": "Match nul",
+      "portfolioLabel": "Sélection à filtre commun",
+      "odds": 4.07,
+      "status": "lost",
+      "actualScore": "1 - 4",
+      "recommended": true,
+      "profitUnits": -1.0
     }
   ]
 }
