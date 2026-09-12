@@ -12,7 +12,7 @@ class StaticSiteStructureTests(unittest.TestCase):
     def test_landing_is_separate_from_the_dashboard_application(self) -> None:
         landing = (STATIC / "index.html").read_text(encoding="utf-8")
         self.assertIn('href="./dashboard.html"', landing)
-        self.assertIn('src="./assets/landing.js?v=journal-6"', landing)
+        self.assertIn('src="./assets/landing.js?v=journal-7"', landing)
         self.assertIn('href="./assets/landing.css?v=v23"', landing)
         self.assertNotIn('src="./assets/app.js', landing)
 
@@ -28,10 +28,10 @@ class StaticSiteStructureTests(unittest.TestCase):
             "Chaque parieur sait que",
             "le secret pour survivre",
             "c’est de savoir quoi jeter",
-            "et quoi garder.",
-            "Le football avant les chiffres.",
-            "Un écart qui mérite l’attention.",
-            "Chaque choix jusqu’au score final.",
+            "et quoi garder",
+            "Le football avant les chiffres",
+            "Un écart qui mérite l’attention",
+            "Chaque choix jusqu’au score final",
             "Comment le filtre est-il réglé ?",
         }:
             self.assertIn(copy, landing)
@@ -58,8 +58,8 @@ class StaticSiteStructureTests(unittest.TestCase):
         self.assertIn("visibilitychange", script)
         self.assertIn("prefers-reduced-motion", script)
         self.assertIn("Ouvrir le journal", landing)
-        self.assertIn("Tu dois savoir quand jouer.", landing)
-        self.assertIn("Tu dois savoir quand ne pas jouer.", landing)
+        self.assertIn("Tu dois savoir quand jouer", landing)
+        self.assertIn("Tu dois savoir quand ne pas jouer", landing)
         self.assertNotIn("Le journal avant match", landing)
         self.assertNotIn("Les affiches qui font vibrer le football", landing)
         self.assertNotIn("carousel-controls", landing)
