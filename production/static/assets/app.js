@@ -207,7 +207,7 @@ function followedMatchMarkup(match) {
     <div class="prediction-head"><span>${escapeHtml(match.leagueLabel || match.league)}</span><time datetime="${escapeHtml(match.date)}">${escapeHtml(formatDate(match.date,true))}</time></div>
     <div class="prediction-pitch" aria-hidden="true"><i></i></div>
     <div class="teams"><p>Football</p><h2>${escapeHtml(match.homeTeam)}</h2><span>contre</span><h2>${escapeHtml(match.awayTeam)}</h2></div>
-    <div class="match-verdict" role="status"><strong>${escapeHtml(score)}</strong><span>${escapeHtml(label)}</span></div>
+    ${confirmed ? `<div class="match-verdict" role="status"><strong>${escapeHtml(score)}</strong><span>${escapeHtml(label)}</span></div>` : ''}
     <div class="prediction-footer"><div><b>${escapeHtml(match.outcomeLabel)}</b></div><div><span>Cote publiée</span><b>${odds === null ? '—' : decimal.format(odds)}</b></div></div>
   </article>`;
 }

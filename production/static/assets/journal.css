@@ -488,3 +488,17 @@
   .journal-dashboard .monolith-teams h2 { font-size: 24px; }
   .journal-dashboard .monolith-bet { font-size: 18px; }
 }
+@media (max-width: 960px) {
+  .journal-dashboard .site-header .header-inner { display: flex; flex-wrap: wrap; height: auto; gap: 8px; }
+  .journal-dashboard .site-header .desktop-nav { flex: 1 1 100%; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 24px; min-width: 0; }
+  .journal-dashboard .site-header .desktop-nav a { white-space: nowrap; min-height: 44px; display: inline-flex; align-items: center; }
+}
+.journal-dashboard .pick-list { align-items: stretch; }
+.journal-dashboard .pick-list > .prediction { min-width: 0; height: 100%; }
+.journal-dashboard .chart-panel svg, .journal-dashboard .drawdown-panel svg { min-width: 0; width: 100%; max-width: 100%; }
+@media (min-width: 961px) {
+  .journal-dashboard .site-header .header-inner { position: relative; display: flex; }
+  .journal-dashboard .site-header .desktop-nav { position: absolute; inset: 12px 0; justify-content: center; pointer-events: none; }
+  .journal-dashboard .site-header .desktop-nav a { pointer-events: auto; }
+  .journal-dashboard .site-header .desktop-nav .nav-cta { position: absolute; right: 0; margin: 0; }
+}
