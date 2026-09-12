@@ -15,11 +15,14 @@ vm.runInContext(`
   const integer=new Intl.NumberFormat('fr-FR');
   const decimal=new Intl.NumberFormat('fr-FR',{maximumFractionDigits:2});
   const decimalOne=new Intl.NumberFormat('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1});
+  const percent=new Intl.NumberFormat('fr-FR',{style:'percent',maximumFractionDigits:0});
   ${section('function setText(', 'function publicationIsFresh(')}
   ${section('function futurePublishedPredictions(', 'function validText(')}
   ${section('function formatDate(', 'function formatFullDate(')}
   ${section('function escapeHtml(', 'function predictionMarkup(')}
+  ${section('function predictionMarkup(', 'function resetNoPickCopy(')}
   ${section('function resultLabel(', 'function usableCurve(')}
+  ${section('function currentSeasonData(', 'function renderPerformance(')}
 `, context);
 const evaluate = code => vm.runInContext(code, context);
 assert.equal(evaluate(`inPublicWindow('2026-10-27T22:59:00Z', Date.parse('2026-10-24T22:30:00Z'))`), true);
@@ -32,7 +35,7 @@ evaluate(`
   renderTracking(fixture);
 `);
 assert.equal(node('#tracking-pending').textContent, '1');
-assert.equal(node('#summary-pending').textContent, '1');
+assert.equal(node('#tracking-verified').textContent, '0');
 assert.equal(nodes.has('#archived-decisions'), false);
 assert.equal(nodes.has('#archived-list'), false);
 assert.equal((node('#result-list').innerHTML.match(/class="result-row"/g)||[]).length,1);
@@ -86,4 +89,28 @@ assert.equal(evaluate('liveRoiPoints(historyFixture,18,-1).length'),18);
 assert.equal(evaluate('liveRoiPoints(historyFixture.slice(0,1),1,-1).length'),0);
 assert.equal(evaluate('liveRoiPoints(historyFixture.slice(0,8),18,-1).length'),0);
 assert.equal(evaluate('liveRoiPoints(historyFixture,18,.2).length'),0);
-console.log('Dashboard client: 32 assertions passed.');
+const upcomingCard = evaluate('predictionMarkup({...choice, odds:3.7, stakeEur:2.5, modelProbability:.31})');
+assert.doesNotMatch(upcomingCard, /Choix publié|estimate-explanation|Comprendre cette estimation/);
+assert.match(upcomingCard, /Match nul/);
+assert.match(upcomingCard, /Indice du modèle/);
+assert.doesNotMatch(evaluate('followedMatchMarkup({...choice,status:"pending"})'), /Choix publié/);
+console.log('Dashboard client: 36 assertions passed.');
+evaluate(`
+  const seasonFixture={meta:{currentSeason:2025},summary:{liveReturn:100},performance:{metrics:{betCount:530,roi:.9}},predictions:[],activity:[
+    {...choice,id:'old',date:'2026-05-12T13:00:00Z',status:'won',profitUnits:90},
+    {...choice,id:'one',date:'2026-09-01T13:00:00Z',status:'lost',profitUnits:-1},
+    {...choice,id:'two',date:'2026-09-02T13:00:00Z',status:'won',profitUnits:3},
+    {...choice,id:'two',date:'2026-09-02T13:00:00Z',status:'won',profitUnits:3},
+    {...choice,id:'void',date:'2026-09-03T13:00:00Z',status:'void',profitUnits:0},
+    {...choice,id:'future',date:'2026-09-13T13:00:00Z',status:'pending',profitUnits:0}]};
+  const seasonResult=currentSeasonData(seasonFixture,Date.parse('2026-09-12T12:00:00Z'));
+`);
+assert.equal(evaluate('seasonResult.meta.currentSeason'),2026);
+assert.equal(evaluate('seasonResult.performance.metrics.betCount'),2);
+assert.equal(evaluate('seasonResult.performance.metrics.roi'),1);
+assert.equal(evaluate('seasonResult.performance.metrics.maxDrawdown'),-1);
+assert.equal(evaluate('seasonResult.performance.monthly.length'),1);
+assert.equal(evaluate('seasonResult.activity.length'),4);
+assert.equal(evaluate('currentSeasonData({...seasonFixture,activity:[]}).performance.metrics.roi'),null);
+assert.equal(evaluate('currentSeasonData({...seasonFixture,activity:[{...seasonFixture.activity[1],profitUnits:null}]}).performance.metrics.roi'),null);
+console.log('Current season: 8 assertions passed.');

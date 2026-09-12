@@ -169,8 +169,8 @@ function predictionMarkup(prediction) {
   if (prediction.started) return followedMatchMarkup(prediction);
   const league = prediction.leagueLabel || prediction.league || "Championnat";
   const country = LEAGUE_COUNTRIES[prediction.league] || league;
-  const confidence = numberOrNull(prediction.modelProbability) ?? 0;
-  const confidenceWidth = Math.max(0, Math.min(100, confidence * 100));
+  const modelIndex = numberOrNull(prediction.modelProbability) ?? 0;
+  const modelIndexWidth = Math.max(0, Math.min(100, modelIndex * 100));
   return `
     <article class="prediction" aria-label="${escapeHtml(`${prediction.homeTeam} contre ${prediction.awayTeam}, ${prediction.outcomeLabel}`)}">
       <div class="prediction-head">
@@ -184,14 +184,12 @@ function predictionMarkup(prediction) {
         <span>contre</span>
         <h2>${escapeHtml(prediction.awayTeam)}</h2>
         <div class="prediction-choice">
-          <small>Choix publié</small>
           <strong>${escapeHtml(prediction.outcomeLabel)}</strong>
         </div>
       </div>
-      <div class="prediction-confidence" aria-label="Estimation du ${escapeHtml(prediction.outcomeLabel.toLowerCase())} : ${escapeHtml(percent.format(confidence))}">
-        <div><span>Estimation du ${escapeHtml(prediction.outcomeLabel.toLowerCase())}</span><b>${escapeHtml(percent.format(confidence))}</b></div>
-        <i aria-hidden="true"><span style="width: ${confidenceWidth.toFixed(1)}%"></span></i>
-        <details class="estimate-explanation"><summary>Comprendre cette estimation</summary><p>Lecture la plus prudente des deux IA. Ce chiffre est une estimation brute : il ne garantit pas la fréquence réelle des résultats.</p></details>
+      <div class="prediction-confidence" aria-label="Indice du modèle pour ${escapeHtml(prediction.outcomeLabel.toLowerCase())} : ${escapeHtml(percent.format(modelIndex))}">
+        <div><span>Indice du modèle</span><b>${escapeHtml(percent.format(modelIndex))}</b></div>
+        <i aria-hidden="true"><span style="width: ${modelIndexWidth.toFixed(1)}%"></span></i>
       </div>
       <div class="prediction-footer">
         <div><span>Cote</span><b>${decimal.format(prediction.odds)}</b></div>
@@ -210,7 +208,7 @@ function followedMatchMarkup(match) {
     <div class="prediction-pitch" aria-hidden="true"><i></i></div>
     <div class="teams"><p>Football</p><h2>${escapeHtml(match.homeTeam)}</h2><span>contre</span><h2>${escapeHtml(match.awayTeam)}</h2></div>
     <div class="match-verdict" role="status"><strong>${escapeHtml(score)}</strong><span>${escapeHtml(label)}</span></div>
-    <div class="prediction-footer"><div><span>Choix publié</span><b>${escapeHtml(match.outcomeLabel)}</b></div><div><span>Cote publiée</span><b>${odds === null ? '—' : decimal.format(odds)}</b></div></div>
+    <div class="prediction-footer"><div><b>${escapeHtml(match.outcomeLabel)}</b></div><div><span>Cote publiée</span><b>${odds === null ? '—' : decimal.format(odds)}</b></div></div>
   </article>`;
 }
 
@@ -222,25 +220,28 @@ function resetNoPickCopy() {
 }
 
 function renderPredictions(data) {
-  const predictions = data.predictions;
-  const holder = $("#pick-list");
-  const hasPredictions = predictions.length > 0;
-  holder.hidden = !hasPredictions;
-  $("#no-pick").hidden = hasPredictions;
-  resetNoPickCopy();
-  const awaitingResult = (data.activity || []).some(row => row.recommended === true && !terminalResult(row) && new Date(row.date).getTime() <= Date.now());
-  if (!hasPredictions && awaitingResult) {
-    setText(".no-pick .section-label", "Le suivi continue");
-    setText(".no-pick strong", "Aucun autre match à venir.");
-    setText(".no-pick > p:last-child", "Les rencontres déjà commencées restent dans les résultats ci-dessous.");
+  try {
+    const predictions = data.predictions;
+    const holder = $("#pick-list");
+    const hasPredictions = predictions.length > 0;
+    holder.hidden = !hasPredictions;
+    $("#no-pick").hidden = hasPredictions;
+    resetNoPickCopy();
+    const awaitingResult = (data.activity || []).some(row => row.recommended === true && !terminalResult(row) && new Date(row.date).getTime() <= Date.now());
+    if (!hasPredictions && awaitingResult) {
+      setText(".no-pick .section-label", "Le suivi continue");
+      setText(".no-pick strong", "Aucun autre match à venir.");
+      setText(".no-pick > p:last-child", "Les rencontres déjà commencées restent dans les résultats ci-dessous.");
+    }
+    const markup = predictions.map((prediction) => predictionMarkup(prediction)).join("");
+    if (holder.dataset.markup !== markup) {
+      holder.innerHTML = markup;
+      holder.dataset.markup = markup;
+    }
+    $(".today-grid")?.classList.toggle("has-many", predictions.length > 1);
+  } catch (e) {
+    console.error("renderPredictions error:", e);
   }
-  const markup = predictions.map((prediction) => predictionMarkup(prediction)).join("");
-  // Leave the DOM intact between unchanged polls (focus and expanded details stay in place).
-  if (holder.dataset.markup !== markup) {
-    holder.innerHTML = markup;
-    holder.dataset.markup = markup;
-  }
-  $(".today-grid")?.classList.toggle("has-many", predictions.length > 1);
 }
 
 function resultLabel(status, kickoffAt) {
@@ -309,7 +310,7 @@ function selectRoiPoint(index) {
   setText('#roi-caption', `${formatDate(point.date)} · ${point.homeTeam} — ${point.awayTeam} · ${signed(point.roi,decimalOne)} %`);
   $('#roi-cursor')?.setAttribute('cx', point.x);
   $('#roi-cursor')?.setAttribute('cy', point.y);
-  $('#roi-position')?.setAttribute('aria-valuetext', `${point.homeTeam} contre ${point.awayTeam}, rendement ${signed(point.roi,decimalOne)} pour cent`);
+  $('#roi-position')?.setAttribute('aria-valuetext', `${point.homeTeam} contre ${point.awayTeam}, rendement observé ${signed(point.roi,decimalOne)} pour cent`);
 }
 
 $('#roi-position')?.addEventListener('input', event => selectRoiPoint(Number(event.target.value)));
@@ -336,47 +337,44 @@ function renderLiveCurve(rows, verified, expectedRoi) {
 }
 
 function renderTracking(data) {
-  const tracking = data.tracking || {};
-  const performanceLive = data.performance?.live || {};
-  const allRows = (Array.isArray(data.activity) ? data.activity : []).filter(row => row?.recommended === true);
-  const pending = allRows.filter(row => !terminalResult(row) && inPublicWindow(row.date)).length;
-  const verified = numberOrNull(tracking.verified) ?? numberOrNull(performanceLive.settledBets) ?? 0;
-  const won = numberOrNull(tracking.won) ?? 0;
-  const lost = numberOrNull(tracking.lost) ?? 0;
-  renderLiveCurve(allRows, verified, performanceLive.roi ?? data.summary.liveRoi);
-  setText("#tracking-pending", integer.format(pending));
-  setText("#tracking-verified", integer.format(verified));
-  setText("#tracking-won", integer.format(won));
-  setText("#tracking-lost", integer.format(lost));
-  setText("#summary-pending", integer.format(pending));
-  setText("#summary-settled", integer.format(verified));
-  const liveReturnBlock = $("#live-return-block");
-  liveReturnBlock?.classList.remove("calculated", "negative");
-  if (verified > 0) {
-    const profit = numberOrNull(performanceLive.profitUnits) ?? numberOrNull(data.summary.liveProfitUnits);
-    const returnForHundred = numberOrNull(performanceLive["roi"]) ?? numberOrNull(data.summary.liveRoi);
-    const returnPercent = returnForHundred === null ? null : returnForHundred * 100;
-    setText("#live-return", returnPercent === null ? "Rendement indisponible" : `${signed(returnPercent, decimalOne)} %`);
-    setText("#summary-roi", returnPercent === null ? "—" : `${signed(returnPercent, decimalOne)} %`);
-    setText("#summary-description", "Rendement des mises publiées, depuis le début de cette stratégie.");
-    setText(
-      "#live-return-copy",
-      profit === null
-        ? `Calculé après ${integer.format(verified)} pari${verified > 1 ? "s" : ""} terminé${verified > 1 ? "s" : ""}.`
-        : `Soit ${signed(profit)} ${Math.abs(profit) === 1 ? "mise" : "mises"} après ${integer.format(verified)} pari${verified > 1 ? "s" : ""} terminé${verified > 1 ? "s" : ""}.`,
-    );
-    liveReturnBlock?.classList.add("calculated");
-    if ((returnPercent ?? profit) < 0) liveReturnBlock?.classList.add("negative");
-  } else {
-    setText("#live-return", "—");
-    setText("#live-return-copy", "Après le premier résultat confirmé.");
-    setText("#summary-roi", "—");
-    setText("#summary-description", "Le rendement apparaîtra après le premier résultat confirmé.");
+  try {
+    const tracking = data.tracking || {};
+    const performanceLive = data.performance?.live || {};
+    const allRows = (Array.isArray(data.activity) ? data.activity : []).filter(row => row?.recommended === true);
+    const pending = allRows.filter(row => !terminalResult(row) && inPublicWindow(row.date)).length;
+    const verified = numberOrNull(tracking.verified) ?? numberOrNull(performanceLive.settledBets) ?? 0;
+    const won = numberOrNull(tracking.won) ?? 0;
+    const lost = numberOrNull(tracking.lost) ?? 0;
+    renderLiveCurve(allRows, verified, performanceLive.roi ?? data.summary.liveReturn);
+    setText("#tracking-pending", integer.format(pending));
+    setText("#tracking-verified", integer.format(verified));
+    setText("#tracking-won", integer.format(won));
+    setText("#tracking-lost", integer.format(lost));
+    const liveReturnBlock = $("#live-return-block");
+    liveReturnBlock?.classList.remove("calculated", "negative");
+    if (verified > 0) {
+      const profit = numberOrNull(performanceLive.profitUnits) ?? numberOrNull(data.summary.liveProfitUnits);
+      const returnForHundred = numberOrNull(performanceLive["roi"]) ?? numberOrNull(data.summary.liveReturn);
+      const returnPercent = returnForHundred === null ? null : returnForHundred * 100;
+      setText("#live-return", returnPercent === null ? "Rendement non calculable" : `${signed(returnPercent, decimalOne)} %`);
+      setText(
+        "#live-return-copy",
+        profit === null
+          ? `Calculé après ${integer.format(verified)} pari${verified > 1 ? "s" : ""} terminé${verified > 1 ? "s" : ""}.`
+          : `Soit ${signed(profit)} ${Math.abs(profit) === 1 ? "mise" : "mises"} après ${integer.format(verified)} pari${verified > 1 ? "s" : ""} terminé${verified > 1 ? "s" : ""}.`,
+      );
+      liveReturnBlock?.classList.add("calculated");
+      if ((returnPercent ?? profit) < 0) liveReturnBlock?.classList.add("negative");
+    } else {
+      setText("#live-return", "—");
+      setText("#live-return-copy", "Pas encore assez de résultats pour calculer le rendement réel.");
+    }
+    historyRows = allRows.filter(row => new Date(row.date).getTime() <= Date.now() || inPublicWindow(row.date))
+      .sort((a, b) => new Date(b.date) - new Date(a.date));
+    renderHistory();
+  } catch (e) {
+    console.error("renderTracking error:", e);
   }
-  // A single journal: keep past results, but never expose future choices outside the window.
-  historyRows = allRows.filter(row => new Date(row.date).getTime() <= Date.now() || inPublicWindow(row.date))
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
-  renderHistory();
 }
 
 function usableCurve(rows) {
@@ -404,7 +402,7 @@ function renderCumulativeChart(rows) {
   if (!svg) return;
   const curve = usableCurve(rows);
   if (curve.length < 2) {
-    svg.innerHTML = '<text x="480" y="180" text-anchor="middle" class="chart-axis">Données historiques indisponibles</text>';
+    svg.innerHTML = '<text x="480" y="180" text-anchor="middle" class="chart-axis">La courbe apparaîtra après deux paris terminés cette saison.</text>';
     return;
   }
 
@@ -656,79 +654,149 @@ function renderLeagues(rows) {
   }).join("");
 }
 
+// Public results are calculated only from the current season's published ledger.
+// Never substitute a training benchmark when live results are missing.
+function currentSeasonData(data, now = Date.now()) {
+  const parts = new Intl.DateTimeFormat('en-CA', {timeZone:MATCH_TIMEZONE,year:'numeric',month:'2-digit'}).formatToParts(new Date(now));
+  const year = Number(parts.find(p => p.type === 'year').value);
+  const month = Number(parts.find(p => p.type === 'month').value);
+  const season = month >= 7 ? year : year - 1;
+  const seasonOf = date => {
+    const d = new Date(date);
+    if (!Number.isFinite(d.getTime())) return null;
+    const p = new Intl.DateTimeFormat('en-CA',{timeZone:MATCH_TIMEZONE,year:'numeric',month:'2-digit'}).formatToParts(d);
+    const y = Number(p.find(v => v.type === 'year').value);
+    return Number(p.find(v => v.type === 'month').value) >= 7 ? y : y - 1;
+  };
+  const unique = new Map();
+  for (const row of Array.isArray(data.activity) ? data.activity : []) {
+    if (row.recommended !== true || seasonOf(row.date) !== season) continue;
+    const key = [row.league,row.homeTeam,row.awayTeam, new Intl.DateTimeFormat('en-CA',{timeZone:MATCH_TIMEZONE}).format(new Date(row.date)),row.outcomeLabel].join('|');
+    if (!unique.has(key) || terminalResult(row)) unique.set(key,row);
+  }
+  const activity = [...unique.values()].sort((a,b) => new Date(a.date)-new Date(b.date));
+  const settled = activity.filter(r => ['won','lost'].includes(r.status) && new Date(r.date).getTime() <= now);
+  const complete = settled.every(r => numberOrNull(r.profitUnits) !== null);
+  const won = settled.filter(r => r.status === 'won').length;
+  let profit = 0, peak = 0, maxDrawdown = 0;
+  const monthly = new Map(), leagues = new Map(), curve = [];
+  for (const row of complete ? settled : []) {
+    profit += Number(row.profitUnits);
+    peak = Math.max(peak,profit);
+    maxDrawdown = Math.min(maxDrawdown,profit-peak);
+    curve.push({date:row.date,value:profit,drawdown:profit-peak});
+    const m = new Intl.DateTimeFormat('en-CA',{timeZone:MATCH_TIMEZONE,year:'numeric',month:'2-digit'}).format(new Date(row.date));
+    for (const [map,key] of [[monthly,m],[leagues,row.leagueLabel || row.league]]) {
+      const group = map.get(key) || {label:key,leagueLabel:key,bets:0,profit:0};
+      group.bets++; group.profit += Number(row.profitUnits); group.roi=group.profit/group.bets;
+      map.set(key,group);
+    }
+  }
+  const roi = complete && settled.length ? profit/settled.length : null;
+  const metrics = {betCount:settled.length,profit:complete && settled.length ? profit:null,roi,hitRate:settled.length ? won/settled.length:null,maxDrawdown:settled.length && complete ? maxDrawdown:null,roiCiLow:null,roiCiHigh:null};
+  return {...data, meta:{...data.meta,currentSeason:season},activity,
+    predictions:(data.predictions || []).filter(r => seasonOf(r.date) === season),
+    tracking:{...data.tracking,verified:settled.length,won,lost:settled.length-won},
+    performance:{metrics,curve,monthly:[...monthly.values()],leagues:[...leagues.values()],live:{settledBets:settled.length,roi,profitUnits:metrics.profit}},
+    summary:{...data.summary,liveReturn:roi,liveProfitUnits:metrics.profit}};
+}
+
 function renderPerformance(data) {
-  const performance = data.performance || {};
-  const metrics = performance.metrics || {};
-  const betCount = numberOrNull(metrics.betCount);
-  const profit = numberOrNull(metrics.profit);
-  const historicalReturn = numberOrNull(metrics["roi"]);
-  const hitRate = numberOrNull(metrics.hitRate);
-  const averageOdds = numberOrNull(metrics.averageOdds);
-  setText("#test-selections", betCount === null ? "—" : integer.format(betCount));
-  setText("#test-profit", profit === null ? "—" : signed(profit));
-  setText("#test-return", historicalReturn === null ? "—" : signed(historicalReturn * 100, decimalOne));
-  setText("#test-hit-rate", hitRate === null ? "—" : percent.format(hitRate));
-  setText("#test-average-odds", averageOdds === null ? "—" : decimal.format(averageOdds));
-  setText("#cumulative-foot-value", profit === null ? "—" : `${signed(profit)} mises`);
+  try {
+    const performance = data.performance || {};
+    const metrics = performance.metrics || {};
+    const summary = data.summary || {};
+    const betCount = numberOrNull(metrics.betCount);
+    const profit = numberOrNull(metrics.profit);
+    const historicalReturn = numberOrNull(metrics["roi"]);
+    const hitRate = numberOrNull(metrics.hitRate);
+    const averageOdds = numberOrNull(metrics.averageOdds);
+    const maxDrawdown = numberOrNull(metrics.maxDrawdown);
+    setText("#test-selections", betCount === null ? "—" : integer.format(betCount));
+    setText("#test-profit", profit === null ? "—" : `${signed(profit)} mises`);
+    setText("#test-return", historicalReturn === null ? "—" : `${signed(historicalReturn * 100, decimalOne)} %`);
+    setText("#test-hit-rate", hitRate === null ? "—" : percent.format(hitRate));
+    setText("#test-average-odds", averageOdds === null ? "—" : decimal.format(averageOdds));
+    setText("#test-range", profit === null ? "—" : `${signed(profit)} mises`);
+    setText("#test-max-drawdown", maxDrawdown === null ? "—" : `${decimal.format(Math.abs(maxDrawdown))} mises`);
+    setText("#cumulative-foot-value", profit === null ? "—" : `${signed(profit)} mises`);
 
-  const scope = performance.scope || {};
-  setText(
-    "#performance-date-range",
-    scope.startDate && scope.endDate
-      ? `${formatFullDate(scope.startDate)} — ${formatFullDate(scope.endDate)} · résultat après chaque choix`
-      : "Résultat après chaque choix historique.",
-  );
+    const scope = performance.scope || {};
+    setText(
+      "#performance-date-range",
+      scope.startDate && scope.endDate
+        ? `${formatFullDate(scope.startDate)} — ${formatFullDate(scope.endDate)} · résultat après chaque choix`
+        : "Résultat après chaque choix historique.",
+    );
 
-  const periods = aggregatePeriods(performance.monthly);
-  renderCumulativeChart(performance.curve);
-  renderDrawdownChart(performance.curve);
-  renderPeriods(periods);
-  renderPlausibleRange(metrics);
-  renderLeagues(performance.leagues);
+    const periods = performance.monthly || [];
+    renderCumulativeChart(performance.curve || []);
+    renderDrawdownChart(performance.curve || []);
+    renderPeriods(periods);
+    renderPlausibleRange(metrics);
+    renderLeagues(performance.leagues || []);
 
-  const maxDrawdown = numberOrNull(metrics.maxDrawdown);
-  setText("#max-drawdown", maxDrawdown === null ? "—" : `${decimal.format(Math.abs(maxDrawdown))} mises`);
+    setText("#max-drawdown", maxDrawdown === null ? "—" : `${decimal.format(Math.abs(maxDrawdown))} mises`);
+    setText("#positive-periods", periods.length ? `${periods.filter(p => p.profit > 0).length} sur ${periods.length}` : "—");
+    setText("#range-low", metrics.roiCiLow === null ? "—" : `${signed(metrics.roiCiLow * 100, decimalOne)} %`);
+    setText("#range-high", metrics.roiCiHigh === null ? "—" : `${signed(metrics.roiCiHigh * 100, decimalOne)} %`);
+  } catch (e) {
+    console.error("renderPerformance error:", e);
+  }
 }
 
 function renderDashboard(data) {
-  const ready = data.meta.status === "ready";
-  const fresh = publicationIsFresh(data.meta.generatedAt);
-  const futurePredictions = matchCards(data);
-  const visibleData = { ...data, predictions: futurePredictions };
+  try {
+    data = currentSeasonData(data);
+    const seasonLabel = `${data.meta.currentSeason}/${String(data.meta.currentSeason+1).slice(-2)}`;
+    setText('#season-scope', `Saison ${seasonLabel}. Uniquement les paris réellement publiés et leurs résultats confirmés.`);
+    setText('#tracking-scope', `Saison ${seasonLabel} · stratégie actuellement publiée.`);
+    const ready = data.meta.status === "ready";
+    const fresh = publicationIsFresh(data.meta.generatedAt);
+    const futurePredictions = matchCards(data);
+    const visibleData = { ...data, predictions: futurePredictions };
 
-  if (ready && fresh) {
-    renderPredictions(visibleData);
-    $("#load-error").hidden = true;
-  } else if (ready && futurePredictions.length > 0) {
-    renderPredictions(visibleData);
-    $("#load-error").textContent = "La mise à jour est en retard. Les choix publiés restent visibles, sans supposer de nouveau résultat.";
-    $("#load-error").hidden = false;
-  } else {
-    const withoutCurrentDecision = {
-      ...data,
-      summary: { ...data.summary, upcomingBets: 0, currentRecommendations: 0 },
-      predictions: [],
-    };
-    renderPredictions(withoutCurrentDecision);
-    setText(".no-pick .section-label", ready ? "Publication à actualiser" : "Préparation en cours");
-    setText(".no-pick strong", ready ? "Aucun choix à venir dans la dernière publication." : "Aucun choix n’est encore disponible.");
-    setText(".no-pick > p:last-child", "Le tableau de bord réessaie automatiquement et affichera la prochaine décision confirmée.");
-    $("#load-error").textContent = ready
-      ? "La dernière publication a plus de 24 heures et ne contient plus de match à venir."
-      : "Les données du jour sont encore en préparation. Aucun choix n’est présenté avant leur validation.";
-    $("#load-error").hidden = false;
+    if (ready && fresh) {
+      renderPredictions(visibleData);
+      $("#load-error").hidden = true;
+    } else if (ready && futurePredictions.length > 0) {
+      renderPredictions(visibleData);
+      $("#load-error").textContent = "La mise à jour est en retard. Les choix publiés restent visibles, sans supposer de nouveau résultat.";
+      $("#load-error").hidden = false;
+    } else {
+      const withoutCurrentDecision = {
+        ...data,
+        summary: { ...data.summary, upcomingBets: 0, currentRecommendations: 0 },
+        predictions: [],
+      };
+      renderPredictions(withoutCurrentDecision);
+      setText(".no-pick .section-label", ready ? "Publication à actualiser" : "Préparation en cours");
+      setText(".no-pick strong", ready ? "Aucun choix à venir dans la dernière publication." : "Aucun choix n'est encore disponible.");
+      setText(".no-pick > p:last-child", "Le tableau de bord réessaie automatiquement et affichera la prochaine décision confirmée.");
+      $("#load-error").textContent = ready
+        ? "La dernière publication a plus de 24 heures et ne contient plus de match à venir."
+        : "Les données du jour sont encore en préparation. Aucun choix n'est présenté avant leur validation.";
+      $("#load-error").hidden = false;
+    }
+    renderTracking(data);
+    renderPerformance(data);
+  } catch (e) {
+    console.error("renderDashboard error:", e);
   }
-  renderTracking(data);
 }
 
 function renderLoadError() {
-  $("#load-error").hidden = false;
-  $("#pick-list").hidden = true;
-  $("#no-pick").hidden = false;
-  $("#no-pick")?.classList.add("error-state");
-  setText(".no-pick .section-label", "Données non confirmées");
-  setText(".no-pick strong", "La décision du jour est indisponible.");
-  setText(".no-pick > p:last-child", "Aucun ancien choix n’est présenté comme actuel. Une nouvelle tentative aura lieu automatiquement.");
+  try {
+    $("#load-error").hidden = false;
+    $("#pick-list").hidden = true;
+    $("#no-pick").hidden = false;
+    $("#no-pick")?.classList.add("error-state");
+    setText(".no-pick .section-label", "Données non confirmées");
+    setText(".no-pick strong", "La décision du jour est indisponible.");
+    setText(".no-pick > p:last-child", "Aucun ancien choix n'est présenté comme actuel. Une nouvelle tentative aura lieu automatiquement.");
+  } catch (e) {
+    console.error("renderLoadError error:", e);
+  }
 }
 
 let latestDashboard = null;

@@ -4,43 +4,45 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f4f6f1">
-  <meta name="description" content="Les choix football réellement retenus par ScorePredict, leur suivi et les résultats des essais sur les saisons passées.">
+  <meta name="description" content="Le journal public des décisions football avant match de ScorePredict : recommandations, abstentions et résultats sans réécriture.">
   <meta property="og:title" content="ScorePredict — Tableau de bord">
-  <meta property="og:description" content="Les matchs à venir et les résultats vérifiés de ScorePredict.">
+  <meta property="og:description" content="Les décisions datées, les résultats vérifiés et les tests historiques de ScorePredict.">
   <meta property="og:image" content="./assets/media/stadium-documentary.webp">
   <title>Tableau de bord — ScorePredict</title>
   <link rel="icon" href="./assets/brand/scorepredict-mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/styles.css?v=32">
-  <link rel="stylesheet" href="./assets/journal.css?v=3">
+  <link rel="stylesheet" href="./assets/styles.css?v=34">
+  <link rel="stylesheet" href="./assets/journal.css?v=4">
 </head>
 <body class="journal-dashboard">
-  <a class="skip-link" href="#main">Aller au contenu</a>
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
 
   <header class="site-header">
     <div class="header-inner">
-      <a class="brand" href="./" aria-label="ScorePredict, retour à l’accueil">
+      <a class="brand" href="./" aria-label="ScorePredict, retour à l'accueil">
         <span class="brand-logo-window brand-logo-header" aria-hidden="true">
           <img src="./assets/brand/scorepredict-logo-v3.png" width="1024" height="482" alt="">
         </span>
       </a>
 
       <nav class="desktop-nav" aria-label="Navigation principale">
-        <a href="#pronostic">Matchs</a>
-        <a href="#suivi">Résultats</a>
+        <a href="#aujourdhui">Le journal</a>
+        <a href="#suivi">Suivi réel</a>
+        <a href="#historique">Cette saison</a>
+        <a class="nav-cta" href="./dashboard.html#contenu"><span class="nav-cta-long">Ouvrir le journal</span><span class="nav-cta-short">Journal</span></a>
       </nav>
 
     </div>
-
   </header>
 
-  <main id="main">
-    <section class="today-section" id="pronostic" aria-labelledby="hero-title">
+  <main id="contenu">
+    <section class="today-section" id="aujourdhui" aria-labelledby="hero-title">
       <div class="page-shell">
         <header class="workspace-title" data-reveal>
-          <h1 id="hero-title">Les matchs.</h1>
+          <h1 id="hero-title">Le journal du jour.</h1>
+          <p class="window-caption" data-reveal>Chaque décision est datée avant le coup d'envoi.</p>
         </header>
 
-        <div class="today-grid">
+        <div class="today-grid" id="today-grid">
           <div class="decision-stage">
             <div class="pick-list" id="pick-list" aria-live="polite">
               <article class="prediction prediction-loading" aria-label="Chargement du choix">
@@ -51,8 +53,10 @@
             </div>
 
             <div class="no-pick" id="no-pick" hidden>
-              <strong>Aucun match retenu pour le moment.</strong>
-              <p>Les prochains choix apparaîtront ici.</p>
+              <div class="no-pick-state">
+                <span class="no-pick-label">Aucun pari retenu aujourd'hui</span>
+                <p>La discipline fait partie du processus. Les prochains choix apparaîtront ici.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -63,7 +67,8 @@
       <div class="page-shell">
         <header class="section-heading" data-reveal>
           <div>
-            <h2 id="tracking-title">Les résultats.</h2>
+            <h2 id="tracking-title">Suivi réel</h2>
+            <p id="tracking-scope">Résultats confirmés de la saison actuelle.</p>
           </div>
         </header>
 
@@ -75,9 +80,9 @@
             <div><span>Perdus</span><strong id="tracking-lost">0</strong></div>
           </div>
           <div class="live-return" id="live-return-block">
-            <span>Rendement</span>
+            <span>Rendement observé</span>
             <strong id="live-return">—</strong>
-            <p id="live-return-copy">Après le premier résultat confirmé.</p>
+            <p id="live-return-copy">Pas encore assez de résultats pour calculer le rendement réel.</p>
           </div>
         </div>
 
@@ -106,11 +111,128 @@
       </div>
     </section>
 
+    <section class="history-section" id="historique" aria-labelledby="history-title">
+      <div class="page-shell">
+        <header class="section-heading" data-reveal>
+          <div>
+            <h2 id="history-title">Le bilan de cette saison</h2>
+            <p id="season-scope">Uniquement les paris réellement publiés et leurs résultats confirmés.</p>
+          </div>
+        </header>
+
+        <div class="history-kpis" data-reveal>
+          <div>
+            <span>Paris terminés</span>
+            <strong id="test-selections">—</strong>
+          </div>
+          <div>
+            <span>Paris gagnants</span>
+            <strong id="test-hit-rate">—</strong>
+          </div>
+          <div>
+            <span>Rendement observé</span>
+            <strong id="test-return">—</strong>
+          </div>
+          <div>
+            <span>Résultat cumulé</span>
+            <strong id="test-range">—</strong>
+          </div>
+          <div>
+            <span>Plus forte baisse</span>
+            <strong id="test-max-drawdown">—</strong>
+          </div>
+        </div>
+
+        <div class="chart-panel" data-reveal>
+          <div class="chart-heading compact">
+            <h3>Évolution du résultat</h3>
+            <p>Gain ou perte cumulés en mises identiques, après chaque pari terminé</p>
+          </div>
+          <div class="chart-wrap" id="cumulative-chart-wrap">
+            <svg id="cumulative-chart" class="data-chart" viewBox="0 0 960 360"></svg>
+            <div class="chart-tooltip" id="cumulative-tooltip" hidden></div>
+          </div>
+        </div>
+
+        <div class="history-grid" data-reveal>
+          <div class="chart-panel">
+            <div class="chart-heading compact">
+              <h3>Par mois</h3>
+              <p>Vert : gain · Rouge : perte</p>
+            </div>
+            <div class="period-chart" id="period-chart"></div>
+          </div>
+          <div class="chart-panel">
+            <div class="chart-heading compact">
+              <h3>Par championnat</h3>
+              <p>Taille de l'échantillon affichée</p>
+            </div>
+            <div class="league-list" id="league-list"></div>
+          </div>
+        </div>
+
+        <div class="chart-panel range-panel" data-reveal hidden>
+          <div class="chart-heading compact">
+            <h3>Fourchette plausible du rendement</h3>
+            <p>Pour 100 mises identiques, le résultat peut varier</p>
+          </div>
+          <div class="range-visual">
+            <div class="range-line">
+              <div class="range-band" id="range-band"></div>
+              <div class="range-zero" id="range-zero"></div>
+              <div class="range-observed" id="range-observed"></div>
+            </div>
+            <div class="range-labels">
+              <span id="range-low">—</span>
+              <span id="range-center">Point d'équilibre</span>
+              <span id="range-high">—</span>
+            </div>
+          </div>
+          <p class="range-copy" id="range-copy">La fourchette n'est pas disponible pour cette période.</p>
+        </div>
+
+        <div class="drawdown-panel" data-reveal>
+          <span class="section-label">Risque et régularité</span>
+          <h3>Plus forte baisse observée</h3>
+          <p>Les baisses sont calculées sur les résultats confirmés de cette saison, en mises identiques.</p>
+          <div class="risk-facts">
+            <div>
+              <span>Plus forte baisse</span>
+              <strong id="max-drawdown">—</strong>
+            </div>
+            <div>
+              <span>Mois positifs</span>
+              <strong id="positive-periods">—</strong>
+            </div>
+          </div>
+          <div class="chart-heading compact">
+            <h3>Parcours de la baisse</h3>
+            <p>Baisses depuis le meilleur niveau atteint</p>
+          </div>
+          <div class="drawdown-wrap">
+            <svg id="drawdown-chart" class="data-chart" viewBox="0 0 960 260"></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="responsible-section" aria-labelledby="responsible-title">
+      <div class="page-shell">
+        <div class="responsible-grid" data-reveal>
+          <div>
+            <p class="kicker">Jeu responsable</p>
+            <h2 id="responsible-title">Les pronostics restent des estimations.</h2>
+            <p>Aucun résultat n'est garanti. Les chiffres servent à comparer les matchs, pas à promettre des gains.</p>
+          </div>
+          <a class="button button-light" href="#aujourdhui">Voir le journal</a>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer">
     <div class="page-shell footer-grid">
-      <a class="brand footer-brand" href="./" aria-label="ScorePredict, retour à l’accueil">
+      <a class="brand footer-brand" href="./" aria-label="ScorePredict, retour à l'accueil">
         <span class="brand-logo-window brand-logo-footer" aria-hidden="true">
           <img src="./assets/brand/scorepredict-logo-v3.png" width="1024" height="482" alt="">
         </span>
@@ -120,6 +242,6 @@
   </footer>
 
   <div class="load-error" id="load-error" role="status" hidden>Les données du jour sont momentanément indisponibles. La dernière vue ne peut pas être confirmée.</div>
-  <script type="module" src="./assets/app.js?v=38"></script>
+  <script type="module" src="./assets/app.js?v=41"></script>
 </body>
 </html>
