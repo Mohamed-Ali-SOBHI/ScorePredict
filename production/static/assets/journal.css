@@ -224,6 +224,9 @@
 .journal-dashboard .result-row b { text-align: right; font-weight: 600; }
 .result-versus { color: var(--muted); font-weight: 400; }
 .result-verdict { text-align: right; }
+.journal-dashboard .match-verdict { display: flex; align-items: baseline; gap: 8px; }
+.journal-dashboard .match-verdict strong { font-variant-numeric: tabular-nums; }
+.journal-dashboard .match-verdict span { color: var(--muted); font-size: 13px; }
 .result-verdict .final-score { display: block; font-size: 24px; letter-spacing: .04em; font-variant-numeric: tabular-nums; }
 .result-verdict b { font-size: 13px; }
 .result-verdict .lost { color: var(--danger); }
