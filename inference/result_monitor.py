@@ -106,6 +106,11 @@ def understat_finished_results(payload: dict[str, dict], *, league: str) -> pd.D
     return pd.DataFrame(rows)
 
 
+def ledger_kickoff(row):
+    utc = pd.to_datetime(row.get("kickoff_utc"), errors="coerce", utc=True)
+    return paris_iso(utc) if pd.notna(utc) else row.get("date")
+
+
 def due_prediction_mask(
     ledger: pd.DataFrame,
     *,
@@ -113,7 +118,7 @@ def due_prediction_mask(
     minimum_elapsed_minutes: int,
     portfolio_name: str,
 ) -> pd.Series:
-    dates = ledger["date"].map(paris_datetime)
+    dates = ledger.apply(lambda row: paris_datetime(ledger_kickoff(row)), axis=1)
     statuses = ledger.get("result_status", pd.Series("pending", index=ledger.index)).astype(str).str.lower()
     recommended = ledger.get("recommended", pd.Series(False, index=ledger.index)).map(_truthy)
     portfolios = ledger.get("portfolio_name", pd.Series("", index=ledger.index)).astype(str)
@@ -157,7 +162,7 @@ def settle_due_predictions(
 
     for index in due_indexes:
         row = updated.loc[index]
-        kickoff = paris_datetime(row["date"])
+        kickoff = paris_datetime(ledger_kickoff(row))
         candidates = official[
             (official["league"].astype(str) == str(row.get("league")))
             & (official["home_team_norm"].astype(str) == normalize_team_name(row.get("team_name")))
@@ -272,6 +277,15 @@ def update_public_snapshot(
     if published_portfolio and published_portfolio != portfolio_name:
         raise ValueError("Cannot patch a snapshot belonging to another portfolio")
     active = active_recommended_rows(ledger, portfolio_name)
+
+    # The result-only publisher must honor the same authoritative instant as
+    # the daily dashboard builder, otherwise each monitor run reintroduces drift
+    if "kickoff_utc" in active.columns:
+        active = active.copy()
+        for index, row in active.iterrows():
+            utc = pd.to_datetime(row.get("kickoff_utc"), errors="coerce", utc=True)
+            if pd.notna(utc):
+                active.at[index, "date"] = paris_iso(utc)
 
     def row_key(date: object, home: object, away: object) -> tuple[str, str, str]:
         return (

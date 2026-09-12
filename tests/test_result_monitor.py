@@ -15,6 +15,14 @@ from inference.result_monitor import (
 
 
 class ResultMonitorTests(unittest.TestCase):
+    def test_snapshot_preserves_authoritative_utc(self):
+        ledger = self._ledger()
+        ledger['kickoff_utc'] = '2026-08-22T14:00:00Z'
+        ledger['date'] = '2026-08-22 14:00:00'
+        result = update_public_snapshot({}, ledger, portfolio_name=DEFAULT_PORTFOLIO_NAME,
+                                        generated_at=datetime(2026,8,22,10,tzinfo=timezone.utc))
+        self.assertEqual(result['activity'][0]['date'], '2026-08-22T16:00:00+02:00')
+
     @staticmethod
     def _ledger() -> pd.DataFrame:
         return pd.DataFrame(

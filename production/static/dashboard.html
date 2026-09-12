@@ -11,7 +11,7 @@
   <title>Tableau de bord — ScorePredict</title>
   <link rel="icon" href="./assets/brand/scorepredict-mark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/styles.css?v=34">
-  <link rel="stylesheet" href="./assets/journal.css?v=4">
+  <link rel="stylesheet" href="./assets/journal.css?v=7">
 </head>
 <body class="journal-dashboard">
   <a class="skip-link" href="#contenu">Aller au contenu</a>
@@ -28,7 +28,7 @@
         <a href="#aujourdhui">Le journal</a>
         <a href="#suivi">Suivi réel</a>
         <a href="#historique">Cette saison</a>
-        <a class="nav-cta" href="./dashboard.html#contenu"><span class="nav-cta-long">Ouvrir le journal</span><span class="nav-cta-short">Journal</span></a>
+        <a class="nav-cta" href="./explorer.html">Tous les matchs</a>
       </nav>
 
     </div>
@@ -38,8 +38,8 @@
     <section class="today-section" id="aujourdhui" aria-labelledby="hero-title">
       <div class="page-shell">
         <header class="workspace-title" data-reveal>
-          <h1 id="hero-title">Le journal du jour.</h1>
-          <p class="window-caption" data-reveal>Chaque décision est datée avant le coup d'envoi.</p>
+          <h1 id="hero-title">Le journal du jour</h1>
+          <p class="window-caption" data-reveal>Chaque décision est datée avant le coup d'envoi · Horaires de Paris</p>
         </header>
 
         <div class="today-grid" id="today-grid">
@@ -55,7 +55,7 @@
             <div class="no-pick" id="no-pick" hidden>
               <div class="no-pick-state">
                 <span class="no-pick-label">Aucun pari retenu aujourd'hui</span>
-                <p>La discipline fait partie du processus. Les prochains choix apparaîtront ici.</p>
+                <p>La discipline fait partie du processus. Les prochains choix apparaîtront ici</p>
               </div>
             </div>
           </div>
@@ -68,7 +68,7 @@
         <header class="section-heading" data-reveal>
           <div>
             <h2 id="tracking-title">Suivi réel</h2>
-            <p id="tracking-scope">Résultats confirmés de la saison actuelle.</p>
+            <p id="tracking-scope">Résultats confirmés de la saison actuelle</p>
           </div>
         </header>
 
@@ -82,7 +82,7 @@
           <div class="live-return" id="live-return-block">
             <span>Rendement observé</span>
             <strong id="live-return">—</strong>
-            <p id="live-return-copy">Pas encore assez de résultats pour calculer le rendement réel.</p>
+            <p id="live-return-copy">Pas encore assez de résultats pour calculer le rendement réel</p>
           </div>
         </div>
 
@@ -105,7 +105,7 @@
         </div>
 
         <div class="result-table" id="result-list" data-reveal>
-          <p class="empty-results">Les premiers résultats apparaîtront ici après les matchs recommandés.</p>
+          <p class="empty-results">Les premiers résultats apparaîtront ici après les matchs recommandés</p>
         </div>
         <button class="history-more" id="history-more" type="button" hidden>Voir plus</button>
       </div>
@@ -116,7 +116,7 @@
         <header class="section-heading" data-reveal>
           <div>
             <h2 id="history-title">Le bilan de cette saison</h2>
-            <p id="season-scope">Uniquement les paris réellement publiés et leurs résultats confirmés.</p>
+            <p id="season-scope">Uniquement les paris réellement publiés et leurs résultats confirmés</p>
           </div>
         </header>
 
@@ -188,13 +188,13 @@
               <span id="range-high">—</span>
             </div>
           </div>
-          <p class="range-copy" id="range-copy">La fourchette n'est pas disponible pour cette période.</p>
+          <p class="range-copy" id="range-copy">La fourchette n'est pas disponible pour cette période</p>
         </div>
 
         <div class="drawdown-panel" data-reveal>
           <span class="section-label">Risque et régularité</span>
           <h3>Plus forte baisse observée</h3>
-          <p>Les baisses sont calculées sur les résultats confirmés de cette saison, en mises identiques.</p>
+          <p>Les baisses sont calculées sur les résultats confirmés de cette saison, en mises identiques</p>
           <div class="risk-facts">
             <div>
               <span>Plus forte baisse</span>
@@ -221,8 +221,8 @@
         <div class="responsible-grid" data-reveal>
           <div>
             <p class="kicker">Jeu responsable</p>
-            <h2 id="responsible-title">Les pronostics restent des estimations.</h2>
-            <p>Aucun résultat n'est garanti. Les chiffres servent à comparer les matchs, pas à promettre des gains.</p>
+            <h2 id="responsible-title">Les pronostics restent des estimations</h2>
+            <p>Aucun résultat n'est garanti. Les chiffres servent à comparer les matchs, pas à promettre des gains</p>
           </div>
           <a class="button button-light" href="#aujourdhui">Voir le journal</a>
         </div>
@@ -241,7 +241,7 @@
     </div>
   </footer>
 
-  <div class="load-error" id="load-error" role="status" hidden>Les données du jour sont momentanément indisponibles. La dernière vue ne peut pas être confirmée.</div>
-  <script type="module" src="./assets/app.js?v=41"></script>
+  <div class="load-error" id="load-error" role="status" hidden>Les données du jour sont momentanément indisponibles. La dernière vue ne peut pas être confirmée</div>
+  <script type="module" src="./assets/app.js?v=43"></script>
 </body>
 </html>

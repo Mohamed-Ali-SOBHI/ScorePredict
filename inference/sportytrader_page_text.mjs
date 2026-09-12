@@ -27,7 +27,10 @@ try {
     viewport: { width: 1440, height: 1000 },
   });
   page = await context.newPage();
-  await page.goto(url, { waitUntil: "domcontentloaded", timeout: timeoutMs });
+  const response = await page.goto(url, { waitUntil: "domcontentloaded", timeout: timeoutMs });
+  if (response && !response.ok()) {
+    throw new Error(`Source de cotes inaccessible : HTTP ${response.status()} (${url})`);
+  }
   await page.waitForFunction(
     (expected) => document.body?.innerText.includes(expected),
     sectionTitle,

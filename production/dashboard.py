@@ -104,6 +104,16 @@ def _match_iso(value: Any) -> str | None:
     return parsed.isoformat()
 
 
+def _kickoff(row: dict) -> str | None:
+    # Explicit source UTC is authoritative; legacy date is Paris local time
+    utc = _parse_date(row.get("kickoff_utc"))
+    if utc is not None:
+        if utc.tzinfo is None:
+            utc = utc.replace(tzinfo=timezone.utc)
+        return _match_iso(utc)
+    return _match_iso(row.get("date"))
+
+
 def _read_json(path: Path) -> dict[str, Any]:
     if not path.exists():
         return {}
@@ -248,6 +258,9 @@ class DashboardService:
         upcoming_rows = [row for row in upcoming_rows if row.get("portfolio_name") == DEFAULT_PORTFOLIO_NAME]
         upcoming_all = [row for row in upcoming_all if row.get("portfolio_name") == DEFAULT_PORTFOLIO_NAME]
         live_rows = [row for row in live_rows if row.get("portfolio_name") == DEFAULT_PORTFOLIO_NAME]
+        for rows in (upcoming_rows, upcoming_all, live_rows):
+            for row in rows:
+                row["date"] = _kickoff(row)
         if live_summary.get("portfolio_name") not in (None, DEFAULT_PORTFOLIO_NAME):
             live_summary = {}
         live_summary.setdefault("portfolio_name", DEFAULT_PORTFOLIO_NAME)
@@ -297,7 +310,9 @@ class DashboardService:
         if wrong_exports:
             meta_status = "blocked"
 
+        from production.explorer import build_explorer
         return {
+            "explorer": build_explorer(self.paths.upcoming_all.parents[2], upcoming_all, now),
             "meta": {
                 "product": "ScorePredict",
                 "apiVersion": "1.0",
@@ -463,7 +478,7 @@ class DashboardService:
     def _prediction_view(self, rows: Iterable[dict[str, str]], now: datetime) -> list[dict[str, Any]]:
         predictions_by_fixture: dict[tuple[str, str, str, str], dict[str, Any]] = {}
         for row in rows:
-            match_date = _parse_date(row.get("date"))
+            match_date = _parse_date(_kickoff(row))
             if match_date:
                 comparable = match_date if match_date.tzinfo else match_date.replace(tzinfo=DISPLAY_TIMEZONE)
                 if comparable.astimezone(timezone.utc) < now.replace(minute=0, second=0, microsecond=0):
@@ -722,7 +737,7 @@ class DashboardService:
             activity.append(
                 {
                     "id": hashlib.sha1(identity).hexdigest()[:12],
-                    "date": _match_iso(row.get("date")) or row.get("date"),
+                    "date": _kickoff(row),
                     "league": row.get("league", ""),
                     "leagueLabel": LEAGUE_LABELS.get(row.get("league", ""), row.get("league", "")),
                     "homeTeam": row.get("team_name", ""),
@@ -774,4 +789,9 @@ def write_snapshot(service: DashboardService, output: Path | None = None) -> Pat
     temporary = target.with_suffix(target.suffix + ".tmp")
     temporary.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     temporary.replace(target)
+    if 'explorer' in payload:
+        explorer_target = target.parent / 'explorer.json'
+        explorer_temp = explorer_target.with_suffix('.json.tmp')
+        explorer_temp.write_text(json.dumps({'meta': payload['meta'], 'explorer': payload['explorer']}, ensure_ascii=False), encoding='utf-8')
+        explorer_temp.replace(explorer_target)
     return target
