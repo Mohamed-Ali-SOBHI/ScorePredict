@@ -214,8 +214,8 @@ function followedMatchMarkup(match) {
 
 function resetNoPickCopy() {
   setText(".no-pick .section-label", "Décision enregistrée");
-  setText(".no-pick strong", "Aucun match retenu pour le moment");
-  setText(".no-pick > p:last-child", "Les prochains choix apparaîtront ici");
+  setText(".no-pick strong", "Aucun match retenu pour le moment.");
+  setText(".no-pick > p:last-child", "Les prochains choix apparaîtront ici.");
   $("#no-pick")?.classList.remove("error-state");
 }
 
@@ -230,8 +230,8 @@ function renderPredictions(data) {
     const awaitingResult = (data.activity || []).some(row => row.recommended === true && !terminalResult(row) && new Date(row.date).getTime() <= Date.now());
     if (!hasPredictions && awaitingResult) {
       setText(".no-pick .section-label", "Le suivi continue");
-      setText(".no-pick strong", "Aucun autre match à venir");
-      setText(".no-pick > p:last-child", "Les rencontres déjà commencées restent dans les résultats ci-dessous");
+      setText(".no-pick strong", "Aucun autre match à venir.");
+      setText(".no-pick > p:last-child", "Les rencontres déjà commencées restent dans les résultats ci-dessous.");
     }
     const markup = predictions.map((prediction) => predictionMarkup(prediction)).join("");
     if (holder.dataset.markup !== markup) {
@@ -279,7 +279,7 @@ function renderHistory() {
     month = label;
     return heading + resultMarkup(row);
   }).join('');
-  $("#result-list").innerHTML = markup || '<p class="empty-results">Aucune décision dans cette catégorie pour le moment</p>';
+  $("#result-list").innerHTML = markup || '<p class="empty-results">Aucune décision dans cette catégorie pour le moment.</p>';
   $("#history-more").hidden = visible.length <= historyLimit;
 }
 
@@ -360,14 +360,14 @@ function renderTracking(data) {
       setText(
         "#live-return-copy",
         profit === null
-          ? `Calculé après ${integer.format(verified)} pari${verified > 1 ? "s" : ""} terminé${verified > 1 ? "s" : ""}`
-          : `Soit ${signed(profit)} ${Math.abs(profit) === 1 ? "mise" : "mises"} après ${integer.format(verified)} pari${verified > 1 ? "s" : ""} terminé${verified > 1 ? "s" : ""}`,
+          ? `Calculé après ${integer.format(verified)} pari${verified > 1 ? "s" : ""} terminé${verified > 1 ? "s" : ""}.`
+          : `Soit ${signed(profit)} ${Math.abs(profit) === 1 ? "mise" : "mises"} après ${integer.format(verified)} pari${verified > 1 ? "s" : ""} terminé${verified > 1 ? "s" : ""}.`,
       );
       liveReturnBlock?.classList.add("calculated");
       if ((returnPercent ?? profit) < 0) liveReturnBlock?.classList.add("negative");
     } else {
       setText("#live-return", "—");
-      setText("#live-return-copy", "Pas encore assez de résultats pour calculer le rendement réel");
+      setText("#live-return-copy", "Pas encore assez de résultats pour calculer le rendement réel.");
     }
     historyRows = allRows.filter(row => new Date(row.date).getTime() <= Date.now() || inPublicWindow(row.date))
       .sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -402,7 +402,7 @@ function renderCumulativeChart(rows) {
   if (!svg) return;
   const curve = usableCurve(rows);
   if (curve.length < 2) {
-    svg.innerHTML = '<text x="480" y="180" text-anchor="middle" class="chart-axis">La courbe apparaîtra après deux paris terminés cette saison</text>';
+    svg.innerHTML = '<text x="480" y="180" text-anchor="middle" class="chart-axis">La courbe apparaîtra après deux paris terminés cette saison.</text>';
     return;
   }
 
@@ -437,7 +437,7 @@ function renderCumulativeChart(rows) {
 
   svg.innerHTML = `
     <title id="cumulative-chart-title">Évolution cumulée des résultats passés</title>
-    <desc id="cumulative-chart-desc">La courbe part de ${escapeHtml(signed(curve[0].value))} mise et termine à ${escapeHtml(signed(curve.at(-1).value))} mises</desc>
+    <desc id="cumulative-chart-desc">La courbe part de ${escapeHtml(signed(curve[0].value))} mise et termine à ${escapeHtml(signed(curve.at(-1).value))} mises.</desc>
     <defs>
       <linearGradient id="history-area" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stop-color="#1f8f5b" stop-opacity=".24"></stop>
@@ -470,7 +470,7 @@ function renderCumulativeChart(rows) {
     tooltip.style.top = `${(nearest.y / height) * 100}%`;
     tooltip.hidden = false;
     wrap.classList.add("is-hovered");
-    hitArea.setAttribute("aria-label", `${formatChartDate(nearest.date)}, ${signed(nearest.value)} mises. Flèches gauche et droite pour parcourir`);
+    hitArea.setAttribute("aria-label", `${formatChartDate(nearest.date)}, ${signed(nearest.value)} mises. Flèches gauche et droite pour parcourir.`);
   };
   const hidePoint = () => {
     tooltip.hidden = true;
@@ -534,7 +534,7 @@ function renderDrawdownChart(rows) {
 
   svg.innerHTML = `
     <title id="drawdown-chart-title">Baisses historiques depuis le meilleur niveau atteint</title>
-    <desc id="drawdown-chart-desc">La baisse la plus importante observée est de ${escapeHtml(signed(Math.min(...curve.map((row) => row.drawdown))))} mises</desc>
+    <desc id="drawdown-chart-desc">La baisse la plus importante observée est de ${escapeHtml(signed(Math.min(...curve.map((row) => row.drawdown))))} mises.</desc>
     <defs>
       <linearGradient id="drawdown-area" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stop-color="#e87c6f" stop-opacity=".05"></stop>
@@ -572,7 +572,7 @@ function renderPeriods(periods) {
   const holder = $("#period-chart");
   if (!holder) return;
   if (!periods.length) {
-    holder.innerHTML = '<p class="empty-results">Résultats par période indisponibles</p>';
+    holder.innerHTML = '<p class="empty-results">Résultats par période indisponibles.</p>';
     setText("#negative-periods", "—");
     return;
   }
@@ -598,7 +598,7 @@ function renderPlausibleRange(metrics) {
   const high = numberOrNull(metrics.roiCiHigh);
   const observed = numberOrNull(metrics["roi"]);
   if (low === null || high === null || observed === null) {
-    setText("#range-copy", "La fourchette n’est pas disponible pour cette période");
+    setText("#range-copy", "La fourchette n’est pas disponible pour cette période.");
     return;
   }
   const low100 = low * 100;
@@ -622,7 +622,7 @@ function renderPlausibleRange(metrics) {
   const crossesZero = low100 <= 0 && high100 >= 0;
   setText(
     "#range-copy",
-    `Pour 100 mises identiques, la fourchette va de ${signed(low100, decimalOne)} à ${signed(high100, decimalOne)} mises. Le résultat observé est ${signed(observed100, decimalOne)}. ${crossesZero ? "Comme la fourchette traverse le point d’équilibre, un résultat positif n’est pas assuré" : "La fourchette reste du même côté du point d’équilibre"}`,
+    `Pour 100 mises identiques, la fourchette va de ${signed(low100, decimalOne)} à ${signed(high100, decimalOne)} mises. Le résultat observé est ${signed(observed100, decimalOne)}. ${crossesZero ? "Comme la fourchette traverse le point d’équilibre, un résultat positif n’est pas assuré." : "La fourchette reste du même côté du point d’équilibre."}`,
   );
   $("#range-visual")?.setAttribute("aria-label", `Fourchette de ${signed(low100, decimalOne)} à ${signed(high100, decimalOne)}, résultat observé ${signed(observed100, decimalOne)}`);
 }
@@ -636,7 +636,7 @@ function renderLeagues(rows) {
     result: numberOrNull(row?.["roi"]),
   })).filter((row) => validText(row.label) && row.bets !== null && row.result !== null);
   if (!leagues.length) {
-    holder.innerHTML = '<p class="empty-results">Résultats par championnat indisponibles</p>';
+    holder.innerHTML = '<p class="empty-results">Résultats par championnat indisponibles.</p>';
     return;
   }
   const maxAbsolute = Math.max(...leagues.map((row) => Math.abs(row.result)), .01);
@@ -726,7 +726,7 @@ function renderPerformance(data) {
       "#performance-date-range",
       scope.startDate && scope.endDate
         ? `${formatFullDate(scope.startDate)} — ${formatFullDate(scope.endDate)} · résultat après chaque choix`
-        : "Résultat après chaque choix historique",
+        : "Résultat après chaque choix historique.",
     );
 
     const periods = performance.monthly || [];
@@ -749,8 +749,8 @@ function renderDashboard(data) {
   try {
     data = currentSeasonData(data);
     const seasonLabel = `${data.meta.currentSeason}/${String(data.meta.currentSeason+1).slice(-2)}`;
-    setText('#season-scope', `Saison ${seasonLabel}. Uniquement les paris réellement publiés et leurs résultats confirmés`);
-    setText('#tracking-scope', `Saison ${seasonLabel} · stratégie actuellement publiée`);
+    setText('#season-scope', `Saison ${seasonLabel}. Uniquement les paris réellement publiés et leurs résultats confirmés.`);
+    setText('#tracking-scope', `Saison ${seasonLabel} · stratégie actuellement publiée.`);
     const ready = data.meta.status === "ready";
     const fresh = publicationIsFresh(data.meta.generatedAt);
     const futurePredictions = matchCards(data);
@@ -761,7 +761,7 @@ function renderDashboard(data) {
       $("#load-error").hidden = true;
     } else if (ready && futurePredictions.length > 0) {
       renderPredictions(visibleData);
-      $("#load-error").textContent = "La mise à jour est en retard. Les choix publiés restent visibles, sans supposer de nouveau résultat";
+      $("#load-error").textContent = "La mise à jour est en retard. Les choix publiés restent visibles, sans supposer de nouveau résultat.";
       $("#load-error").hidden = false;
     } else {
       const withoutCurrentDecision = {
@@ -771,11 +771,11 @@ function renderDashboard(data) {
       };
       renderPredictions(withoutCurrentDecision);
       setText(".no-pick .section-label", ready ? "Publication à actualiser" : "Préparation en cours");
-      setText(".no-pick strong", ready ? "Aucun choix à venir dans la dernière publication" : "Aucun choix n'est encore disponible");
-      setText(".no-pick > p:last-child", "Le tableau de bord réessaie automatiquement et affichera la prochaine décision confirmée");
+      setText(".no-pick strong", ready ? "Aucun choix à venir dans la dernière publication." : "Aucun choix n'est encore disponible.");
+      setText(".no-pick > p:last-child", "Le tableau de bord réessaie automatiquement et affichera la prochaine décision confirmée.");
       $("#load-error").textContent = ready
-        ? "La dernière publication a plus de 24 heures et ne contient plus de match à venir"
-        : "Les données du jour sont encore en préparation. Aucun choix n'est présenté avant leur validation";
+        ? "La dernière publication a plus de 24 heures et ne contient plus de match à venir."
+        : "Les données du jour sont encore en préparation. Aucun choix n'est présenté avant leur validation.";
       $("#load-error").hidden = false;
     }
     renderTracking(data);
@@ -792,8 +792,8 @@ function renderLoadError() {
     $("#no-pick").hidden = false;
     $("#no-pick")?.classList.add("error-state");
     setText(".no-pick .section-label", "Données non confirmées");
-    setText(".no-pick strong", "La décision du jour est indisponible");
-    setText(".no-pick > p:last-child", "Aucun ancien choix n'est présenté comme actuel. Une nouvelle tentative aura lieu automatiquement");
+    setText(".no-pick strong", "La décision du jour est indisponible.");
+    setText(".no-pick > p:last-child", "Aucun ancien choix n'est présenté comme actuel. Une nouvelle tentative aura lieu automatiquement.");
   } catch (e) {
     console.error("renderLoadError error:", e);
   }
