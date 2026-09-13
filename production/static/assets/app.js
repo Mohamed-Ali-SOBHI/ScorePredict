@@ -302,40 +302,6 @@ function liveRoiPoints(rows, verified, expectedRoi) {
   return points;
 }
 
-let roiPoints = [];
-let roiSignature = '';
-function selectRoiPoint(index) {
-  const point = roiPoints[index];
-  if (!point) return;
-  setText('#roi-caption', `${formatDate(point.date)} · ${point.homeTeam} — ${point.awayTeam} · ${signed(point.roi,decimalOne)} %`);
-  $('#roi-cursor')?.setAttribute('cx', point.x);
-  $('#roi-cursor')?.setAttribute('cy', point.y);
-  $('#roi-position')?.setAttribute('aria-valuetext', `${point.homeTeam} contre ${point.awayTeam}, rendement observé ${signed(point.roi,decimalOne)} pour cent`);
-}
-
-$('#roi-position')?.addEventListener('input', event => selectRoiPoint(Number(event.target.value)));
-
-function renderLiveCurve(rows, verified, expectedRoi) {
-  const nextPoints = liveRoiPoints(rows, verified, expectedRoi);
-  const signature = JSON.stringify(nextPoints);
-  if (signature === roiSignature) return;
-  roiSignature = signature;
-  roiPoints = nextPoints;
-  $('#live-curve').hidden = roiPoints.length === 0;
-  if (!roiPoints.length) return;
-  const low = Math.min(0,...roiPoints.map(p=>p.roi));
-  const high = Math.max(0,...roiPoints.map(p=>p.roi));
-  const y = value => 104-(value-low)/(high-low || 1)*88;
-  roiPoints = roiPoints.map((point,i) => ({...point,x:12+i/(roiPoints.length-1)*576,y:y(point.roi)}));
-  $('#roi-line').setAttribute('d', roiPoints.map((p,i)=>`${i?'L':'M'}${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(' '));
-  $('#roi-zero').setAttribute('y1',y(0));
-  $('#roi-zero').setAttribute('y2',y(0));
-  const slider = $('#roi-position');
-  slider.max = roiPoints.length-1;
-  slider.value = slider.max;
-  selectRoiPoint(roiPoints.length-1);
-}
-
 function renderTracking(data) {
   try {
     const tracking = data.tracking || {};
@@ -345,7 +311,6 @@ function renderTracking(data) {
     const verified = numberOrNull(tracking.verified) ?? numberOrNull(performanceLive.settledBets) ?? 0;
     const won = numberOrNull(tracking.won) ?? 0;
     const lost = numberOrNull(tracking.lost) ?? 0;
-    renderLiveCurve(allRows, verified, performanceLive.roi ?? data.summary.liveReturn);
     setText("#tracking-pending", integer.format(pending));
     setText("#tracking-verified", integer.format(verified));
     setText("#tracking-won", integer.format(won));
@@ -360,14 +325,14 @@ function renderTracking(data) {
       setText(
         "#live-return-copy",
         profit === null
-          ? `Calculé après ${integer.format(verified)} pari${verified > 1 ? "s" : ""} terminé${verified > 1 ? "s" : ""}.`
-          : `Soit ${signed(profit)} ${Math.abs(profit) === 1 ? "mise" : "mises"} après ${integer.format(verified)} pari${verified > 1 ? "s" : ""} terminé${verified > 1 ? "s" : ""}.`,
+          ? `Calculé après ${integer.format(verified)} pari${verified > 1 ? "s" : ""} terminé${verified > 1 ? "s" : ""}`
+          : `Soit ${signed(profit)} ${Math.abs(profit) === 1 ? "mise" : "mises"} après ${integer.format(verified)} pari${verified > 1 ? "s" : ""} terminé${verified > 1 ? "s" : ""}`,
       );
       liveReturnBlock?.classList.add("calculated");
       if ((returnPercent ?? profit) < 0) liveReturnBlock?.classList.add("negative");
     } else {
       setText("#live-return", "—");
-      setText("#live-return-copy", "Pas encore assez de résultats pour calculer le rendement réel.");
+      setText("#live-return-copy", "Pas encore assez de résultats pour calculer le rendement réel");
     }
     historyRows = allRows.filter(row => new Date(row.date).getTime() <= Date.now() || inPublicWindow(row.date))
       .sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -749,8 +714,8 @@ function renderDashboard(data) {
   try {
     data = currentSeasonData(data);
     const seasonLabel = `${data.meta.currentSeason}/${String(data.meta.currentSeason+1).slice(-2)}`;
-    setText('#season-scope', `Saison ${seasonLabel}. Uniquement les paris réellement publiés et leurs résultats confirmés.`);
-    setText('#tracking-scope', `Saison ${seasonLabel} · stratégie actuellement publiée.`);
+    setText('#season-scope', `Saison ${seasonLabel} · uniquement les paris réellement publiés et leurs résultats confirmés`);
+    setText('#tracking-scope', `Saison ${seasonLabel} · stratégie actuellement publiée`);
     const ready = data.meta.status === "ready";
     const fresh = publicationIsFresh(data.meta.generatedAt);
     const futurePredictions = matchCards(data);

@@ -11,7 +11,7 @@
   <title>Tableau de bord — ScorePredict</title>
   <link rel="icon" href="./assets/brand/scorepredict-mark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/styles.css?v=34">
-  <link rel="stylesheet" href="./assets/journal.css?v=8">
+  <link rel="stylesheet" href="./assets/journal.css?v=9">
 </head>
 <body class="journal-dashboard">
   <a class="skip-link" href="#contenu">Aller au contenu</a>
@@ -28,8 +28,7 @@
         <a href="#aujourdhui">Le journal</a>
         <a href="#suivi">Suivi réel</a>
         <a href="#historique">Cette saison</a>
-        <a href="./explorer.html">Tous les matchs</a>
-        <a class="nav-cta" href="./dashboard.html#contenu"><span class="nav-cta-long">Ouvrir le journal</span><span class="nav-cta-short">Journal</span></a>
+        <a class="nav-cta" href="./explorer.html">Tous les matchs</a>
       </nav>
 
     </div>
@@ -42,6 +41,8 @@
           <h1 id="hero-title">Le journal du jour</h1>
           <p class="window-caption" data-reveal>Chaque décision est datée avant le coup d'envoi</p>
         </header>
+
+        <div class="load-error" id="load-error" role="status" hidden>Les données du jour sont momentanément indisponibles. La dernière vue ne peut pas être confirmée</div>
 
         <div class="today-grid" id="today-grid">
           <div class="decision-stage">
@@ -86,16 +87,6 @@
             <p id="live-return-copy">Pas encore assez de résultats pour calculer le rendement réel</p>
           </div>
         </div>
-
-        <figure class="live-curve" id="live-curve" hidden aria-label="Évolution du rendement des paris terminés">
-          <svg viewBox="0 0 600 120" role="img" aria-label="Rendement cumulé après chaque pari terminé">
-            <line id="roi-zero" x1="12" x2="588" y1="104" y2="104" />
-            <path id="roi-line" d="" />
-            <circle id="roi-cursor" r="4" cx="12" cy="104" />
-          </svg>
-          <input id="roi-position" type="range" min="0" max="0" value="0" step="1" aria-label="Parcourir les matchs de la courbe">
-          <figcaption id="roi-caption"></figcaption>
-        </figure>
 
         <div class="history-toolbar">
           <div class="history-filters" role="group" aria-label="Filtrer les décisions">
@@ -242,7 +233,6 @@
     </div>
   </footer>
 
-  <div class="load-error" id="load-error" role="status" hidden>Les données du jour sont momentanément indisponibles. La dernière vue ne peut pas être confirmée</div>
-  <script type="module" src="./assets/app.js?v=43"></script>
+  <script type="module" src="./assets/app.js?v=44"></script>
 </body>
 </html>
