@@ -179,6 +179,7 @@ class SourcePaths:
     portfolio_bets: Path
     upcoming_bets: Path
     upcoming_all: Path
+    explorer_all: Path
     live_log: Path
     live_evaluation: Path
     live_summary: Path
@@ -200,6 +201,7 @@ class SourcePaths:
             ),
             upcoming_bets=root / "inference" / "output" / "upcoming_portfolio_bets.csv",
             upcoming_all=root / "inference" / "output" / "upcoming_portfolio_predictions.csv",
+            explorer_all=root / "inference" / "output" / "upcoming_explorer_predictions.csv",
             live_log=root / "inference" / "output" / "live_portfolio_bet_log.csv",
             live_evaluation=root / "inference" / "output" / "live_portfolio_evaluation.csv",
             live_summary=root / "inference" / "output" / "live_portfolio_evaluation_summary.json",
@@ -251,14 +253,16 @@ class DashboardService:
         prediction_store_status = _read_json(self.paths.prediction_store_status)
         upcoming_rows = _read_csv(self.paths.upcoming_bets)
         upcoming_all = _read_csv(self.paths.upcoming_all)
+        explorer_rows = _read_csv(self.paths.explorer_all) or upcoming_all
         live_rows = _read_csv(self.paths.live_evaluation) or _read_csv(self.paths.live_log)
         portfolio_rows = _read_csv(self.paths.portfolio_bets)
         # Never relabel stale exports or retired live results as the new strategy.
         wrong_exports = any(row.get("portfolio_name") != DEFAULT_PORTFOLIO_NAME for row in upcoming_rows)
         upcoming_rows = [row for row in upcoming_rows if row.get("portfolio_name") == DEFAULT_PORTFOLIO_NAME]
         upcoming_all = [row for row in upcoming_all if row.get("portfolio_name") == DEFAULT_PORTFOLIO_NAME]
+        explorer_rows = [row for row in explorer_rows if row.get("portfolio_name") == DEFAULT_PORTFOLIO_NAME]
         live_rows = [row for row in live_rows if row.get("portfolio_name") == DEFAULT_PORTFOLIO_NAME]
-        for rows in (upcoming_rows, upcoming_all, live_rows):
+        for rows in (upcoming_rows, upcoming_all, explorer_rows, live_rows):
             for row in rows:
                 row["date"] = _kickoff(row)
         if live_summary.get("portfolio_name") not in (None, DEFAULT_PORTFOLIO_NAME):
@@ -312,7 +316,7 @@ class DashboardService:
 
         from production.explorer import build_explorer
         return {
-            "explorer": build_explorer(self.paths.upcoming_all.parents[2], upcoming_all, now),
+            "explorer": build_explorer(self.paths.upcoming_all.parents[2], explorer_rows, now),
             "meta": {
                 "product": "ScorePredict",
                 "apiVersion": "1.0",

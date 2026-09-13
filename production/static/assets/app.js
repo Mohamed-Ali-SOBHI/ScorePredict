@@ -181,7 +181,7 @@ function predictionMarkup(prediction) {
       <div class="teams">
         <p>${escapeHtml(country)}</p>
         <h2>${escapeHtml(prediction.homeTeam)}</h2>
-        <span>contre</span>
+        <span>vs</span>
         <h2>${escapeHtml(prediction.awayTeam)}</h2>
         <div class="prediction-choice">
           <strong>${escapeHtml(prediction.outcomeLabel)}</strong>
@@ -206,7 +206,7 @@ function followedMatchMarkup(match) {
   return `<article class="prediction prediction-followed" aria-label="${escapeHtml(`${match.homeTeam} contre ${match.awayTeam}, ${label}`)}">
     <div class="prediction-head"><span>${escapeHtml(match.leagueLabel || match.league)}</span><time datetime="${escapeHtml(match.date)}">${escapeHtml(formatDate(match.date,true))}</time></div>
     <div class="prediction-pitch" aria-hidden="true"><i></i></div>
-    <div class="teams"><p>Football</p><h2>${escapeHtml(match.homeTeam)}</h2><span>contre</span><h2>${escapeHtml(match.awayTeam)}</h2></div>
+    <div class="teams"><p>Football</p><h2>${escapeHtml(match.homeTeam)}</h2><span>vs</span><h2>${escapeHtml(match.awayTeam)}</h2></div>
     ${confirmed ? `<div class="match-verdict" role="status"><strong>${escapeHtml(score)}</strong><span>${escapeHtml(label)}</span></div>` : ''}
     <div class="prediction-footer"><div><b>${escapeHtml(match.outcomeLabel)}</b></div><div><span>Cote publiée</span><b>${odds === null ? '—' : decimal.format(odds)}</b></div></div>
   </article>`;
@@ -263,7 +263,7 @@ const terminalResult = (row) => ["won", "lost", "void"].includes(row.status);
 function resultMarkup(row) {
   return `<div class="result-row">
     <time datetime="${escapeHtml(row.date || "")}">${escapeHtml(formatDate(row.date, true))}</time>
-    <strong>${escapeHtml(row.homeTeam)} <span class="result-versus">—</span> ${escapeHtml(row.awayTeam)}</strong>
+    <strong>${escapeHtml(row.homeTeam)} <span class="result-versus">vs</span> ${escapeHtml(row.awayTeam)}</strong>
     <span>${escapeHtml(row.outcomeLabel || "Choix publié")}</span>
     <div class="result-verdict">${row.actualScore ? `<strong class="final-score">${escapeHtml(row.actualScore)}</strong>` : ""}<b class="${row.status === "won" ? "won" : row.status === "lost" ? "lost" : ""}">${resultLabel(row.status, row.date)}</b></div>
   </div>`;
