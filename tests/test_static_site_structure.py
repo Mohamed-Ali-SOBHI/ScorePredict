@@ -85,7 +85,7 @@ class StaticSiteStructureTests(unittest.TestCase):
         }
         for element_id in required_ids:
             self.assertIn(f'id="{element_id}"', dashboard)
-        self.assertIn('src="./assets/app.js?v=43"', dashboard)
+        self.assertIn('src="./assets/app.js?v=44"', dashboard)
         self.assertNotIn('id="archived-decisions"', dashboard)
         self.assertNotIn('id="archived-list"', dashboard)
         self.assertIn('href="./assets/styles.css?v=34"', dashboard)
