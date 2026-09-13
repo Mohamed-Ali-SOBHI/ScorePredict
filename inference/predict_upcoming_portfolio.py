@@ -21,6 +21,7 @@ from inference.live_tracking import (
 from inference.kickoff_time import paris_timestamp
 from inference.upcoming_portfolio_strategy import (
     DEFAULT_LIVE_TRAIN_MAX_SEASON,
+    add_probability_columns,
     assign_flat_stakes,
     build_dataset_with_fixtures,
     dedupe_recommended_bets,
@@ -36,6 +37,7 @@ DEFAULT_DATA_DIR = REPO_ROOT / "Data"
 DEFAULT_FIXTURES_PATH = SCRIPT_DIR / "output" / "sportytrader_upcoming_portfolio_odds.csv"
 DEFAULT_OUTPUT_ALL = SCRIPT_DIR / "output" / "upcoming_portfolio_predictions.csv"
 DEFAULT_OUTPUT_BETS = SCRIPT_DIR / "output" / "upcoming_portfolio_bets.csv"
+DEFAULT_OUTPUT_EXPLORER = SCRIPT_DIR / "output" / "upcoming_explorer_predictions.csv"
 DEFAULT_TRACKING_LEDGER = SCRIPT_DIR / "output" / "live_portfolio_bet_log.csv"
 DEFAULT_MODEL_CACHE_DIR = SCRIPT_DIR / "model_cache"
 
@@ -115,6 +117,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-total-exposure-fraction", type=float, default=0.25)
     parser.add_argument("--output-all", default=str(DEFAULT_OUTPUT_ALL))
     parser.add_argument("--output-bets", default=str(DEFAULT_OUTPUT_BETS))
+    parser.add_argument("--output-explorer", default=str(DEFAULT_OUTPUT_EXPLORER))
     parser.add_argument("--tracking-ledger", default=str(DEFAULT_TRACKING_LEDGER))
     parser.add_argument("--model-cache-dir", default=str(DEFAULT_MODEL_CACHE_DIR))
     parser.add_argument("--retrain-models", action="store_true")
@@ -162,6 +165,67 @@ def write_exports(
     bets[BET_EXPORT_COLUMNS].to_csv(output_bets, index=False)
 
 
+def score_explorer_rows(
+    future_df: pd.DataFrame,
+    bundles: dict,
+    strategies: list,
+) -> pd.DataFrame:
+    """Score every fixture with a sealed multiclass model, without applying bet filters."""
+    league_bundles: dict[str, tuple[str, object]] = {}
+    pooled_bundle: tuple[str, object] | None = None
+
+    for strategy in strategies:
+        bundle = bundles[strategy.name]
+        if bundle.model_variant == "draw_binary":
+            continue
+        candidate = (strategy.name, bundle)
+        league_bundles.setdefault(strategy.bet_league, candidate)
+        if not bundle.train_league and pooled_bundle is None:
+            pooled_bundle = candidate
+
+    frames: list[pd.DataFrame] = []
+    for league in future_df["league"].dropna().astype(str).drop_duplicates():
+        source = league_bundles.get(league) or pooled_bundle
+        if source is None:
+            continue
+        source_name, bundle = source
+        league_df = future_df[future_df["league"] == league].copy()
+        probabilities = bundle.model.predict_proba(league_df[bundle.feature_cols])
+        league_df = add_probability_columns(league_df, probabilities)
+        league_df["strategy_name"] = f"{source_name}:all_matches"
+        league_df["train_league"] = bundle.train_league or "ALL"
+        league_df["bet_league"] = league
+        league_df["selected_outcome"] = ""
+        league_df["selected_odds"] = pd.NA
+        league_df["predicted_probability"] = probabilities.max(axis=1)
+        league_df["raw_model_probability"] = league_df["predicted_probability"]
+        league_df["market_probability"] = pd.NA
+        league_df["edge"] = pd.NA
+        league_df["value_score"] = pd.NA
+        league_df["expected_value"] = pd.NA
+        league_df["raw_expected_value"] = pd.NA
+        league_df["probability_note"] = "sealed_multiclass_probabilities_before_filtering"
+        league_df["train_max_season"] = bundle.train_max_season
+        league_df["bet_is_market_favorite"] = False
+        league_df["recommended_bet"] = False
+        frames.append(league_df)
+
+    if not frames:
+        return pd.DataFrame(columns=ALL_EXPORT_COLUMNS)
+    return pd.concat(frames, ignore_index=True).sort_values(
+        ["date", "league", "team_name"]
+    ).reset_index(drop=True)
+
+
+def write_explorer_export(rows: pd.DataFrame, output: Path) -> None:
+    output.parent.mkdir(parents=True, exist_ok=True)
+    exported = rows.copy()
+    for col in ALL_EXPORT_COLUMNS:
+        if col not in exported.columns:
+            exported[col] = pd.Series(dtype="object")
+    exported[ALL_EXPORT_COLUMNS].to_csv(output, index=False)
+
+
 def main() -> None:
     args = parse_args()
     try:
@@ -194,12 +258,15 @@ def main() -> None:
     if not future_match_ids:
         output_all = resolve_path(args.output_all)
         output_bets = resolve_path(args.output_bets)
+        output_explorer = resolve_path(args.output_explorer)
         write_exports(
             pd.DataFrame(columns=ALL_EXPORT_COLUMNS),
             pd.DataFrame(columns=BET_EXPORT_COLUMNS),
             output_all=output_all,
             output_bets=output_bets,
         )
+        if args.portfolio == PRODUCTION_PORTFOLIO_NAME:
+            write_explorer_export(pd.DataFrame(), output_explorer)
         print(
             {
                 "portfolio": args.portfolio,
@@ -209,6 +276,7 @@ def main() -> None:
                 "recommended_bets": 0,
                 "output_all": str(output_all),
                 "output_bets": str(output_bets),
+                "output_explorer": str(output_explorer),
             }
         )
         return
@@ -232,6 +300,7 @@ def main() -> None:
     future_df["kickoff_utc"] = future_df["match_id"].map(dict(zip(future_match_ids, kickoff_times)))
     future_df = future_df.sort_values(["date", "league", "team_name"]).reset_index(drop=True)
     scored = score_strategy_rows(future_df, bundles, strategies)
+    explorer_rows = score_explorer_rows(future_df, bundles, strategies)
     bets = dedupe_recommended_bets(scored)
     bets = assign_flat_stakes(
         bets,
@@ -242,9 +311,13 @@ def main() -> None:
 
     output_all = resolve_path(args.output_all)
     output_bets = resolve_path(args.output_bets)
+    output_explorer = resolve_path(args.output_explorer)
     scored["portfolio_name"] = args.portfolio
     bets["portfolio_name"] = args.portfolio
     write_exports(scored, bets, output_all=output_all, output_bets=output_bets)
+    if args.portfolio == PRODUCTION_PORTFOLIO_NAME:
+        explorer_rows["portfolio_name"] = args.portfolio
+        write_explorer_export(explorer_rows, output_explorer)
 
     tracking_rows = build_tracking_rows(bets, portfolio_name=args.portfolio)
     append_tracking_rows(tracking_rows, tracking_ledger)
@@ -261,6 +334,7 @@ def main() -> None:
             "model_cache": str(cache_path),
             "output_all": str(output_all),
             "output_bets": str(output_bets),
+            "output_explorer": str(output_explorer),
             "tracking_ledger": str(tracking_ledger),
         }
     )

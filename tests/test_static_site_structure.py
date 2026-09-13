@@ -85,7 +85,7 @@ class StaticSiteStructureTests(unittest.TestCase):
         }
         for element_id in required_ids:
             self.assertIn(f'id="{element_id}"', dashboard)
-        self.assertIn('src="./assets/app.js?v=44"', dashboard)
+        self.assertIn('src="./assets/app.js?v=45"', dashboard)
         self.assertNotIn('id="archived-decisions"', dashboard)
         self.assertNotIn('id="archived-list"', dashboard)
         self.assertIn('href="./assets/styles.css?v=34"', dashboard)
@@ -103,6 +103,9 @@ class StaticSiteStructureTests(unittest.TestCase):
         self.assertIn('return "À venir"', script)
         self.assertIn("futurePublishedPredictions", script)
         self.assertIn("kickoff > now", script)
+        self.assertIn('<span>vs</span>', script)
+        self.assertIn('class="result-versus">vs</span>', script)
+        self.assertNotIn('class="result-versus">—</span>', script)
         self.assertIn("sans supposer de nouveau résultat", script)
         for removed_copy in {
             "Lecture du choix",
@@ -119,6 +122,13 @@ class StaticSiteStructureTests(unittest.TestCase):
         }:
             self.assertNotIn(removed_copy, dashboard + script)
 
+    def test_all_match_titles_use_vs_as_the_visual_separator(self) -> None:
+        landing = (STATIC / "index.html").read_text(encoding="utf-8")
+        explorer = (STATIC / "assets" / "explorer.js").read_text(encoding="utf-8")
+        self.assertIn("<small>vs</small>", landing)
+        self.assertIn('class="versus">vs</span>', explorer)
+        self.assertNotIn("${escape(m.homeTeam)} — ${escape(m.awayTeam)}", explorer)
+
     def test_daily_workflow_has_a_second_automatic_run(self) -> None:
         workflow = (ROOT / ".github" / "workflows" / "daily-predictions.yml").read_text(encoding="utf-8")
         self.assertIn('cron: "15 6 * * *"', workflow)
@@ -134,6 +144,8 @@ class StaticSiteStructureTests(unittest.TestCase):
         )
         self.assertEqual(pipeline.count("--allow-partial-leagues"), 2)
         self.assertIn("inference.supabase_fixture_store push", pipeline)
+        self.assertIn('--leagues "EPL,Bundesliga,Serie_A,Ligue_1,La_liga"', pipeline)
+        self.assertNotIn("--portfolio $Portfolio `\n            --allow-partial-leagues", pipeline)
 
     def test_default_prediction_window_covers_exactly_three_calendar_days(self) -> None:
         runner = (ROOT / "inference" / "run_weekend_predictions.ps1").read_text(

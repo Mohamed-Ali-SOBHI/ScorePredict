@@ -89,7 +89,7 @@ try {
         & $PythonExe .\inference\fetch_sportytrader_portfolio_odds.py `
             --date-from $DateFrom `
             --date-to $DateTo `
-            --portfolio $Portfolio `
+            --leagues "EPL,Bundesliga,Serie_A,Ligue_1,La_liga" `
             --allow-partial-leagues `
             --output $FixturesCsv
         Assert-LastExitCode "fetch_sportytrader_portfolio_odds.py"

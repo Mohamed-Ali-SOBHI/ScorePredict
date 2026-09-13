@@ -4,6 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 from inference.evaluate_live_portfolio import build_summary, evaluate_rows, prepare_ledger
@@ -18,18 +19,78 @@ from inference.portfolio_presets import (
     PORTFOLIO_PRESETS,
     PRODUCTION_PORTFOLIO_NAME,
     SHADOW_PORTFOLIO_NAMES,
+    FrozenStrategy,
 )
 from inference.predict_upcoming_portfolio import (
     ALL_EXPORT_COLUMNS,
     BET_EXPORT_COLUMNS,
     ensure_tracking_ledger,
     keep_fixtures_before_kickoff,
+    score_explorer_rows,
     write_exports,
 )
+from inference.upcoming_portfolio_strategy import ModelBundle
 from inference.track_published_predictions import published_rows
 
 
 class PredictionTrackingTests(unittest.TestCase):
+    def test_explorer_scores_missing_leagues_with_the_pooled_model(self) -> None:
+        class FixedModel:
+            def __init__(self, probabilities):
+                self.probabilities = probabilities
+
+            def predict_proba(self, frame):
+                return np.tile(self.probabilities, (len(frame), 1))
+
+        def strategy(name, train_league, bet_league):
+            return FrozenStrategy(
+                name=name,
+                train_league=train_league,
+                bet_league=bet_league,
+                outcome="draw",
+                odds_min=2.0,
+                odds_max=10.0,
+                market_favorite_mode="nonfavorite",
+                threshold=0.1,
+                edge_min=0.04,
+                params={},
+                model_variant="draw_consensus",
+                training_weight_mode="unweighted",
+            )
+
+        bundesliga = strategy("bundesliga", "Bundesliga", "Bundesliga")
+        pooled = strategy("pooled", "", "EPL")
+        bundles = {
+            bundesliga.name: ModelBundle(
+                model_variant="draw_consensus",
+                train_league="Bundesliga",
+                train_max_season=2024,
+                feature_cols=["feature"],
+                model=FixedModel([0.2, 0.3, 0.5]),
+            ),
+            pooled.name: ModelBundle(
+                model_variant="draw_consensus",
+                train_league="",
+                train_max_season=2024,
+                feature_cols=["feature"],
+                model=FixedModel([0.4, 0.35, 0.25]),
+            ),
+        }
+        future = pd.DataFrame(
+            [
+                {"date": "2026-09-13", "league": "Bundesliga", "team_name": "A", "feature": 1},
+                {"date": "2026-09-13", "league": "La_liga", "team_name": "B", "feature": 1},
+                {"date": "2026-09-13", "league": "Ligue_1", "team_name": "C", "feature": 1},
+            ]
+        )
+        scored = score_explorer_rows(future, bundles, [bundesliga, pooled])
+        self.assertEqual(set(scored["league"]), {"Bundesliga", "La_liga", "Ligue_1"})
+        self.assertTrue((scored[["pred_home_win", "pred_draw", "pred_away_win"]].sum(axis=1).round(8) == 1).all())
+        fallback = scored[scored["league"].isin(["La_liga", "Ligue_1"])]
+        self.assertTrue((fallback["train_league"] == "ALL").all())
+        self.assertTrue((fallback["strategy_name"] == "pooled:all_matches").all())
+        self.assertFalse(scored["recommended_bet"].any())
+
     def test_published_trend_uses_most_likely_outcome_and_matching_odds(self) -> None:
         source = pd.DataFrame(
             [
