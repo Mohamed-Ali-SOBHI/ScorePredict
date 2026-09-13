@@ -7,22 +7,27 @@
   <link rel="icon" href="./assets/brand/scorepredict-mark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/styles.css?v=34">
   <link rel="stylesheet" href="./assets/journal.css?v=8">
-  <link rel="stylesheet" href="./assets/explorer.css?v=2">
+  <link rel="stylesheet" href="./assets/explorer.css?v=7">
 </head>
 <body class="journal-dashboard">
   <a class="skip-link" href="#contenu">Aller au contenu</a>
   <header class="site-header"><div class="header-inner">
     <a class="brand" href="./" aria-label="ScorePredict, accueil"><span class="brand-logo-window brand-logo-header"><img src="./assets/brand/scorepredict-logo-v3.png" width="1024" height="482" alt="ScorePredict"></span></a>
-    <nav class="desktop-nav" aria-label="Navigation principale"><a href="./dashboard.html">Le journal</a><a href="./explorer.html" aria-current="page">Tous les matchs</a></nav>
+    <nav class="desktop-nav" aria-label="Navigation principale">
+      <a href="./">Accueil</a>
+      <a href="./explorer.html" aria-current="page">Tous les matchs</a>
+      <a class="nav-cta" href="./dashboard.html">Le journal</a>
+    </nav>
   </div></header>
   <main id="contenu" class="page-shell explorer">
-    <header class="workspace-title"><h1>Tous les matchs analysés</h1><p>Les estimations du modèle avant filtrage, pas des conseils de pari</p></header>
-    <div class="explorer-tools"><label>Championnat <select id="league"><option value="">Tous</option></select></label><p id="coverage" role="status">Chargement des analyses</p></div>
-    <p class="explorer-note">Horaires de Paris · Fenêtre de trois jours · Statistiques de la saison, arrêtées avant la rencontre</p>
+    <header class="workspace-title"><p class="section-label">Analyse complète</p><h1>Tous les matchs</h1><p>Les probabilités du modèle et les données récentes de chaque équipe, avant le filtre des paris</p></header>
+    <div class="explorer-tools"><label><span>Championnat</span><select id="league"><option value="">Tous les championnats</option></select></label></div>
     <section id="matches" aria-label="Analyses des rencontres"></section>
-    <p class="explorer-note">Les buts attendus (xG) mesurent la qualité des occasions passées, pas les buts du match à venir</p>
-    <a class="button" href="./dashboard.html">Voir les paris retenus</a>
+    <footer class="explorer-footer">
+      <p>Les buts attendus (xG) mesurent la qualité des occasions créées lors des matchs précédents</p>
+      <a class="button" href="./dashboard.html">Voir les paris retenus</a>
+    </footer>
   </main>
-  <script src="./assets/explorer.js?v=3" defer></script>
+  <script src="./assets/explorer.js?v=7" defer></script>
 </body>
 </html>
