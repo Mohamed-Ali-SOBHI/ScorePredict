@@ -8,6 +8,7 @@ const dateFormat = new Intl.DateTimeFormat('fr-FR', {
   day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Paris'
 });
 let matches = [];
+let activeLeague = '';
 
 function teamStat(team, key) {
   if (!team) return null;
@@ -36,7 +37,7 @@ function detailTable(home, away) {
   const rows = [
     ['Matchs joués', 'played'], ['Forme récente', 'form'], ['Buts marqués / match', 'goals'],
     ['Buts encaissés / match', 'conceded'], ['Occasions créées (xG)', 'xg'],
-    ['Occasions concédées (xG)', 'xga'], ['Tirs / match', 'shots'], ['Points attendus / match', 'xpoints']
+    ['Occasions concédées (xG)', 'xga'], ['Points attendus / match', 'xpoints']
   ];
   const body = rows.map(([label, key]) => {
     const homeValue = key === 'form' ? formTokens(teamStat(home, key)) : number(teamStat(home, key));
@@ -46,7 +47,7 @@ function detailTable(home, away) {
   const homeDate = home && home.asOf ? escape(home.asOf) : 'indisponible';
   const awayDate = away && away.asOf ? escape(away.asOf) : 'indisponible';
   return '<div class="detail-panel"><div class="detail-heading"><strong>Comparaison complète</strong>'
-    + '<span>8 indicateurs de la saison en cours</span></div><table class="team-comparison">'
+    + '<span>7 indicateurs de la saison en cours</span></div><table class="team-comparison">'
     + '<thead><tr><th scope="col">Cette saison</th><th scope="col">' + escape(home ? home.name : '')
     + '</th><th scope="col">' + escape(away ? away.name : '') + '</th></tr></thead>'
     + '<tbody>' + body + '</tbody></table>'
@@ -82,11 +83,9 @@ function showLoading() {
 }
 
 function render() {
-  const leagueElement = document.getElementById('league');
   const matchesElement = document.getElementById('matches');
-  if (!leagueElement || !matchesElement) return;
-  const league = leagueElement.value;
-  const visible = matches.filter(match => !league || match.league === league);
+  if (!matchesElement) return;
+  const visible = matches.filter(match => !activeLeague || match.league === activeLeague);
   if (!visible.length) {
     matchesElement.innerHTML = '<div class="empty-state"><strong>Aucune analyse récente</strong>'
       + '<p>Pas de match analysé dans cette fenêtre de dates</p></div>';
@@ -122,23 +121,42 @@ async function load() {
     } else {
       matches = [];
     }
-    const leagueSelect = document.getElementById('league');
-    if (leagueSelect) {
-      leagueSelect.length = 1;
+    const leagueFilters = document.getElementById('leagueFilters');
+    if (leagueFilters) {
       const leagueMap = {};
       matches.forEach(match => { leagueMap[match.league] = match.leagueLabel; });
       Object.entries(leagueMap).sort((left, right) => left[1].localeCompare(right[1], 'fr'))
-        .forEach(([value, label]) => leagueSelect.add(new Option(label, value)));
+        .forEach(([value, label]) => {
+          const button = document.createElement('button');
+          button.className = 'league-filter-button';
+          button.type = 'button';
+          button.dataset.league = value;
+          button.setAttribute('aria-pressed', 'false');
+          button.textContent = label;
+          leagueFilters.appendChild(button);
+        });
     }
     render();
   } catch (error) {
     console.error('Explorer load error:', error);
+    const matchesElement = document.getElementById('matches');
     if (matchesElement) matchesElement.innerHTML = '<div class="empty-state"><strong>Chargement impossible</strong>'
       + '<p>Les analyses seront affichées dès la prochaine mise à jour</p></div>';
   }
 }
 
 document.addEventListener('click', event => {
+  const leagueButton = event.target.closest('.league-filter-button');
+  if (leagueButton) {
+    activeLeague = leagueButton.dataset.league || '';
+    document.querySelectorAll('.league-filter-button').forEach(button => {
+      const isActive = button === leagueButton;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-pressed', String(isActive));
+    });
+    render();
+    return;
+  }
   const button = event.target.closest('.detail-toggle');
   if (!button) return;
   const detail = document.getElementById(button.dataset.detail);
@@ -150,6 +168,4 @@ document.addEventListener('click', event => {
   if (icon) icon.textContent = willOpen ? '×' : '+';
 });
 
-const leagueSelect = document.getElementById('league');
-if (leagueSelect) leagueSelect.addEventListener('change', render);
 load();

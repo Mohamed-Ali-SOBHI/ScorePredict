@@ -1,0 +1,85 @@
+/* Shared orientation across all three pages */
+.global-header {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: rgba(244, 246, 241, .95);
+  border-bottom: 1px solid #d8ded8;
+  backdrop-filter: blur(12px);
+}
+.global-header-inner {
+  width: min(1200px, calc(100% - 48px));
+  margin-inline: auto;
+  min-height: 76px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 24px;
+}
+.global-header .brand { justify-self: start; }
+.global-nav {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+.global-nav a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 8px 0;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: #667069;
+  transition: color .18s ease;
+}
+.global-nav a::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 3px;
+  left: 0;
+  height: 1px;
+  background: #0b4a2c;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .18s ease;
+}
+.global-nav a:hover { color: #0b4a2c; }
+.global-nav a:hover::after { transform: scaleX(1); transform-origin: left; }
+.global-nav a[aria-current="page"] {
+  color: #0b4a2c;
+  font-weight: 750;
+}
+.global-nav a[aria-current="page"]::after { transform: scaleX(1); }
+.global-nav a:focus-visible { outline: 2px solid #1f8f5b; outline-offset: 3px; }
+.nav-label-short { display: none; }
+body section[id], .journal-dashboard #suivi { scroll-margin-top: 96px; }
+@media (max-width: 900px) {
+  .global-header-inner { gap: 20px; }
+  .global-nav { gap: 20px; }
+}
+@media (max-width: 600px) {
+  .global-header-inner {
+    width: calc(100% - 24px);
+    min-height: 64px;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 12px;
+    padding: 0;
+  }
+  .global-header .brand { justify-self: start; }
+  .global-header .logo-window-header,
+  .global-header .brand-logo-header { width: 104px; height: 34px; }
+  .global-nav { min-width: 0; justify-self: end; gap: clamp(12px, 4vw, 18px); }
+  .global-nav a { padding: 8px 0; min-height: 44px; font-size: 11.5px; }
+  .nav-label-full { display: none; }
+  .nav-label-short { display: inline; }
+  body section[id], .journal-dashboard #suivi { scroll-margin-top: 82px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .global-nav a,
+  .global-nav a::after { transition: none; }
+}
