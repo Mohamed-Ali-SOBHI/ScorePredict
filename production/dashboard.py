@@ -282,7 +282,7 @@ class DashboardService:
                     row.get("team_name", ""),
                     row.get("opponent_name", ""),
                 )
-                for row in upcoming_all
+                for row in explorer_rows
                 if row.get("team_name")
             }
         )

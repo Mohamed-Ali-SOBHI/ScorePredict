@@ -231,6 +231,31 @@ class DashboardServiceTests(unittest.TestCase):
         self.assertEqual(payload["summary"]["upcomingBets"], 0)
         self.assertEqual(payload["predictions"], [])
 
+    def test_scored_fixture_count_uses_the_all_match_export(self) -> None:
+        write_csv(
+            self.root / "inference/output/upcoming_explorer_predictions.csv",
+            [
+                {
+                    "portfolio_name": DEFAULT_PORTFOLIO_NAME,
+                    "date": (datetime.now(timezone.utc) + timedelta(days=1)).isoformat(),
+                    "league": "La_liga",
+                    "team_name": "Rayo Vallecano",
+                    "opponent_name": "Espanyol",
+                },
+                {
+                    "portfolio_name": DEFAULT_PORTFOLIO_NAME,
+                    "date": (datetime.now(timezone.utc) + timedelta(days=2)).isoformat(),
+                    "league": "La_liga",
+                    "team_name": "Barcelona",
+                    "opponent_name": "Racing Santander",
+                },
+            ],
+        )
+
+        payload = DashboardService(self.root, ttl_seconds=0).get_dashboard()
+
+        self.assertEqual(payload["summary"]["scoredFixtures"], 2)
+
     def test_uses_static_snapshot_when_sources_are_absent(self) -> None:
         empty_root = self.root / "empty"
         write_json(empty_root / "production/static/data/dashboard.json", {"meta": {"status": "attention"}})
