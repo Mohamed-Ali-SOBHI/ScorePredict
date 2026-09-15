@@ -212,10 +212,16 @@ function followedMatchMarkup(match) {
   </article>`;
 }
 
-function resetNoPickCopy() {
-  setText(".no-pick .section-label", "Décision enregistrée");
-  setText(".no-pick strong", "Aucun match retenu pour le moment.");
-  setText(".no-pick > p:last-child", "Les prochains choix apparaîtront ici.");
+function resetNoPickCopy(data) {
+  const examined = numberOrNull(data?.summary?.scoredFixtures);
+  setText(".no-pick-kicker", "Analyse terminée");
+  setText(
+    ".no-pick-label",
+    examined === null
+      ? "Aucun pari retenu"
+      : `${integer.format(examined)} matchs analysés · aucun choix publié`,
+  );
+  setText(".no-pick-copy", "Aucune rencontre n'a validé tous les critères");
   $("#no-pick")?.classList.remove("error-state");
 }
 
@@ -226,12 +232,12 @@ function renderPredictions(data) {
     const hasPredictions = predictions.length > 0;
     holder.hidden = !hasPredictions;
     $("#no-pick").hidden = hasPredictions;
-    resetNoPickCopy();
+    resetNoPickCopy(data);
     const awaitingResult = (data.activity || []).some(row => row.recommended === true && !terminalResult(row) && new Date(row.date).getTime() <= Date.now());
     if (!hasPredictions && awaitingResult) {
-      setText(".no-pick .section-label", "Le suivi continue");
-      setText(".no-pick strong", "Aucun autre match à venir.");
-      setText(".no-pick > p:last-child", "Les rencontres déjà commencées restent dans les résultats ci-dessous.");
+      setText(".no-pick-kicker", "Le suivi continue");
+      setText(".no-pick-label", "Aucun autre pari à venir");
+      setText(".no-pick-copy", "Les rencontres déjà commencées restent dans les résultats ci-dessous");
     }
     const markup = predictions.map((prediction) => predictionMarkup(prediction)).join("");
     if (holder.dataset.markup !== markup) {
@@ -735,9 +741,9 @@ function renderDashboard(data) {
         predictions: [],
       };
       renderPredictions(withoutCurrentDecision);
-      setText(".no-pick .section-label", ready ? "Publication à actualiser" : "Préparation en cours");
-      setText(".no-pick strong", ready ? "Aucun choix à venir dans la dernière publication." : "Aucun choix n'est encore disponible.");
-      setText(".no-pick > p:last-child", "Le tableau de bord réessaie automatiquement et affichera la prochaine décision confirmée.");
+      setText(".no-pick-kicker", ready ? "Publication à actualiser" : "Préparation en cours");
+      setText(".no-pick-label", ready ? "Aucun pari à venir" : "Aucun pari disponible");
+      setText(".no-pick-copy", "Le tableau de bord réessaie automatiquement et affichera la prochaine décision confirmée");
       $("#load-error").textContent = ready
         ? "La dernière publication a plus de 24 heures et ne contient plus de match à venir."
         : "Les données du jour sont encore en préparation. Aucun choix n'est présenté avant leur validation.";
@@ -756,9 +762,9 @@ function renderLoadError() {
     $("#pick-list").hidden = true;
     $("#no-pick").hidden = false;
     $("#no-pick")?.classList.add("error-state");
-    setText(".no-pick .section-label", "Données non confirmées");
-    setText(".no-pick strong", "La décision du jour est indisponible.");
-    setText(".no-pick > p:last-child", "Aucun ancien choix n'est présenté comme actuel. Une nouvelle tentative aura lieu automatiquement.");
+    setText(".no-pick-kicker", "Données non confirmées");
+    setText(".no-pick-label", "Les choix publiés sont indisponibles");
+    setText(".no-pick-copy", "Aucun ancien choix n'est présenté comme actuel et une nouvelle tentative aura lieu automatiquement");
   } catch (e) {
     console.error("renderLoadError error:", e);
   }

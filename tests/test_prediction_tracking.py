@@ -29,11 +29,35 @@ from inference.predict_upcoming_portfolio import (
     score_explorer_rows,
     write_exports,
 )
-from inference.upcoming_portfolio_strategy import ModelBundle
+from inference.upcoming_portfolio_strategy import (
+    ModelBundle,
+    dedupe_recommended_bets,
+    score_strategy_rows,
+)
 from inference.track_published_predictions import published_rows
 
 
 class PredictionTrackingTests(unittest.TestCase):
+    def test_window_without_a_supported_betting_league_publishes_zero_bets(self) -> None:
+        strategy = FrozenStrategy(
+            name="epl_only",
+            train_league="",
+            bet_league="EPL",
+            outcome="draw",
+            odds_min=2.0,
+            odds_max=10.0,
+            market_favorite_mode="nonfavorite",
+            threshold=0.1,
+            edge_min=0.04,
+            params={},
+        )
+        future = pd.DataFrame({"league": ["La_liga"]})
+        scored = score_strategy_rows(future, {strategy.name: object()}, [strategy])
+        bets = dedupe_recommended_bets(scored)
+
+        self.assertTrue(scored.empty)
+        self.assertTrue(bets.empty)
+
     def test_explorer_scores_missing_leagues_with_the_pooled_model(self) -> None:
         class FixedModel:
             def __init__(self, probabilities):

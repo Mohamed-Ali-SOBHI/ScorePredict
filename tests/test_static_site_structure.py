@@ -86,7 +86,7 @@ class StaticSiteStructureTests(unittest.TestCase):
         }
         for element_id in required_ids:
             self.assertIn(f'id="{element_id}"', dashboard)
-        self.assertIn('src="./assets/app.js?v=45"', dashboard)
+        self.assertIn('src="./assets/app.js?v=46"', dashboard)
         self.assertNotIn('id="archived-decisions"', dashboard)
         self.assertNotIn('id="archived-list"', dashboard)
         self.assertIn('href="./assets/styles.css?v=34"', dashboard)
@@ -129,6 +129,16 @@ class StaticSiteStructureTests(unittest.TestCase):
         self.assertIn("<small>vs</small>", landing)
         self.assertIn('class="versus">vs</span>', explorer)
         self.assertNotIn("${escape(m.homeTeam)} — ${escape(m.awayTeam)}", explorer)
+
+    def test_retained_bets_remain_the_primary_header_action(self) -> None:
+        navigation = (STATIC / "assets" / "navigation.css").read_text(encoding="utf-8")
+        for name in {"index.html", "dashboard.html", "explorer.html"}:
+            page = (STATIC / name).read_text(encoding="utf-8")
+            self.assertIn('class="global-nav-cta" href="./dashboard.html"', page)
+            self.assertIn('href="./assets/navigation.css?v=5"', page)
+            nav = page[page.index('<nav class="global-nav"'):page.index("</nav>", page.index('<nav class="global-nav"'))]
+            self.assertGreater(nav.index('class="global-nav-cta"'), nav.index('href="./explorer.html"'))
+        self.assertIn(".global-nav a.global-nav-cta", navigation)
 
     def test_daily_workflow_has_a_second_automatic_run(self) -> None:
         workflow = (ROOT / ".github" / "workflows" / "daily-predictions.yml").read_text(encoding="utf-8")

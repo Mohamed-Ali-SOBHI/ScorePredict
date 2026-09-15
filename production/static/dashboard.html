@@ -11,8 +11,8 @@
   <title>Tableau de bord — ScorePredict</title>
   <link rel="icon" href="./assets/brand/scorepredict-mark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/styles.css?v=34">
-  <link rel="stylesheet" href="./assets/journal.css?v=10">
-  <link rel="stylesheet" href="./assets/navigation.css?v=4">
+  <link rel="stylesheet" href="./assets/journal.css?v=11">
+  <link rel="stylesheet" href="./assets/navigation.css?v=5">
 </head>
 <body class="journal-dashboard">
   <a class="skip-link" href="#contenu">Aller au contenu</a>
@@ -27,8 +27,8 @@
 
       <nav class="global-nav" aria-label="Navigation principale">
         <a href="./">Accueil</a>
-        <a href="./dashboard.html" aria-current="page"><span class="nav-label-full">Paris retenus</span><span class="nav-label-short">Paris</span></a>
         <a href="./explorer.html"><span class="nav-label-full">Tous les matchs</span><span class="nav-label-short">Matchs</span></a>
+        <a class="global-nav-cta" href="./dashboard.html" aria-current="page"><span class="nav-label-full">Paris retenus</span><span class="nav-label-short">Paris</span></a>
       </nav>
 
     </div>
@@ -56,8 +56,10 @@
 
             <div class="no-pick" id="no-pick" hidden>
               <div class="no-pick-state">
-                <span class="no-pick-label">Aucun pari retenu aujourd'hui</span>
-                <p>La discipline fait partie du processus. Les prochains choix apparaîtront ici</p>
+                <span class="no-pick-kicker">Analyse terminée</span>
+                <strong class="no-pick-label">Aucun pari retenu</strong>
+                <p class="no-pick-copy">Aucune rencontre n'a validé tous les critères</p>
+                <a class="no-pick-action" href="./explorer.html">Voir tous les matchs</a>
               </div>
             </div>
           </div>
@@ -233,6 +235,6 @@
     </div>
   </footer>
 
-  <script type="module" src="./assets/app.js?v=45"></script>
+  <script type="module" src="./assets/app.js?v=46"></script>
 </body>
 </html>

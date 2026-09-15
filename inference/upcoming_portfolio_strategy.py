@@ -590,6 +590,12 @@ def score_strategy_rows(
 
 
 def dedupe_recommended_bets(strategy_rows: pd.DataFrame) -> pd.DataFrame:
+    # A valid prediction window can contain fixtures only from leagues that have
+    # no betting rule in the active portfolio. In that case score_strategy_rows
+    # intentionally returns an empty frame without strategy columns: this means
+    # zero recommendations, not a failed publication.
+    if strategy_rows.empty or "recommended_bet" not in strategy_rows.columns:
+        return strategy_rows.iloc[0:0].copy()
     recommendations = strategy_rows[strategy_rows["recommended_bet"] != ""].copy()
     if recommendations.empty:
         return recommendations

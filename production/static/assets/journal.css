@@ -244,12 +244,15 @@
 .journal-dashboard .site-footer p { color: var(--muted); }
 .journal-dashboard .site-footer .brand-logo-window img { filter: none; mix-blend-mode: multiply; }
 .journal-dashboard .js [data-reveal], .js .journal-dashboard [data-reveal] { opacity: 1; transform: none; }
-.journal-dashboard .no-pick { background: transparent; border: 0; box-shadow: none; min-height: 112px; padding: 30px 0 18px; }
-.journal-dashboard .no-pick strong { font-size: 22px; font-weight: 500; }
-.journal-dashboard .no-pick p { max-width: 42ch; margin-inline: auto; }
-.journal-dashboard .no-pick-state { text-align: center; }
-.journal-dashboard .no-pick-label { display: block; font-size: 22px; font-weight: 500; color: var(--ink); margin-bottom: 12px; }
-.journal-dashboard .no-pick-state p { max-width: 42ch; margin: 0 auto; color: var(--muted); font-size: 14px; }
+.journal-dashboard .no-pick { background: transparent; border: 0; box-shadow: none; min-height: 250px; padding: 46px 0 30px; }
+.journal-dashboard .no-pick-state { display: grid; justify-items: center; max-width: 620px; margin: 0 auto; text-align: center; animation: no-pick-in .45s cubic-bezier(.22,1,.36,1) both; }
+.journal-dashboard .no-pick-kicker { margin-bottom: 14px; color: var(--field); font-size: 11px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+.journal-dashboard .no-pick-label { display: block; max-width: 20ch; color: var(--ink); font-size: clamp(28px,4vw,46px); font-weight: 700; letter-spacing: -.045em; line-height: 1.04; }
+.journal-dashboard .no-pick-copy { max-width: 42ch; margin: 18px auto 0; color: var(--muted); font-size: 16px; line-height: 1.55; }
+.journal-dashboard .no-pick-action { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; margin-top: 28px; padding: 10px 22px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 14px; font-weight: 700; text-decoration: none; transition: transform .2s ease, background-color .2s ease; }
+.journal-dashboard .no-pick-action:hover { transform: translateY(-2px); background: var(--field); }
+.journal-dashboard .no-pick-action:focus-visible { outline: 3px solid rgba(169,226,77,.7); outline-offset: 3px; }
+@keyframes no-pick-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .journal-dashboard .load-error { position: static; width: 100%; max-width: none; margin-top: 20px; padding: 12px 16px; border: 1px solid rgba(178,58,50,.25); border-radius: 10px; background: rgba(178,58,50,.08); color: #8f2f29; box-shadow: none; font-size: 13px; font-weight: 600; line-height: 1.45; }
 
 /* History section */
@@ -384,6 +387,7 @@
   .journal-dashboard .prediction:hover { transform: none; }
   .journal-dashboard .prediction-loading { animation: none; }
   .journal-dashboard .prediction-followed { animation: none; }
+  .journal-dashboard .no-pick-state { animation: none; }
 }
 
 /* One responsive system: no later rule reopens a layout closed above */
@@ -435,8 +439,10 @@
   .journal-dashboard .workspace-title h1 { font-size: 29px; }
   .journal-dashboard .window-caption { font-size: 13px; }
   .journal-dashboard .today-grid { display: block; margin-top: 24px; }
-  .journal-dashboard .no-pick { min-height: 96px; padding: 22px 0 10px; }
-  .journal-dashboard .no-pick-label { font-size: 19px; }
+  .journal-dashboard .no-pick { min-height: 220px; padding: 38px 0 24px; }
+  .journal-dashboard .no-pick-label { max-width: 17ch; font-size: clamp(27px,8vw,34px); }
+  .journal-dashboard .no-pick-copy { font-size: 15px; }
+  .journal-dashboard .no-pick-action { width: min(100%, 280px); }
   .journal-dashboard .pick-list { grid-template-columns: minmax(0,1fr); }
   .journal-dashboard .prediction { width: 100%; min-height: 405px; padding: 22px; margin: 0; }
   .journal-dashboard .prediction-head { font-size: 11px; }
