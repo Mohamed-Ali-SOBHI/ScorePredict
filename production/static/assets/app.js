@@ -395,19 +395,43 @@ function pathFromPoints(points) {
   return points.map((point, index) => `${index === 0 ? "M" : "L"}${point.x.toFixed(2)},${point.y.toFixed(2)}`).join(" ");
 }
 
+let displayedChartRows = [];
+
+function chartLayout(svg, desktopHeight) {
+  const width = Math.max(240, Math.min(960, svg.parentElement.clientWidth || 960));
+  const compact = width < 600;
+  const height = compact ? 220 : desktopHeight;
+  svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  return { width, height, compact };
+}
+
+function chartDateTicks(first, last, count, width, height, margin, compact) {
+  return Array.from({ length: first === last ? 1 : count }, (_, index) => {
+    const ratio = index / (count - 1);
+    const timestamp = first + (last - first) * ratio;
+    const x = margin.left + (width - margin.left - margin.right) * ratio;
+    const label = new Intl.DateTimeFormat("fr-FR", compact
+      ? { day: "numeric", month: "short", timeZone: MATCH_TIMEZONE }
+      : { month: "short", year: "2-digit", timeZone: MATCH_TIMEZONE }).format(new Date(timestamp));
+    const anchor = index === 0 ? "start" : index === count - 1 ? "end" : "middle";
+    return `<text class="chart-axis" x="${x}" y="${height - 10}" text-anchor="${anchor}">${escapeHtml(label)}</text>`;
+  }).join("");
+}
+
 function renderCumulativeChart(rows) {
   const svg = $("#cumulative-chart");
   const tooltip = $("#cumulative-tooltip");
   if (!svg) return;
+  const { width, height, compact } = chartLayout(svg, 360);
+  if (tooltip) tooltip.hidden = true;
+  svg.parentElement.classList.remove("is-hovered");
   const curve = usableCurve(rows);
   if (curve.length < 2) {
-    svg.innerHTML = '<text x="480" y="180" text-anchor="middle" class="chart-axis">La courbe apparaîtra après deux paris terminés cette saison.</text>';
+    svg.innerHTML = `<text x="${width / 2}" y="${height / 2}" text-anchor="middle" class="chart-axis"><tspan x="${width / 2}">La courbe apparaîtra après</tspan><tspan x="${width / 2}" dy="18">deux paris terminés cette saison.</tspan></text>`;
     return;
   }
 
-  const width = 960;
-  const height = 360;
-  const margin = { top: 18, right: 22, bottom: 42, left: 62 };
+  const margin = { top: 18, right: 12, bottom: 36, left: compact ? 42 : 62 };
   const timestamps = curve.map((row) => row.timestamp);
   const values = curve.map((row) => row.value);
   const rawMin = Math.min(0, ...values);
@@ -427,12 +451,7 @@ function renderCumulativeChart(rows) {
     const yValue = y(tick);
     return `<line class="chart-grid" x1="${margin.left}" x2="${width - margin.right}" y1="${yValue}" y2="${yValue}"></line><text class="chart-axis" x="${margin.left - 12}" y="${yValue + 4}" text-anchor="end">${escapeHtml(signed(tick, decimalOne))}</text>`;
   }).join("");
-  const xTickIndexes = [0, .25, .5, .75, 1].map((ratio) => Math.round((curve.length - 1) * ratio));
-  const xTicks = [...new Set(xTickIndexes)].map((index) => {
-    const point = points[index];
-    const label = new Intl.DateTimeFormat("fr-FR", { month: "short", year: "2-digit" }).format(new Date(point.timestamp));
-    return `<text class="chart-axis" x="${point.x}" y="${height - 10}" text-anchor="middle">${escapeHtml(label)}</text>`;
-  }).join("");
+  const xTicks = chartDateTicks(timestamps[0], timestamps.at(-1), compact ? 3 : 5, width, height, margin, compact);
 
   svg.innerHTML = `
     <title id="cumulative-chart-title">Évolution cumulée des résultats passés</title>
@@ -465,9 +484,12 @@ function renderCumulativeChart(rows) {
     focusDot.setAttribute("cx", nearest.x);
     focusDot.setAttribute("cy", nearest.y);
     tooltip.innerHTML = `${escapeHtml(formatChartDate(nearest.date))}<strong>${escapeHtml(signed(nearest.value))} mises</strong>`;
-    tooltip.style.left = `${(nearest.x / width) * 100}%`;
-    tooltip.style.top = `${(nearest.y / height) * 100}%`;
     tooltip.hidden = false;
+    const halfTooltip = tooltip.offsetWidth / 2;
+    const pointX = (nearest.x / width) * wrap.clientWidth;
+    tooltip.style.left = `${Math.max(halfTooltip, Math.min(wrap.clientWidth - halfTooltip, pointX))}px`;
+    const pointY = (nearest.y / height) * svg.getBoundingClientRect().height;
+    tooltip.style.top = `${Math.max(tooltip.offsetHeight + 14, pointY)}px`;
     wrap.classList.add("is-hovered");
     hitArea.setAttribute("aria-label", `${formatChartDate(nearest.date)}, ${signed(nearest.value)} mises. Flèches gauche et droite pour parcourir.`);
   };
@@ -485,6 +507,7 @@ function renderCumulativeChart(rows) {
     }
     showPoint(nearest);
   };
+  hitArea.addEventListener("pointerdown", handlePointer);
   hitArea.addEventListener("pointermove", handlePointer);
   hitArea.addEventListener("pointerleave", hidePoint);
   hitArea.addEventListener("focus", () => showPoint(points[keyboardIndex]));
@@ -503,15 +526,14 @@ function renderCumulativeChart(rows) {
 function renderDrawdownChart(rows) {
   const svg = $("#drawdown-chart");
   if (!svg) return;
+  const { width, height, compact } = chartLayout(svg, 260);
   const curve = usableCurve(rows).filter((row) => row.drawdown !== null);
   if (curve.length < 2) {
-    svg.innerHTML = '<text x="480" y="130" text-anchor="middle" class="chart-axis">Données de baisse indisponibles</text>';
+    svg.innerHTML = `<text x="${width / 2}" y="${height / 2}" text-anchor="middle" class="chart-axis">Données de baisse indisponibles</text>`;
     return;
   }
 
-  const width = 960;
-  const height = 260;
-  const margin = { top: 18, right: 22, bottom: 35, left: 62 };
+  const margin = { top: 18, right: 12, bottom: 35, left: compact ? 42 : 62 };
   const min = Math.min(...curve.map((row) => row.drawdown), -1) * 1.08;
   const max = 0;
   const x = (value) => scaleLinear(value, curve[0].timestamp, curve.at(-1).timestamp, margin.left, width - margin.right);
@@ -525,11 +547,7 @@ function renderDrawdownChart(rows) {
     const yValue = y(tick);
     return `<line class="chart-grid" x1="${margin.left}" x2="${width - margin.right}" y1="${yValue}" y2="${yValue}"></line><text class="chart-axis" x="${margin.left - 12}" y="${yValue + 4}" text-anchor="end">${escapeHtml(signed(tick, decimalOne))}</text>`;
   }).join("");
-  const xTickIndexes = [0, .33, .66, 1].map((ratio) => Math.round((curve.length - 1) * ratio));
-  const xTicks = [...new Set(xTickIndexes)].map((index) => {
-    const point = points[index];
-    return `<text class="chart-axis" x="${point.x}" y="${height - 8}" text-anchor="middle">${new Date(point.timestamp).getFullYear()}</text>`;
-  }).join("");
+  const xTicks = chartDateTicks(curve[0].timestamp, curve.at(-1).timestamp, compact ? 3 : 4, width, height, margin, compact);
 
   svg.innerHTML = `
     <title id="drawdown-chart-title">Baisses historiques depuis le meilleur niveau atteint</title>
@@ -729,8 +747,9 @@ function renderPerformance(data) {
     );
 
     const periods = performance.monthly || [];
-    renderCumulativeChart(performance.curve || []);
-    renderDrawdownChart(performance.curve || []);
+    displayedChartRows = performance.curve || [];
+    renderCumulativeChart(displayedChartRows);
+    renderDrawdownChart(displayedChartRows);
     renderPeriods(periods);
     renderPlausibleRange(metrics);
     renderLeagues(performance.leagues || []);
@@ -935,6 +954,22 @@ if (film && videoToggle) {
 setText("#current-year", String(new Date().getFullYear()));
 syncVideoControl();
 loadDashboard();
+if ("ResizeObserver" in window) {
+  const chartWidths = new WeakMap();
+  const chartObserver = new ResizeObserver((entries) => {
+    const changed = entries.map(({ target, contentRect }) => {
+      const width = Math.round(contentRect.width);
+      if (chartWidths.get(target) === width) return false;
+      chartWidths.set(target, width);
+      return true;
+    }).some(Boolean);
+    if (changed) {
+      renderCumulativeChart(displayedChartRows);
+      renderDrawdownChart(displayedChartRows);
+    }
+  });
+  $$("#cumulative-chart, #drawdown-chart").forEach(svg => chartObserver.observe(svg.parentElement));
+}
 setInterval(loadDashboard, 5 * 60 * 1000);
 // Update the kickoff state locally without an extra network poll or invented live score.
 setInterval(() => { if (latestDashboard) renderDashboard(latestDashboard); }, 30 * 1000);

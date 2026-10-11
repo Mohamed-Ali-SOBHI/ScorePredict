@@ -390,6 +390,7 @@
   .mini-probability i,
   .detail-panel,
   .loading-state::before { animation: none; }
+  .mini-probability i { transform: scaleX(1); }
   .detail-toggle,
   .league-filter-button,
   .explorer .button { transition: none; }

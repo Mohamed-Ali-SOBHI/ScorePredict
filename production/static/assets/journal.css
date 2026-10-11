@@ -282,7 +282,7 @@
 .chart-tooltip[hidden] { display: none; }
 .chart-grid { stroke: #f1f5f9; stroke-width: 1; vector-effect: non-scaling-stroke; }
 .chart-zero { stroke: #cbd5e1; stroke-width: 1; stroke-dasharray: 4 4; vector-effect: non-scaling-stroke; }
-.chart-axis { fill: var(--muted); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; }
+.chart-axis { fill: var(--muted); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; }
 .chart-line { fill: none; stroke: var(--field); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
 .chart-area { fill: url(#history-area); opacity: .7; }
 .chart-end { fill: var(--lime-detail); stroke: var(--forest); stroke-width: 2; vector-effect: non-scaling-stroke; }
