@@ -1,0 +1,45 @@
+/* Reuse the explorer table, with columns for the published betting journal. */
+#result-list .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+#result-list .history-month { margin: 28px 0 14px; }
+#result-list .history-month:first-child { margin-top: 0; }
+#result-list .dashboard-history-table > thead > tr > th:nth-child(1) { width: 12%; }
+#result-list .dashboard-history-table > thead > tr > th:nth-child(2) { width: 30%; }
+#result-list .dashboard-history-table > thead > tr > th:nth-child(3) { width: 16%; }
+#result-list .dashboard-history-table > thead > tr > th:nth-child(4) { width: 11%; text-align: left; }
+#result-list .dashboard-history-table > thead > tr > th:nth-child(5) { width: 8%; }
+#result-list .dashboard-history-table > thead > tr > th:nth-child(6) { width: 18%; }
+#result-list .dashboard-history-table > thead > tr > th:nth-child(7) { display: table-cell; width: 5%; }
+#result-list .result-row { display: table-row; padding: 0; border: 0; }
+#result-list .result-row > th,
+#result-list .result-row > td { padding: 21px 10px; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.2); vertical-align: middle; transition: background-color .2s ease; }
+#result-list .result-row:hover > * { background-color: rgba(255,255,255,.62); }
+#result-list .encounter-name { color: var(--ink); font-weight: 800; }
+#result-list .versus { color: var(--field); }
+#result-list .league-cell span { color: var(--forest); }
+#result-list .choice-cell { font-size: 12px; color: var(--muted); }
+#result-list .odds-cell { text-align: center; font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; }
+#result-list .result-verdict { text-align: center; }
+#result-list .result-verdict .final-score { font-size: 19px; line-height: 1.4; }
+#result-list .result-verdict b { display: block; text-align: center; font-size: 11px; line-height: 1.4; }
+#result-list .mobile-choice { display: none; }
+#result-list .published-details { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 20px; margin: 0; padding: 20px; }
+#result-list .published-details dt { color: var(--muted); font-size: 11px; }
+#result-list .published-details dd { margin: 8px 0 0; color: var(--ink); font-size: 18px; font-weight: 750; }
+#result-list .detail-toggle { min-width: 30px; }
+@media (max-width: 760px) {
+  #result-list .dashboard-history-table > thead > tr > th:nth-child(4),
+  #result-list .choice-cell { display: none; }
+  #result-list .dashboard-history-table > thead > tr > th:nth-child(2) { width: 51%; }
+  #result-list .dashboard-history-table > thead > tr > th:nth-child(5) { width: 12%; }
+  #result-list .dashboard-history-table > thead > tr > th:nth-child(6) { width: 27%; }
+  #result-list .dashboard-history-table > thead > tr > th:nth-child(7) { width: 10%; }
+  #result-list .result-row > th,
+  #result-list .result-row > td { padding: 17px 5px; }
+  #result-list .mobile-choice { display: block; margin-top: 7px; color: var(--field); font-size: 10px; font-weight: 650; }
+  #result-list .result-verdict .final-score { font-size: 17px; }
+  #result-list .result-verdict b { font-size: 10px; }
+  #result-list .published-details { grid-template-columns: repeat(2,minmax(0,1fr)); padding: 16px 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #result-list .result-row > * { transition: none; }
+}

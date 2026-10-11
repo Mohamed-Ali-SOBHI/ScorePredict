@@ -266,30 +266,58 @@ let historyFilter = "all";
 let historyLimit = 8;
 const terminalResult = (row) => ["won", "lost", "void"].includes(row.status);
 
-function resultMarkup(row) {
-  return `<div class="result-row">
-    <time datetime="${escapeHtml(row.date || "")}">${escapeHtml(formatDate(row.date, true))}</time>
-    <strong>${escapeHtml(row.homeTeam)} <span class="result-versus">vs</span> ${escapeHtml(row.awayTeam)}</strong>
-    <span>${escapeHtml(row.outcomeLabel || "Choix publié")}</span>
-    <div class="result-verdict">${row.actualScore ? `<strong class="final-score">${escapeHtml(row.actualScore)}</strong>` : ""}<b class="${row.status === "won" ? "won" : row.status === "lost" ? "lost" : ""}">${resultLabel(row.status, row.date)}</b></div>
-  </div>`;
+function resultMarkup(row, index = 0) {
+  const league = row.leagueLabel || row.league || "Championnat";
+  const choice = row.outcomeLabel || "Choix publié";
+  const odds = numberOrNull(row.odds);
+  const stake = numberOrNull(row.stakeEur);
+  const model = numberOrNull(row.modelProbability);
+  const profit = numberOrNull(row.profitUnits);
+  const detailId = `history-detail-${index}`;
+  return `<tr class="result-row">
+    <td class="league-cell"><span>${escapeHtml(league)}</span></td>
+    <th class="encounter-cell" scope="row"><span class="mobile-meta">${escapeHtml(league)} · ${escapeHtml(formatDate(row.date, true))}</span><span class="encounter-name">${escapeHtml(row.homeTeam)} <span class="versus">vs</span> ${escapeHtml(row.awayTeam)}</span><span class="mobile-choice">${escapeHtml(choice)}</span></th>
+    <td class="date-cell"><time datetime="${escapeHtml(row.date || "")}">${escapeHtml(formatDate(row.date, true))}</time></td>
+    <td class="choice-cell">${escapeHtml(choice)}</td>
+    <td class="odds-cell">${odds === null ? "—" : decimal.format(odds)}</td>
+    <td class="verdict-cell"><div class="result-verdict">${row.actualScore ? `<strong class="final-score">${escapeHtml(row.actualScore)}</strong>` : ""}<b class="${row.status === "won" ? "won" : row.status === "lost" ? "lost" : ""}">${escapeHtml(resultLabel(row.status, row.date))}</b></div></td>
+    <td class="action-cell"><button class="detail-toggle" type="button" aria-expanded="false" aria-controls="${detailId}" data-history-detail="${detailId}"><span aria-hidden="true">+</span><span class="sr-only">Détails du pari ${escapeHtml(row.homeTeam)} contre ${escapeHtml(row.awayTeam)}</span></button></td>
+  </tr><tr class="detail-row" id="${detailId}" hidden><td colspan="7"><div class="detail-panel"><div class="detail-heading"><strong>Décision publiée</strong><span>${escapeHtml(choice)}</span></div><dl class="published-details">
+    <div><dt>Cote publiée</dt><dd>${odds === null ? "—" : decimal.format(odds)}</dd></div>
+    <div><dt>Indice du modèle</dt><dd>${model === null ? "—" : percent.format(model)}</dd></div>
+    <div><dt>Mise indicative</dt><dd>${stake === null ? "—" : `${decimal.format(stake)} €`}</dd></div>
+    <div><dt>Résultat en mises</dt><dd>${terminalResult(row) && profit !== null ? signed(profit) : "—"}</dd></div>
+  </dl></div></td></tr>`;
 }
 
 function renderHistory() {
   const visible = historyRows.filter(row => historyFilter === "all" || (historyFilter === "settled" ? terminalResult(row) : !terminalResult(row) && new Date(row.date).getTime() > Date.now()));
   let month = '';
-  const markup = visible.slice(0, historyLimit).map(row => {
+  const tableHead = '<div class="match-table-wrap"><table class="match-table dashboard-history-table"><thead><tr><th scope="col">Championnat</th><th scope="col">Rencontre</th><th scope="col">Coup d’envoi</th><th scope="col">Choix publié</th><th scope="col">Cote</th><th scope="col">Résultat</th><th scope="col"><span class="sr-only">Détails du pari</span></th></tr></thead><tbody>';
+  const tableEnd = '</tbody></table></div>';
+  const markup = visible.slice(0, historyLimit).map((row, index) => {
     const date = new Date(row.date);
     const label = Number.isFinite(date.getTime()) ? new Intl.DateTimeFormat('fr-FR', {month:'long',year:'numeric',timeZone:MATCH_TIMEZONE}).format(date) : 'Date à confirmer';
-    const heading = label !== month ? `<h3 class="history-month">${escapeHtml(label)}</h3>` : '';
+    const heading = label !== month ? `${month ? tableEnd : ''}<h3 class="history-month">${escapeHtml(label)}</h3>${tableHead}` : '';
     month = label;
-    return heading + resultMarkup(row);
-  }).join('');
+    return heading + resultMarkup(row, index);
+  }).join('') + (month ? tableEnd : '');
   $("#result-list").innerHTML = markup || '<p class="empty-results">Aucune décision dans cette catégorie pour le moment.</p>';
   $("#history-more").hidden = visible.length <= historyLimit;
 }
 
 $("#history-more")?.addEventListener('click', () => { historyLimit += 8; renderHistory(); });
+
+$("#result-list")?.addEventListener('click', event => {
+  const button = event.target.closest('[data-history-detail]');
+  if (!button) return;
+  const detail = document.getElementById(button.dataset.historyDetail);
+  if (!detail) return;
+  const willOpen = detail.hidden;
+  detail.hidden = !willOpen;
+  button.setAttribute('aria-expanded', String(willOpen));
+  button.querySelector('[aria-hidden="true"]').textContent = willOpen ? '×' : '+';
+});
 
 document.querySelectorAll("[data-history-filter]").forEach(button => button.addEventListener("click", () => {
   historyFilter = button.dataset.historyFilter;

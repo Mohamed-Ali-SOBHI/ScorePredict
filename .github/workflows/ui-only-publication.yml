@@ -1,0 +1,71 @@
+name: Publier uniquement l'interface
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: scorepredict-pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    name: Preparer l'interface et conserver les donnees publiees
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+      - name: Verifier les comportements du dashboard
+        run: |
+          node --check production/static/assets/app.js
+          node tests/test_dashboard_client.cjs
+      - name: Conserver exactement les donnees actuellement en ligne
+        run: |
+          mkdir -p "${RUNNER_TEMP}/published-data"
+          for name in dashboard explorer; do
+            curl --fail --silent --show-error --retry 3 \
+              "https://mohamed-ali-sobhi.github.io/ScorePredict/data/${name}.json?ui_run=${GITHUB_RUN_ID}" \
+              --output "${RUNNER_TEMP}/published-data/${name}.json"
+            python3 -m json.tool "${RUNNER_TEMP}/published-data/${name}.json" > /dev/null
+            cp "${RUNNER_TEMP}/published-data/${name}.json" "production/static/data/${name}.json"
+          done
+      - name: Verifier que modeles et pronostics ne sont pas modifies
+        run: |
+          git diff --exit-code -- inference train Data production/server.py production/dashboard.py
+          cmp "${RUNNER_TEMP}/published-data/dashboard.json" production/static/data/dashboard.json
+          cmp "${RUNNER_TEMP}/published-data/explorer.json" production/static/data/explorer.json
+          sha256sum production/static/data/dashboard.json production/static/data/explorer.json
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: production/static
+  deploy:
+    name: Publier l'interface
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Attendre le service d'authentification GitHub
+        uses: actions/github-script@v8
+        with:
+          script: |
+            for (let attempt = 1; attempt <= 3; attempt++) {
+              try { await core.getIDToken(); break; }
+              catch (error) {
+                if (attempt === 3) throw error;
+                await new Promise(resolve => setTimeout(resolve, 10000));
+              }
+            }
+      - name: Publier sur GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
