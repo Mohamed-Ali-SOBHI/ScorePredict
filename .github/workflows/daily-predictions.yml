@@ -125,6 +125,22 @@ jobs:
         with:
           path: production/static
 
+      - name: Conserver les preuves des strategies comparees
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v5
+        with:
+          name: scorepredict-strategy-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            inference/output/live_portfolio_bet_log.csv
+            inference/output/live_portfolio_evaluation.csv
+            inference/output/live_portfolio_evaluation_summary.json
+            inference/output/sportytrader_upcoming_portfolio_odds.csv
+            inference/output/shadow/**/*.csv
+            inference/output/shadow/**/*.json
+            inference/releases/draw_pooled_2026_09_05/manifest.json
+          if-no-files-found: warn
+          retention-days: 90
+
       - name: Conserver les diagnostics en cas d'echec
         if: ${{ failure() || steps.shadows.outcome == 'failure' }}
         uses: actions/upload-artifact@v5
