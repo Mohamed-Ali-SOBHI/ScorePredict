@@ -10,14 +10,13 @@ param(
 )
 
 function Get-PredictionWindow {
-    $today = (Get-Date).Date
-    $predictionWindowDays = 3
-    return @{
-        DateFrom = $today.ToString("yyyy-MM-dd")
-        DateTo = $today.AddDays($predictionWindowDays - 1).ToString("yyyy-MM-dd")
-    }
+    $windowJson = & $PythonExe -m inference.prediction_window
+    if ($LASTEXITCODE -ne 0) { throw "La fenetre de 24 heures est invalide." }
+    return $windowJson | ConvertFrom-Json
 }
 
+if (-not $PythonExe) { $PythonExe = (Get-Command python -ErrorAction Stop).Source }
+$next24Hours = -not $DateFrom -and -not $DateTo
 if (-not $DateFrom -or -not $DateTo) {
     $window = Get-PredictionWindow
     if (-not $DateFrom) { $DateFrom = $window.DateFrom }
@@ -43,6 +42,7 @@ if ($PythonExe) {
 if ($RefreshRawData) {
     $argsList += "-RefreshRawData"
 }
+if ($next24Hours) { $argsList += "-Next24Hours" }
 
 powershell @argsList
 exit $LASTEXITCODE

@@ -100,7 +100,7 @@ class DashboardServiceTests(unittest.TestCase):
             self.root / "inference/output/upcoming_portfolio_bets.csv",
             [
                 {
-                    "date": (now + timedelta(days=2)).isoformat(),
+                    "date": (now + timedelta(hours=12)).isoformat(),
                     "league": "EPL",
                     "team_name": "Arsenal",
                     "opponent_name": "Liverpool",
@@ -121,7 +121,7 @@ class DashboardServiceTests(unittest.TestCase):
         )
         write_csv(
             self.root / "inference/output/upcoming_portfolio_predictions.csv",
-            [{"date": (now + timedelta(days=2)).isoformat(), "league": "EPL"}],
+            [{"date": (now + timedelta(hours=12)).isoformat(), "league": "EPL"}],
         )
 
     def tearDown(self) -> None:
@@ -139,8 +139,7 @@ class DashboardServiceTests(unittest.TestCase):
 
     def test_serializes_match_time_in_the_paris_timezone(self) -> None:
         rows = _read_for_test(self.root / "inference/output/upcoming_portfolio_bets.csv")
-        future_paris = (datetime.now(ZoneInfo("Europe/Paris")) + timedelta(days=2)).replace(
-            hour=16,
+        future_paris = (datetime.now(ZoneInfo("Europe/Paris")) + timedelta(hours=12)).replace(
             minute=0,
             second=0,
             microsecond=0,
@@ -217,7 +216,7 @@ class DashboardServiceTests(unittest.TestCase):
             self.root / "inference/output/upcoming_portfolio_predictions.csv",
             [
                 {
-                    "date": (datetime.now(timezone.utc) + timedelta(days=2)).isoformat(),
+                    "date": (datetime.now(timezone.utc) + timedelta(hours=12)).isoformat(),
                     "league": "EPL",
                     "team_name": "Arsenal",
                     "opponent_name": "Liverpool",
@@ -244,7 +243,7 @@ class DashboardServiceTests(unittest.TestCase):
                 },
                 {
                     "portfolio_name": DEFAULT_PORTFOLIO_NAME,
-                    "date": (datetime.now(timezone.utc) + timedelta(days=2)).isoformat(),
+                    "date": (datetime.now(timezone.utc) + timedelta(hours=12)).isoformat(),
                     "league": "La_liga",
                     "team_name": "Barcelona",
                     "opponent_name": "Racing Santander",
@@ -294,7 +293,7 @@ class DashboardServiceTests(unittest.TestCase):
         self.assertEqual(activity[0]["status"], "won")
         self.assertEqual(activity[0]["actualScore"], "1 - 1")
 
-    def test_keeps_published_bets_visible_only_inside_the_three_day_window(self) -> None:
+    def test_keeps_published_bets_visible_only_inside_the_24_hour_window(self) -> None:
         now = datetime.now(timezone.utc)
         write_json(
             self.root / "inference/output/live_portfolio_evaluation_summary.json",
@@ -306,7 +305,7 @@ class DashboardServiceTests(unittest.TestCase):
                 {
                     "snapshot_key": "older-published-bet",
                     "portfolio_name": DEFAULT_PORTFOLIO_NAME,
-                    "date": (now + timedelta(days=1)).isoformat(),
+                    "date": (now + timedelta(hours=6)).isoformat(),
                     "league": "EPL",
                     "team_name": "Hull",
                     "opponent_name": "Manchester United",

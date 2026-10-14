@@ -25,11 +25,13 @@ vm.runInContext(`
   ${section('function currentSeasonData(', 'function renderPerformance(')}
 `, context);
 const evaluate = code => vm.runInContext(code, context);
-assert.equal(evaluate(`inPublicWindow('2026-10-27T22:59:00Z', Date.parse('2026-10-24T22:30:00Z'))`), true);
-assert.equal(evaluate(`inPublicWindow('2026-10-27T23:00:00Z', Date.parse('2026-10-24T22:30:00Z'))`), false);
+assert.equal(evaluate(`inPublicWindow('2026-10-25T22:29:59Z', Date.parse('2026-10-24T22:30:00Z'))`), true);
+assert.equal(evaluate(`inPublicWindow('2026-10-25T22:30:00Z', Date.parse('2026-10-24T22:30:00Z'))`), false);
+assert.equal(evaluate(`inPublicWindow('2026-03-29T23:29:59Z', Date.parse('2026-03-28T23:30:00Z'))`), true);
+assert.equal(evaluate(`inPublicWindow('2026-03-29T23:30:00Z', Date.parse('2026-03-28T23:30:00Z'))`), false);
 assert.equal(evaluate(`inPublicWindow('invalid')`), false);
 evaluate(`
-  const base=Date.now();
+  const base=Date.now()+3600000;
   const activity=[0,5,6,6,6].map((days,i)=>({id:String(i),date:new Date(base+days*86400000).toISOString(),recommended:true,status:'pending',homeTeam:'Home',awayTeam:'Away',outcomeLabel:'Match nul'}));
   const fixture={activity,summary:{},tracking:{pending:5,verified:0},performance:{live:{}}};
   renderTracking(fixture);
@@ -53,7 +55,7 @@ evaluate(`historyFilter='settled'; renderHistory();`);
 assert.match(node('#result-list').innerHTML, /Gagné/);
 evaluate(`
   fixture.activity.push({id:'past',date:new Date(base-7*86400000).toISOString(),recommended:true,status:'pending',homeTeam:'Past',awayTeam:'Match'});
-  fixture.activity.push({id:'tomorrow',date:new Date(base+86400000).toISOString(),recommended:true,status:'pending',homeTeam:'Tomorrow',awayTeam:'Match'});
+  fixture.activity.push({id:'tomorrow',date:new Date(base+43200000).toISOString(),recommended:true,status:'pending',homeTeam:'Tomorrow',awayTeam:'Match'});
   historyFilter='all'; renderTracking(fixture);
 `);
 assert.match(node('#result-list').innerHTML, /Past/);

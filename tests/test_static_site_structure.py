@@ -86,7 +86,7 @@ class StaticSiteStructureTests(unittest.TestCase):
         }
         for element_id in required_ids:
             self.assertIn(f'id="{element_id}"', dashboard)
-        self.assertIn('src="./assets/app.js?v=46"', dashboard)
+        self.assertRegex(dashboard, r'<script\b[^>]*\btype="module"[^>]*\bsrc="\./assets/app\.js\?v=[^"\s]+"')
         self.assertNotIn('id="archived-decisions"', dashboard)
         self.assertNotIn('id="archived-list"', dashboard)
         self.assertIn('href="./assets/styles.css?v=34"', dashboard)
@@ -105,7 +105,7 @@ class StaticSiteStructureTests(unittest.TestCase):
         self.assertIn("futurePublishedPredictions", script)
         self.assertIn("kickoff > now", script)
         self.assertIn('<span>vs</span>', script)
-        self.assertIn('class="result-versus">vs</span>', script)
+        self.assertIn('class="versus">vs</span>', script)
         self.assertNotIn('class="result-versus">—</span>', script)
         self.assertIn("sans supposer de nouveau résultat", script)
         for removed_copy in {
@@ -158,13 +158,17 @@ class StaticSiteStructureTests(unittest.TestCase):
         self.assertIn('--leagues "EPL,Bundesliga,Serie_A,Ligue_1,La_liga"', pipeline)
         self.assertNotIn("--portfolio $Portfolio `\n            --allow-partial-leagues", pipeline)
 
-    def test_default_prediction_window_covers_exactly_three_calendar_days(self) -> None:
+    def test_default_prediction_window_uses_shared_rolling_day(self) -> None:
         runner = (ROOT / "inference" / "run_weekend_predictions.ps1").read_text(
             encoding="utf-8"
         )
-        self.assertIn("$predictionWindowDays = 3", runner)
-        self.assertIn("AddDays($predictionWindowDays - 1)", runner)
+        self.assertIn("-m inference.prediction_window", runner)
+        self.assertIn('$argsList += "-Next24Hours"', runner)
         self.assertNotIn("AddDays(21)", runner)
+
+    def test_ui_publication_checks_the_static_application_contract(self) -> None:
+        workflow = (ROOT / ".github/workflows/ui-only-publication.yml").read_text(encoding="utf-8")
+        self.assertIn('python3 -m unittest discover -s tests -p "test_static_site_structure.py"', workflow)
 
 
 if __name__ == "__main__":

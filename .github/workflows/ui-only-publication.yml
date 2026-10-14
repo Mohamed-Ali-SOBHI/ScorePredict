@@ -24,6 +24,7 @@ jobs:
           node-version: "22"
       - name: Verifier les comportements du dashboard
         run: |
+          python3 -m unittest discover -s tests -p "test_static_site_structure.py"
           node --check production/static/assets/app.js
           node tests/test_dashboard_client.cjs
       - name: Conserver exactement les donnees actuellement en ligne

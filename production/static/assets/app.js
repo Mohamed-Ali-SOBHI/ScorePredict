@@ -55,9 +55,8 @@ function matchCards(data, now = Date.now()) {
 
 function inPublicWindow(value, now = Date.now()) {
   if (!Number.isFinite(new Date(value).getTime())) return false;
-  const today = Date.parse(`${parisDay(now)}T00:00:00Z`);
-  const day = Date.parse(`${parisDay(value)}T00:00:00Z`);
-  return day >= today && day < today + 3 * 86400000;
+  const kickoff = new Date(value).getTime();
+  return kickoff >= now && kickoff < now + 86400000;
 }
 
 function validText(value) {

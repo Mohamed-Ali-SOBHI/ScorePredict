@@ -112,11 +112,11 @@ async function load() {
     if (!response.ok) throw new Error('Chargement impossible');
     const data = await response.json();
     const age = Date.now() - new Date(data.meta ? data.meta.latestPredictionAt : 0).getTime();
-    const end = new Date(parisDay(Date.now()) + 'T00:00:00Z');
-    end.setUTCDate(end.getUTCDate() + 3);
+    const now = Date.now();
+    const end = now + 86400000;
     if (data.meta && data.meta.status !== 'blocked' && age >= 0 && age < 86400000 && data.explorer) {
       matches = data.explorer.matches.filter(match => (
-        new Date(match.date).getTime() > Date.now() && parisDay(match.date) < end.toISOString().slice(0, 10)
+        new Date(match.date).getTime() > now && new Date(match.date).getTime() < end
       ));
     } else {
       matches = [];

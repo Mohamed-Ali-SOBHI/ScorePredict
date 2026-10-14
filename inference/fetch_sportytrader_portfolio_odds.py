@@ -1,4 +1,5 @@
 import argparse
+from datetime import datetime, timezone
 import sys
 from pathlib import Path
 
@@ -12,6 +13,7 @@ if str(REPO_ROOT) not in sys.path:
 
 from inference.portfolio_presets import DEFAULT_PORTFOLIO_NAME, PORTFOLIO_PRESETS
 from inference.sportytrader_client import fetch_upcoming_fixtures_for_leagues
+from inference.prediction_window import collection_dates, in_prediction_window
 
 
 DEFAULT_OUTPUT = SCRIPT_DIR / "output" / "sportytrader_upcoming_portfolio_odds.csv"
@@ -19,8 +21,9 @@ DEFAULT_OUTPUT = SCRIPT_DIR / "output" / "sportytrader_upcoming_portfolio_odds.c
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--date-from", required=True, help="Inclusive start date, YYYY-MM-DD")
-    parser.add_argument("--date-to", required=True, help="Inclusive end date, YYYY-MM-DD")
+    parser.add_argument("--date-from", help="Inclusive start date, YYYY-MM-DD")
+    parser.add_argument("--date-to", help="Inclusive end date, YYYY-MM-DD")
+    parser.add_argument("--next-24-hours", action="store_true", help="Collect fresh quotes only for upcoming kickoffs within one rolling day.")
     parser.add_argument("--portfolio", default=DEFAULT_PORTFOLIO_NAME)
     parser.add_argument("--leagues", default="")
     parser.add_argument("--output", default=str(DEFAULT_OUTPUT))
@@ -31,7 +34,10 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Keep successful leagues when a catalog-only source is temporarily unavailable.",
     )
-    return parser.parse_args()
+    args = parser.parse_args()
+    if not args.next_24_hours and (not args.date_from or not args.date_to):
+        parser.error("Provide --next-24-hours or both --date-from and --date-to")
+    return args
 
 
 def resolve_path(path: str) -> Path:
@@ -54,6 +60,8 @@ def get_leagues(args: argparse.Namespace) -> list[str]:
 
 def main() -> None:
     args = parse_args()
+    if args.next_24_hours:
+        args.date_from, args.date_to = collection_dates(datetime.now(timezone.utc))
     date_from = pd.Timestamp(args.date_from)
     date_to = pd.Timestamp(args.date_to)
     if date_to < date_from:
@@ -68,6 +76,10 @@ def main() -> None:
         timeout_seconds=args.timeout_seconds,
         allow_partial=args.allow_partial_leagues,
     )
+
+    if args.next_24_hours and not fixtures.empty:
+        now = datetime.now(timezone.utc)
+        fixtures = fixtures[fixtures["date"].map(lambda value: in_prediction_window(value, now))].reset_index(drop=True)
 
     output_path = resolve_path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)

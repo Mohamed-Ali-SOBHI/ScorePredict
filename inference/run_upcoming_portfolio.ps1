@@ -10,7 +10,8 @@ param(
     [string]$TrackingLedger = ".\\inference\\output\\live_portfolio_bet_log.csv",
     [string]$ModelCacheDir = ".\\inference\\model_cache",
     [switch]$RetrainModels,
-    [switch]$RefreshRawData
+    [switch]$RefreshRawData,
+    [switch]$Next24Hours
 )
 
 function Assert-LastExitCode([string]$StepName) {
@@ -85,13 +86,15 @@ try {
     }
 
     if (-not $FixturesCsv) {
+        $windowArgs = @()
+        if ($Next24Hours) { $windowArgs += "--next-24-hours" }
         $FixturesCsv = ".\\inference\\output\\sportytrader_upcoming_portfolio_odds.csv"
         & $PythonExe .\inference\fetch_sportytrader_portfolio_odds.py `
             --date-from $DateFrom `
             --date-to $DateTo `
             --leagues "EPL,Bundesliga,Serie_A,Ligue_1,La_liga" `
             --allow-partial-leagues `
-            --output $FixturesCsv
+            --output $FixturesCsv @windowArgs
         Assert-LastExitCode "fetch_sportytrader_portfolio_odds.py"
     }
 
