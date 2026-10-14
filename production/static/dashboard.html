@@ -11,7 +11,7 @@
   <title>Tableau de bord — ScorePredict</title>
   <link rel="icon" href="./assets/brand/scorepredict-mark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/styles.css?v=34">
-  <link rel="stylesheet" href="./assets/journal.css?v=12">
+  <link rel="stylesheet" href="./assets/journal.css?v=13">
   <link rel="stylesheet" href="./assets/explorer.css?v=9">
   <link rel="stylesheet" href="./assets/dashboard-table.css?v=1">
   <link rel="stylesheet" href="./assets/navigation.css?v=5">
@@ -56,14 +56,16 @@
               </article>
             </div>
 
-            <div class="no-pick" id="no-pick" hidden>
+            <article class="prediction no-pick" id="no-pick" aria-live="polite" hidden>
+              <div class="prediction-head"><span class="prediction-league"><i aria-hidden="true"></i>Prochaines 24 heures</span></div>
+              <div class="prediction-pitch" aria-hidden="true"><i></i></div>
               <div class="no-pick-state">
                 <span class="no-pick-kicker">Analyse terminée</span>
-                <strong class="no-pick-label">Aucun pari retenu</strong>
-                <p class="no-pick-copy">Aucune rencontre n'a validé tous les critères</p>
+                <strong class="no-pick-label">0 match retenu</strong>
+                <p class="no-pick-copy">Aucun match à analyser dans les prochaines 24 heures.</p>
                 <a class="no-pick-action" href="./explorer.html">Voir tous les matchs</a>
               </div>
-            </div>
+            </article>
           </div>
         </div>
       </div>
@@ -237,6 +239,6 @@
     </div>
   </footer>
 
-  <script type="module" src="./assets/app.js?v=49"></script>
+  <script type="module" src="./assets/app.js?v=50"></script>
 </body>
 </html>

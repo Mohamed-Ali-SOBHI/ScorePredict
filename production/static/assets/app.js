@@ -214,13 +214,12 @@ function followedMatchMarkup(match) {
 function resetNoPickCopy(data) {
   const examined = numberOrNull(data?.summary?.scoredFixtures);
   setText(".no-pick-kicker", "Analyse terminée");
-  setText(
-    ".no-pick-label",
-    examined === null
-      ? "Aucun pari retenu"
-      : `${integer.format(examined)} matchs analysés · aucun choix publié`,
-  );
-  setText(".no-pick-copy", "Aucune rencontre n'a validé tous les critères");
+  setText(".no-pick-label", "0 match retenu");
+  setText(".no-pick-copy", examined === 0
+    ? "Aucun match à analyser dans les prochaines 24 heures."
+    : examined === null
+      ? "Aucune rencontre n'a validé tous les critères."
+      : `${integer.format(examined)} ${examined === 1 ? "match analysé" : "matchs analysés"}. Aucun ne remplit tous les critères.`);
   $("#no-pick")?.classList.remove("error-state");
 }
 

@@ -244,13 +244,14 @@
 .journal-dashboard .site-footer p { color: var(--muted); }
 .journal-dashboard .site-footer .brand-logo-window img { filter: none; mix-blend-mode: multiply; }
 .journal-dashboard .js [data-reveal], .js .journal-dashboard [data-reveal] { opacity: 1; transform: none; }
-.journal-dashboard .no-pick { background: transparent; border: 0; box-shadow: none; min-height: 250px; padding: 46px 0 30px; }
-.journal-dashboard .no-pick-state { display: grid; justify-items: center; max-width: 620px; margin: 0 auto; text-align: center; animation: no-pick-in .45s cubic-bezier(.22,1,.36,1) both; }
-.journal-dashboard .no-pick-kicker { margin-bottom: 14px; color: var(--field); font-size: 11px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
-.journal-dashboard .no-pick-label { display: block; max-width: 20ch; color: var(--ink); font-size: clamp(28px,4vw,46px); font-weight: 700; letter-spacing: -.045em; line-height: 1.04; }
-.journal-dashboard .no-pick-copy { max-width: 42ch; margin: 18px auto 0; color: var(--muted); font-size: 16px; line-height: 1.55; }
-.journal-dashboard .no-pick-action { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; margin-top: 28px; padding: 10px 22px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 14px; font-weight: 700; text-decoration: none; transition: transform .2s ease, background-color .2s ease; }
-.journal-dashboard .no-pick-action:hover { transform: translateY(-2px); background: var(--field); }
+.journal-dashboard .prediction.no-pick { width: min(100%, 400px); min-height: 470px; margin-inline: auto; align-items: stretch; justify-content: flex-start; text-align: center; }
+.journal-dashboard .no-pick .prediction-head { position: relative; z-index: 2; text-align: left; }
+.journal-dashboard .no-pick-state { position: relative; z-index: 2; display: flex; flex: 1; flex-direction: column; align-items: center; justify-content: center; width: 100%; padding-block: 34px 10px; animation: no-pick-in .45s cubic-bezier(.22,1,.36,1) both; }
+.journal-dashboard .no-pick-kicker { margin-bottom: 18px; color: var(--lime-detail); font-size: 11px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+.journal-dashboard .no-pick-label { display: block; max-width: 11ch; margin: 0; color: #fff; font-size: clamp(32px,4vw,42px); font-weight: 700; letter-spacing: -.045em; line-height: 1.08; }
+.journal-dashboard .no-pick-copy { max-width: 29ch; margin: 20px auto 0; color: rgba(255,255,255,.76); font-size: 15px; line-height: 1.6; }
+.journal-dashboard .no-pick-action { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; margin-top: 32px; padding: 10px 22px; border-radius: 999px; background: var(--paper); color: var(--deep); font-size: 14px; font-weight: 700; text-decoration: none; transition: transform .2s ease, background-color .2s ease; }
+.journal-dashboard .no-pick-action:hover { transform: translateY(-2px); background: var(--mint); }
 .journal-dashboard .no-pick-action:focus-visible { outline: 3px solid rgba(169,226,77,.7); outline-offset: 3px; }
 @keyframes no-pick-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .journal-dashboard .load-error { position: static; width: 100%; max-width: none; margin-top: 20px; padding: 12px 16px; border: 1px solid rgba(178,58,50,.25); border-radius: 10px; background: rgba(178,58,50,.08); color: #8f2f29; box-shadow: none; font-size: 13px; font-weight: 600; line-height: 1.45; }
@@ -439,8 +440,8 @@
   .journal-dashboard .workspace-title h1 { font-size: 29px; }
   .journal-dashboard .window-caption { font-size: 13px; }
   .journal-dashboard .today-grid { display: block; margin-top: 24px; }
-  .journal-dashboard .no-pick { min-height: 220px; padding: 38px 0 24px; }
-  .journal-dashboard .no-pick-label { max-width: 17ch; font-size: clamp(27px,8vw,34px); }
+  .journal-dashboard .prediction.no-pick { min-height: 405px; padding: 22px; margin-inline: auto; }
+  .journal-dashboard .no-pick-label { max-width: 11ch; font-size: clamp(30px,8vw,36px); }
   .journal-dashboard .no-pick-copy { font-size: 15px; }
   .journal-dashboard .no-pick-action { width: min(100%, 280px); }
   .journal-dashboard .pick-list { grid-template-columns: minmax(0,1fr); }
