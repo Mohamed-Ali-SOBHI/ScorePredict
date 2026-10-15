@@ -1,0 +1,14 @@
+{
+  "run_id": "20261015T074415287743Z",
+  "started_at_utc": "2026-10-15T07:44:15.287743+00:00",
+  "finished_at_utc": "2026-10-15T07:44:16.868452+00:00",
+  "state": "collected",
+  "production_snapshot_age_hours": 15.918019014444445,
+  "new_forecasts": 0,
+  "new_settlements": 0,
+  "eligible_new_candidates": 0,
+  "rejected_rows": 0,
+  "settlement_issues": [],
+  "production_run_id": 38591809980,
+  "production_changed": false
+}

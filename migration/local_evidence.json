@@ -1,0 +1,26 @@
+{
+  "registration_sha256": "362a1f47149458f085568ce2453c45802faa6b988851f97e9b5d93edb4ff6d14",
+  "events": [
+    {
+      "seq": 1,
+      "kind": "run",
+      "identity": "20261015T074415287743Z",
+      "payload": {
+        "eligible_new_candidates": 0,
+        "finished_at_utc": "2026-10-15T07:44:16.868452+00:00",
+        "new_forecasts": 0,
+        "new_settlements": 0,
+        "production_changed": false,
+        "production_run_id": 38591809980,
+        "production_snapshot_age_hours": 15.918019014444445,
+        "rejected_rows": 0,
+        "run_id": "20261015T074415287743Z",
+        "settlement_issues": [],
+        "started_at_utc": "2026-10-15T07:44:15.287743+00:00",
+        "state": "collected"
+      },
+      "previous_hash": "362a1f47149458f085568ce2453c45802faa6b988851f97e9b5d93edb4ff6d14",
+      "event_hash": "db5a1e86ab7674036f92fad7c860372f8669e5cb47f0c0c1848785809acdba6e"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "reason": "Exclude unrelated shadow ledgers when locating production baseline in downloaded artifact",
+  "events_before_revision": 0,
+  "old_registration_preserved": "registration_initial_setup_before_first_capture.json"
+}

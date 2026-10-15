@@ -1,0 +1,317 @@
+{
+  "experiment": "prospective_six_plus_bundesliga_half_2026_10_15_v1",
+  "registered_at_utc": "2026-10-15T07:44:13.032862+00:00",
+  "season": 2026,
+  "members": [
+    {
+      "id": "l1_home_poisson",
+      "model": "poisson_sports",
+      "outcome": "home",
+      "league": "Ligue_1",
+      "label": "Ligue 1 · domicile Poisson"
+    },
+    {
+      "id": "seriea_draw_poisson",
+      "model": "poisson_sports",
+      "outcome": "draw",
+      "league": "Serie_A",
+      "label": "Serie A · nul Poisson"
+    },
+    {
+      "id": "seriea_draw_logit",
+      "model": "logit_sports",
+      "outcome": "draw",
+      "league": "Serie_A",
+      "label": "Serie A · nul logistique"
+    },
+    {
+      "id": "bundesliga_draw_xgb",
+      "model": "original_xgb_ensemble",
+      "outcome": "draw",
+      "league": "Bundesliga",
+      "label": "Bundesliga · nul XGBoost"
+    },
+    {
+      "id": "epl_away_logit",
+      "model": "logit_sports",
+      "outcome": "away",
+      "league": "EPL",
+      "label": "Premier League · extérieur logistique"
+    },
+    {
+      "id": "seriea_away_control",
+      "model": "outcome_control",
+      "outcome": "away",
+      "league": "Serie_A",
+      "label": "Serie A · extérieur outcome_control"
+    }
+  ],
+  "portfolios": [
+    {
+      "id": "reference",
+      "label": "Production observée à la capture",
+      "members": [],
+      "baseline": true,
+      "addition_stake": 0
+    },
+    {
+      "id": "reference_bundesliga_half",
+      "label": "Référence + Bundesliga à demi-mise",
+      "members": [
+        "bundesliga_draw_xgb"
+      ],
+      "baseline": true,
+      "addition_stake": 0.5
+    },
+    {
+      "id": "reference_six_full",
+      "label": "Référence + union des six, mise 1",
+      "members": [
+        "l1_home_poisson",
+        "seriea_draw_poisson",
+        "seriea_draw_logit",
+        "bundesliga_draw_xgb",
+        "epl_away_logit",
+        "seriea_away_control"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_six_half",
+      "label": "Référence + union des six, mise 0,5",
+      "members": [
+        "l1_home_poisson",
+        "seriea_draw_poisson",
+        "seriea_draw_logit",
+        "bundesliga_draw_xgb",
+        "epl_away_logit",
+        "seriea_away_control"
+      ],
+      "baseline": true,
+      "addition_stake": 0.5
+    },
+    {
+      "id": "alone_l1_home_poisson",
+      "label": "Ligue 1 · domicile Poisson seule",
+      "members": [
+        "l1_home_poisson"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_l1_home_poisson",
+      "label": "Référence + Ligue 1 · domicile Poisson",
+      "members": [
+        "l1_home_poisson"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_seriea_draw_poisson",
+      "label": "Serie A · nul Poisson seule",
+      "members": [
+        "seriea_draw_poisson"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_seriea_draw_poisson",
+      "label": "Référence + Serie A · nul Poisson",
+      "members": [
+        "seriea_draw_poisson"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_seriea_draw_logit",
+      "label": "Serie A · nul logistique seule",
+      "members": [
+        "seriea_draw_logit"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_seriea_draw_logit",
+      "label": "Référence + Serie A · nul logistique",
+      "members": [
+        "seriea_draw_logit"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_bundesliga_draw_xgb",
+      "label": "Bundesliga · nul XGBoost seule",
+      "members": [
+        "bundesliga_draw_xgb"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_bundesliga_draw_xgb",
+      "label": "Référence + Bundesliga · nul XGBoost",
+      "members": [
+        "bundesliga_draw_xgb"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_epl_away_logit",
+      "label": "Premier League · extérieur logistique seule",
+      "members": [
+        "epl_away_logit"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_epl_away_logit",
+      "label": "Référence + Premier League · extérieur logistique",
+      "members": [
+        "epl_away_logit"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_seriea_away_control",
+      "label": "Serie A · extérieur outcome_control seule",
+      "members": [
+        "seriea_away_control"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_seriea_away_control",
+      "label": "Référence + Serie A · extérieur outcome_control",
+      "members": [
+        "seriea_away_control"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    }
+  ],
+  "models_train_max_season": 2024,
+  "decision_rule": "First complete eligible capture per canonical fixture, 5 minutes to 24 hours before verified kickoff; no later replacement, no backfill.",
+  "selection": "Fixed B365 pre-triplet, decimal odds 1.2..10, p*odds*.98-1>.02, original league/outcome and priority.",
+  "reference": "Actual production recommendations in the successfully completed GitHub run observed at capture, frozen at the same instant and only on the common eligible fixture cohort. Later production revisions are not retroactively substituted.",
+  "feature_timing": "Sports history cutoff kickoff-72h with +2h availability guard; archive actually retrieved before capture. Odds observed from current Football-Data snapshot, not claimed to be J-3 prices.",
+  "price_status": "Bet365-labelled periodic provider snapshot, exact bookmaker observation time and real executability unverified. Paper units only.",
+  "settlement": "Understat stable event id, completed result and goals, >=2h after kickoff; changed kickoff >30m quarantined, no guessed voids; never import historical bets as prospective.",
+  "immutability": "SQLite append-only records and hash chain; real process UTC clock; local timestamp, not independent external timestamp certification.",
+  "production_changed": false,
+  "auto_retraining": false,
+  "auto_promotion": false,
+  "production_manifest_sha256": "dfabad5d10f3af03e840947af1308271f266dbb3dc5576332deca3b1987fcdba",
+  "runtime": {
+    "numpy": "2.3.5",
+    "pandas": "2.3.3",
+    "sklearn": "1.9.0",
+    "xgboost": "3.4.1"
+  },
+  "frozen_sha256": {
+    "frozen/history_through_previous_season.pkl": "0c0c460c9cf60fab76ffd763ce754ce207ab5d35fd3c2208414c5aa0d8bd102e",
+    "frozen/linear_residual.py": "3541c1943b94596f9f99b8609ef4608955e0d192d499edd6215e7398aa44b4f5",
+    "frozen/models/fold_2026_Bundesliga_2026_primary.ubj": "cd1070334cd792f151694bc22598d78f670608bcf82bfe6af8f4b1cf57e5df9a",
+    "frozen/models/fold_2026_Bundesliga_42_primary.ubj": "981c3ec535e810f0073230bb89732675ccf0ec95d2e4c808d51245d4c7ab0a7f",
+    "frozen/models/fold_2026_Bundesliga_73_primary.ubj": "eef6f86607b055d46f532941c6aba9e8c2084d8cd7c0f9f5dd8f6ad97c3b7287",
+    "frozen/models/sports_and_control.pkl": "cdab08e02fcee469ea45098555e8779b7103446c89713e9dcd0c8fe29e0746c0",
+    "frozen/native_fit_audit.json": "f4692bf13876f744a8362ba4300362540158d5e61a3074c049f608d4ed093c07",
+    "frozen/original_six_selection.json": "3aa70567b913b2263ca6aaac4e974c475640c3d9d91f759f0779e9f06cf27725",
+    "frozen/source/data_pipeline/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "frozen/source/data_pipeline/build_team_registry_from_fixtures.py": "cccec8e0d9966a6eebe91d42e11d9754fa3203117a88ab562291a946c1c6e595",
+    "frozen/source/data_pipeline/enrich_data.py": "2f34f4738f451720827692017d1c922cfa1c9e4ecc216f7b261b859053fe3f56",
+    "frozen/source/data_pipeline/market_data.py": "b96b48ed3cd89d16eeb3b938f0a4d4e33182f1e856addcdc550fadcd2b9a2742",
+    "frozen/source/data_pipeline/market_snapshots.py": "42774a421650587b93a1f34ac586a53c2d02511ee43504d30bcdbb094df5116b",
+    "frozen/source/data_pipeline/research_prematch.py": "30aa07a2e63a3f75c28f33d6b4cf09ed6cdf20e4d79edb89cfe8b5a9d49e4eee",
+    "frozen/source/data_pipeline/scrapper.py": "77884c0bd142ffd497a397a24230e985a1e22049967dea74e44b9cf23c0f8a91",
+    "frozen/source/data_pipeline/team_registry.py": "18a2638eb8c5c75300c2d415d2ba69e63acf1786183584af5c30cb8ed4eda238",
+    "frozen/source/data_pipeline/validate_team_registry.py": "acb0fd0b0f8d06ce0c89154f6bba973c296d36e29031152ed425bc0fc7743f64",
+    "frozen/source/inference/build_price_ticket.py": "c6219d839810286b160ef39bbb7c6162163ac240c5f920958b098a561e90f5cc",
+    "frozen/source/inference/evaluate_live_portfolio.py": "f186012f4bb2864332cf8b41871874dd70b197677a26f2c2a20d67a34b5216ac",
+    "frozen/source/inference/evaluate_market_shadow.py": "68c4f4117ff2b789363ecb704fc07b834d1d0dfae5eef6c4675d7be5d6c23390",
+    "frozen/source/inference/fetch_sportytrader_portfolio_odds.py": "fe1f298a92cc1e37478f1469e465671453d2bff669545297fd37191498e4d1c9",
+    "frozen/source/inference/football_data_live.py": "8e33973656dd832053f49b21bc3aa0843b984c73607890e6ebfd12620bbd4881",
+    "frozen/source/inference/kickoff_time.py": "9ae789b3e50dc13fa14b6e4c1f5035f74950423112a5242920f9152a1fd6b5ac",
+    "frozen/source/inference/live_tracking.py": "e843bb8915bb99fa3e0a78291567101636ee3cd60ebf9032de2b8cc692f5fb63",
+    "frozen/source/inference/market_residual.py": "430ae9971f5680e90dee1680737def3116a1023d30e9933a00916c52b974e1de",
+    "frozen/source/inference/named_market_quotes.py": "b168471fcc0d8021a23f58fe9a5125ed7c43d6fd0d42c1ce2d5904f66693e2f0",
+    "frozen/source/inference/pooled_release.py": "1bd07d771733b7b568563ce41838054280684f446666a5550fa8e60c163e8fcf",
+    "frozen/source/inference/portfolio_presets.py": "57cede94382f34fc089df6629b01e368d639b0d7cd1bcfebd41fd433b19d3530",
+    "frozen/source/inference/predict_upcoming_portfolio.py": "5debd7237fd0d5db4ab1a112e268cd074cbebefa91ab73164e8e22c7dd58c214",
+    "frozen/source/inference/prediction_audit.py": "cc29c96070908c207aa447c51f1c512515becdb448dd914dca6cc09924cf3c1d",
+    "frozen/source/inference/prediction_window.py": "4efb3c8e03955c31a8394c5a60d8d5449328c947d40c88f89453e0dc09017e75",
+    "frozen/source/inference/price_tickets.py": "c4c5df2850a9806c1fb4581841eb5d38370dd670ab7e569dc1462c38ff03f8f7",
+    "frozen/source/inference/prospective_policy_monitor.py": "9d5deccce511d8a30374d5ba667c59ec84ba58837c5ece15462fbdce932320f2",
+    "frozen/source/inference/releases/draw_pooled_2026_09_05/manifest.json": "dfabad5d10f3af03e840947af1308271f266dbb3dc5576332deca3b1987fcdba",
+    "frozen/source/inference/result_monitor.py": "4dabfe7e70bdfc3742cb520616f505be2cbaf1ec2c69a9c945a031f05d14dd95",
+    "frozen/source/inference/run_market_residual_shadow.py": "181e7844dad108905b125ad67a40957ca28b67ac4776d214605240715f9c676d",
+    "frozen/source/inference/shadow_consensus.py": "3a89b81b2fee5425d08a6d0684e3ccc99a308136350b738b2dd37e74dce1bec2",
+    "frozen/source/inference/sportytrader_client.py": "432d77111c953a98900ce77f8546b1c949ebfef6ba8e42b444d8e0718dbeccfa",
+    "frozen/source/inference/supabase_fixture_store.py": "7080e1d9083161e4bf01ea716ef171e3508634fa21cb63c565642d1037f6a6e7",
+    "frozen/source/inference/supabase_prediction_store.py": "58473ac8edfc8ad12bf7219bd254ba0cd8c7f0ff52cb5387d82561e91268b091",
+    "frozen/source/inference/track_published_predictions.py": "9ca5a020c23807d00bfdb6df6c29556a510366238a246aabb1ab207bc2ce8b56",
+    "frozen/source/inference/upcoming_portfolio_strategy.py": "45a00e3655ecfa5dd83a864cd97c4bdfb56a6a6f456b142c4fcf737c1c5f0af2",
+    "frozen/source/inference/validate_publication_kickoffs.py": "7e7246bd7eb4e718975c12984f88f5dd39c5f9ee7482b33bcf43a38c1de9ef96",
+    "frozen/source/train/audit_data_quality.py": "d337b010b7786677c6ead781867d66c8664a761876476b6907a51b66238fb818",
+    "frozen/source/train/audit_draw_errors.py": "3c2d6e8e931fdfc368a3068481649e0d2633ad895d182fab09d763c3a73c516e",
+    "frozen/source/train/audit_draw_probabilities.py": "0781308d8cf505a5fed41ef970be48cbd8136c1a2d14d589b09353075d04cdc9",
+    "frozen/source/train/build_market_residual_release.py": "bc659448af3b33edec6c259e0816656b2473b627ef3ba586ccd7efb9d0ee4e84",
+    "frozen/source/train/build_pooled_release.py": "863d74a96919804610d844ea00520ad240cbc1b5d4b1ad67ea930ce6089c7903",
+    "frozen/source/train/build_production_benchmark.py": "cfdf0eacd1f075c12f0bfcbdb9944cdba2c27d129f40b610b2c2e83b5e8ba332",
+    "frozen/source/train/build_shadow_consensus.py": "52dd29f09e4ec6b25b1870a867663187b9c124ef5f83cb14f96a76f3b1628818",
+    "frozen/source/train/check_research_reference.py": "57f3d606e88eb05a741c7821160bfe293c89f4782a50f4572b616000731bfa82",
+    "frozen/source/train/clv_io.py": "46fb291da29962dd46ec01634298c2b6dee3f9009b6e8137aa917bd16b24297b",
+    "frozen/source/train/clv_metrics.py": "7b009507dceaf99f0e3a732216e5095e03431657832704c6b4f0a774cd7e49c6",
+    "frozen/source/train/clv_timing_filter_protocol.py": "19b57df6922b4fa17f80b19589946fd3247831321ec86b5620cc94ab077fd4ff",
+    "frozen/source/train/collect_totals_research.py": "cf764282a629fba30d2d5186ad522c170356ebd6bf20a23a4bf3cddb7d7b2824",
+    "frozen/source/train/evaluate_model_challengers.py": "1833162fe0131241c5b21e1776122943bd07ca94fb506c35032d62fccf988599",
+    "frozen/source/train/evaluate_signal_additions.py": "03e1b1fd5d778195b61a9cd59ed9511ff2b1d78d5a12c68e82f6abe09b7535ba",
+    "frozen/source/train/experimental_protocol.py": "87d89420047e880b2ca7fbe0d2e4a56924241efec378ebe633d2d9ab9d6dc44a",
+    "frozen/source/train/generate_readme_figures.py": "5619e0e7cddc4d3a8bc9d888402026c166252672105b6987e1c56a8ecf76174f",
+    "frozen/source/train/make_dataset.py": "8424400a6896c5963f98f7496f7fe1168c0087c05b8c62f16ef068965c9efd82",
+    "frozen/source/train/meta_filter_protocol.py": "c4927da1ac6359312bc5e0b02d4804f6d127283b59a0584f32f44a4a381d5a6e",
+    "frozen/source/train/ml_common.py": "a00605d9ae28bf1e77098d4507d97887a6cc97da58c70c0a14aeabab06640448",
+    "frozen/source/train/portfolio_strategy_search.py": "71d884f17c295ecc0ab4922f9e5c85c12b32a2cd7c83feaf730b9ebc7c51fc45",
+    "frozen/source/train/prepare_signal_research.py": "1ece6c0ee98c8b77b15ef55b70422df9bd01f93b0c4e967b5bbf09211928e508",
+    "frozen/source/train/promote_experimental_candidate.py": "cff76c2a18b4873f90e4408845da4d52f7e825ddd2b11ac0fbb1f9323962692b",
+    "frozen/source/train/research_all_outcomes_v2.py": "4e600e0fbf983e4150a0909dd20e35e5dcd5c311204565afe14e8a701532c332",
+    "frozen/source/train/research_catboost.py": "287dc6660d869f37ffd6640e2fac923b6783314aae638d9392a1f44a42aab9b1",
+    "frozen/source/train/research_challengers_v2.py": "3703b1f9066d17d56d8810f19716874fcdc542dd4c97983b06f07bf0e8aa408c",
+    "frozen/source/train/research_cross_market.py": "bb253db79a85c97565489c12b4266ee41b1e6e1753e77d244e4c6b097b7be725",
+    "frozen/source/train/research_dc_blend.py": "cf3fc16cf3a45e0589bdea6a404d29cd6c449778505fa9abde98cccf88221e2b",
+    "frozen/source/train/research_dixon_coles.py": "883c66dbe3281e5d4c043cae0d846449584ddb7989b653c028d22373b4fd33cf",
+    "frozen/source/train/research_dynamic_experts.py": "1e2676422fcec6bb8ac933d5e0f409cfc61cd1b4ad9257767d4c0300ca95a838",
+    "frozen/source/train/research_elo_augmentation.py": "eb61e29e37b152c09697090b57c81f4acb6e30e9b0795f2b978db9a2888d0c55",
+    "frozen/source/train/research_expected_stats.py": "35a157ddecb3849ca6efb89b76d54830a3a06e099dc85fcd61f24a17e87fadb8",
+    "frozen/source/train/research_outcome_gate.py": "4e11ed19b79fd6e9d4d40f745f79e333ce177db5f2436b66449e7c749cff837e",
+    "frozen/source/train/research_outside_box_v3.py": "e741e9942a1f33df4b3e3705ae3e6930bfaecaf00d1983e230c8f9a1b9c2c7a0",
+    "frozen/source/train/research_paper_models.py": "86fbe3a9ab18c6f66b7a77f87f1f70ba6ba7ebf145eb6cc6d2c9e4412d823b47",
+    "frozen/source/train/research_season_strategy.py": "15c608d4adb417ef4c881ba796b83a8cc28ca466344cc7cc2fba84b639ba507a",
+    "frozen/source/train/research_strategy_selection.py": "8698d594f54bb49fecf5a524f7c522f0a5110bbe80bc6b6248fe4f2dfdec182c",
+    "frozen/source/train/research_totals_odds.py": "db7d60c586e8f2eae5bac5aec912f27a58c61923ccb8fbf362c505fb7296c0ed",
+    "frozen/source/train/rule_based_strategy_search.py": "d215a1cd7c78784ed43ad35867370a6e2d8e6b8c1fe311292ccf32673cc779f5",
+    "frozen/source/train/scientific_validation_report.py": "24cff53eade0dc9a74f4d5b3611856037c98213c2676e9d44efc19820e8e1e13",
+    "frozen/source/train/strategy_search_common.py": "ff37a33ddfe5cdc595a91839b85d8b2e60339a7c7cc33640dee8ba7e2cf8dad9",
+    "frozen/source/train/summarize_outside_box_v3.py": "3feb72c78b58a34e446aebf555c5f392ca866563ef0bee70ce6eefc0a13e2e4a",
+    "frozen/source/train/summarize_research_v2.py": "3b81f357d2e79b3ff2de5a4b5b63b5333be88b9dbb6d17441540f7a159702654",
+    "frozen/source/train/validation_context.py": "81a9da1e476e8ea250a50311e907e9a9b1182ba29678df90874882b1e98c5336",
+    "frozen/source/train/validation_io.py": "b424293ebb3e8686756ffbc6b510e3b59d112cf3a07f099628dc64040a5095be",
+    "frozen/source/train/validation_markdown.py": "544fee9ab34649440f1796561ce72aca8cae4f8b0f055fe8f8e20cf17e4d17b7",
+    "frozen/source/train/validation_metrics.py": "91a0878d4661d187182f2ad7a91789f4cc2daf26d5df7ab1ccd845abff489714",
+    "frozen/source/train/validation_verdict.py": "4930479d2c21fdbbe04a0071cd5262843dd49443e537b6aca75509474da5c4b5",
+    "paper_core.py": "6cf594b570740e73c65d2d19cc4dd4cf913e9c5febc9e890c26169199086d2cd",
+    "paper_models.py": "e2919c7b2285aa1e6f5f48c1f7cf3ff0f9eb08761a29b1ec7275db59d871b0c3",
+    "run.ps1": "49913c5c053ab53c3d1d7801ca05a312a18796f8485d1dc6ea3f0886e3eef1c1",
+    "run_paper.py": "4dd3ce56719ed7aa12cb80fda784786afab87390db1b42390c2ba780b5336e94"
+  }
+}
