@@ -1,0 +1,90 @@
+name: Simulation prospective des strategies
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Previsions quotidiennes et site"]
+    types: [completed]
+    branches: [main]
+  schedule:
+    - cron: "35 0,6,12,18 * * *"
+
+concurrency:
+  group: scorepredict-paper-simulation
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  simulate:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PAPER_STATE_DIR: ${{ github.workspace }}/_paper_state
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+    steps:
+      - name: Recuperer le protocole fige
+        uses: actions/checkout@v6
+        with:
+          ref: main
+          persist-credentials: false
+      - name: Recuperer le journal persistant
+        uses: actions/checkout@v6
+        with:
+          ref: simulation-state
+          path: _paper_state
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: paper_simulation/requirements.txt
+      - name: Installer le runtime fige
+        run: python -m pip install -r paper_simulation/requirements.txt
+      - name: Verifier les modeles et les garanties prospectives
+        run: python -m unittest discover -s paper_simulation -p 'test_*.py'
+      - name: Verifier la continuite du journal
+        id: verify
+        run: python paper_simulation/cloud_state.py verify
+      - name: Enregistrer les predictions puis constater les resultats
+        id: collect
+        continue-on-error: true
+        run: python paper_simulation/run_paper.py
+      - name: Sceller le journal et produire le rapport
+        id: seal
+        if: always() && steps.verify.outcome == 'success'
+        env:
+          COLLECT_OUTCOME: ${{ steps.collect.outcome }}
+        run: python paper_simulation/cloud_state.py seal
+      - name: Sauvegarder les preuves de cette execution
+        if: always() && steps.verify.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: paper-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 90
+          path: |
+            _paper_state/*.json
+            _paper_state/*.sqlite3
+            _paper_state/*.csv
+            _paper_state/*.html
+            _paper_state/*.md
+            _paper_state/captures/
+            _paper_state/migration/
+      - name: Conserver le suivi sur sa branche dediee
+        if: always() && steps.seal.outcome == 'success'
+        working-directory: _paper_state
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --all
+          if ! git diff --cached --quiet; then
+            git commit -m "Paper simulation: run ${GITHUB_RUN_ID}, attempt ${GITHUB_RUN_ATTEMPT}"
+            git push origin HEAD:simulation-state
+          fi
+      - name: Signaler toute collecte incomplete
+        if: always() && steps.verify.outcome == 'success'
+        run: python paper_simulation/cloud_state.py health

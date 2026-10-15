@@ -1,0 +1,255 @@
+{
+  "experiment": "prospective_six_plus_bundesliga_half_github_2026_10_15_v1",
+  "registered_at_utc": "2026-10-15T08:06:51.175031+00:00",
+  "season": 2026,
+  "members": [
+    {
+      "id": "l1_home_poisson",
+      "model": "poisson_sports",
+      "outcome": "home",
+      "league": "Ligue_1",
+      "label": "Ligue 1 · domicile Poisson"
+    },
+    {
+      "id": "seriea_draw_poisson",
+      "model": "poisson_sports",
+      "outcome": "draw",
+      "league": "Serie_A",
+      "label": "Serie A · nul Poisson"
+    },
+    {
+      "id": "seriea_draw_logit",
+      "model": "logit_sports",
+      "outcome": "draw",
+      "league": "Serie_A",
+      "label": "Serie A · nul logistique"
+    },
+    {
+      "id": "bundesliga_draw_xgb",
+      "model": "original_xgb_ensemble",
+      "outcome": "draw",
+      "league": "Bundesliga",
+      "label": "Bundesliga · nul XGBoost"
+    },
+    {
+      "id": "epl_away_logit",
+      "model": "logit_sports",
+      "outcome": "away",
+      "league": "EPL",
+      "label": "Premier League · extérieur logistique"
+    },
+    {
+      "id": "seriea_away_control",
+      "model": "outcome_control",
+      "outcome": "away",
+      "league": "Serie_A",
+      "label": "Serie A · extérieur outcome_control"
+    }
+  ],
+  "portfolios": [
+    {
+      "id": "reference",
+      "label": "Production observée à la capture",
+      "members": [],
+      "baseline": true,
+      "addition_stake": 0
+    },
+    {
+      "id": "reference_bundesliga_half",
+      "label": "Référence + Bundesliga à demi-mise",
+      "members": [
+        "bundesliga_draw_xgb"
+      ],
+      "baseline": true,
+      "addition_stake": 0.5
+    },
+    {
+      "id": "reference_six_full",
+      "label": "Référence + union des six, mise 1",
+      "members": [
+        "l1_home_poisson",
+        "seriea_draw_poisson",
+        "seriea_draw_logit",
+        "bundesliga_draw_xgb",
+        "epl_away_logit",
+        "seriea_away_control"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_six_half",
+      "label": "Référence + union des six, mise 0,5",
+      "members": [
+        "l1_home_poisson",
+        "seriea_draw_poisson",
+        "seriea_draw_logit",
+        "bundesliga_draw_xgb",
+        "epl_away_logit",
+        "seriea_away_control"
+      ],
+      "baseline": true,
+      "addition_stake": 0.5
+    },
+    {
+      "id": "alone_l1_home_poisson",
+      "label": "Ligue 1 · domicile Poisson seule",
+      "members": [
+        "l1_home_poisson"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_l1_home_poisson",
+      "label": "Référence + Ligue 1 · domicile Poisson",
+      "members": [
+        "l1_home_poisson"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_seriea_draw_poisson",
+      "label": "Serie A · nul Poisson seule",
+      "members": [
+        "seriea_draw_poisson"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_seriea_draw_poisson",
+      "label": "Référence + Serie A · nul Poisson",
+      "members": [
+        "seriea_draw_poisson"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_seriea_draw_logit",
+      "label": "Serie A · nul logistique seule",
+      "members": [
+        "seriea_draw_logit"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_seriea_draw_logit",
+      "label": "Référence + Serie A · nul logistique",
+      "members": [
+        "seriea_draw_logit"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_bundesliga_draw_xgb",
+      "label": "Bundesliga · nul XGBoost seule",
+      "members": [
+        "bundesliga_draw_xgb"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_bundesliga_draw_xgb",
+      "label": "Référence + Bundesliga · nul XGBoost",
+      "members": [
+        "bundesliga_draw_xgb"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_epl_away_logit",
+      "label": "Premier League · extérieur logistique seule",
+      "members": [
+        "epl_away_logit"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_epl_away_logit",
+      "label": "Référence + Premier League · extérieur logistique",
+      "members": [
+        "epl_away_logit"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_seriea_away_control",
+      "label": "Serie A · extérieur outcome_control seule",
+      "members": [
+        "seriea_away_control"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_seriea_away_control",
+      "label": "Référence + Serie A · extérieur outcome_control",
+      "members": [
+        "seriea_away_control"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    }
+  ],
+  "models_train_max_season": 2024,
+  "decision_rule": "First complete eligible capture per canonical fixture, 5 minutes to 24 hours before verified kickoff; no later replacement, no backfill.",
+  "selection": "Fixed B365 pre-triplet, decimal odds 1.2..10, p*odds*.98-1>.02, original league/outcome and priority.",
+  "reference": "Actual production recommendations in the successfully completed GitHub run observed at capture, frozen at the same instant and only on the common eligible fixture cohort. Later production revisions are not retroactively substituted.",
+  "feature_timing": "Sports history cutoff kickoff-72h with +2h availability guard; archive actually retrieved before capture. Odds observed from current Football-Data snapshot, not claimed to be J-3 prices.",
+  "price_status": "Bet365-labelled periodic provider snapshot, exact bookmaker observation time and real executability unverified. Paper units only.",
+  "settlement": "Understat stable event id, completed result and goals, >=2h after kickoff; changed kickoff >30m quarantined, no guessed voids; never import historical bets as prospective.",
+  "immutability": "Append-only SQLite hash chain, persistent Git state branch and GitHub Actions run timestamps. No retroactive forecasts or automatic reset.",
+  "production_changed": false,
+  "auto_retraining": false,
+  "auto_promotion": false,
+  "production_manifest_sha256": "dfabad5d10f3af03e840947af1308271f266dbb3dc5576332deca3b1987fcdba",
+  "runtime": {
+    "numpy": "2.3.5",
+    "pandas": "2.3.3",
+    "sklearn": "1.9.0",
+    "xgboost": "3.4.1"
+  },
+  "frozen_sha256": {
+    "cloud_state.py": "0eac3965a1d22f922821a1cd2bd184f48048f9e49483f1ee98e48a9c3ab219dd",
+    "frozen/history_through_previous_season.pkl": "0c0c460c9cf60fab76ffd763ce754ce207ab5d35fd3c2208414c5aa0d8bd102e",
+    "frozen/linear_residual.py": "3541c1943b94596f9f99b8609ef4608955e0d192d499edd6215e7398aa44b4f5",
+    "frozen/models/fold_2026_Bundesliga_2026_primary.ubj": "cd1070334cd792f151694bc22598d78f670608bcf82bfe6af8f4b1cf57e5df9a",
+    "frozen/models/fold_2026_Bundesliga_42_primary.ubj": "981c3ec535e810f0073230bb89732675ccf0ec95d2e4c808d51245d4c7ab0a7f",
+    "frozen/models/fold_2026_Bundesliga_73_primary.ubj": "eef6f86607b055d46f532941c6aba9e8c2084d8cd7c0f9f5dd8f6ad97c3b7287",
+    "frozen/models/sports_and_control.pkl": "cdab08e02fcee469ea45098555e8779b7103446c89713e9dcd0c8fe29e0746c0",
+    "frozen/native_fit_audit.json": "f4692bf13876f744a8362ba4300362540158d5e61a3074c049f608d4ed093c07",
+    "frozen/original_six_selection.json": "3aa70567b913b2263ca6aaac4e974c475640c3d9d91f759f0779e9f06cf27725",
+    "frozen/source/data_pipeline/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "frozen/source/data_pipeline/market_data.py": "b96b48ed3cd89d16eeb3b938f0a4d4e33182f1e856addcdc550fadcd2b9a2742",
+    "frozen/source/data_pipeline/scrapper.py": "77884c0bd142ffd497a397a24230e985a1e22049967dea74e44b9cf23c0f8a91",
+    "frozen/source/data_pipeline/team_registry.py": "18a2638eb8c5c75300c2d415d2ba69e63acf1786183584af5c30cb8ed4eda238",
+    "frozen/source/inference/portfolio_presets.py": "57cede94382f34fc089df6629b01e368d639b0d7cd1bcfebd41fd433b19d3530",
+    "frozen/source/inference/releases/draw_pooled_2026_09_05/manifest.json": "dfabad5d10f3af03e840947af1308271f266dbb3dc5576332deca3b1987fcdba",
+    "frozen/source/inference/upcoming_portfolio_strategy.py": "45a00e3655ecfa5dd83a864cd97c4bdfb56a6a6f456b142c4fcf737c1c5f0af2",
+    "frozen/source/train/make_dataset.py": "8424400a6896c5963f98f7496f7fe1168c0087c05b8c62f16ef068965c9efd82",
+    "frozen/source/train/ml_common.py": "a00605d9ae28bf1e77098d4507d97887a6cc97da58c70c0a14aeabab06640448",
+    "frozen/source/train/strategy_search_common.py": "ff37a33ddfe5cdc595a91839b85d8b2e60339a7c7cc33640dee8ba7e2cf8dad9",
+    "paper_core.py": "6cf594b570740e73c65d2d19cc4dd4cf913e9c5febc9e890c26169199086d2cd",
+    "paper_models.py": "e2919c7b2285aa1e6f5f48c1f7cf3ff0f9eb08761a29b1ec7275db59d871b0c3",
+    "requirements.txt": "bf3bea0dbd168c22e4c4490b0d391f1236524796c454c08808289fd02a690eec",
+    "run_paper.py": "9dfc2213c084ce9f32972a234a57db0a9fccb998bbd2b21f336a7eff159417f0",
+    "test_cloud_state.py": "38db78d67965211cd8e06120d8271f356fd8c3fee6bf485a10d3f5d0e49fd3cf",
+    "test_paper.py": "4e62e80789a4046ff076362315b8e22273a96a1e71aa1e79a4c6e71092f4cb3a"
+  },
+  "migration": {
+    "prior_registration_sha256": "362a1f47149458f085568ce2453c45802faa6b988851f97e9b5d93edb4ff6d14",
+    "prior_evidence_sha256": "6c2a76b8116d224eea597bb17f549c823b3926bc5f00b188f88020c095c6f6bf",
+    "prior_forecasts": 0,
+    "prior_settlements": 0,
+    "change": "Cloud IO and persistence only; models, filters, stakes and decision rules unchanged"
+  }
+}
