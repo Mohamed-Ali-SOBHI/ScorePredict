@@ -1,4 +1,28 @@
 {
   "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
-  "events": []
+  "events": [
+    {
+      "seq": 1,
+      "kind": "run",
+      "identity": "20261015T080850116034Z",
+      "payload": {
+        "eligible_new_candidates": 0,
+        "finished_at_utc": "2026-10-15T08:08:53.405721+00:00",
+        "github_run_attempt": "1",
+        "github_run_id": "38703511951",
+        "new_forecasts": 0,
+        "new_settlements": 0,
+        "production_changed": false,
+        "production_run_id": 38591809980,
+        "production_snapshot_age_hours": 16.32816824972222,
+        "rejected_rows": 0,
+        "run_id": "20261015T080850116034Z",
+        "settlement_issues": [],
+        "started_at_utc": "2026-10-15T08:08:50.116034+00:00",
+        "state": "collected"
+      },
+      "previous_hash": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+      "event_hash": "7929a4494064e510835951406d2f2a242370bc1119d880ffc49878cb815f976c"
+    }
+  ]
 }
