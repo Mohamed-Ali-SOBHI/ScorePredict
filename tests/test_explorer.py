@@ -25,6 +25,26 @@ class ExplorerTests(unittest.TestCase):
             self.assertIsNone(result['matches'][0]['teams'][1]['averages']['goals'])
             self.assertNotIn('stakeEur',result['matches'][0])
 
+    def test_verified_name_alias_recovers_history_without_crossing_leagues(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for league, goals in [('Ligue_1', 2), ('EPL', 99)]:
+                folder = root/'Data'/league
+                folder.mkdir(parents=True)
+                (folder/'2026 Le Mans.csv').write_text(
+                    'match_id,date,team_name,result,team_goals\n'
+                    f'1,2026-09-01,Le Mans,w,{goals}\n'
+                    '2,2026-09-12,Le Mans,w,99\n', encoding='utf8')
+            row = {'date':'2026-09-12 15:00:00', 'league':'Ligue_1',
+                   'team_name':'Le Mans FC', 'opponent_name':'Toulouse',
+                   'pred_home_win':.4, 'pred_draw':.3, 'pred_away_win':.3}
+            match = build_explorer(root, [row], datetime(2026,9,12,8,tzinfo=timezone.utc))['matches'][0]
+            self.assertEqual(match['homeTeam'], 'Le Mans FC')
+            self.assertEqual(match['teams'][0]['played'], 1)
+            self.assertEqual(match['teams'][0]['form'], ['w'])
+            self.assertEqual(match['teams'][0]['averages']['goals'], 2)
+            self.assertIsNone(match['teams'][1]['averages']['goals'])
+
     def test_invalid_probabilities_not_invented(self):
         with tempfile.TemporaryDirectory() as directory:
             row={'date':'2026-09-12 15:00:00','league':'EPL','team_name':'A'}

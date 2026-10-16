@@ -30,6 +30,7 @@ TEAM_NAME_ALIASES = {
     "ajaccio gfco": "gfc ajaccio",
     "bastia": "sc bastia",
     "clermont": "clermont foot",
+    "le mans fc": "le mans",
     "paris sg": "paris saint germain",
     "st etienne": "saint etienne",
     "saint etienne": "saint etienne",

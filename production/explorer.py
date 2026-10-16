@@ -4,6 +4,7 @@ from datetime import datetime
 from pathlib import Path
 
 from inference.prediction_window import in_prediction_window
+from data_pipeline.market_data import normalize_team_name
 
 
 def numeric(value):
@@ -21,11 +22,11 @@ def build_explorer(root: Path, rows: list[dict], now: datetime) -> dict:
     for league in LEAGUE_LABELS:
         for path in (root / 'Data' / league).glob(f'{season} *.csv'):
             for row in _read_csv(path):
-                teams.setdefault((league, row.get('team_name')), {})[row.get('match_id')] = row
+                teams.setdefault((league, normalize_team_name(row.get('team_name', ''))), {})[row.get('match_id')] = row
 
     def stats(league, name, cutoff):
         history = []
-        for row in teams.get((league, name), {}).values():
+        for row in teams.get((league, normalize_team_name(name)), {}).values():
             date = _parse_date(row.get('date'))
             # Compare calendar days conservatively: ambiguous source times cannot leak same-day results
             if date and date.date() < min(cutoff.date(), now.astimezone(DISPLAY_TIMEZONE).date()) and row.get('result') in {'w', 'd', 'l'}:
