@@ -3359,6 +3359,61 @@
       },
       "previous_hash": "14cbb2ba4240de70698680136dec68eba426f2ede39a8e965c4fc2652c7b8727",
       "event_hash": "94dfc54a76a41232056b45cbe0a2fb1b1ba45ac12ba6cc37d6494c5d4889b2d4"
+    },
+    {
+      "seq": 35,
+      "kind": "settlement",
+      "identity": "understat:32290",
+      "payload": {
+        "away_goals": 0,
+        "forecast_sha256": "c3049dcc8da436c56a595d0f172ccf240e87c6c13aedaca5ee1babe2efc265a8",
+        "home_goals": 1,
+        "outcome": "home",
+        "result_seen_at_utc": "2026-10-16T21:37:24.715523+00:00",
+        "source_snapshot_sha256": "396536c72929250ba0ccdfe3ed69a9733cf679fdce1e6e74e3f00fea6a61f6bc",
+        "source_url": "https://understat.com/getLeagueData/Bundesliga/2026"
+      },
+      "previous_hash": "94dfc54a76a41232056b45cbe0a2fb1b1ba45ac12ba6cc37d6494c5d4889b2d4",
+      "event_hash": "c08c4b42fe35f35268013755adcfb220cdf1c6ecd96ccdf21e393a4d55d1f0f4"
+    },
+    {
+      "seq": 36,
+      "kind": "settlement",
+      "identity": "understat:31624",
+      "payload": {
+        "away_goals": 2,
+        "forecast_sha256": "cb86a5b892dced95b491367b06dd8a543b10fb4dc096fda761a0a18ec6e895ba",
+        "home_goals": 4,
+        "outcome": "home",
+        "result_seen_at_utc": "2026-10-16T21:37:24.918290+00:00",
+        "source_snapshot_sha256": "7479f418f261bcded6aca6e88bde1945993fbacf2f1a4607f8e09295b6b7ec5b",
+        "source_url": "https://understat.com/getLeagueData/Serie_A/2026"
+      },
+      "previous_hash": "c08c4b42fe35f35268013755adcfb220cdf1c6ecd96ccdf21e393a4d55d1f0f4",
+      "event_hash": "217a2bc46e72012e08d073d2027a99572f7d078e8f9ef4a2ea0967d2df51f546"
+    },
+    {
+      "seq": 37,
+      "kind": "run",
+      "identity": "20261016T213719602687Z",
+      "payload": {
+        "eligible_new_candidates": 0,
+        "finished_at_utc": "2026-10-16T21:37:24.999284+00:00",
+        "github_run_attempt": "1",
+        "github_run_id": "38970540453",
+        "new_forecasts": 0,
+        "new_settlements": 2,
+        "production_changed": false,
+        "production_run_id": 38956545894,
+        "production_snapshot_age_hours": 1.8588886847222224,
+        "rejected_rows": 22,
+        "run_id": "20261016T213719602687Z",
+        "settlement_issues": [],
+        "started_at_utc": "2026-10-16T21:37:19.602687+00:00",
+        "state": "collected"
+      },
+      "previous_hash": "217a2bc46e72012e08d073d2027a99572f7d078e8f9ef4a2ea0967d2df51f546",
+      "event_hash": "bf5f0ac62fb6126c47c54c1dc877f732d5ba4eeec179912c6b1615f1aa5b1ec2"
     }
   ]
 }
