@@ -17,6 +17,7 @@ import pandas as pd
 
 from data_pipeline.market_data import normalize_team_name
 from data_pipeline.team_registry import EXPECTED_TEAM_COUNTS, read_registry
+from data_pipeline.verified_source_corrections import correct_verified_venues
 from train.make_dataset import (
     add_team_prematch_features, build_home_perspective_dataset, load_team_match_rows,
     WINDOWS_DEFAULT,
@@ -222,13 +223,14 @@ def main():
     for league, count in EXPECTED_TEAM_COUNTS.items():
         path = Path(args.source_dir) / f"{league}-{args.season}.json"
         payload = json.loads(path.read_text(encoding="utf-8-sig"))
+        payload, corrections = correct_verified_venues(payload, league, args.season)
         rows = []
         for csv in (Path(args.data_dir) / league).glob(f"{args.season} *.csv"):
             rows.extend(pd.read_csv(csv, dtype=str).to_dict("records"))
         league_registry = [r for r in registry if r["league"] == league and int(r["season"]) == args.season]
         report = audit_league(payload, league_registry, rows, league=league, season=args.season, expected_count=count)
         report.update(source_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
-                      captured_at=payload.get("captured_at"))
+                      captured_at=payload.get("captured_at"), verified_corrections=corrections)
         reports.append(report)
     errors = [f"{r['league']}: {e}" for r in reports for e in r["errors"]]
     feature_summary = {}

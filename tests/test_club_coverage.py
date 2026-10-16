@@ -10,6 +10,7 @@ import pandas as pd
 
 from data_pipeline.audit_club_coverage import audit_features, audit_league, audit_upcoming
 from data_pipeline.scrapper import extract_stats_from_data, update_stats_with_opponents, get_league_data
+from data_pipeline.verified_source_corrections import correct_verified_venues
 
 
 class ClubCoverageTests(unittest.TestCase):
@@ -125,6 +126,52 @@ class ClubCoverageTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "history count"):
                 audit_upcoming(raw, pd.DataFrame([row]), {"model": bundle}, output)
             self.assertEqual(json.loads(output.read_text())["status"], "failed")
+
+
+class VerifiedVenueTests(unittest.TestCase):
+    def setUp(self):
+        self.date = "2026-08-23 18:45:00"
+        self.payload = {
+            "dates": [dict(id="31948", datetime=self.date, isResult=True,
+                           h=dict(id="161", title="Paris Saint Germain"),
+                           a=dict(id="163", title="Rennes"),
+                           goals=dict(h="2", a="2"), xG=dict(h="1.13", a="1.95"),
+                           forecast=dict(w=".2", d=".3", l=".5"))],
+            "teams": {"161": dict(id="161", history=[dict(date=self.date, h_a="h", xG=1.13)]),
+                      "163": dict(id="163", history=[dict(date=self.date, h_a="a", xG=1.95)])},
+        }
+
+    def test_corrects_only_venue_and_preserves_club_stats_and_original(self):
+        original = copy.deepcopy(self.payload)
+        corrected, applied = correct_verified_venues(self.payload, "Ligue_1", 2026)
+        fixture = corrected["dates"][0]
+        self.assertEqual(fixture["h"]["id"], "163")
+        self.assertEqual(fixture["a"]["id"], "161")
+        self.assertEqual(fixture["xG"], {"h": "1.95", "a": "1.13"})
+        self.assertEqual(corrected["teams"]["161"]["history"][0], dict(date=self.date, h_a="a", xG=1.13))
+        self.assertEqual(self.payload, original)
+        self.assertEqual(len(applied), 1)
+        again, applied_again = correct_verified_venues(corrected, "Ligue_1", 2026)
+        self.assertEqual(again, corrected)
+        self.assertEqual(applied_again, [])
+
+    def test_does_not_change_another_league_season_or_fixture(self):
+        for league, season in (("EPL", 2026), ("Ligue_1", 2025)):
+            corrected, applied = correct_verified_venues(self.payload, league, season)
+            self.assertEqual(corrected, self.payload)
+            self.assertEqual(applied, [])
+        self.payload["dates"][0]["id"] = "other"
+        self.assertEqual(correct_verified_venues(self.payload, "Ligue_1", 2026)[1], [])
+
+    def test_refuses_unexpected_identity_or_partial_history(self):
+        original = copy.deepcopy(self.payload)
+        self.payload["dates"][0]["datetime"] = "2026-08-24 18:45:00"
+        with self.assertRaisesRegex(ValueError, "identity/date"):
+            correct_verified_venues(self.payload, "Ligue_1", 2026)
+        self.payload = original
+        self.payload["teams"]["161"]["history"] = []
+        with self.assertRaisesRegex(ValueError, "both team observations"):
+            correct_verified_venues(self.payload, "Ligue_1", 2026)
 
 
 if __name__ == "__main__":

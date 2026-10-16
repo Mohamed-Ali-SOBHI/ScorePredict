@@ -32,6 +32,7 @@ from data_pipeline.market_data import (
     normalize_team_name,
 )
 from data_pipeline.team_registry import EXPECTED_TEAM_COUNTS, read_registry, write_registry
+from data_pipeline.verified_source_corrections import correct_verified_venues
 
 
 DEFAULT_LEAGUES = ["La_liga", "Bundesliga", "EPL", "Serie_A", "Ligue_1"]
@@ -186,6 +187,9 @@ def get_league_data(league, season, base_url="https://understat.com", source_sna
             "teams": payload.get("teams"),
             "dates": payload.get("dates"),
         }, ensure_ascii=False), encoding="utf-8")
+    payload, corrections = correct_verified_venues(payload, league, season)
+    for correction in corrections:
+        print(f"Verified source correction: {correction['fixture_id']} {correction['reason']}")
     return normalize_understat_teams(
         payload,
         fallback_titles=_current_registry_titles(league, season),
