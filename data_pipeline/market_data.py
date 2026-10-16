@@ -32,6 +32,7 @@ TEAM_NAME_ALIASES = {
     "clermont": "clermont foot",
     "le mans fc": "le mans",
     "paris sg": "paris saint germain",
+    "psg": "paris saint germain",
     "st etienne": "saint etienne",
     "saint etienne": "saint etienne",
     "bielefeld": "arminia bielefeld",

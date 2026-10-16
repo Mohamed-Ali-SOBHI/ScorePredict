@@ -58,15 +58,20 @@ class UnderstatTeamNormalizationTests(unittest.TestCase):
 
         self.assertEqual(set(teams), {"294"})
 
-    def test_le_mans_history_replaces_the_placeholder_despite_fc_suffix(self) -> None:
+    def test_verified_aliases_keep_history_instead_of_empty_placeholders(self) -> None:
         history = [{"date": "2026-10-10 18:45:00", "result": "l"}]
-        teams = normalize_understat_teams(
-            {"teams": {"295": {"title": "Le Mans", "history": history}}, "dates": []},
-            fallback_titles={"new-e16c021c2616": "Le Mans FC"},
-            expected_team_count=1,
-        )
-        self.assertEqual(set(teams), {"295"})
-        self.assertEqual(teams["295"]["history"], history)
+        for team_id, source_name, registered_name in [
+            ("295", "Le Mans", "Le Mans FC"),
+            ("161", "Paris Saint Germain", "PSG"),
+        ]:
+            with self.subTest(club=registered_name):
+                teams = normalize_understat_teams(
+                    {"teams": {team_id: {"title": source_name, "history": history}}, "dates": []},
+                    fallback_titles={"new-placeholder": registered_name},
+                    expected_team_count=1,
+                )
+                self.assertEqual(set(teams), {team_id})
+                self.assertEqual(teams[team_id]["history"], history)
 
     def test_complete_registry_filters_stale_source_clubs(self) -> None:
         payload = {
