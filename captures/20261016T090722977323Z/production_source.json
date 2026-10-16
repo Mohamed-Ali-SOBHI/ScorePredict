@@ -1,0 +1,28 @@
+{
+  "run": {
+    "createdAt": "2026-10-16T09:01:18Z",
+    "databaseId": 38877590101,
+    "headSha": "6e217a5c56d3c5db685dd22b5ce5fadc69b81abb",
+    "updatedAt": "2026-10-16T09:06:38Z"
+  },
+  "artifact_sha256": {
+    "output/live_portfolio_evaluation.csv": "88cf06f72c9131cd974055f7748de1c5bb51e682b1d3ec678a06106e2e223c23",
+    "output/sportytrader_upcoming_portfolio_odds.csv": "db78ebc9d52f693858cb328e9929c3885c5b51152e1be8bc61d85114cf757fba",
+    "output/live_portfolio_evaluation_summary.json": "6156604a1977b88534126e8dbc3c06c78b3ed569ac488cad442febd2764c9e45",
+    "output/live_portfolio_bet_log.csv": "998239bc6dc931b9fcd5a89dc1abe2aa42b8fe8e005cfb7fbc0940dd26adaae9",
+    "output/shadow/shadow_portfolios_status.json": "7af48b707c7cc35fb1bc8e446bf6c725cb42528dce8c90f506e65e027558662e",
+    "output/shadow/shadow_draw_consensus_recency_2026_09_01/live_portfolio_evaluation.csv": "cb464605dcf63c376f54b0d9cc1faa76f89a85d09c83655c9381b48b88975f4f",
+    "output/shadow/shadow_draw_consensus_recency_2026_09_01/prediction_store_status.json": "349edf49d30c31f47bf80f7c33814c6692496af70f514711bf21761de6b3cb61",
+    "output/shadow/shadow_draw_consensus_recency_2026_09_01/upcoming_portfolio_bets.csv": "b2fd740aaa81e26d9a81a00b6a3182b403d8cb3e9b9da77c51065fa179053e41",
+    "output/shadow/shadow_draw_consensus_recency_2026_09_01/upcoming_portfolio_predictions.csv": "7fe9d4d422d7fe6b195714142b38bb6a28b4e9790eb8994fcb8e1b2509298a6c",
+    "output/shadow/shadow_draw_consensus_recency_2026_09_01/live_portfolio_evaluation_summary.json": "526aace639e2f7b1f7fe8a350220d68845771dff5af0462abc413896a0c3721e",
+    "output/shadow/shadow_draw_consensus_recency_2026_09_01/live_portfolio_bet_log.csv": "cdd073af344d7e76b258d7793d9360ac77d2444e99ede294e94bd94e6936b859",
+    "output/shadow/shadow_draw_consensus_unweighted_2026_09_01/live_portfolio_evaluation.csv": "35c45db30b500ae5da691b429b5696f6629aa58eeea044690e00f4140952f104",
+    "output/shadow/shadow_draw_consensus_unweighted_2026_09_01/prediction_store_status.json": "ff4a229ab7e46e9ec6722e9f68370ebf3631bc52e4c57b8142d5c97a1db81049",
+    "output/shadow/shadow_draw_consensus_unweighted_2026_09_01/upcoming_portfolio_bets.csv": "bd8dab38e40c2b72519c3356a1f30b95707a1b96d0ace147bec4cc10aed2e666",
+    "output/shadow/shadow_draw_consensus_unweighted_2026_09_01/upcoming_portfolio_predictions.csv": "2a7eba8635e7cdf9292462b1f6f59c5cbc5e8d5f798532cd796ed896fe001479",
+    "output/shadow/shadow_draw_consensus_unweighted_2026_09_01/live_portfolio_evaluation_summary.json": "f76341054e8d46a79f4a41ecfafb353471a0aa429da4849166d841168b4554e2",
+    "output/shadow/shadow_draw_consensus_unweighted_2026_09_01/live_portfolio_bet_log.csv": "e115946a1535516998df54e9157932785a8626a4345e970c7c585910a1756a83",
+    "releases/draw_pooled_2026_09_05/manifest.json": "dfabad5d10f3af03e840947af1308271f266dbb3dc5576332deca3b1987fcdba"
+  }
+}
