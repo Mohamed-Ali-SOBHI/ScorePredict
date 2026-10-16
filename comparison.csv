@@ -1,17 +1,17 @@
 ﻿portfolio,label,committed_bets,settled_bets,pending_bets,pending_stake,settled_stake,wins,profit,roi,max_daily_drawdown,additional_profit,additional_settled_bets,profit_difference_vs_reference,drawdown_difference_vs_reference
-reference,Production observée à la capture,0,0,0,0,0,0,0,,0,0,0,0,0
-reference_bundesliga_half,Référence + Bundesliga à demi-mise,1,0,1,0.5,0,0,0,,0,0,0,0,0
-reference_six_full,"Référence + union des six, mise 1",2,0,2,2.0,0,0,0,,0,0,0,0,0
-reference_six_half,"Référence + union des six, mise 0,5",2,0,2,1.0,0,0,0,,0,0,0,0,0
+reference,Production observée à la capture,2,0,2,2.0,0,0,0,,0,0,0,0,0
+reference_bundesliga_half,Référence + Bundesliga à demi-mise,4,0,4,3.0,0,0,0,,0,0,0,0,0
+reference_six_full,"Référence + union des six, mise 1",7,0,7,7.0,0,0,0,,0,0,0,0,0
+reference_six_half,"Référence + union des six, mise 0,5",7,0,7,4.5,0,0,0,,0,0,0,0,0
 alone_l1_home_poisson,Ligue 1 · domicile Poisson seule,0,0,0,0,0,0,0,,0,0,0,0,0
-reference_l1_home_poisson,Référence + Ligue 1 · domicile Poisson,0,0,0,0,0,0,0,,0,0,0,0,0
+reference_l1_home_poisson,Référence + Ligue 1 · domicile Poisson,2,0,2,2.0,0,0,0,,0,0,0,0,0
 alone_seriea_draw_poisson,Serie A · nul Poisson seule,0,0,0,0,0,0,0,,0,0,0,0,0
-reference_seriea_draw_poisson,Référence + Serie A · nul Poisson,0,0,0,0,0,0,0,,0,0,0,0,0
+reference_seriea_draw_poisson,Référence + Serie A · nul Poisson,2,0,2,2.0,0,0,0,,0,0,0,0,0
 alone_seriea_draw_logit,Serie A · nul logistique seule,1,0,1,1.0,0,0,0,,0,0,0,0,0
-reference_seriea_draw_logit,Référence + Serie A · nul logistique,1,0,1,1.0,0,0,0,,0,0,0,0,0
-alone_bundesliga_draw_xgb,Bundesliga · nul XGBoost seule,1,0,1,1.0,0,0,0,,0,0,0,0,0
-reference_bundesliga_draw_xgb,Référence + Bundesliga · nul XGBoost,1,0,1,1.0,0,0,0,,0,0,0,0,0
-alone_epl_away_logit,Premier League · extérieur logistique seule,0,0,0,0,0,0,0,,0,0,0,0,0
-reference_epl_away_logit,Référence + Premier League · extérieur logistique,0,0,0,0,0,0,0,,0,0,0,0,0
-alone_seriea_away_control,Serie A · extérieur outcome_control seule,1,0,1,1.0,0,0,0,,0,0,0,0,0
-reference_seriea_away_control,Référence + Serie A · extérieur outcome_control,1,0,1,1.0,0,0,0,,0,0,0,0,0
+reference_seriea_draw_logit,Référence + Serie A · nul logistique,3,0,3,3.0,0,0,0,,0,0,0,0,0
+alone_bundesliga_draw_xgb,Bundesliga · nul XGBoost seule,4,0,4,4.0,0,0,0,,0,0,0,0,0
+reference_bundesliga_draw_xgb,Référence + Bundesliga · nul XGBoost,4,0,4,4.0,0,0,0,,0,0,0,0,0
+alone_epl_away_logit,Premier League · extérieur logistique seule,1,0,1,1.0,0,0,0,,0,0,0,0,0
+reference_epl_away_logit,Référence + Premier League · extérieur logistique,3,0,3,3.0,0,0,0,,0,0,0,0,0
+alone_seriea_away_control,Serie A · extérieur outcome_control seule,2,0,2,2.0,0,0,0,,0,0,0,0,0
+reference_seriea_away_control,Référence + Serie A · extérieur outcome_control,4,0,4,4.0,0,0,0,,0,0,0,0,0
