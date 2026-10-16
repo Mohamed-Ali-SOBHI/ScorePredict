@@ -33,7 +33,7 @@ Ce flux exécute : collecte de la saison courante, enrichissement, reconstructio
 
 ## Mise à jour et publication avec GitHub
 
-Le workflow `.github/workflows/daily-predictions.yml` lance le calcul chaque jour à 06:15 et 12:15 dans le fuseau `Europe/Paris`, analyse aujourd'hui et les deux jours suivants, puis publie `production/static` sur GitHub Pages. Le workflow peut aussi être lancé manuellement depuis l'onglet **Actions** du dépôt.
+Le workflow `.github/workflows/daily-predictions.yml` planifie le calcul chaque jour à 00:35, 06:15, 12:15 et 18:35 dans le fuseau `Europe/Paris`, analyse les prochaines 24 heures, puis publie `production/static` sur GitHub Pages. Le passage après minuit couvre les rencontres du nouveau jour avant la collecte du matin ; celui du soir actualise aussi les rencontres qui viennent d'entrer dans la fenêtre. GitHub peut retarder les déclenchements planifiés : ces horaires ne constituent pas une garantie de publication à la minute. Le workflow peut aussi être lancé manuellement depuis l'onglet **Actions** du dépôt.
 
 Les scripts `install_daily_task.ps1` et `run_daily_update.ps1` sont uniquement un mode de secours local. Ils ne doivent pas être activés sur un PC lorsque la publication GitHub Actions est utilisée, sinon la collecte est exécutée deux fois.
 

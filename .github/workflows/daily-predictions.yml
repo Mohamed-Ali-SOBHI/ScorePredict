@@ -3,9 +3,15 @@ name: Previsions quotidiennes et site
 on:
   workflow_dispatch:
   schedule:
+    # Populate the new day's 24-hour window before the morning visit.
+    # Additional passes reduce reliance on any one delayed GitHub trigger.
+    - cron: "35 0 * * *"
+      timezone: "Europe/Paris"
     - cron: "15 6 * * *"
       timezone: "Europe/Paris"
     - cron: "15 12 * * *"
+      timezone: "Europe/Paris"
+    - cron: "35 18 * * *"
       timezone: "Europe/Paris"
 
 concurrency:

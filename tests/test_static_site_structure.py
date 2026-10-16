@@ -140,11 +140,13 @@ class StaticSiteStructureTests(unittest.TestCase):
             self.assertGreater(nav.index('class="global-nav-cta"'), nav.index('href="./explorer.html"'))
         self.assertIn(".global-nav a.global-nav-cta", navigation)
 
-    def test_daily_workflow_has_a_second_automatic_run(self) -> None:
+    def test_daily_workflow_refreshes_the_rolling_window_throughout_the_day(self) -> None:
         workflow = (ROOT / ".github" / "workflows" / "daily-predictions.yml").read_text(encoding="utf-8")
+        self.assertIn('cron: "35 0 * * *"', workflow)
         self.assertIn('cron: "15 6 * * *"', workflow)
         self.assertIn('cron: "15 12 * * *"', workflow)
-        self.assertEqual(workflow.count('timezone: "Europe/Paris"'), 2)
+        self.assertIn('cron: "35 18 * * *"', workflow)
+        self.assertEqual(workflow.count('timezone: "Europe/Paris"'), 4)
         self.assertIn("python -m inference.validate_publication_kickoffs", workflow)
         self.assertIn("--fixtures inference/output/current_season_fixture_catalog.csv", workflow)
         self.assertIn("Les horaires publics ne correspondent pas au calendrier vérifié.", workflow)
