@@ -3,6 +3,8 @@ import gzip
 import json
 import os
 import sys
+from datetime import datetime, timezone
+from pathlib import Path
 from urllib.request import Request, urlopen
 
 import pandas as pd
@@ -152,7 +154,7 @@ def _current_registry_titles(league, season):
     }
 
 
-def get_league_data(league, season, base_url="https://understat.com"):
+def get_league_data(league, season, base_url="https://understat.com", source_snapshot_dir=None):
     """Fetch Understat JSON for a league/season.
 
     Understat now loads the heavy league payload via XHR (`getLeagueData`).
@@ -175,6 +177,15 @@ def get_league_data(league, season, base_url="https://understat.com"):
             if response.headers.get("Content-Encoding") == "gzip" or body[:2] == b"\x1f\x8b":
                 body = gzip.decompress(body)
             payload = json.loads(body.decode("utf-8"))
+    if source_snapshot_dir is not None:
+        snapshot = Path(source_snapshot_dir) / f"{league}-{season}.json"
+        snapshot.parent.mkdir(parents=True, exist_ok=True)
+        snapshot.write_text(json.dumps({
+            "captured_at": datetime.now(timezone.utc).isoformat(),
+            "source_url": url,
+            "teams": payload.get("teams"),
+            "dates": payload.get("dates"),
+        }, ensure_ascii=False), encoding="utf-8")
     return normalize_understat_teams(
         payload,
         fallback_titles=_current_registry_titles(league, season),
@@ -182,7 +193,7 @@ def get_league_data(league, season, base_url="https://understat.com"):
     )
 
 
-def get_all_league_data(seasons, leagues, base_url):
+def get_all_league_data(seasons, leagues, base_url, source_snapshot_dir=None):
     """Fetch Understat league-season JSON for all requested inputs."""
     data = {}
 
@@ -193,6 +204,7 @@ def get_all_league_data(seasons, leagues, base_url):
                     league_name,
                     season_name,
                     base_url=base_url,
+                    source_snapshot_dir=source_snapshot_dir,
                 )
             except Exception as exc:
                 url = f"{base_url}/getLeagueData/{league_name}/{season_name}"
@@ -484,6 +496,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--include-closing-market-data", action="store_true")
     parser.add_argument("--include-consensus-market-data", action="store_true")
+    parser.add_argument("--source-snapshot-dir", default=None)
     return parser.parse_args()
 
 
@@ -493,7 +506,7 @@ if __name__ == '__main__':
     leagues = [league.strip() for league in args.leagues.split(",") if league.strip()]
     seasons = [season.strip() for season in args.seasons.split(",") if season.strip()]
 
-    data = get_all_league_data(seasons, leagues, base_url)
+    data = get_all_league_data(seasons, leagues, base_url, args.source_snapshot_dir)
     registry = write_registry(data, os.path.join(REPO_ROOT, "Data"))
     print(f"Team registry written: {registry}")
 

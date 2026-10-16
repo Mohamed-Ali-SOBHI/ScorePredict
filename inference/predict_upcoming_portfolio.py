@@ -12,6 +12,7 @@ if str(REPO_ROOT) not in sys.path:
 
 from inference.portfolio_presets import DEFAULT_PORTFOLIO_NAME, PORTFOLIO_PRESETS, PRODUCTION_PORTFOLIO_NAME, PRODUCTION_REFIT_TRAIN_MAX_SEASON
 from inference.pooled_release import load_release_models
+from data_pipeline.audit_club_coverage import audit_upcoming
 from inference.live_tracking import (
     TRACKING_COLUMNS,
     append_tracking_rows,
@@ -299,6 +300,9 @@ def main() -> None:
     future_df["fixture_id"] = future_df["match_id"].map(dict(zip(future_match_ids, fixture_ids)))
     future_df["kickoff_utc"] = future_df["match_id"].map(dict(zip(future_match_ids, kickoff_times)))
     future_df = future_df.sort_values(["date", "league", "team_name"]).reset_index(drop=True)
+    if args.portfolio == PRODUCTION_PORTFOLIO_NAME:
+        audit_upcoming(team_rows, future_df, bundles,
+                       resolve_path(args.output_all).with_name("upcoming_input_audit.json"))
     scored = score_strategy_rows(future_df, bundles, strategies)
     explorer_rows = score_explorer_rows(future_df, bundles, strategies)
     bets = dedupe_recommended_bets(scored)

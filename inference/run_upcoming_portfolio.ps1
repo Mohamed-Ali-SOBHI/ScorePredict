@@ -43,7 +43,8 @@ try {
     }
 
     if ($RefreshRawData) {
-        & $PythonExe .\data_pipeline\scrapper.py --seasons $DataSeason
+        & $PythonExe .\data_pipeline\scrapper.py --seasons $DataSeason `
+            --source-snapshot-dir .\train\output\club_coverage_sources
         Assert-LastExitCode "data_pipeline\\scrapper.py"
 
         $catalogFrom = (Get-Date).Date.ToString("yyyy-MM-dd")
@@ -77,6 +78,12 @@ try {
             --season $DataSeason `
             --output .\train\output\team_registry_audit.json
         Assert-LastExitCode "data_pipeline\\validate_team_registry.py"
+        & $PythonExe -m data_pipeline.audit_club_coverage `
+            --season $DataSeason `
+            --data-dir .\Data `
+            --source-dir .\train\output\club_coverage_sources `
+            --output .\train\output\club_coverage_audit.json
+        Assert-LastExitCode "current club statistics coverage"
         & $PythonExe .\train\audit_data_quality.py `
             --data-dir .\Data `
             --dataset .\train\dataset_home.csv `

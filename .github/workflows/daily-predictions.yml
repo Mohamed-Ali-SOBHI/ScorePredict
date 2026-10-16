@@ -144,6 +144,11 @@ jobs:
             inference/output/shadow/**/*.csv
             inference/output/shadow/**/*.json
             inference/releases/draw_pooled_2026_09_05/manifest.json
+            train/output/club_coverage_audit.json
+            train/output/club_coverage_sources/*.json
+            train/output/data_quality_audit.json
+            train/output/team_registry_audit.json
+            inference/output/upcoming_input_audit.json
           if-no-files-found: warn
           retention-days: 90
 
@@ -158,6 +163,7 @@ jobs:
             inference/output/*.json
             inference/output/shadow/**/*
             train/output/*.json
+            train/output/club_coverage_sources/*.json
           if-no-files-found: ignore
           retention-days: 7
 
