@@ -87,6 +87,30 @@ précédente sur trois rencontres impliquant un promu : Le Mans, Frosinone et
 Deportivo La Coruna. Leurs historiques courants contiennent respectivement
 6, 6 et 8 matchs, tous transmis au modèle.
 
+Une lacune plus ancienne subsiste dans les cotes archivées :
+Torino–Fiorentina du 10 janvier 2022 (saison 2021, deux lignes d'équipes).
+Les statistiques sportives sont présentes. Le constructeur du fichier
+d'entraînement écarte déjà les rencontres sans cotes ; le constructeur utilisé
+pour les prédictions recharge les observations sportives brutes et conserve
+donc ce match dans les historiques. Aucune cote ancienne n'est reconstituée
+ou inventée et les modèles figés ne sont pas réentraînés.
+
+### Validation finale sur GitHub
+
+Le [passage corrigé du 16 octobre](https://github.com/Mohamed-Ali-SOBHI/ScorePredict/actions/runs/38902849220)
+confirme 98 clubs, 297 matchs et 594 lignes courantes sans erreur de couverture.
+Après correction, aucun des champs sportifs contrôlés, tirs ou cotes
+historiques ne manque sur ces 297 matchs. Les 43 770 lignes toutes saisons
+comprises représentent 21 885 matchs, sans doublon et avec exactement deux
+équipes par match. Les deux seules lignes sans cotes concernent la rencontre
+de janvier 2022 mentionnée ci-dessus.
+
+Le contrôle des six rencontres à venir porte sur 127 variables des modèles.
+Les seules valeurs absentes sont les comparaisons de saison précédente des
+trois promus décrites plus haut. Le snapshot public généré à 14 h 49 le
+16 octobre affiche ces six rencontres avec les historiques des douze équipes
+et toutes leurs moyennes statistiques renseignées.
+
 ## Limites et absences normales
 
 Les tirs et les cotes historiques proviennent d'une autre source. Leur absence
