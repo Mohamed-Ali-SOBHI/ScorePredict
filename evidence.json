@@ -796,6 +796,29 @@
       },
       "previous_hash": "aee977e82e8183dcd858970ac85689bbc01d4b35ab25213be8c5e1a74c764d7b",
       "event_hash": "a1873be071d8c252c9b796dad5c446a427662cb0aef6bd734e568433a3e8d17a"
+    },
+    {
+      "seq": 16,
+      "kind": "run",
+      "identity": "20261016T125223314187Z",
+      "payload": {
+        "eligible_new_candidates": 0,
+        "finished_at_utc": "2026-10-16T12:52:25.749208+00:00",
+        "github_run_attempt": "1",
+        "github_run_id": "38903517366",
+        "new_forecasts": 0,
+        "new_settlements": 0,
+        "production_changed": false,
+        "production_run_id": 38902849220,
+        "production_snapshot_age_hours": 0.012708108611111112,
+        "rejected_rows": 35,
+        "run_id": "20261016T125223314187Z",
+        "settlement_issues": [],
+        "started_at_utc": "2026-10-16T12:52:23.314187+00:00",
+        "state": "collected"
+      },
+      "previous_hash": "a1873be071d8c252c9b796dad5c446a427662cb0aef6bd734e568433a3e8d17a",
+      "event_hash": "030df8438b4ac16601ef240820b6bb0368e7c8ae79db81e188268d5e59f04f20"
     }
   ]
 }
