@@ -41,7 +41,7 @@
     linear-gradient(180deg, #f4f6f1 0%, #eef4ef 46%, #e3efe7 100%);
 }
 .journal-dashboard .today-grid { grid-template-columns: minmax(0, 1fr); margin-top: 36px; }
-.journal-dashboard .pick-list { grid-template-columns: minmax(0, 400px); justify-content: center; }
+.journal-dashboard .pick-list { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 380px)); justify-content: center; }
 .journal-dashboard .pick-list > .prediction:last-child:nth-child(odd) { width: 100%; grid-column: auto; }
 .journal-dashboard .prediction { aspect-ratio: auto; min-height: 470px; padding: 24px 28px; border-radius: 28px; transform: none; box-shadow: 6px 7px 0 #02170e, inset 0 1px 1px rgba(255,255,255,.08), inset -18px -24px 40px rgba(0,0,0,.12), 0 20px 40px rgba(5,39,25,.08); background: radial-gradient(circle at 18% 2%, rgba(255,255,255,.07), transparent 29%), linear-gradient(145deg, #0d5b38, #0b4a2c 33%, #052719 80%); border: 1px solid rgba(255,255,255,.12); }
 .journal-dashboard .prediction:hover { transform: translateY(-3px); }
@@ -57,7 +57,7 @@
 .journal-dashboard .prediction-footer span { font-size: 13px; text-transform: none; letter-spacing: 0; color: rgba(255,255,255,.5); }
 .journal-dashboard .prediction-footer b { font-size: 22px; color: #fff; }
 .journal-dashboard .today-grid.has-many { grid-template-columns: minmax(0,1fr); gap: 32px; }
-.journal-dashboard .has-many .pick-list { grid-template-columns: repeat(auto-fit,minmax(min(100%,300px),1fr)); gap: 24px; }
+.journal-dashboard .has-many .pick-list { gap: 24px; }
 
 /* 3D Monolith for the main recommendation */
 .journal-dashboard .monolith {
@@ -244,7 +244,7 @@
 .journal-dashboard .site-footer p { color: var(--muted); }
 .journal-dashboard .site-footer .brand-logo-window img { filter: none; mix-blend-mode: multiply; }
 .journal-dashboard .js [data-reveal], .js .journal-dashboard [data-reveal] { opacity: 1; transform: none; }
-.journal-dashboard .prediction.no-pick { width: min(100%, 400px); min-height: 470px; margin-inline: auto; align-items: stretch; justify-content: flex-start; text-align: center; }
+.journal-dashboard .prediction.no-pick { width: min(100%, 380px); min-height: 470px; margin-inline: auto; align-items: stretch; justify-content: flex-start; text-align: center; }
 .journal-dashboard .no-pick .prediction-head { position: relative; z-index: 2; text-align: left; }
 .journal-dashboard .no-pick-state { position: relative; z-index: 2; display: flex; flex: 1; flex-direction: column; align-items: center; justify-content: center; width: 100%; padding-block: 34px 10px; animation: no-pick-in .45s cubic-bezier(.22,1,.36,1) both; }
 .journal-dashboard .no-pick-kicker { margin-bottom: 18px; color: var(--lime-detail); font-size: 11px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
@@ -444,7 +444,7 @@
   .journal-dashboard .no-pick-label { max-width: 11ch; font-size: clamp(30px,8vw,36px); }
   .journal-dashboard .no-pick-copy { font-size: 15px; }
   .journal-dashboard .no-pick-action { width: min(100%, 280px); }
-  .journal-dashboard .pick-list { grid-template-columns: minmax(0,1fr); }
+  .journal-dashboard .pick-list { grid-template-columns: minmax(0,380px); }
   .journal-dashboard .prediction { width: 100%; min-height: 405px; padding: 22px; margin: 0; }
   .journal-dashboard .prediction-head { font-size: 11px; }
   .journal-dashboard .teams h2 { font-size: clamp(27px,7vw,34px); }
