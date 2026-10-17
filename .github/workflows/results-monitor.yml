@@ -52,12 +52,16 @@ jobs:
           test -n "$SUPABASE_URL" || (echo "SUPABASE_URL absent" && exit 1)
           test -n "$SUPABASE_SECRET_KEY" || (echo "SUPABASE_SECRET_KEY absent" && exit 1)
 
-      - name: Recuperer le dashboard actuellement publie
+      - name: Conserver les donnees actuellement publiees
         run: |
-          curl --fail --silent --show-error --retry 3 \
-            "https://mohamed-ali-sobhi.github.io/ScorePredict/data/dashboard.json?run=${GITHUB_RUN_ID}" \
-            --output "${RUNNER_TEMP}/dashboard.json"
-          cp "${RUNNER_TEMP}/dashboard.json" production/static/data/dashboard.json
+          mkdir -p "${RUNNER_TEMP}/published-data"
+          for name in dashboard explorer; do
+            curl --fail --silent --show-error --retry 3 \
+              "https://mohamed-ali-sobhi.github.io/ScorePredict/data/${name}.json?run=${GITHUB_RUN_ID}" \
+              --output "${RUNNER_TEMP}/published-data/${name}.json"
+            python -m json.tool "${RUNNER_TEMP}/published-data/${name}.json" > /dev/null
+            cp "${RUNNER_TEMP}/published-data/${name}.json" "production/static/data/${name}.json"
+          done
 
       - name: Recuperer les paris en attente
         run: |
@@ -97,6 +101,10 @@ jobs:
       - name: Preparer GitHub Pages
         if: steps.result.outputs.changed == 'true'
         uses: actions/configure-pages@v6
+
+      - name: Verifier la conservation de tous les matchs
+        if: steps.result.outputs.changed == 'true'
+        run: cmp "${RUNNER_TEMP}/published-data/explorer.json" production/static/data/explorer.json
 
       - name: Charger le site actualise
         if: steps.result.outputs.changed == 'true'

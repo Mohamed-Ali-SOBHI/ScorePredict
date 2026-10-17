@@ -337,6 +337,7 @@ def fetch_sportsdb_fixture_times(
     season: int,
     *,
     timeout_seconds: float,
+    fixture_day: str | None = None,
 ) -> pd.DataFrame:
     try:
         league_id = THE_SPORTS_DB_LEAGUE_IDS[league]
@@ -346,9 +347,10 @@ def fetch_sportsdb_fixture_times(
     attempts = max(1, int(os.getenv("SCOREPREDICT_SCHEDULE_ATTEMPTS", "3")))
     failures: list[str] = []
     season_label = f"{season}-{season + 1}"
-    query = urlencode({"id": league_id, "s": season_label})
+    query = urlencode({"d": fixture_day, "l": league_id} if fixture_day else {"id": league_id, "s": season_label})
     api_key = os.getenv("THESPORTSDB_API_KEY", "123").strip() or "123"
-    url = f"https://www.thesportsdb.com/api/v1/json/{api_key}/eventsseason.php?{query}"
+    endpoint = "eventsday.php" if fixture_day else "eventsseason.php"
+    url = f"https://www.thesportsdb.com/api/v1/json/{api_key}/{endpoint}?{query}"
     for attempt in range(1, attempts + 1):
         try:
             request = Request(url, headers={"User-Agent": "Mozilla/5.0", "Accept": "application/json"})

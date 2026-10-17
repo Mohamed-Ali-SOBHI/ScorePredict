@@ -482,12 +482,24 @@ def collect_results_for_due_rows(
         for row in due.itertuples(index=False)
     }
     for league, season in sorted(groups):
+        # The free season endpoint only returns 15 fixtures. Query each due
+        # match day instead; Understat remains the fallback because the daily
+        # endpoint also has a limited response. Missing rows are never results.
+        days = sorted({
+            paris_datetime(ledger_kickoff(row)).date().isoformat()
+            for _, row in due.iterrows()
+            if str(row.get("league")) == league
+            and infer_season(paris_datetime(row.get("date"))) == season
+        })
         try:
-            sportsdb = fetch_sportsdb_fixture_times(league, season, timeout_seconds=timeout_seconds)
-            if not sportsdb.empty:
-                sportsdb = sportsdb.copy()
-                sportsdb["result_source"] = "thesportsdb_final_status"
-                frames.append(sportsdb)
+            for day in days:
+                sportsdb = fetch_sportsdb_fixture_times(
+                    league, season, timeout_seconds=timeout_seconds, fixture_day=day,
+                )
+                if not sportsdb.empty:
+                    sportsdb = sportsdb.copy()
+                    sportsdb["result_source"] = "thesportsdb_final_status"
+                    frames.append(sportsdb)
         except Exception as exc:
             warnings.append(f"TheSportsDB {league}: {exc}")
         try:

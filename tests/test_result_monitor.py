@@ -1,12 +1,16 @@
 from __future__ import annotations
 
 import unittest
+import json
 from datetime import datetime, timezone
+from unittest.mock import patch
+from urllib.parse import parse_qs, urlparse
 
 import pandas as pd
 
 from inference.portfolio_presets import DEFAULT_PORTFOLIO_NAME
 from inference.result_monitor import (
+    collect_results_for_due_rows,
     refresh_pending_dates_from_snapshot,
     settle_due_predictions,
     understat_finished_results,
@@ -15,6 +19,34 @@ from inference.result_monitor import (
 
 
 class ResultMonitorTests(unittest.TestCase):
+    def test_daily_lookup_settles_only_returned_final_results(self):
+        ledger = pd.concat([self._ledger(), self._ledger()], ignore_index=True)
+        ledger.loc[1, "team_name"] = "Missing United"
+        payload = {"events": [{
+            "strTimestamp": "2026-08-22T14:00:00",
+            "strHomeTeam": "Ipswich", "strAwayTeam": "Sunderland",
+            "strStatus": "FT", "intHomeScore": "1", "intAwayScore": "1",
+        }]}
+        with patch("inference.sportytrader_client.urlopen") as opened, patch(
+            "inference.result_monitor.get_league_data", return_value={},
+        ):
+            response = opened.return_value.__enter__.return_value
+            response.read.return_value = json.dumps(payload).encode()
+            response.headers = {}
+            results, warnings = collect_results_for_due_rows(
+                ledger, now=pd.Timestamp("2026-08-22 18:00"),
+                minimum_elapsed_minutes=105, portfolio_name=DEFAULT_PORTFOLIO_NAME,
+                timeout_seconds=10,
+            )
+        url = urlparse(opened.call_args.args[0].full_url)
+        self.assertTrue(url.path.endswith("/eventsday.php"))
+        self.assertEqual(parse_qs(url.query), {"d": ["2026-08-22"], "l": ["4328"]})
+        self.assertEqual(opened.call_count, 1)
+        self.assertEqual(warnings, [])
+        updated, counts = settle_due_predictions(ledger, results, now=pd.Timestamp("2026-08-22 18:00"))
+        self.assertEqual(updated.result_status.tolist(), ["won", "pending"])
+        self.assertEqual(counts["unmatched"], 1)
+
     def test_snapshot_preserves_authoritative_utc(self):
         ledger = self._ledger()
         ledger['kickoff_utc'] = '2026-08-22T14:00:00Z'
