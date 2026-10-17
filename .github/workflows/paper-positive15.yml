@@ -87,3 +87,69 @@ jobs:
       - name: Verifier la collecte
         if: always() && steps.verify.outcome == 'success'
         run: python paper_positive15/cloud_state.py health
+
+  compare9:
+    name: Comparer les neuf aux quinze sur les memes previsions
+    needs: observe
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PAPER_STATE_DIR: ${{ github.workspace }}/_positive15_source
+      COMPARE9_STATE_DIR: ${{ github.workspace }}/_compare9_state
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          persist-credentials: false
+      - name: Recuperer les previsions figees des quinze
+        uses: actions/checkout@v6
+        with:
+          ref: observation-positive15-state
+          path: _positive15_source
+          persist-credentials: false
+      - name: Recuperer le journal de comparaison
+        uses: actions/checkout@v6
+        with:
+          ref: observation-compare9-state
+          path: _compare9_state
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Verifier la comparaison et les doublons
+        run: python -m unittest discover -s paper_compare9 -p 'test_*.py'
+      - name: Verifier le journal de comparaison
+        id: verify9
+        run: python paper_compare9/compare9.py verify
+      - name: Inscrire les matchs futurs et comparer les portefeuilles
+        id: collect9
+        continue-on-error: true
+        run: python paper_compare9/compare9.py collect
+      - name: Conserver la comparaison
+        if: always() && steps.verify9.outcome == 'success'
+        working-directory: _compare9_state
+        run: |
+          python ../paper_compare9/compare9.py verify
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --all
+          if ! git diff --cached --quiet; then
+            git commit -m "Comparison9 versus15: run ${GITHUB_RUN_ID}, attempt ${GITHUB_RUN_ATTEMPT}"
+            git push origin HEAD:observation-compare9-state
+          fi
+      - name: Sauvegarder les preuves de comparaison
+        if: always() && steps.verify9.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: compare9-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 90
+          include-hidden-files: true
+          path: |
+            _compare9_state/*.json
+            _compare9_state/*.sqlite3
+            _compare9_state/*.csv
+            _compare9_state/*.html
+            _compare9_state/*.md
+            _compare9_state/.gitattributes
+      - name: Verifier le resultat de la comparaison
+        if: always() && steps.verify9.outcome == 'success'
+        run: python paper_compare9/compare9.py health

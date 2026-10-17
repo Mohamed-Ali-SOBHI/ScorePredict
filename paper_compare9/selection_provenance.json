@@ -1,0 +1,721 @@
+{
+  "selected_ids": [
+    "residual_sport_recency|Ligue_1|draw|0.05|all",
+    "local_price_only|EPL|home|0.02|all",
+    "local_price_only|EPL|away|0.05|all",
+    "local_price_only|EPL|draw|0.05|all",
+    "residual_price|Bundesliga|draw|0.02|all",
+    "local_sport_only|Serie_A|away|0.05|all",
+    "residual_sport_recency|Serie_A|away|0.02|all",
+    "local_price_only|Ligue_1|home|0.02|all",
+    "local_price_only|Ligue_1|draw|0.05|low_goal_parity"
+  ],
+  "selection": "Positive standalone profit in annual2025 held-out test and current2026 retrospective replay through17October2026. Frozen filters; inherit original15 priority.",
+  "source_report_sha256": "0a35591e037c2afd74f3e8ea4d898f6534bf0e5174a5c0e50ba28bf6f5abc9d7",
+  "selected_rows": [
+    {
+      "id": "residual_sport_recency|Ligue_1|draw|0.05|all",
+      "label": "Ligue 1 · nul · residual_sport_recency · EV>5% · all",
+      "rule": {
+        "id": "residual_sport_recency|Ligue_1|draw|0.05|all",
+        "method": "residual_sport_recency",
+        "league": "Ligue_1",
+        "outcome": "draw",
+        "threshold": 0.05,
+        "profile": "all",
+        "model": "residual_sport_recency",
+        "label": "Ligue 1 · nul · residual_sport_recency · EV>5% · all"
+      },
+      "previous_annual_test": {
+        "opportunities": 297,
+        "bets": 26,
+        "wins": 10,
+        "profit": 12.15,
+        "roi": 0.4673076923076923,
+        "period_first": "2025-08-15 18:45:00",
+        "period_last": "2026-05-17 19:00:00"
+      },
+      "previous_current_model_validation": {
+        "opportunities": 297,
+        "bets": 25,
+        "wins": 12,
+        "profit": 22.73,
+        "roi": 0.9092,
+        "period_first": "2025-08-15 18:45:00",
+        "period_last": "2026-05-17 19:00:00"
+      },
+      "current_season": {
+        "bets": 2,
+        "wins": 1,
+        "profit": 2.5,
+        "roi": 1.25
+      },
+      "positive_both_annual": true,
+      "positive_both_current_model": true,
+      "annual_history": {
+        "2022": {
+          "opportunities": 379,
+          "bets": 31,
+          "wins": 4,
+          "profit": -17.45,
+          "roi": -0.5629032258064516,
+          "period_first": "2022-08-05 19:00:00",
+          "period_last": "2023-06-03 17:00:00"
+        },
+        "2023": {
+          "opportunities": 304,
+          "bets": 24,
+          "wins": 5,
+          "profit": -3.25,
+          "roi": -0.13541666666666669,
+          "period_first": "2023-08-12 18:00:00",
+          "period_last": "2024-05-19 19:00:00"
+        },
+        "2024": {
+          "opportunities": 306,
+          "bets": 21,
+          "wins": 4,
+          "profit": -3.3,
+          "roi": -0.15714285714285717,
+          "period_first": "2024-08-16 18:45:00",
+          "period_last": "2025-05-17 19:00:00"
+        },
+        "2025": {
+          "opportunities": 297,
+          "bets": 26,
+          "wins": 10,
+          "profit": 12.15,
+          "roi": 0.4673076923076923,
+          "period_first": "2025-08-15 18:45:00",
+          "period_last": "2026-05-17 19:00:00"
+        }
+      }
+    },
+    {
+      "id": "local_price_only|EPL|home|0.02|all",
+      "label": "Premier League · domicile · local_price_only · EV>2% · all",
+      "rule": {
+        "id": "local_price_only|EPL|home|0.02|all",
+        "method": "local_price_only",
+        "league": "EPL",
+        "outcome": "home",
+        "threshold": 0.02,
+        "profile": "all",
+        "model": "local_price_only",
+        "label": "Premier League · domicile · local_price_only · EV>2% · all"
+      },
+      "previous_annual_test": {
+        "opportunities": 380,
+        "bets": 139,
+        "wins": 62,
+        "profit": 6.24,
+        "roi": 0.04489208633093524,
+        "period_first": "2025-08-15 19:00:00",
+        "period_last": "2026-05-24 15:00:00"
+      },
+      "previous_current_model_validation": {
+        "opportunities": 380,
+        "bets": 116,
+        "wins": 56,
+        "profit": 15.27,
+        "roi": 0.13163793103448274,
+        "period_first": "2025-08-15 19:00:00",
+        "period_last": "2026-05-24 15:00:00"
+      },
+      "current_season": {
+        "bets": 30,
+        "wins": 14,
+        "profit": 7.0,
+        "roi": 0.23333333333333334
+      },
+      "positive_both_annual": true,
+      "positive_both_current_model": true,
+      "annual_history": {
+        "2022": {
+          "opportunities": 380,
+          "bets": 115,
+          "wins": 58,
+          "profit": 23.02,
+          "roi": 0.20017391304347826,
+          "period_first": "2022-08-05 19:00:00",
+          "period_last": "2023-05-28 15:30:00"
+        },
+        "2023": {
+          "opportunities": 380,
+          "bets": 110,
+          "wins": 55,
+          "profit": 12.89,
+          "roi": 0.11718181818181816,
+          "period_first": "2023-08-11 19:00:00",
+          "period_last": "2024-05-19 15:00:00"
+        },
+        "2024": {
+          "opportunities": 380,
+          "bets": 153,
+          "wins": 69,
+          "profit": -16.45,
+          "roi": -0.10751633986928107,
+          "period_first": "2024-08-16 19:00:00",
+          "period_last": "2025-05-25 15:00:00"
+        },
+        "2025": {
+          "opportunities": 380,
+          "bets": 139,
+          "wins": 62,
+          "profit": 6.24,
+          "roi": 0.04489208633093524,
+          "period_first": "2025-08-15 19:00:00",
+          "period_last": "2026-05-24 15:00:00"
+        }
+      }
+    },
+    {
+      "id": "local_price_only|EPL|away|0.05|all",
+      "label": "Premier League · extérieur · local_price_only · EV>5% · all",
+      "rule": {
+        "id": "local_price_only|EPL|away|0.05|all",
+        "method": "local_price_only",
+        "league": "EPL",
+        "outcome": "away",
+        "threshold": 0.05,
+        "profile": "all",
+        "model": "local_price_only",
+        "label": "Premier League · extérieur · local_price_only · EV>5% · all"
+      },
+      "previous_annual_test": {
+        "opportunities": 380,
+        "bets": 85,
+        "wins": 30,
+        "profit": 15.0,
+        "roi": 0.17647058823529413,
+        "period_first": "2025-08-15 19:00:00",
+        "period_last": "2026-05-24 15:00:00"
+      },
+      "previous_current_model_validation": {
+        "opportunities": 380,
+        "bets": 89,
+        "wins": 29,
+        "profit": 7.9,
+        "roi": 0.08876404494382023,
+        "period_first": "2025-08-15 19:00:00",
+        "period_last": "2026-05-24 15:00:00"
+      },
+      "current_season": {
+        "bets": 11,
+        "wins": 6,
+        "profit": 1.21,
+        "roi": 0.11000000000000001
+      },
+      "positive_both_annual": true,
+      "positive_both_current_model": true,
+      "annual_history": {
+        "2022": {
+          "opportunities": 380,
+          "bets": 131,
+          "wins": 37,
+          "profit": -9.72,
+          "roi": -0.07419847328244275,
+          "period_first": "2022-08-05 19:00:00",
+          "period_last": "2023-05-28 15:30:00"
+        },
+        "2023": {
+          "opportunities": 380,
+          "bets": 128,
+          "wins": 51,
+          "profit": 8.21,
+          "roi": 0.06414062499999999,
+          "period_first": "2023-08-11 19:00:00",
+          "period_last": "2024-05-19 15:00:00"
+        },
+        "2024": {
+          "opportunities": 380,
+          "bets": 112,
+          "wins": 44,
+          "profit": 28.97,
+          "roi": 0.2586607142857143,
+          "period_first": "2024-08-16 19:00:00",
+          "period_last": "2025-05-25 15:00:00"
+        },
+        "2025": {
+          "opportunities": 380,
+          "bets": 85,
+          "wins": 30,
+          "profit": 15.0,
+          "roi": 0.17647058823529413,
+          "period_first": "2025-08-15 19:00:00",
+          "period_last": "2026-05-24 15:00:00"
+        }
+      }
+    },
+    {
+      "id": "local_price_only|EPL|draw|0.05|all",
+      "label": "Premier League · nul · local_price_only · EV>5% · all",
+      "rule": {
+        "id": "local_price_only|EPL|draw|0.05|all",
+        "method": "local_price_only",
+        "league": "EPL",
+        "outcome": "draw",
+        "threshold": 0.05,
+        "profile": "all",
+        "model": "local_price_only",
+        "label": "Premier League · nul · local_price_only · EV>5% · all"
+      },
+      "previous_annual_test": {
+        "opportunities": 380,
+        "bets": 100,
+        "wins": 30,
+        "profit": 19.16,
+        "roi": 0.1916,
+        "period_first": "2025-08-15 19:00:00",
+        "period_last": "2026-05-24 15:00:00"
+      },
+      "previous_current_model_validation": {
+        "opportunities": 380,
+        "bets": 112,
+        "wins": 29,
+        "profit": 6.86,
+        "roi": 0.06124999999999999,
+        "period_first": "2025-08-15 19:00:00",
+        "period_last": "2026-05-24 15:00:00"
+      },
+      "current_season": {
+        "bets": 16,
+        "wins": 5,
+        "profit": 4.7,
+        "roi": 0.29375
+      },
+      "positive_both_annual": true,
+      "positive_both_current_model": true,
+      "annual_history": {
+        "2022": {
+          "opportunities": 380,
+          "bets": 87,
+          "wins": 24,
+          "profit": -2.22,
+          "roi": -0.025517241379310357,
+          "period_first": "2022-08-05 19:00:00",
+          "period_last": "2023-05-28 15:30:00"
+        },
+        "2023": {
+          "opportunities": 380,
+          "bets": 75,
+          "wins": 15,
+          "profit": -15.05,
+          "roi": -0.2006666666666667,
+          "period_first": "2023-08-11 19:00:00",
+          "period_last": "2024-05-19 15:00:00"
+        },
+        "2024": {
+          "opportunities": 380,
+          "bets": 79,
+          "wins": 22,
+          "profit": 9.05,
+          "roi": 0.11455696202531647,
+          "period_first": "2024-08-16 19:00:00",
+          "period_last": "2025-05-25 15:00:00"
+        },
+        "2025": {
+          "opportunities": 380,
+          "bets": 100,
+          "wins": 30,
+          "profit": 19.16,
+          "roi": 0.1916,
+          "period_first": "2025-08-15 19:00:00",
+          "period_last": "2026-05-24 15:00:00"
+        }
+      }
+    },
+    {
+      "id": "residual_price|Bundesliga|draw|0.02|all",
+      "label": "Bundesliga · nul · residual_price · EV>2% · all",
+      "rule": {
+        "id": "residual_price|Bundesliga|draw|0.02|all",
+        "method": "residual_price",
+        "league": "Bundesliga",
+        "outcome": "draw",
+        "threshold": 0.02,
+        "profile": "all",
+        "model": "residual_price",
+        "label": "Bundesliga · nul · residual_price · EV>2% · all"
+      },
+      "previous_annual_test": {
+        "opportunities": 306,
+        "bets": 40,
+        "wins": 11,
+        "profit": 6.5,
+        "roi": 0.1625,
+        "period_first": "2025-08-22 18:30:00",
+        "period_last": "2026-05-16 13:30:00"
+      },
+      "previous_current_model_validation": {
+        "opportunities": 306,
+        "bets": 26,
+        "wins": 7,
+        "profit": 3.6,
+        "roi": 0.13846153846153844,
+        "period_first": "2025-08-22 18:30:00",
+        "period_last": "2026-05-16 13:30:00"
+      },
+      "current_season": {
+        "bets": 10,
+        "wins": 3,
+        "profit": 7.03,
+        "roi": 0.7030000000000001
+      },
+      "positive_both_annual": true,
+      "positive_both_current_model": true,
+      "annual_history": {
+        "2022": {
+          "opportunities": 306,
+          "bets": 30,
+          "wins": 8,
+          "profit": 1.05,
+          "roi": 0.034999999999999996,
+          "period_first": "2022-08-05 18:30:00",
+          "period_last": "2023-05-27 13:30:00"
+        },
+        "2023": {
+          "opportunities": 306,
+          "bets": 32,
+          "wins": 8,
+          "profit": -0.75,
+          "roi": -0.0234375,
+          "period_first": "2023-08-18 18:30:00",
+          "period_last": "2024-05-18 13:30:00"
+        },
+        "2024": {
+          "opportunities": 305,
+          "bets": 33,
+          "wins": 9,
+          "profit": -0.72,
+          "roi": -0.02181818181818181,
+          "period_first": "2024-08-23 18:30:00",
+          "period_last": "2025-05-17 13:30:00"
+        },
+        "2025": {
+          "opportunities": 306,
+          "bets": 40,
+          "wins": 11,
+          "profit": 6.5,
+          "roi": 0.1625,
+          "period_first": "2025-08-22 18:30:00",
+          "period_last": "2026-05-16 13:30:00"
+        }
+      }
+    },
+    {
+      "id": "local_sport_only|Serie_A|away|0.05|all",
+      "label": "Serie A · extérieur · local_sport_only · EV>5% · all",
+      "rule": {
+        "id": "local_sport_only|Serie_A|away|0.05|all",
+        "method": "local_sport_only",
+        "league": "Serie_A",
+        "outcome": "away",
+        "threshold": 0.05,
+        "profile": "all",
+        "model": "local_sport_only",
+        "label": "Serie A · extérieur · local_sport_only · EV>5% · all"
+      },
+      "previous_annual_test": {
+        "opportunities": 380,
+        "bets": 113,
+        "wins": 41,
+        "profit": 8.88,
+        "roi": 0.07858407079646018,
+        "period_first": "2025-08-23 16:30:00",
+        "period_last": "2026-05-24 18:45:00"
+      },
+      "previous_current_model_validation": {
+        "opportunities": 380,
+        "bets": 102,
+        "wins": 40,
+        "profit": 6.91,
+        "roi": 0.06774509803921569,
+        "period_first": "2025-08-23 16:30:00",
+        "period_last": "2026-05-24 18:45:00"
+      },
+      "current_season": {
+        "bets": 17,
+        "wins": 9,
+        "profit": 9.81,
+        "roi": 0.5770588235294118
+      },
+      "positive_both_annual": true,
+      "positive_both_current_model": true,
+      "annual_history": {
+        "2022": {
+          "opportunities": 380,
+          "bets": 115,
+          "wins": 50,
+          "profit": 9.89,
+          "roi": 0.086,
+          "period_first": "2022-08-13 16:30:00",
+          "period_last": "2023-06-04 19:00:00"
+        },
+        "2023": {
+          "opportunities": 378,
+          "bets": 128,
+          "wins": 41,
+          "profit": -34.43,
+          "roi": -0.268984375,
+          "period_first": "2023-08-19 16:30:00",
+          "period_last": "2024-06-02 16:00:00"
+        },
+        "2024": {
+          "opportunities": 379,
+          "bets": 119,
+          "wins": 43,
+          "profit": -5.09,
+          "roi": -0.042773109243697476,
+          "period_first": "2024-08-17 16:30:00",
+          "period_last": "2025-05-25 18:45:00"
+        },
+        "2025": {
+          "opportunities": 380,
+          "bets": 113,
+          "wins": 41,
+          "profit": 8.88,
+          "roi": 0.07858407079646018,
+          "period_first": "2025-08-23 16:30:00",
+          "period_last": "2026-05-24 18:45:00"
+        }
+      }
+    },
+    {
+      "id": "residual_sport_recency|Serie_A|away|0.02|all",
+      "label": "Serie A · extérieur · residual_sport_recency · EV>2% · all",
+      "rule": {
+        "id": "residual_sport_recency|Serie_A|away|0.02|all",
+        "method": "residual_sport_recency",
+        "league": "Serie_A",
+        "outcome": "away",
+        "threshold": 0.02,
+        "profile": "all",
+        "model": "residual_sport_recency",
+        "label": "Serie A · extérieur · residual_sport_recency · EV>2% · all"
+      },
+      "previous_annual_test": {
+        "opportunities": 380,
+        "bets": 34,
+        "wins": 15,
+        "profit": 6.53,
+        "roi": 0.19205882352941178,
+        "period_first": "2025-08-23 16:30:00",
+        "period_last": "2026-05-24 18:45:00"
+      },
+      "previous_current_model_validation": {
+        "opportunities": 380,
+        "bets": 30,
+        "wins": 15,
+        "profit": 1.39,
+        "roi": 0.04633333333333334,
+        "period_first": "2025-08-23 16:30:00",
+        "period_last": "2026-05-24 18:45:00"
+      },
+      "current_season": {
+        "bets": 4,
+        "wins": 3,
+        "profit": 5.5,
+        "roi": 1.375
+      },
+      "positive_both_annual": true,
+      "positive_both_current_model": true,
+      "annual_history": {
+        "2022": {
+          "opportunities": 380,
+          "bets": 81,
+          "wins": 26,
+          "profit": 8.06,
+          "roi": 0.09950617283950618,
+          "period_first": "2022-08-13 16:30:00",
+          "period_last": "2023-06-04 19:00:00"
+        },
+        "2023": {
+          "opportunities": 378,
+          "bets": 54,
+          "wins": 9,
+          "profit": -23.68,
+          "roi": -0.43851851851851853,
+          "period_first": "2023-08-19 16:30:00",
+          "period_last": "2024-06-02 16:00:00"
+        },
+        "2024": {
+          "opportunities": 379,
+          "bets": 39,
+          "wins": 11,
+          "profit": 1.93,
+          "roi": 0.04948717948717948,
+          "period_first": "2024-08-17 16:30:00",
+          "period_last": "2025-05-25 18:45:00"
+        },
+        "2025": {
+          "opportunities": 380,
+          "bets": 34,
+          "wins": 15,
+          "profit": 6.53,
+          "roi": 0.19205882352941178,
+          "period_first": "2025-08-23 16:30:00",
+          "period_last": "2026-05-24 18:45:00"
+        }
+      }
+    },
+    {
+      "id": "local_price_only|Ligue_1|home|0.02|all",
+      "label": "Ligue 1 · domicile · local_price_only · EV>2% · all",
+      "rule": {
+        "id": "local_price_only|Ligue_1|home|0.02|all",
+        "method": "local_price_only",
+        "league": "Ligue_1",
+        "outcome": "home",
+        "threshold": 0.02,
+        "profile": "all",
+        "model": "local_price_only",
+        "label": "Ligue 1 · domicile · local_price_only · EV>2% · all"
+      },
+      "previous_annual_test": {
+        "opportunities": 297,
+        "bets": 68,
+        "wins": 31,
+        "profit": 4.26,
+        "roi": 0.0626470588235294,
+        "period_first": "2025-08-15 18:45:00",
+        "period_last": "2026-05-17 19:00:00"
+      },
+      "previous_current_model_validation": {
+        "opportunities": 297,
+        "bets": 83,
+        "wins": 40,
+        "profit": 11.33,
+        "roi": 0.13650602409638554,
+        "period_first": "2025-08-15 18:45:00",
+        "period_last": "2026-05-17 19:00:00"
+      },
+      "current_season": {
+        "bets": 15,
+        "wins": 7,
+        "profit": 0.57,
+        "roi": 0.03799999999999999
+      },
+      "positive_both_annual": true,
+      "positive_both_current_model": true,
+      "annual_history": {
+        "2022": {
+          "opportunities": 379,
+          "bets": 154,
+          "wins": 62,
+          "profit": -1.36,
+          "roi": -0.008831168831168832,
+          "period_first": "2022-08-05 19:00:00",
+          "period_last": "2023-06-03 17:00:00"
+        },
+        "2023": {
+          "opportunities": 304,
+          "bets": 96,
+          "wins": 28,
+          "profit": -37.97,
+          "roi": -0.3955208333333333,
+          "period_first": "2023-08-12 18:00:00",
+          "period_last": "2024-05-19 19:00:00"
+        },
+        "2024": {
+          "opportunities": 306,
+          "bets": 60,
+          "wins": 27,
+          "profit": -2.52,
+          "roi": -0.041999999999999996,
+          "period_first": "2024-08-16 18:45:00",
+          "period_last": "2025-05-17 19:00:00"
+        },
+        "2025": {
+          "opportunities": 297,
+          "bets": 68,
+          "wins": 31,
+          "profit": 4.26,
+          "roi": 0.0626470588235294,
+          "period_first": "2025-08-15 18:45:00",
+          "period_last": "2026-05-17 19:00:00"
+        }
+      }
+    },
+    {
+      "id": "local_price_only|Ligue_1|draw|0.05|low_goal_parity",
+      "label": "Ligue 1 · nul · local_price_only · EV>5% · low_goal_parity",
+      "rule": {
+        "id": "local_price_only|Ligue_1|draw|0.05|low_goal_parity",
+        "method": "local_price_only",
+        "league": "Ligue_1",
+        "outcome": "draw",
+        "threshold": 0.05,
+        "profile": "low_goal_parity",
+        "model": "local_price_only",
+        "label": "Ligue 1 · nul · local_price_only · EV>5% · low_goal_parity"
+      },
+      "previous_annual_test": {
+        "opportunities": 297,
+        "bets": 31,
+        "wins": 12,
+        "profit": 12.55,
+        "roi": 0.4048387096774193,
+        "period_first": "2025-08-15 18:45:00",
+        "period_last": "2026-05-17 19:00:00"
+      },
+      "previous_current_model_validation": {
+        "opportunities": 297,
+        "bets": 28,
+        "wins": 10,
+        "profit": 7.0,
+        "roi": 0.25,
+        "period_first": "2025-08-15 18:45:00",
+        "period_last": "2026-05-17 19:00:00"
+      },
+      "current_season": {
+        "bets": 3,
+        "wins": 1,
+        "profit": 0.2,
+        "roi": 0.06666666666666672
+      },
+      "positive_both_annual": true,
+      "positive_both_current_model": true,
+      "annual_history": {
+        "2022": {
+          "opportunities": 379,
+          "bets": 36,
+          "wins": 15,
+          "profit": 21.85,
+          "roi": 0.6069444444444445,
+          "period_first": "2022-08-05 19:00:00",
+          "period_last": "2023-06-03 17:00:00"
+        },
+        "2023": {
+          "opportunities": 304,
+          "bets": 26,
+          "wins": 3,
+          "profit": -14.05,
+          "roi": -0.5403846153846155,
+          "period_first": "2023-08-12 18:00:00",
+          "period_last": "2024-05-19 19:00:00"
+        },
+        "2024": {
+          "opportunities": 306,
+          "bets": 27,
+          "wins": 5,
+          "profit": -9.3,
+          "roi": -0.3444444444444445,
+          "period_first": "2024-08-16 18:45:00",
+          "period_last": "2025-05-17 19:00:00"
+        },
+        "2025": {
+          "opportunities": 297,
+          "bets": 31,
+          "wins": 12,
+          "profit": 12.55,
+          "roi": 0.4048387096774193,
+          "period_first": "2025-08-15 18:45:00",
+          "period_last": "2026-05-17 19:00:00"
+        }
+      }
+    }
+  ],
+  "retrospective_selection": true,
+  "historical_results_imported": false
+}

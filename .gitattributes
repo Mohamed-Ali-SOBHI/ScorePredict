@@ -6,3 +6,4 @@ paper_positive15/** -text whitespace=cr-at-eol
 paper_positive15/models/** -whitespace
 paper_positive15/*.gz -whitespace
 paper_positive15/test_fixtures/** -whitespace
+paper_compare9/** -text whitespace=cr-at-eol

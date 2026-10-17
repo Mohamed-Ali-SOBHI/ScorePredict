@@ -1,0 +1,36 @@
+{
+  "experiment": "prospective_nine_vs_fifteen_common_cohort_2026_10_18_v1",
+  "registered_at_utc": "2026-10-17T22:36:40.340148+00:00",
+  "season": 2026,
+  "nine_members": [
+    "residual_sport_recency|Ligue_1|draw|0.05|all",
+    "local_price_only|EPL|home|0.02|all",
+    "local_price_only|EPL|away|0.05|all",
+    "local_price_only|EPL|draw|0.05|all",
+    "residual_price|Bundesliga|draw|0.02|all",
+    "local_sport_only|Serie_A|away|0.05|all",
+    "residual_sport_recency|Serie_A|away|0.02|all",
+    "local_price_only|Ligue_1|home|0.02|all",
+    "local_price_only|Ligue_1|draw|0.05|low_goal_parity"
+  ],
+  "source_registration_sha256": "2d59c654696808fcdcf0601e6019c42db719bd2c23b9de77ec44583fd7ba0438",
+  "source_state_branch": "observation-positive15-state",
+  "state_branch": "observation-compare9-state",
+  "entry": "At enrollment, kickoff5min..24h in future and no source settlement. Old pending source forecasts may enter with enrollment time NOW, preserving original quotes and source capture time.",
+  "comparison": "Bundesliga alone, Bundesliga+nine, Bundesliga+fifteen on exactly the same enrolled source fixtures. One outcome and1unit per fixture per portfolio; Bundesliga priority then inherited original member order.",
+  "price": "Same immutable source15 odds, not claimed newly executable. No historical settled match imported.",
+  "source_guarantees": "Verify source15 dependency hashes, checkpoint inventory, append-only journal hash chain and continuity of previously observed source event prefix.",
+  "production_changed": false,
+  "auto_retraining": false,
+  "auto_promotion": false,
+  "frozen_sha256": {
+    "compare9.py": "5e476bcb222c93d7c5a570788bbb1730ca3a45780d601b8062314de3bebfa89e",
+    "README.md": "dbc5f8454284613b1238800a07689cddaf0258f4662b569d20e89424364d7498",
+    "selection_provenance.json": "ef719eeccdb2f6cf04ae4a32aa29f3ca876e674400729e7238f4fd138b22c48d",
+    "test_compare9.py": "9c7c29fdfc818b5789fba4cff909d9b32db1cbbb4a287ae4d70085b650495e2b",
+    "../paper_positive15/registration.json": "608ed6bc5247f4b247ea6bf0219167ad8265fa6e02955cfe3985a93756169c26",
+    "../paper_positive15/paper_core.py": "e6a113ee6aff8bad12267db957cb30eff339b6af0a8b5e1f3ec558de73b67511",
+    "../paper_positive15/cloud_state.py": "75ffa5184ac2c2dd43e4edcbc68a6f91b3779168da16a8b6bcd798320f89bc29",
+    "../paper_positive15/run_paper.py": "6b5c7e38bac5e1e432fe28a13865757d0171f692ba20093e9d49d50165c91695"
+  }
+}
