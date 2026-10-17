@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f4f6f1">
+  <meta name="description" content="Les neuf stratégies ScorePredict en observation : paris datés, bilans individuels et total avec les nuls Bundesliga sans doublon.">
+  <title>Stratégies en observation — ScorePredict</title>
+  <link rel="icon" href="./assets/brand/scorepredict-mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./assets/styles.css?v=34">
+  <link rel="stylesheet" href="./assets/navigation.css?v=5">
+  <link rel="stylesheet" href="./assets/observation.css?v=1">
+</head>
+<body class="observation-page">
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
+  <header class="global-header"><div class="global-header-inner">
+    <a class="brand" href="./" aria-label="ScorePredict, retour à l'accueil"><span class="brand-logo-window brand-logo-header" aria-hidden="true"><img src="./assets/brand/scorepredict-logo-v3.png" width="1024" height="482" alt=""></span></a>
+    <nav class="global-nav" aria-label="Navigation principale">
+      <a href="./">Accueil</a>
+      <a href="./explorer.html"><span class="nav-label-full">Tous les matchs</span><span class="nav-label-short">Matchs</span></a>
+      <a href="./observation.html" aria-current="page"><span class="nav-label-full">En observation</span><span class="nav-label-short">Tests</span></a>
+        <a class="global-nav-cta" href="./dashboard.html"><span class="nav-label-full">Paris retenus</span><span class="nav-label-short">Paris</span></a>
+    </nav>
+  </div></header>
+  <main id="contenu" class="page-shell observation-workspace">
+    <header class="observation-heading">
+      <span class="observation-status">En observation</span>
+      <h1>9 stratégies en observation</h1>
+      <p>Leurs résultats, seuls et avec les nuls Bundesliga. Une seule mise virtuelle par match.</p>
+      <p class="observation-updated" id="observation-updated">Vérification du journal…</p>
+    </header>
+    <div id="observation-error" class="observation-notice" role="status" hidden>Le suivi ne peut pas être vérifié pour le moment. Aucun bilan actuel n’est affiché.</div>
+    <div id="observation-content" hidden>
+      <div class="observation-tabs" role="tablist" aria-label="Période du bilan">
+        <button id="tab-live" role="tab" aria-selected="true" aria-controls="observation-panel" data-period="live">Depuis l’observation</button>
+        <button id="tab-season" role="tab" aria-selected="false" aria-controls="observation-panel" data-period="season" tabindex="-1">Saison 2026/27 · simulation</button>
+        <button id="tab-previous" role="tab" aria-selected="false" aria-controls="observation-panel" data-period="previous" tabindex="-1">Saison 2025/26 · simulation</button>
+      </div>
+      <section id="observation-panel" role="tabpanel" aria-labelledby="tab-live" tabindex="0">
+        <div class="observation-section-heading"><h2 id="observation-period-title">Depuis l’observation</h2><p id="observation-period-copy"></p></div>
+        <div class="observation-kpis" aria-live="polite">
+          <div><span>Paris réglés, sans doublon</span><strong id="observation-settled">—</strong></div>
+          <div><span>Gain net du portefeuille</span><strong id="observation-profit">—</strong></div>
+          <div><span>Rendement</span><strong id="observation-roi">—</strong></div>
+          <div><span>En attente</span><strong id="observation-pending">—</strong></div>
+        </div>
+        <p class="observation-rule">1 unité virtuelle par pari. Priorité aux nuls Bundesliga, puis à l’ordre figé des neuf stratégies, même si elles choisissent des issues différentes.</p>
+        <div class="observation-table-scroll" tabindex="0" role="region" aria-label="Comparaison avec les nuls Bundesliga">
+          <table><caption>Le total avec les nuls Bundesliga</caption><thead><tr><th scope="col">Portefeuille</th><th scope="col">Réglés</th><th scope="col">Gain net</th><th scope="col">Rendement</th><th scope="col">En attente</th></tr></thead><tbody id="observation-totals"></tbody></table>
+        </div>
+        <div class="observation-section-heading"><h2>Le bilan des neuf stratégies</h2><p>Chaque ligne est évaluée seule. Plusieurs stratégies peuvent sélectionner le même match : ces lignes ne s’additionnent pas.</p></div>
+        <div class="observation-table-scroll" tabindex="0" role="region" aria-label="Bilans individuels des neuf stratégies">
+          <table><thead><tr><th scope="col">Stratégie</th><th scope="col">Réglés</th><th scope="col">Gain net</th><th scope="col">Rendement</th><th scope="col">En attente</th></tr></thead><tbody id="observation-strategies"></tbody></table>
+        </div>
+        <p class="observation-footnote" id="observation-history-note" hidden>Simulation rétrospective : ces résultats ont participé au choix des neuf stratégies. Les modèles annuels diffèrent entre les deux saisons. Les gains historiques ne sont pas ajoutés au suivi depuis l’observation.</p>
+      </section>
+      <section class="observation-tickets" aria-labelledby="observation-tickets-title">
+        <div class="observation-section-heading"><h2 id="observation-tickets-title">Les paris enregistrés avant match</h2><p>Portefeuille commun des neuf stratégies et des nuls Bundesliga. Les cotes sont celles conservées à l’enregistrement.</p></div>
+        <div class="observation-ticket-filters" role="group" aria-label="Filtrer les paris en observation">
+          <button data-ticket-filter="all" aria-pressed="true">Tous</button><button data-ticket-filter="pending" aria-pressed="false">En attente</button><button data-ticket-filter="settled" aria-pressed="false">Réglés</button>
+        </div>
+        <div class="observation-table-scroll" tabindex="0" role="region" aria-label="Matchs, cotes et résultats des paris uniques">
+          <table class="observation-ticket-table"><thead><tr><th scope="col">Match · heure de Paris</th><th scope="col">Pari · cote</th><th scope="col">Stratégies</th><th scope="col">Statut</th><th scope="col">Gain net</th></tr></thead><tbody id="observation-tickets"></tbody></table>
+        </div>
+        <p id="observation-empty-tickets" class="observation-empty" hidden>Aucun pari dans cette catégorie.</p>
+      </section>
+      <details class="observation-method"><summary>Comment lire ce suivi ?</summary><p>Les neuf stratégies ont été retenues après étude de leurs résultats passés. Leur rentabilité future n’est pas démontrée. Le suivi conserve les décisions et les cotes avant le coup d’envoi, y compris les abstentions ; aucun pari déjà réglé n’y est importé.</p><p>Le gain net et le rendement portent uniquement sur les paris réglés. Les mises en attente ne comptent pas comme des pertes ou des bénéfices. Chaque pari représente une unité virtuelle, aucun ordre de pari réel n’est envoyé.</p><p>Les codes S01 à S09 désignent les stratégies du tableau. Lorsque plusieurs sélectionnent un match, elles sont toutes indiquées, mais une seule issue et une seule mise sont retenues. Le comparateur Bundesliga reprend le modèle figé de l’étude, sur les mêmes matchs et aux mêmes cotes ; son périmètre diffère du journal des paris publiés sur la page principale.</p><p>La collecte tourne quatre fois par jour et après les nouvelles prévisions. Les horaires peuvent être retardés. Les cotes du fournisseur sont archivées, sans garantie de disponibilité identique chez le bookmaker.</p><a href="https://github.com/Mohamed-Ali-SOBHI/ScorePredict/tree/observation-compare9-state" target="_blank" rel="noopener">Consulter le journal des preuves ↗</a></details>
+    </div>
+  </main>
+  <footer class="site-footer"><div class="page-shell footer-grid"><p>ScorePredict · Observation en simulation</p><a href="./dashboard.html">Retour aux paris retenus</a></div></footer>
+  <script type="module" src="./assets/observation.js?v=1"></script>
+</body></html>

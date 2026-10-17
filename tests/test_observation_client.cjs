@@ -1,0 +1,48 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const vm=require('node:vm');
+const nodes=new Map();
+const node=selector=>{
+  if(!nodes.has(selector))nodes.set(selector,{textContent:'',innerHTML:'',hidden:false,setAttribute(){},className:''});
+  return nodes.get(selector);
+};
+const context=vm.createContext({Intl,Date,document:{querySelector:node,querySelectorAll:()=>[]}});
+let source=fs.readFileSync('production/static/assets/observation.js','utf8');
+source=source.slice(0,source.lastIndexOf("if (typeof document"));
+vm.runInContext(source,context);
+const data=JSON.parse(fs.readFileSync('production/static/data/observation.json','utf8'));
+assert.equal(data.status,'ready');
+const metric={settled:0,wins:0,profit:0,roi:null,pending:0,stake:0};
+data.live={registeredAt:'2026-10-17T22:36:40Z',updatedAt:'2026-10-18T06:40:00Z',union:{...metric,pending:2},baseline:{...metric},
+  individual:Object.fromEntries(data.strategies.map(s=>[s.id,{...metric}]))};
+data.tickets=[{portfolio:'bundesliga_plus9',fixture_id:'a',stake:1,odds:3.6,outcome:'draw',status:'pending',profit:null,
+  home_team:'Paris FC',away_team:'Rennes',kickoff_utc:'2026-10-18T15:15:00Z',enrolled_at_utc:'2026-10-17T22:40:00Z',selected_members:[data.strategies[0].id,data.strategies[8].id]}];
+context.data=data;
+const run=code=>vm.runInContext(code,context);
+assert.equal(run('validPayload(data)'),true);
+run("renderPeriod(data,'live')");
+assert.equal(node('#observation-roi').textContent,'—');
+assert.equal((node('#observation-strategies').innerHTML.match(/<tr>/g)||[]).length,9);
+run("renderPeriod(data,'season')");
+assert.match(node('#observation-profit').textContent,/34,52/);
+assert.match(node('#observation-roi').textContent,/29,5/);
+assert.match(node('#observation-period-copy').textContent,/17 octobre 2026/);
+assert.equal(node('#observation-history-note').hidden,false);
+run("renderPeriod(data,'previous')");
+assert.match(node('#observation-profit').textContent,/114,93/);
+run("renderTickets(data,'all')");
+assert.equal((node('#observation-tickets').innerHTML.match(/<tr>/g)||[]).length,1);
+assert.match(node('#observation-tickets').innerHTML,/S01 · S09/);
+assert.match(node('#observation-tickets').innerHTML,/Un seul pari retenu/);
+run("renderTickets(data,'settled')");
+assert.equal(node('#observation-empty-tickets').hidden,false);
+run("data.tickets[0].status='lost';data.tickets[0].profit=-1;renderTickets(data,'settled')");
+assert.match(node('#observation-tickets').innerHTML,/Perdu/);
+assert.match(node('#observation-tickets').innerHTML,/−1,00 u/);
+run("data.tickets[0].home_team='<img src=x onerror=alert(1)>';renderTickets(data,'all')");
+assert.doesNotMatch(node('#observation-tickets').innerHTML,/<img/);
+assert.match(node('#observation-tickets').innerHTML,/&lt;img/);
+assert.equal(run('validPayload({...data,status:"unavailable"})'),false);
+assert.equal(run('validPayload({...data,tickets:[data.tickets[0],data.tickets[0]]})'),false);
+assert.equal(run('validMetric({settled:0,pending:0,profit:0,roi:0})'),false);
+console.log('Observation client: period separation, nine rows, unique bets, missing ROI, filtering and escaping passed.');

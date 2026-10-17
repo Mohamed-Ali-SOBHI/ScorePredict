@@ -1,0 +1,529 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-17T23:39:29.173911+00:00",
+  "status": "ready",
+  "stakeUnits": 1,
+  "strategies": [
+    {
+      "id": "residual_sport_recency|Ligue_1|draw|0.05|all",
+      "code": "S01",
+      "label": "Ligue 1 · Nul",
+      "league": "Ligue_1",
+      "model": "Modèle résiduel sportif, saisons récentes",
+      "threshold": 0.05,
+      "filter": null
+    },
+    {
+      "id": "local_price_only|EPL|home|0.02|all",
+      "code": "S02",
+      "label": "Premier League · Domicile",
+      "league": "EPL",
+      "model": "Modèle local basé sur les cotes",
+      "threshold": 0.02,
+      "filter": null
+    },
+    {
+      "id": "local_price_only|EPL|away|0.05|all",
+      "code": "S03",
+      "label": "Premier League · Extérieur",
+      "league": "EPL",
+      "model": "Modèle local basé sur les cotes",
+      "threshold": 0.05,
+      "filter": null
+    },
+    {
+      "id": "local_price_only|EPL|draw|0.05|all",
+      "code": "S04",
+      "label": "Premier League · Nul",
+      "league": "EPL",
+      "model": "Modèle local basé sur les cotes",
+      "threshold": 0.05,
+      "filter": null
+    },
+    {
+      "id": "residual_price|Bundesliga|draw|0.02|all",
+      "code": "S05",
+      "label": "Bundesliga · Nul",
+      "league": "Bundesliga",
+      "model": "Modèle résiduel basé sur les cotes",
+      "threshold": 0.02,
+      "filter": null
+    },
+    {
+      "id": "local_sport_only|Serie_A|away|0.05|all",
+      "code": "S06",
+      "label": "Serie A · Extérieur",
+      "league": "Serie_A",
+      "model": "Modèle sportif local",
+      "threshold": 0.05,
+      "filter": null
+    },
+    {
+      "id": "residual_sport_recency|Serie_A|away|0.02|all",
+      "code": "S07",
+      "label": "Serie A · Extérieur",
+      "league": "Serie_A",
+      "model": "Modèle résiduel sportif, saisons récentes",
+      "threshold": 0.02,
+      "filter": null
+    },
+    {
+      "id": "local_price_only|Ligue_1|home|0.02|all",
+      "code": "S08",
+      "label": "Ligue 1 · Domicile",
+      "league": "Ligue_1",
+      "model": "Modèle local basé sur les cotes",
+      "threshold": 0.02,
+      "filter": null
+    },
+    {
+      "id": "local_price_only|Ligue_1|draw|0.05|low_goal_parity",
+      "code": "S09",
+      "label": "Ligue 1 · Nul",
+      "league": "Ligue_1",
+      "model": "Modèle local basé sur les cotes",
+      "threshold": 0.05,
+      "filter": "Équipes proches et faible total de buts attendus"
+    }
+  ],
+  "history": {
+    "schemaVersion": 1,
+    "status": "retrospective",
+    "stakeUnits": 1,
+    "asOf": "2026-10-17",
+    "from": "2026-08-15",
+    "nineMembers": [
+      "residual_sport_recency|Ligue_1|draw|0.05|all",
+      "local_price_only|EPL|home|0.02|all",
+      "local_price_only|EPL|away|0.05|all",
+      "local_price_only|EPL|draw|0.05|all",
+      "residual_price|Bundesliga|draw|0.02|all",
+      "local_sport_only|Serie_A|away|0.05|all",
+      "residual_sport_recency|Serie_A|away|0.02|all",
+      "local_price_only|Ligue_1|home|0.02|all",
+      "local_price_only|Ligue_1|draw|0.05|low_goal_parity"
+    ],
+    "periods": {
+      "previous": {
+        "individual": {
+          "Bundesliga_anchor": {
+            "settled": 113,
+            "wins": 33,
+            "profit": 15.84,
+            "roi": 0.14017699115044246,
+            "pending": 0,
+            "stake": 113
+          },
+          "residual_sport_recency|Ligue_1|draw|0.05|all": {
+            "settled": 26,
+            "wins": 10,
+            "profit": 12.15,
+            "roi": 0.4673076923076923,
+            "pending": 0,
+            "stake": 26
+          },
+          "local_price_only|EPL|home|0.02|all": {
+            "settled": 139,
+            "wins": 62,
+            "profit": 6.24,
+            "roi": 0.044892086330935256,
+            "pending": 0,
+            "stake": 139
+          },
+          "local_price_only|EPL|away|0.05|all": {
+            "settled": 85,
+            "wins": 30,
+            "profit": 15.0,
+            "roi": 0.17647058823529413,
+            "pending": 0,
+            "stake": 85
+          },
+          "local_price_only|EPL|draw|0.05|all": {
+            "settled": 100,
+            "wins": 30,
+            "profit": 19.16,
+            "roi": 0.1916,
+            "pending": 0,
+            "stake": 100
+          },
+          "residual_price|Bundesliga|draw|0.02|all": {
+            "settled": 40,
+            "wins": 11,
+            "profit": 6.5,
+            "roi": 0.1625,
+            "pending": 0,
+            "stake": 40
+          },
+          "local_sport_only|Serie_A|away|0.05|all": {
+            "settled": 113,
+            "wins": 41,
+            "profit": 8.88,
+            "roi": 0.07858407079646018,
+            "pending": 0,
+            "stake": 113
+          },
+          "residual_sport_recency|Serie_A|away|0.02|all": {
+            "settled": 34,
+            "wins": 15,
+            "profit": 6.53,
+            "roi": 0.19205882352941178,
+            "pending": 0,
+            "stake": 34
+          },
+          "local_price_only|Ligue_1|home|0.02|all": {
+            "settled": 68,
+            "wins": 31,
+            "profit": 4.26,
+            "roi": 0.0626470588235294,
+            "pending": 0,
+            "stake": 68
+          },
+          "local_price_only|Ligue_1|draw|0.05|low_goal_parity": {
+            "settled": 31,
+            "wins": 12,
+            "profit": 12.55,
+            "roi": 0.40483870967741936,
+            "pending": 0,
+            "stake": 31
+          }
+        },
+        "baseline": {
+          "settled": 113,
+          "wins": 33,
+          "profit": 15.84,
+          "roi": 0.14017699115044246,
+          "pending": 0,
+          "stake": 113
+        },
+        "union": {
+          "settled": 678,
+          "wins": 255,
+          "profit": 114.93,
+          "roi": 0.1695132743362832,
+          "pending": 0,
+          "stake": 678
+        }
+      },
+      "season": {
+        "individual": {
+          "Bundesliga_anchor": {
+            "settled": 24,
+            "wins": 5,
+            "profit": 5.8,
+            "roi": 0.24166666666666667,
+            "pending": 0,
+            "stake": 24
+          },
+          "residual_sport_recency|Ligue_1|draw|0.05|all": {
+            "settled": 2,
+            "wins": 1,
+            "profit": 2.5,
+            "roi": 1.25,
+            "pending": 0,
+            "stake": 2
+          },
+          "local_price_only|EPL|home|0.02|all": {
+            "settled": 30,
+            "wins": 14,
+            "profit": 7.0,
+            "roi": 0.23333333333333334,
+            "pending": 0,
+            "stake": 30
+          },
+          "local_price_only|EPL|away|0.05|all": {
+            "settled": 11,
+            "wins": 6,
+            "profit": 1.21,
+            "roi": 0.11,
+            "pending": 0,
+            "stake": 11
+          },
+          "local_price_only|EPL|draw|0.05|all": {
+            "settled": 16,
+            "wins": 5,
+            "profit": 4.7,
+            "roi": 0.29375,
+            "pending": 0,
+            "stake": 16
+          },
+          "residual_price|Bundesliga|draw|0.02|all": {
+            "settled": 10,
+            "wins": 3,
+            "profit": 7.03,
+            "roi": 0.7030000000000001,
+            "pending": 0,
+            "stake": 10
+          },
+          "local_sport_only|Serie_A|away|0.05|all": {
+            "settled": 17,
+            "wins": 9,
+            "profit": 9.81,
+            "roi": 0.5770588235294118,
+            "pending": 0,
+            "stake": 17
+          },
+          "residual_sport_recency|Serie_A|away|0.02|all": {
+            "settled": 4,
+            "wins": 3,
+            "profit": 5.5,
+            "roi": 1.375,
+            "pending": 0,
+            "stake": 4
+          },
+          "local_price_only|Ligue_1|home|0.02|all": {
+            "settled": 15,
+            "wins": 7,
+            "profit": 0.57,
+            "roi": 0.038,
+            "pending": 0,
+            "stake": 15
+          },
+          "local_price_only|Ligue_1|draw|0.05|low_goal_parity": {
+            "settled": 3,
+            "wins": 1,
+            "profit": 0.2,
+            "roi": 0.06666666666666667,
+            "pending": 0,
+            "stake": 3
+          }
+        },
+        "baseline": {
+          "settled": 24,
+          "wins": 5,
+          "profit": 5.8,
+          "roi": 0.24166666666666667,
+          "pending": 0,
+          "stake": 24
+        },
+        "union": {
+          "settled": 117,
+          "wins": 48,
+          "profit": 34.52,
+          "roi": 0.2950427350427351,
+          "pending": 0,
+          "stake": 117
+        }
+      }
+    },
+    "limitations": "Stratégies retenues après recherche sur ces résultats. Les modèles annuels diffèrent entre les saisons. La simulation ne constitue pas un suivi enregistré avant les matchs.",
+    "sources": {
+      "season_fifteen.json": "f9a8db6ab2ea5db941a9c970d6fd9e26059b90103eac67a5dd60057e18d3e94a",
+      "previous_season_comparison.json": "0a35591e037c2afd74f3e8ea4d898f6534bf0e5174a5c0e50ba28bf6f5abc9d7"
+    }
+  },
+  "live": {
+    "registeredAt": "2026-10-17T22:36:40.340148+00:00",
+    "updatedAt": "2026-10-17T22:40:08.349979+00:00",
+    "sourceUpdatedAt": "2026-10-17T22:39:53.047411+00:00",
+    "state": "collected",
+    "fixtures": 18,
+    "baseline": {
+      "settled": 0,
+      "wins": 0,
+      "profit": 0,
+      "roi": null,
+      "pending": 0,
+      "stake": 0
+    },
+    "union": {
+      "settled": 0,
+      "wins": 0,
+      "profit": 0,
+      "roi": null,
+      "pending": 6,
+      "stake": 0
+    },
+    "individual": {
+      "residual_sport_recency|Ligue_1|draw|0.05|all": {
+        "settled": 0,
+        "wins": 0,
+        "profit": 0,
+        "roi": null,
+        "pending": 1,
+        "stake": 0
+      },
+      "local_price_only|EPL|home|0.02|all": {
+        "settled": 0,
+        "wins": 0,
+        "profit": 0,
+        "roi": null,
+        "pending": 1,
+        "stake": 0
+      },
+      "local_price_only|EPL|away|0.05|all": {
+        "settled": 0,
+        "wins": 0,
+        "profit": 0,
+        "roi": null,
+        "pending": 3,
+        "stake": 0
+      },
+      "local_price_only|EPL|draw|0.05|all": {
+        "settled": 0,
+        "wins": 0,
+        "profit": 0,
+        "roi": null,
+        "pending": 0,
+        "stake": 0
+      },
+      "residual_price|Bundesliga|draw|0.02|all": {
+        "settled": 0,
+        "wins": 0,
+        "profit": 0,
+        "roi": null,
+        "pending": 0,
+        "stake": 0
+      },
+      "local_sport_only|Serie_A|away|0.05|all": {
+        "settled": 0,
+        "wins": 0,
+        "profit": 0,
+        "roi": null,
+        "pending": 0,
+        "stake": 0
+      },
+      "residual_sport_recency|Serie_A|away|0.02|all": {
+        "settled": 0,
+        "wins": 0,
+        "profit": 0,
+        "roi": null,
+        "pending": 0,
+        "stake": 0
+      },
+      "local_price_only|Ligue_1|home|0.02|all": {
+        "settled": 0,
+        "wins": 0,
+        "profit": 0,
+        "roi": null,
+        "pending": 1,
+        "stake": 0
+      },
+      "local_price_only|Ligue_1|draw|0.05|low_goal_parity": {
+        "settled": 0,
+        "wins": 0,
+        "profit": 0,
+        "roi": null,
+        "pending": 0,
+        "stake": 0
+      }
+    },
+    "evidenceHash": "f1c12f8c15974fa0ddb98df3fa8d54cad83da52a6255496fe25ed7df9a18ce34",
+    "sourceEvidenceHash": "b616a9fb4fcae0862be4eb4908b60cc2b690fb05e7facb5a37aa9c6087fdc4cc"
+  },
+  "tickets": [
+    {
+      "portfolio": "bundesliga_plus9",
+      "fixture_id": "understat:31246",
+      "league": "EPL",
+      "home_team": "Bournemouth",
+      "away_team": "Sunderland",
+      "kickoff_utc": "2026-10-18T13:00:00+00:00",
+      "enrolled_at_utc": "2026-10-17T22:40:08.305608+00:00",
+      "source_recorded_at_utc": "2026-10-17T21:40:57.560032+00:00",
+      "odds": 3.6,
+      "outcome": "away",
+      "source": "local_price_only|EPL|away|0.05|all",
+      "stake": 1.0,
+      "status": "pending",
+      "profit": null,
+      "selected_members": [
+        "local_price_only|EPL|away|0.05|all"
+      ]
+    },
+    {
+      "portfolio": "bundesliga_plus9",
+      "fixture_id": "understat:31245",
+      "league": "EPL",
+      "home_team": "Brighton",
+      "away_team": "Crystal Palace",
+      "kickoff_utc": "2026-10-18T13:00:00+00:00",
+      "enrolled_at_utc": "2026-10-17T22:40:08.307828+00:00",
+      "source_recorded_at_utc": "2026-10-17T21:41:01.044194+00:00",
+      "odds": 5.5,
+      "outcome": "away",
+      "source": "local_price_only|EPL|away|0.05|all",
+      "stake": 1.0,
+      "status": "pending",
+      "profit": null,
+      "selected_members": [
+        "local_price_only|EPL|away|0.05|all"
+      ]
+    },
+    {
+      "portfolio": "bundesliga_plus9",
+      "fixture_id": "understat:31247",
+      "league": "EPL",
+      "home_team": "Leeds",
+      "away_team": "Manchester United",
+      "kickoff_utc": "2026-10-18T13:00:00+00:00",
+      "enrolled_at_utc": "2026-10-17T22:40:08.310075+00:00",
+      "source_recorded_at_utc": "2026-10-17T21:41:04.573796+00:00",
+      "odds": 2.35,
+      "outcome": "home",
+      "source": "local_price_only|EPL|home|0.02|all",
+      "stake": 1.0,
+      "status": "pending",
+      "profit": null,
+      "selected_members": [
+        "local_price_only|EPL|home|0.02|all"
+      ]
+    },
+    {
+      "portfolio": "bundesliga_plus9",
+      "fixture_id": "understat:31248",
+      "league": "EPL",
+      "home_team": "Nottingham Forest",
+      "away_team": "Arsenal",
+      "kickoff_utc": "2026-10-18T15:30:00+00:00",
+      "enrolled_at_utc": "2026-10-17T22:40:08.312294+00:00",
+      "source_recorded_at_utc": "2026-10-17T21:41:08.079399+00:00",
+      "odds": 1.6,
+      "outcome": "away",
+      "source": "local_price_only|EPL|away|0.05|all",
+      "stake": 1.0,
+      "status": "pending",
+      "profit": null,
+      "selected_members": [
+        "local_price_only|EPL|away|0.05|all"
+      ]
+    },
+    {
+      "portfolio": "bundesliga_plus9",
+      "fixture_id": "understat:31994",
+      "league": "Ligue_1",
+      "home_team": "Angers",
+      "away_team": "Marseille",
+      "kickoff_utc": "2026-10-18T13:00:00+00:00",
+      "enrolled_at_utc": "2026-10-17T22:40:08.314483+00:00",
+      "source_recorded_at_utc": "2026-10-17T21:41:11.557767+00:00",
+      "odds": 3.3,
+      "outcome": "home",
+      "source": "local_price_only|Ligue_1|home|0.02|all",
+      "stake": 1.0,
+      "status": "pending",
+      "profit": null,
+      "selected_members": [
+        "local_price_only|Ligue_1|home|0.02|all"
+      ]
+    },
+    {
+      "portfolio": "bundesliga_plus9",
+      "fixture_id": "understat:32000",
+      "league": "Ligue_1",
+      "home_team": "Paris FC",
+      "away_team": "Rennes",
+      "kickoff_utc": "2026-10-18T15:15:00+00:00",
+      "enrolled_at_utc": "2026-10-17T22:40:08.322036+00:00",
+      "source_recorded_at_utc": "2026-10-17T21:41:21.930071+00:00",
+      "odds": 3.6,
+      "outcome": "draw",
+      "source": "residual_sport_recency|Ligue_1|draw|0.05|all",
+      "stake": 1.0,
+      "status": "pending",
+      "profit": null,
+      "selected_members": [
+        "residual_sport_recency|Ligue_1|draw|0.05|all"
+      ]
+    }
+  ]
+}

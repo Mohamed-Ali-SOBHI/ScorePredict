@@ -120,3 +120,27 @@ Vercel Hobby peut servir le front statique, mais ses fonctions ne sont pas adapt
 - exclusion automatique des rencontres déjà commencées ;
 - affichage séparé du backtest et du journal live ;
 - probabilités brutes explicitement signalées comme non calibrées.
+
+
+## Les neuf stratégies en observation
+
+La page `static/observation.html` présente le journal prospectif des neuf stratégies,
+leurs bilans individuels et le total avec les nuls Bundesliga. Le total est dérivé
+du portefeuille `bundesliga_plus9` de la comparaison inscrite, avec une seule issue
+et une seule unité virtuelle par match. Les lignes individuelles ne s’additionnent pas.
+
+`python -m production.observation_export` récupère les branches d’état des quinze
+et de la comparaison des neuf. Il vérifie les protocoles figés, inventaires,
+chaînes de preuves, prévisions sources et métriques avant d’écrire
+`static/data/observation.json`. Un journal invalide produit un état indisponible,
+jamais un gain ou un rendement présenté comme vérifié.
+
+Les simulations historiques sont conservées dans `observation_history.json`,
+arrêtées au 17 octobre 2026. Elles restent séparées du suivi prospectif démarré
+le 18 octobre, heure de Paris. Tout nouveau calcul historique doit conserver
+cette séparation, ses données sources et l’ordre des neuf stratégies.
+
+Les trois chemins de publication actualisent le snapshot d’observation. Un passage
+réussi du workflow des quinze (incluant la comparaison des neuf) déclenche aussi
+la publication de l’interface, en conservant les données des recommandations
+publiées. Les modèles et les journaux figés ne sont pas modifiés par cet export.
