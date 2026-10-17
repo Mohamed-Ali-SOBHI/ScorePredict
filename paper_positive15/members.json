@@ -1,0 +1,162 @@
+[
+  {
+    "id": "Bundesliga_anchor",
+    "method": "native_mean",
+    "model": "native_mean",
+    "league": "Bundesliga",
+    "outcome": "draw",
+    "threshold": 0.02,
+    "profile": "all",
+    "label": "Bundesliga · nuls de référence"
+  },
+  {
+    "id": "residual_sport_recency|Ligue_1|draw|0.05|all",
+    "method": "residual_sport_recency",
+    "league": "Ligue_1",
+    "outcome": "draw",
+    "threshold": 0.05,
+    "profile": "all",
+    "model": "residual_sport_recency",
+    "label": "Ligue 1 · nul · residual_sport_recency · EV>5% · all"
+  },
+  {
+    "id": "local_sport_only|EPL|draw|0.10|all",
+    "method": "local_sport_only",
+    "league": "EPL",
+    "outcome": "draw",
+    "threshold": 0.1,
+    "profile": "all",
+    "model": "local_sport_only",
+    "label": "Premier League · nul · local_sport_only · EV>10% · all"
+  },
+  {
+    "id": "local_price_only|EPL|home|0.02|all",
+    "method": "local_price_only",
+    "league": "EPL",
+    "outcome": "home",
+    "threshold": 0.02,
+    "profile": "all",
+    "model": "local_price_only",
+    "label": "Premier League · domicile · local_price_only · EV>2% · all"
+  },
+  {
+    "id": "native_mean|Ligue_1|home|0.05|all",
+    "method": "native_mean",
+    "league": "Ligue_1",
+    "outcome": "home",
+    "threshold": 0.05,
+    "profile": "all",
+    "model": "native_mean",
+    "label": "Ligue 1 · domicile · native_mean · EV>5% · all"
+  },
+  {
+    "id": "local_price_only|EPL|away|0.05|all",
+    "method": "local_price_only",
+    "league": "EPL",
+    "outcome": "away",
+    "threshold": 0.05,
+    "profile": "all",
+    "model": "local_price_only",
+    "label": "Premier League · extérieur · local_price_only · EV>5% · all"
+  },
+  {
+    "id": "local_price_only|EPL|draw|0.05|all",
+    "method": "local_price_only",
+    "league": "EPL",
+    "outcome": "draw",
+    "threshold": 0.05,
+    "profile": "all",
+    "model": "local_price_only",
+    "label": "Premier League · nul · local_price_only · EV>5% · all"
+  },
+  {
+    "id": "residual_price|Bundesliga|draw|0.02|all",
+    "method": "residual_price",
+    "league": "Bundesliga",
+    "outcome": "draw",
+    "threshold": 0.02,
+    "profile": "all",
+    "model": "residual_price",
+    "label": "Bundesliga · nul · residual_price · EV>2% · all"
+  },
+  {
+    "id": "local_sport_only|La_liga|draw|0.05|balanced_market",
+    "method": "local_sport_only",
+    "league": "La_liga",
+    "outcome": "draw",
+    "threshold": 0.05,
+    "profile": "balanced_market",
+    "model": "local_sport_only",
+    "label": "Liga · nul · local_sport_only · EV>5% · balanced_market"
+  },
+  {
+    "id": "local_sport_only|Serie_A|away|0.05|all",
+    "method": "local_sport_only",
+    "league": "Serie_A",
+    "outcome": "away",
+    "threshold": 0.05,
+    "profile": "all",
+    "model": "local_sport_only",
+    "label": "Serie A · extérieur · local_sport_only · EV>5% · all"
+  },
+  {
+    "id": "residual_sport_recency|Serie_A|away|0.02|all",
+    "method": "residual_sport_recency",
+    "league": "Serie_A",
+    "outcome": "away",
+    "threshold": 0.02,
+    "profile": "all",
+    "model": "residual_sport_recency",
+    "label": "Serie A · extérieur · residual_sport_recency · EV>2% · all"
+  },
+  {
+    "id": "local_sport_only|Serie_A|draw|0.10|low_goal_parity",
+    "method": "local_sport_only",
+    "league": "Serie_A",
+    "outcome": "draw",
+    "threshold": 0.1,
+    "profile": "low_goal_parity",
+    "model": "local_sport_only",
+    "label": "Serie A · nul · local_sport_only · EV>10% · low_goal_parity"
+  },
+  {
+    "id": "native_mean|Serie_A|draw|0.02|balanced_market",
+    "method": "native_mean",
+    "league": "Serie_A",
+    "outcome": "draw",
+    "threshold": 0.02,
+    "profile": "balanced_market",
+    "model": "native_mean",
+    "label": "Serie A · nul · native_mean · EV>2% · balanced_market"
+  },
+  {
+    "id": "local_price_only|Ligue_1|home|0.02|all",
+    "method": "local_price_only",
+    "league": "Ligue_1",
+    "outcome": "home",
+    "threshold": 0.02,
+    "profile": "all",
+    "model": "local_price_only",
+    "label": "Ligue 1 · domicile · local_price_only · EV>2% · all"
+  },
+  {
+    "id": "native_mean|Ligue_1|draw|0.05|all",
+    "method": "native_mean",
+    "league": "Ligue_1",
+    "outcome": "draw",
+    "threshold": 0.05,
+    "profile": "all",
+    "model": "native_mean",
+    "label": "Ligue 1 · nul · native_mean · EV>5% · all"
+  },
+  {
+    "id": "local_price_only|Ligue_1|draw|0.05|low_goal_parity",
+    "method": "local_price_only",
+    "league": "Ligue_1",
+    "outcome": "draw",
+    "threshold": 0.05,
+    "profile": "low_goal_parity",
+    "model": "local_price_only",
+    "label": "Ligue 1 · nul · local_price_only · EV>5% · low_goal_parity"
+  }
+]

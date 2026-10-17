@@ -1,0 +1,89 @@
+name: Observation des 15 ajouts avec les nuls Bundesliga
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Previsions quotidiennes et site"]
+    types: [completed]
+    branches: [main]
+  schedule:
+    - cron: "40 0,6,12,18 * * *"
+
+concurrency:
+  group: scorepredict-positive15
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  observe:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PAPER_STATE_DIR: ${{ github.workspace }}/_positive15_state
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+    steps:
+      - name: Recuperer les modeles et le protocole
+        uses: actions/checkout@v6
+        with:
+          ref: main
+          persist-credentials: false
+      - name: Recuperer le journal des 15 ajouts
+        uses: actions/checkout@v6
+        with:
+          ref: observation-positive15-state
+          path: _positive15_state
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: paper_positive15/requirements.txt
+      - name: Installer le runtime fige
+        run: python -m pip install -r paper_positive15/requirements.txt
+      - name: Verifier les modeles, filtres et doublons
+        run: python -m unittest discover -s paper_positive15 -p 'test_*.py'
+      - name: Verifier la continuite du journal
+        id: verify
+        run: python paper_positive15/cloud_state.py verify
+      - name: Enregistrer les choix avant match et regler les resultats
+        id: collect
+        continue-on-error: true
+        run: python paper_positive15/run_paper.py
+      - name: Sceller le journal et produire le rapport
+        id: seal
+        if: always() && steps.verify.outcome == 'success'
+        env:
+          COLLECT_OUTCOME: ${{ steps.collect.outcome }}
+        run: python paper_positive15/cloud_state.py seal
+      - name: Sauvegarder les preuves
+        if: always() && steps.verify.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: positive15-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 90
+          path: |
+            _positive15_state/*.json
+            _positive15_state/*.sqlite3
+            _positive15_state/*.csv
+            _positive15_state/*.html
+            _positive15_state/*.md
+            _positive15_state/captures/
+      - name: Conserver le suivi sur sa branche dediee
+        if: always() && steps.seal.outcome == 'success'
+        working-directory: _positive15_state
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --all
+          if ! git diff --cached --quiet; then
+            git commit -m "Observation positive15: run ${GITHUB_RUN_ID}, attempt ${GITHUB_RUN_ATTEMPT}"
+            git push origin HEAD:observation-positive15-state
+          fi
+      - name: Verifier la collecte
+        if: always() && steps.verify.outcome == 'success'
+        run: python paper_positive15/cloud_state.py health

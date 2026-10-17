@@ -1,0 +1,115 @@
+{
+  "selection": "Exactly the 15 positive marginal contributions of fold2026 broad_full, preserving frozen order. Selected AFTER observing recent outcomes, not independently validated.",
+  "positive_contributions": [
+    {
+      "fold": 2026,
+      "policy": "broad_full",
+      "strategy": "residual_sport_recency|Ligue_1|draw|0.05|all",
+      "new_bets": 2,
+      "new_profit": 2.5
+    },
+    {
+      "fold": 2026,
+      "policy": "broad_full",
+      "strategy": "local_sport_only|EPL|draw|0.10|all",
+      "new_bets": 17,
+      "new_profit": 10.0
+    },
+    {
+      "fold": 2026,
+      "policy": "broad_full",
+      "strategy": "local_price_only|EPL|home|0.02|all",
+      "new_bets": 21,
+      "new_profit": 14.170000000000003
+    },
+    {
+      "fold": 2026,
+      "policy": "broad_full",
+      "strategy": "native_mean|Ligue_1|home|0.05|all",
+      "new_bets": 5,
+      "new_profit": 2.1
+    },
+    {
+      "fold": 2026,
+      "policy": "broad_full",
+      "strategy": "local_price_only|EPL|away|0.05|all",
+      "new_bets": 10,
+      "new_profit": 2.2100000000000004
+    },
+    {
+      "fold": 2026,
+      "policy": "broad_full",
+      "strategy": "local_price_only|EPL|draw|0.05|all",
+      "new_bets": 2,
+      "new_profit": 1.5
+    },
+    {
+      "fold": 2026,
+      "policy": "broad_full",
+      "strategy": "residual_price|Bundesliga|draw|0.02|all",
+      "new_bets": 2,
+      "new_profit": 2.33
+    },
+    {
+      "fold": 2026,
+      "policy": "broad_full",
+      "strategy": "local_sport_only|La_liga|draw|0.05|balanced_market",
+      "new_bets": 4,
+      "new_profit": 2.8000000000000003
+    },
+    {
+      "fold": 2026,
+      "policy": "broad_full",
+      "strategy": "local_sport_only|Serie_A|away|0.05|all",
+      "new_bets": 16,
+      "new_profit": 7.209999999999999
+    },
+    {
+      "fold": 2026,
+      "policy": "broad_full",
+      "strategy": "residual_sport_recency|Serie_A|away|0.02|all",
+      "new_bets": 1,
+      "new_profit": 3.5
+    },
+    {
+      "fold": 2026,
+      "policy": "broad_full",
+      "strategy": "local_sport_only|Serie_A|draw|0.10|low_goal_parity",
+      "new_bets": 1,
+      "new_profit": 2.3
+    },
+    {
+      "fold": 2026,
+      "policy": "broad_full",
+      "strategy": "native_mean|Serie_A|draw|0.02|balanced_market",
+      "new_bets": 3,
+      "new_profit": 0.3999999999999999
+    },
+    {
+      "fold": 2026,
+      "policy": "broad_full",
+      "strategy": "local_price_only|Ligue_1|home|0.02|all",
+      "new_bets": 12,
+      "new_profit": 3.5700000000000003
+    },
+    {
+      "fold": 2026,
+      "policy": "broad_full",
+      "strategy": "native_mean|Ligue_1|draw|0.05|all",
+      "new_bets": 3,
+      "new_profit": 0.3999999999999999
+    },
+    {
+      "fold": 2026,
+      "policy": "broad_full",
+      "strategy": "local_price_only|Ligue_1|draw|0.05|low_goal_parity",
+      "new_bets": 3,
+      "new_profit": 0.20000000000000018
+    }
+  ],
+  "source_sha256": {
+    "bundesliga_logic_2026_10_17\\combined\\frozen_portfolios.json": "64ba2b5aa6b7506596ba90c08e2dba70a52ab4ae52e855dea80eddb40a467930",
+    "bundesliga_logic_2026_10_17\\combined\\contributions.json": "5e7a21b08dc4d743f2ab49d6928a48ce9a87fcb1be9e084c723105d88fb39034"
+  },
+  "historical_profits_imported": false
+}
