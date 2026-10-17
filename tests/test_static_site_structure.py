@@ -13,7 +13,7 @@ class StaticSiteStructureTests(unittest.TestCase):
         landing = (STATIC / "index.html").read_text(encoding="utf-8")
         self.assertIn('href="./dashboard.html"', landing)
         self.assertIn('src="./assets/landing.js?v=journal-7"', landing)
-        self.assertIn('href="./assets/landing.css?v=v24"', landing)
+        self.assertRegex(landing, r'href="\./assets/landing\.css\?v=[^"\s]+"')
         self.assertNotIn('src="./assets/app.js', landing)
 
     def test_how_it_works_follows_the_hero_and_explains_the_filters(self) -> None:

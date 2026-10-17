@@ -171,17 +171,17 @@ function predictionMarkup(prediction) {
   const modelIndex = numberOrNull(prediction.modelProbability) ?? 0;
   const modelIndexWidth = Math.max(0, Math.min(100, modelIndex * 100));
   return `
-    <article class="prediction" aria-label="${escapeHtml(`${prediction.homeTeam} contre ${prediction.awayTeam}, ${prediction.outcomeLabel}`)}">
-      <div class="prediction-head">
-        <span class="prediction-league"><i aria-hidden="true"></i>${escapeHtml(league)}</span>
+    <article class="prediction object" aria-label="${escapeHtml(`${prediction.homeTeam} contre ${prediction.awayTeam}, ${prediction.outcomeLabel}`)}">
+      <div class="object-depth" aria-hidden="true"></div>
+      <div class="object-face">
+      <div class="object-header">
+        <span class="rivalry-label">${escapeHtml(league)}</span>
         <time datetime="${escapeHtml(prediction.date)}">${escapeHtml(formatDate(prediction.date, true))}</time>
       </div>
-      <div class="prediction-pitch" aria-hidden="true"><i></i></div>
-      <div class="teams">
+      <div class="pitch-geometry" aria-hidden="true"><i></i></div>
+      <div class="object-core">
         <p>${escapeHtml(country)}</p>
-        <h2>${escapeHtml(prediction.homeTeam)}</h2>
-        <span>vs</span>
-        <h2>${escapeHtml(prediction.awayTeam)}</h2>
+        <h2><span>${escapeHtml(prediction.homeTeam)}</span><small>vs</small><span>${escapeHtml(prediction.awayTeam)}</span></h2>
         <div class="prediction-choice">
           <strong>${escapeHtml(prediction.outcomeLabel)}</strong>
         </div>
@@ -190,9 +190,10 @@ function predictionMarkup(prediction) {
         <div><span>Indice du modèle</span><b>${escapeHtml(percent.format(modelIndex))}</b></div>
         <i aria-hidden="true"><span style="width: ${modelIndexWidth.toFixed(1)}%"></span></i>
       </div>
-      <div class="prediction-footer">
+      <div class="object-bet-footer">
         <div><span>Cote</span><b>${decimal.format(prediction.odds)}</b></div>
         <div><span>Mise indicative</span><b>${decimal.format(prediction.stakeEur)} €</b></div>
+      </div>
       </div>
     </article>`;
 }
