@@ -3506,6 +3506,1272 @@
       },
       "previous_hash": "a5bf825695415e890682362cb03e6c29e5f4d4cb4e1ab3d0723642cfeb043cac",
       "event_hash": "24a4e6648b6069d2054a4735ab3f76f494bea3a8f0375c9152911a8c6be941c9"
+    },
+    {
+      "seq": 42,
+      "kind": "forecast",
+      "identity": "understat:32287",
+      "payload": {
+        "all_pre_triplets": {
+          "Avg": {
+            "away": 4.15,
+            "draw": 4.14,
+            "home": 1.7
+          },
+          "B365": {
+            "away": 4.2,
+            "draw": 4.2,
+            "home": 1.73
+          },
+          "BW": {
+            "away": 4.2,
+            "draw": 4.1,
+            "home": 1.73
+          },
+          "WH": null
+        },
+        "away_id": "135",
+        "away_team": "Freiburg",
+        "capture_directory": "captures/20261017T134930316834Z",
+        "decisions": [
+          {
+            "ev_after_2pct": -0.21744156044721596,
+            "member": "bundesliga_draw_xgb",
+            "odds": 4.2,
+            "outcome": "draw",
+            "probability": 0.1901259571313858,
+            "selected": false
+          }
+        ],
+        "features": {
+          "original_xgb_ensemble": {
+            "deep_advantage_1": 0.0,
+            "deep_advantage_1_carry": 0.0,
+            "deep_advantage_3": 7.666666666666666,
+            "deep_advantage_3_carry": 7.666666666666666,
+            "deep_advantage_5": 8.0,
+            "deep_advantage_5_carry": 8.0,
+            "defensive_advantage_1": -1.7983670000000003,
+            "defensive_advantage_1_carry": -1.7983670000000003,
+            "defensive_advantage_3": -0.40644666666666684,
+            "defensive_advantage_3_carry": -0.40644666666666684,
+            "defensive_advantage_5": -0.2375486000000001,
+            "defensive_advantage_5_carry": -0.2375486000000001,
+            "defensive_trend_gap": 0.16889806666666674,
+            "elo_rating_gap": 47.47374209929626,
+            "elo_win_probability": 0.6499156798797094,
+            "market_away_prob_open": 0.2258485639686684,
+            "market_away_win_odds_open": 4.2,
+            "market_draw_odds_open": 4.2,
+            "market_draw_prob_open": 0.2258485639686684,
+            "market_entropy_open": 1.0015661508988871,
+            "market_favorite_gap_open": 0.3224543080939949,
+            "market_favorite_prob_open": 0.5483028720626633,
+            "market_home_minus_away_prob_open": 0.3224543080939949,
+            "market_home_prob_open": 0.5483028720626633,
+            "market_home_win_odds_open": 1.73,
+            "market_non_draw_prob_open": 0.7741514360313316,
+            "market_overround_open": 1.054225158271401,
+            "ppda_advantage_1": 55.0,
+            "ppda_advantage_1_carry": 55.0,
+            "ppda_advantage_3": -16.0,
+            "ppda_advantage_3_carry": -16.0,
+            "ppda_advantage_5": 46.79999999999998,
+            "ppda_advantage_5_carry": 46.79999999999998,
+            "prev_season_defensive_gap": 0.07650138529411743,
+            "prev_season_points_per_game_gap": 0.3529411764705883,
+            "prev_season_xG_gap": 0.7388218823529409,
+            "relative_form_10": -3.0,
+            "relative_form_10_carry": -1.2352941176470615,
+            "relative_form_5": -3.0,
+            "relative_form_5_carry": -3.0,
+            "rest_days_diff": 1.083333333333333,
+            "rest_days_ratio": 1.1566265060240963,
+            "season_points_per_game_gap": -0.6000000000000001,
+            "xG_advantage_1": 0.6732500000000001,
+            "xG_advantage_1_carry": 0.6732500000000001,
+            "xG_advantage_3": 0.008026666666666848,
+            "xG_advantage_3_carry": 0.008026666666666848,
+            "xG_advantage_5": 0.494974,
+            "xG_advantage_5_carry": 0.494974,
+            "xG_efficiency_gap_5": -0.4819526169258581,
+            "xG_trend_gap": -0.4869473333333332
+          }
+        },
+        "fixture_id": "understat:32287",
+        "github_run_attempt": "1",
+        "github_run_id": "39038104583",
+        "history_audit": {
+          "history_team_rows": 7434,
+          "latest_history_kickoff_assumed_utc": "2026-10-11T15:30:00Z",
+          "sporting_cutoff_utc": "2026-10-15T13:30:00+00:00"
+        },
+        "home_id": "119",
+        "home_team": "Bayer Leverkusen",
+        "kickoff_utc": "2026-10-18T13:30:00+00:00",
+        "league": "Bundesliga",
+        "odds": {
+          "away": 4.2,
+          "draw": 4.2,
+          "home": 1.73
+        },
+        "portfolios": {
+          "alone_bundesliga_draw_xgb": null,
+          "alone_epl_away_logit": null,
+          "alone_l1_home_poisson": null,
+          "alone_seriea_away_control": null,
+          "alone_seriea_draw_logit": null,
+          "alone_seriea_draw_poisson": null,
+          "reference": null,
+          "reference_bundesliga_draw_xgb": null,
+          "reference_bundesliga_half": null,
+          "reference_epl_away_logit": null,
+          "reference_l1_home_poisson": null,
+          "reference_seriea_away_control": null,
+          "reference_seriea_draw_logit": null,
+          "reference_seriea_draw_poisson": null,
+          "reference_six_full": null,
+          "reference_six_half": null
+        },
+        "probabilities": {
+          "original_xgb_ensemble": {
+            "away": 0.2356255203485489,
+            "draw": 0.1901259571313858,
+            "home": 0.5742484927177429
+          }
+        },
+        "production_fixture_id": "sportytrader:8595806",
+        "production_run_id": 39037700421,
+        "production_snapshot_completed_at_utc": "2026-10-17T13:48:48Z",
+        "quotes_collected_at_utc": "2026-10-17T13:49:34.928851+00:00",
+        "recorded_at_utc": "2026-10-17T13:49:37.526373+00:00",
+        "reference": null,
+        "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+        "schedule_source": "sportytrader_jsonld_utc",
+        "source_snapshot_sha256": {
+          "Bundesliga": "396536c72929250ba0ccdfe3ed69a9733cf679fdce1e6e74e3f00fea6a61f6bc",
+          "EPL": "3b480a58b323db06a15d78e31b4668a8557f05f46a82a4a227cda9de2fd56a4f",
+          "Ligue_1": "4ee8941f171ee88453ab8c0df61becd14effaa1fa6a20fb40c728ab0b0831191",
+          "Serie_A": "7479f418f261bcded6aca6e88bde1945993fbacf2f1a4607f8e09295b6b7ec5b",
+          "fixtures": "754420b5d83fe71d593909fd24a3e56d17df8d9aed50af85128033a47cd63680"
+        },
+        "sports_collected_at_utc": "2026-10-17T13:49:34.013770+00:00"
+      },
+      "previous_hash": "24a4e6648b6069d2054a4735ab3f76f494bea3a8f0375c9152911a8c6be941c9",
+      "event_hash": "61afe0d1ad34d98f92567bff569156b617d191a7ade9629bc6707eeef99cb1b9"
+    },
+    {
+      "seq": 43,
+      "kind": "forecast",
+      "identity": "understat:31246",
+      "payload": {
+        "all_pre_triplets": {
+          "Avg": {
+            "away": 3.44,
+            "draw": 3.51,
+            "home": 2.04
+          },
+          "B365": {
+            "away": 3.6,
+            "draw": 3.5,
+            "home": 2.05
+          },
+          "BW": {
+            "away": 3.5,
+            "draw": 3.6,
+            "home": 2.0
+          },
+          "WH": null
+        },
+        "away_id": "77",
+        "away_team": "Sunderland",
+        "capture_directory": "captures/20261017T134930316834Z",
+        "decisions": [
+          {
+            "ev_after_2pct": -0.2086605108566666,
+            "member": "epl_away_logit",
+            "odds": 3.6,
+            "outcome": "away",
+            "probability": 0.2243025762877929,
+            "selected": false
+          }
+        ],
+        "features": {
+          "logit_sports": {
+            "elo_rating_gap": 33.4942505792726,
+            "elo_win_probability": 0.6313927010285051,
+            "form_score_5_carry": 3.0,
+            "league_Bundesliga": 0.0,
+            "league_EPL": 1.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 0.0,
+            "league_Serie_A": 0.0,
+            "matches_played_in_season_before": 6.0,
+            "opponent_form_score_5_carry": 4.0,
+            "opponent_matches_played_in_season_before": 6.0,
+            "opponent_rest_days": 7.958333333333333,
+            "opponent_xG_against_last_5_carry": 1.7818239999999999,
+            "opponent_xG_last_5_carry": 1.9527786000000003,
+            "prev_season_defensive_gap": 0.09387331578947378,
+            "prev_season_points_per_game_gap": 0.07894736842105265,
+            "prev_season_xG_gap": 0.6236360789473685,
+            "team_rest_days": 7.958333333333333,
+            "team_xG_against_last_5_carry": 1.1787508,
+            "team_xG_last_5_carry": 1.8132372
+          }
+        },
+        "fixture_id": "understat:31246",
+        "github_run_attempt": "1",
+        "github_run_id": "39038104583",
+        "history_audit": {
+          "history_team_rows": 9240,
+          "latest_history_kickoff_assumed_utc": "2026-10-12T19:00:00Z",
+          "sporting_cutoff_utc": "2026-10-15T13:00:00+00:00"
+        },
+        "home_id": "73",
+        "home_team": "Bournemouth",
+        "kickoff_utc": "2026-10-18T13:00:00+00:00",
+        "league": "EPL",
+        "odds": {
+          "away": 3.6,
+          "draw": 3.5,
+          "home": 2.05
+        },
+        "portfolios": {
+          "alone_bundesliga_draw_xgb": null,
+          "alone_epl_away_logit": null,
+          "alone_l1_home_poisson": null,
+          "alone_seriea_away_control": null,
+          "alone_seriea_draw_logit": null,
+          "alone_seriea_draw_poisson": null,
+          "reference": null,
+          "reference_bundesliga_draw_xgb": null,
+          "reference_bundesliga_half": null,
+          "reference_epl_away_logit": null,
+          "reference_l1_home_poisson": null,
+          "reference_seriea_away_control": null,
+          "reference_seriea_draw_logit": null,
+          "reference_seriea_draw_poisson": null,
+          "reference_six_full": null,
+          "reference_six_half": null
+        },
+        "probabilities": {
+          "logit_sports": {
+            "away": 0.2243025762877929,
+            "draw": 0.22462065473074658,
+            "home": 0.5510767689814605
+          }
+        },
+        "production_fixture_id": "sportytrader:8558873",
+        "production_run_id": 39037700421,
+        "production_snapshot_completed_at_utc": "2026-10-17T13:48:48Z",
+        "quotes_collected_at_utc": "2026-10-17T13:49:34.928851+00:00",
+        "recorded_at_utc": "2026-10-17T13:49:40.202436+00:00",
+        "reference": null,
+        "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+        "schedule_source": "sportytrader_jsonld_utc",
+        "source_snapshot_sha256": {
+          "Bundesliga": "396536c72929250ba0ccdfe3ed69a9733cf679fdce1e6e74e3f00fea6a61f6bc",
+          "EPL": "3b480a58b323db06a15d78e31b4668a8557f05f46a82a4a227cda9de2fd56a4f",
+          "Ligue_1": "4ee8941f171ee88453ab8c0df61becd14effaa1fa6a20fb40c728ab0b0831191",
+          "Serie_A": "7479f418f261bcded6aca6e88bde1945993fbacf2f1a4607f8e09295b6b7ec5b",
+          "fixtures": "754420b5d83fe71d593909fd24a3e56d17df8d9aed50af85128033a47cd63680"
+        },
+        "sports_collected_at_utc": "2026-10-17T13:49:34.159407+00:00"
+      },
+      "previous_hash": "61afe0d1ad34d98f92567bff569156b617d191a7ade9629bc6707eeef99cb1b9",
+      "event_hash": "b3fb2e9cbc5362e1fb45be5b686c6ce6ec0e7572d096cc3b517ea7649f9d6b89"
+    },
+    {
+      "seq": 44,
+      "kind": "forecast",
+      "identity": "understat:31245",
+      "payload": {
+        "all_pre_triplets": {
+          "Avg": {
+            "away": 5.35,
+            "draw": 4.42,
+            "home": 1.53
+          },
+          "B365": {
+            "away": 5.5,
+            "draw": 4.5,
+            "home": 1.53
+          },
+          "BW": {
+            "away": 5.25,
+            "draw": 4.5,
+            "home": 1.55
+          },
+          "WH": null
+        },
+        "away_id": "78",
+        "away_team": "Crystal Palace",
+        "capture_directory": "captures/20261017T134930316834Z",
+        "decisions": [
+          {
+            "ev_after_2pct": -0.044270448307646815,
+            "member": "epl_away_logit",
+            "odds": 5.5,
+            "outcome": "away",
+            "probability": 0.17731531571286702,
+            "selected": false
+          }
+        ],
+        "features": {
+          "logit_sports": {
+            "elo_rating_gap": 68.58306514280912,
+            "elo_win_probability": 0.6770360081235975,
+            "form_score_5_carry": 10.0,
+            "league_Bundesliga": 0.0,
+            "league_EPL": 1.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 0.0,
+            "league_Serie_A": 0.0,
+            "matches_played_in_season_before": 6.0,
+            "opponent_form_score_5_carry": 7.0,
+            "opponent_matches_played_in_season_before": 6.0,
+            "opponent_rest_days": 7.0,
+            "opponent_xG_against_last_5_carry": 2.4665799999999996,
+            "opponent_xG_last_5_carry": 1.5202883999999999,
+            "prev_season_defensive_gap": 0.16565781578947347,
+            "prev_season_points_per_game_gap": 0.21052631578947367,
+            "prev_season_xG_gap": -0.10623181578947372,
+            "team_rest_days": 7.958333333333333,
+            "team_xG_against_last_5_carry": 1.8441305999999997,
+            "team_xG_last_5_carry": 2.1062939999999997
+          }
+        },
+        "fixture_id": "understat:31245",
+        "github_run_attempt": "1",
+        "github_run_id": "39038104583",
+        "history_audit": {
+          "history_team_rows": 9240,
+          "latest_history_kickoff_assumed_utc": "2026-10-12T19:00:00Z",
+          "sporting_cutoff_utc": "2026-10-15T13:00:00+00:00"
+        },
+        "home_id": "220",
+        "home_team": "Brighton",
+        "kickoff_utc": "2026-10-18T13:00:00+00:00",
+        "league": "EPL",
+        "odds": {
+          "away": 5.5,
+          "draw": 4.5,
+          "home": 1.53
+        },
+        "portfolios": {
+          "alone_bundesliga_draw_xgb": null,
+          "alone_epl_away_logit": null,
+          "alone_l1_home_poisson": null,
+          "alone_seriea_away_control": null,
+          "alone_seriea_draw_logit": null,
+          "alone_seriea_draw_poisson": null,
+          "reference": null,
+          "reference_bundesliga_draw_xgb": null,
+          "reference_bundesliga_half": null,
+          "reference_epl_away_logit": null,
+          "reference_l1_home_poisson": null,
+          "reference_seriea_away_control": null,
+          "reference_seriea_draw_logit": null,
+          "reference_seriea_draw_poisson": null,
+          "reference_six_full": null,
+          "reference_six_half": null
+        },
+        "probabilities": {
+          "logit_sports": {
+            "away": 0.17731531571286702,
+            "draw": 0.22311448798386543,
+            "home": 0.5995701963032676
+          }
+        },
+        "production_fixture_id": "sportytrader:8558875",
+        "production_run_id": 39037700421,
+        "production_snapshot_completed_at_utc": "2026-10-17T13:48:48Z",
+        "quotes_collected_at_utc": "2026-10-17T13:49:34.928851+00:00",
+        "recorded_at_utc": "2026-10-17T13:49:42.859847+00:00",
+        "reference": null,
+        "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+        "schedule_source": "sportytrader_jsonld_utc",
+        "source_snapshot_sha256": {
+          "Bundesliga": "396536c72929250ba0ccdfe3ed69a9733cf679fdce1e6e74e3f00fea6a61f6bc",
+          "EPL": "3b480a58b323db06a15d78e31b4668a8557f05f46a82a4a227cda9de2fd56a4f",
+          "Ligue_1": "4ee8941f171ee88453ab8c0df61becd14effaa1fa6a20fb40c728ab0b0831191",
+          "Serie_A": "7479f418f261bcded6aca6e88bde1945993fbacf2f1a4607f8e09295b6b7ec5b",
+          "fixtures": "754420b5d83fe71d593909fd24a3e56d17df8d9aed50af85128033a47cd63680"
+        },
+        "sports_collected_at_utc": "2026-10-17T13:49:34.159407+00:00"
+      },
+      "previous_hash": "b3fb2e9cbc5362e1fb45be5b686c6ce6ec0e7572d096cc3b517ea7649f9d6b89",
+      "event_hash": "7eff7b0b29df6637d015fe646f9c8cc92b98c37c6b0dc4ea5db7a80c71aef41c"
+    },
+    {
+      "seq": 45,
+      "kind": "forecast",
+      "identity": "understat:31247",
+      "payload": {
+        "all_pre_triplets": {
+          "Avg": {
+            "away": 2.82,
+            "draw": 3.55,
+            "home": 2.32
+          },
+          "B365": {
+            "away": 2.9,
+            "draw": 3.6,
+            "home": 2.35
+          },
+          "BW": {
+            "away": 2.85,
+            "draw": 3.7,
+            "home": 2.3
+          },
+          "WH": null
+        },
+        "away_id": "89",
+        "away_team": "Manchester United",
+        "capture_directory": "captures/20261017T134930316834Z",
+        "decisions": [
+          {
+            "ev_after_2pct": 0.09143588682511461,
+            "member": "epl_away_logit",
+            "odds": 2.9,
+            "outcome": "away",
+            "probability": 0.38403796158519166,
+            "selected": true
+          }
+        ],
+        "features": {
+          "logit_sports": {
+            "elo_rating_gap": -42.699451245906175,
+            "elo_win_probability": 0.5248769333175562,
+            "form_score_5_carry": 6.0,
+            "league_Bundesliga": 0.0,
+            "league_EPL": 1.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 0.0,
+            "league_Serie_A": 0.0,
+            "matches_played_in_season_before": 6.0,
+            "opponent_form_score_5_carry": 6.0,
+            "opponent_matches_played_in_season_before": 6.0,
+            "opponent_rest_days": 7.854166666666667,
+            "opponent_xG_against_last_5_carry": 1.5508099999999998,
+            "opponent_xG_last_5_carry": 1.9348195999999998,
+            "prev_season_defensive_gap": -0.15906542105263144,
+            "prev_season_points_per_game_gap": -0.631578947368421,
+            "prev_season_xG_gap": -0.32678210526315765,
+            "team_rest_days": 8.0625,
+            "team_xG_against_last_5_carry": 1.615305,
+            "team_xG_last_5_carry": 1.591596
+          }
+        },
+        "fixture_id": "understat:31247",
+        "github_run_attempt": "1",
+        "github_run_id": "39038104583",
+        "history_audit": {
+          "history_team_rows": 9240,
+          "latest_history_kickoff_assumed_utc": "2026-10-12T19:00:00Z",
+          "sporting_cutoff_utc": "2026-10-15T13:00:00+00:00"
+        },
+        "home_id": "245",
+        "home_team": "Leeds",
+        "kickoff_utc": "2026-10-18T13:00:00+00:00",
+        "league": "EPL",
+        "odds": {
+          "away": 2.9,
+          "draw": 3.6,
+          "home": 2.35
+        },
+        "portfolios": {
+          "alone_bundesliga_draw_xgb": null,
+          "alone_epl_away_logit": {
+            "odds": 2.9,
+            "outcome": "away",
+            "source": "epl_away_logit",
+            "stake": 1.0
+          },
+          "alone_l1_home_poisson": null,
+          "alone_seriea_away_control": null,
+          "alone_seriea_draw_logit": null,
+          "alone_seriea_draw_poisson": null,
+          "reference": null,
+          "reference_bundesliga_draw_xgb": null,
+          "reference_bundesliga_half": null,
+          "reference_epl_away_logit": {
+            "odds": 2.9,
+            "outcome": "away",
+            "source": "epl_away_logit",
+            "stake": 1.0
+          },
+          "reference_l1_home_poisson": null,
+          "reference_seriea_away_control": null,
+          "reference_seriea_draw_logit": null,
+          "reference_seriea_draw_poisson": null,
+          "reference_six_full": {
+            "odds": 2.9,
+            "outcome": "away",
+            "source": "epl_away_logit",
+            "stake": 1.0
+          },
+          "reference_six_half": {
+            "odds": 2.9,
+            "outcome": "away",
+            "source": "epl_away_logit",
+            "stake": 0.5
+          }
+        },
+        "probabilities": {
+          "logit_sports": {
+            "away": 0.38403796158519166,
+            "draw": 0.2636243214944784,
+            "home": 0.3523377169203299
+          }
+        },
+        "production_fixture_id": "sportytrader:8558878",
+        "production_run_id": 39037700421,
+        "production_snapshot_completed_at_utc": "2026-10-17T13:48:48Z",
+        "quotes_collected_at_utc": "2026-10-17T13:49:34.928851+00:00",
+        "recorded_at_utc": "2026-10-17T13:49:45.522942+00:00",
+        "reference": null,
+        "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+        "schedule_source": "sportytrader_jsonld_utc",
+        "source_snapshot_sha256": {
+          "Bundesliga": "396536c72929250ba0ccdfe3ed69a9733cf679fdce1e6e74e3f00fea6a61f6bc",
+          "EPL": "3b480a58b323db06a15d78e31b4668a8557f05f46a82a4a227cda9de2fd56a4f",
+          "Ligue_1": "4ee8941f171ee88453ab8c0df61becd14effaa1fa6a20fb40c728ab0b0831191",
+          "Serie_A": "7479f418f261bcded6aca6e88bde1945993fbacf2f1a4607f8e09295b6b7ec5b",
+          "fixtures": "754420b5d83fe71d593909fd24a3e56d17df8d9aed50af85128033a47cd63680"
+        },
+        "sports_collected_at_utc": "2026-10-17T13:49:34.159407+00:00"
+      },
+      "previous_hash": "7eff7b0b29df6637d015fe646f9c8cc92b98c37c6b0dc4ea5db7a80c71aef41c",
+      "event_hash": "0005fe3bd991501132ca87130978367a50f57f34a945c66956b552b032123998"
+    },
+    {
+      "seq": 46,
+      "kind": "forecast",
+      "identity": "understat:31994",
+      "payload": {
+        "all_pre_triplets": {
+          "Avg": {
+            "away": 2.07,
+            "draw": 3.71,
+            "home": 3.16
+          },
+          "B365": {
+            "away": 2.05,
+            "draw": 3.8,
+            "home": 3.3
+          },
+          "BW": {
+            "away": 2.1,
+            "draw": 3.75,
+            "home": 3.2
+          },
+          "WH": null
+        },
+        "away_id": "164",
+        "away_team": "Marseille",
+        "capture_directory": "captures/20261017T134930316834Z",
+        "decisions": [
+          {
+            "ev_after_2pct": 0.06379953069953381,
+            "member": "l1_home_poisson",
+            "odds": 3.3,
+            "outcome": "home",
+            "probability": 0.32894234097078967,
+            "selected": true
+          }
+        ],
+        "features": {
+          "poisson_sports": {
+            "elo_rating_gap": -86.55789065798126,
+            "elo_win_probability": 0.4618543895103664,
+            "form_score_5_carry": 7.0,
+            "league_Bundesliga": 0.0,
+            "league_EPL": 0.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 1.0,
+            "league_Serie_A": 0.0,
+            "matches_played_in_season_before": 6.0,
+            "opponent_form_score_5_carry": 3.0,
+            "opponent_matches_played_in_season_before": 6.0,
+            "opponent_rest_days": 6.760416666666667,
+            "opponent_xG_against_last_5_carry": 2.646108,
+            "opponent_xG_last_5_carry": 1.483854,
+            "prev_season_defensive_gap": -0.31196723529411763,
+            "prev_season_points_per_game_gap": -0.6764705882352942,
+            "prev_season_xG_gap": -1.058528411764706,
+            "team_rest_days": 7.760416666666667,
+            "team_xG_against_last_5_carry": 2.074232,
+            "team_xG_last_5_carry": 1.5399505999999998
+          }
+        },
+        "fixture_id": "understat:31994",
+        "github_run_attempt": "1",
+        "github_run_id": "39038104583",
+        "history_audit": {
+          "history_team_rows": 8580,
+          "latest_history_kickoff_assumed_utc": "2026-10-11T18:45:00Z",
+          "sporting_cutoff_utc": "2026-10-15T13:00:00+00:00"
+        },
+        "home_id": "167",
+        "home_team": "Angers",
+        "kickoff_utc": "2026-10-18T13:00:00+00:00",
+        "league": "Ligue_1",
+        "odds": {
+          "away": 2.05,
+          "draw": 3.8,
+          "home": 3.3
+        },
+        "portfolios": {
+          "alone_bundesliga_draw_xgb": null,
+          "alone_epl_away_logit": null,
+          "alone_l1_home_poisson": {
+            "odds": 3.3,
+            "outcome": "home",
+            "source": "l1_home_poisson",
+            "stake": 1.0
+          },
+          "alone_seriea_away_control": null,
+          "alone_seriea_draw_logit": null,
+          "alone_seriea_draw_poisson": null,
+          "reference": null,
+          "reference_bundesliga_draw_xgb": null,
+          "reference_bundesliga_half": null,
+          "reference_epl_away_logit": null,
+          "reference_l1_home_poisson": {
+            "odds": 3.3,
+            "outcome": "home",
+            "source": "l1_home_poisson",
+            "stake": 1.0
+          },
+          "reference_seriea_away_control": null,
+          "reference_seriea_draw_logit": null,
+          "reference_seriea_draw_poisson": null,
+          "reference_six_full": {
+            "odds": 3.3,
+            "outcome": "home",
+            "source": "l1_home_poisson",
+            "stake": 1.0
+          },
+          "reference_six_half": {
+            "odds": 3.3,
+            "outcome": "home",
+            "source": "l1_home_poisson",
+            "stake": 0.5
+          }
+        },
+        "probabilities": {
+          "poisson_sports": {
+            "away": 0.42051674392779675,
+            "draw": 0.2505409151014137,
+            "home": 0.32894234097078967
+          }
+        },
+        "production_fixture_id": "sportytrader:8532685",
+        "production_run_id": 39037700421,
+        "production_snapshot_completed_at_utc": "2026-10-17T13:48:48Z",
+        "quotes_collected_at_utc": "2026-10-17T13:49:34.928851+00:00",
+        "recorded_at_utc": "2026-10-17T13:49:48.093134+00:00",
+        "reference": null,
+        "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+        "schedule_source": "sportytrader_jsonld_utc",
+        "source_snapshot_sha256": {
+          "Bundesliga": "396536c72929250ba0ccdfe3ed69a9733cf679fdce1e6e74e3f00fea6a61f6bc",
+          "EPL": "3b480a58b323db06a15d78e31b4668a8557f05f46a82a4a227cda9de2fd56a4f",
+          "Ligue_1": "4ee8941f171ee88453ab8c0df61becd14effaa1fa6a20fb40c728ab0b0831191",
+          "Serie_A": "7479f418f261bcded6aca6e88bde1945993fbacf2f1a4607f8e09295b6b7ec5b",
+          "fixtures": "754420b5d83fe71d593909fd24a3e56d17df8d9aed50af85128033a47cd63680"
+        },
+        "sports_collected_at_utc": "2026-10-17T13:49:34.134827+00:00"
+      },
+      "previous_hash": "0005fe3bd991501132ca87130978367a50f57f34a945c66956b552b032123998",
+      "event_hash": "38979d43c1969436e0c37b310fc65755cb1d0495953448480ff0279fa239aa12"
+    },
+    {
+      "seq": 47,
+      "kind": "forecast",
+      "identity": "understat:31998",
+      "payload": {
+        "all_pre_triplets": {
+          "Avg": {
+            "away": 2.03,
+            "draw": 3.46,
+            "home": 3.48
+          },
+          "B365": {
+            "away": 2.05,
+            "draw": 3.5,
+            "home": 3.6
+          },
+          "BW": {
+            "away": 2.0,
+            "draw": 3.5,
+            "home": 3.6
+          },
+          "WH": null
+        },
+        "away_id": "171",
+        "away_team": "Monaco",
+        "capture_directory": "captures/20261017T134930316834Z",
+        "decisions": [
+          {
+            "ev_after_2pct": 0.1814703971197289,
+            "member": "l1_home_poisson",
+            "odds": 3.6,
+            "outcome": "home",
+            "probability": 0.33488389941035396,
+            "selected": true
+          }
+        ],
+        "features": {
+          "poisson_sports": {
+            "elo_rating_gap": -88.07274798745789,
+            "elo_win_probability": 0.4596877576873837,
+            "form_score_5_carry": 7.0,
+            "league_Bundesliga": 0.0,
+            "league_EPL": 0.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 1.0,
+            "league_Serie_A": 0.0,
+            "matches_played_in_season_before": 6.0,
+            "opponent_form_score_5_carry": 11.0,
+            "opponent_matches_played_in_season_before": 6.0,
+            "opponent_rest_days": 7.770833333333333,
+            "opponent_xG_against_last_5_carry": 1.4640382,
+            "opponent_xG_last_5_carry": 1.149495,
+            "prev_season_defensive_gap": -0.048900152941176334,
+            "prev_season_points_per_game_gap": -0.2647058823529411,
+            "prev_season_xG_gap": -0.36189614705882356,
+            "team_rest_days": 7.770833333333333,
+            "team_xG_against_last_5_carry": 1.1957468,
+            "team_xG_last_5_carry": 0.860914
+          }
+        },
+        "fixture_id": "understat:31998",
+        "github_run_attempt": "1",
+        "github_run_id": "39038104583",
+        "history_audit": {
+          "history_team_rows": 8580,
+          "latest_history_kickoff_assumed_utc": "2026-10-11T18:45:00Z",
+          "sporting_cutoff_utc": "2026-10-15T13:15:00+00:00"
+        },
+        "home_id": "179",
+        "home_team": "Lorient",
+        "kickoff_utc": "2026-10-18T13:15:00+00:00",
+        "league": "Ligue_1",
+        "odds": {
+          "away": 2.05,
+          "draw": 3.5,
+          "home": 3.6
+        },
+        "portfolios": {
+          "alone_bundesliga_draw_xgb": null,
+          "alone_epl_away_logit": null,
+          "alone_l1_home_poisson": {
+            "odds": 3.6,
+            "outcome": "home",
+            "source": "l1_home_poisson",
+            "stake": 1.0
+          },
+          "alone_seriea_away_control": null,
+          "alone_seriea_draw_logit": null,
+          "alone_seriea_draw_poisson": null,
+          "reference": null,
+          "reference_bundesliga_draw_xgb": null,
+          "reference_bundesliga_half": null,
+          "reference_epl_away_logit": null,
+          "reference_l1_home_poisson": {
+            "odds": 3.6,
+            "outcome": "home",
+            "source": "l1_home_poisson",
+            "stake": 1.0
+          },
+          "reference_seriea_away_control": null,
+          "reference_seriea_draw_logit": null,
+          "reference_seriea_draw_poisson": null,
+          "reference_six_full": {
+            "odds": 3.6,
+            "outcome": "home",
+            "source": "l1_home_poisson",
+            "stake": 1.0
+          },
+          "reference_six_half": {
+            "odds": 3.6,
+            "outcome": "home",
+            "source": "l1_home_poisson",
+            "stake": 0.5
+          }
+        },
+        "probabilities": {
+          "poisson_sports": {
+            "away": 0.3975800942560345,
+            "draw": 0.2675360063336114,
+            "home": 0.33488389941035396
+          }
+        },
+        "production_fixture_id": "sportytrader:8532689",
+        "production_run_id": 39037700421,
+        "production_snapshot_completed_at_utc": "2026-10-17T13:48:48Z",
+        "quotes_collected_at_utc": "2026-10-17T13:49:34.928851+00:00",
+        "recorded_at_utc": "2026-10-17T13:49:50.693272+00:00",
+        "reference": null,
+        "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+        "schedule_source": "sportytrader_jsonld_utc",
+        "source_snapshot_sha256": {
+          "Bundesliga": "396536c72929250ba0ccdfe3ed69a9733cf679fdce1e6e74e3f00fea6a61f6bc",
+          "EPL": "3b480a58b323db06a15d78e31b4668a8557f05f46a82a4a227cda9de2fd56a4f",
+          "Ligue_1": "4ee8941f171ee88453ab8c0df61becd14effaa1fa6a20fb40c728ab0b0831191",
+          "Serie_A": "7479f418f261bcded6aca6e88bde1945993fbacf2f1a4607f8e09295b6b7ec5b",
+          "fixtures": "754420b5d83fe71d593909fd24a3e56d17df8d9aed50af85128033a47cd63680"
+        },
+        "sports_collected_at_utc": "2026-10-17T13:49:34.134827+00:00"
+      },
+      "previous_hash": "38979d43c1969436e0c37b310fc65755cb1d0495953448480ff0279fa239aa12",
+      "event_hash": "cc6c6c999697b38a77cc5805d1ba62824a62f68dd9d02acd4bef2fe9e1ffcba2"
+    },
+    {
+      "seq": 48,
+      "kind": "forecast",
+      "identity": "understat:31628",
+      "payload": {
+        "all_pre_triplets": {
+          "Avg": {
+            "away": 4.14,
+            "draw": 3.45,
+            "home": 1.87
+          },
+          "B365": {
+            "away": 4.33,
+            "draw": 3.5,
+            "home": 1.85
+          },
+          "BW": {
+            "away": 4.2,
+            "draw": 3.5,
+            "home": 1.88
+          },
+          "WH": null
+        },
+        "away_id": "243",
+        "away_team": "Lecce",
+        "capture_directory": "captures/20261017T134930316834Z",
+        "decisions": [
+          {
+            "ev_after_2pct": -0.1588178522506104,
+            "member": "seriea_draw_poisson",
+            "odds": 3.5,
+            "outcome": "draw",
+            "probability": 0.24524260867329145,
+            "selected": false
+          },
+          {
+            "ev_after_2pct": -0.026993139097325147,
+            "member": "seriea_draw_logit",
+            "odds": 3.5,
+            "outcome": "draw",
+            "probability": 0.2836754696509256,
+            "selected": false
+          },
+          {
+            "ev_after_2pct": 0.12530134721367836,
+            "member": "seriea_away_control",
+            "odds": 4.33,
+            "outcome": "away",
+            "probability": 0.2651886098915206,
+            "selected": true
+          }
+        ],
+        "features": {
+          "logit_sports": {
+            "elo_rating_gap": 24.74085566083204,
+            "elo_win_probability": 0.6195898178067327,
+            "form_score_5_carry": 3.0,
+            "league_Bundesliga": 0.0,
+            "league_EPL": 0.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 0.0,
+            "league_Serie_A": 1.0,
+            "matches_played_in_season_before": 6.0,
+            "opponent_form_score_5_carry": 3.0,
+            "opponent_matches_played_in_season_before": 6.0,
+            "opponent_rest_days": 6.895833333333333,
+            "opponent_xG_against_last_5_carry": 2.723314,
+            "opponent_xG_last_5_carry": 1.005035,
+            "prev_season_defensive_gap": 0.20473336842105283,
+            "prev_season_points_per_game_gap": 0.3157894736842106,
+            "prev_season_xG_gap": 0.2646297894736842,
+            "team_rest_days": 5.65625,
+            "team_xG_against_last_5_carry": 2.1159862,
+            "team_xG_last_5_carry": 1.1074966
+          },
+          "outcome_control": {
+            "league_Bundesliga": 0.0,
+            "league_EPL": 0.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 0.0,
+            "league_Serie_A": 1.0,
+            "pre_avg_minus_b365_away": 0.008105715184726359,
+            "pre_avg_minus_b365_draw": 0.0016129600080787565,
+            "pre_avg_minus_b365_home": -0.009718675192805115,
+            "pre_avg_overround": 1.066160324472345,
+            "pre_b365_log_away_home": -0.8503819029241649,
+            "pre_b365_log_draw_home": -0.6375773294051346,
+            "pre_b365_overround": 1.0572017084719163,
+            "pre_book_count": 2.0,
+            "pre_book_std_away": 0.0035383626717360867,
+            "pre_book_std_draw": 0.0001890860992868615,
+            "pre_book_std_home": 0.0037274487710228787,
+            "pre_has_BW": 1.0,
+            "pre_has_WH": 0.0
+          },
+          "poisson_sports": {
+            "elo_rating_gap": 24.74085566083204,
+            "elo_win_probability": 0.6195898178067327,
+            "form_score_5_carry": 3.0,
+            "league_Bundesliga": 0.0,
+            "league_EPL": 0.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 0.0,
+            "league_Serie_A": 1.0,
+            "matches_played_in_season_before": 6.0,
+            "opponent_form_score_5_carry": 3.0,
+            "opponent_matches_played_in_season_before": 6.0,
+            "opponent_rest_days": 6.895833333333333,
+            "opponent_xG_against_last_5_carry": 2.723314,
+            "opponent_xG_last_5_carry": 1.005035,
+            "prev_season_defensive_gap": 0.20473336842105283,
+            "prev_season_points_per_game_gap": 0.3157894736842106,
+            "prev_season_xG_gap": 0.2646297894736842,
+            "team_rest_days": 5.65625,
+            "team_xG_against_last_5_carry": 2.1159862,
+            "team_xG_last_5_carry": 1.1074966
+          }
+        },
+        "fixture_id": "understat:31628",
+        "github_run_attempt": "1",
+        "github_run_id": "39038104583",
+        "history_audit": {
+          "history_team_rows": 9240,
+          "latest_history_kickoff_assumed_utc": "2026-10-12T18:45:00Z",
+          "sporting_cutoff_utc": "2026-10-15T10:30:00+00:00"
+        },
+        "home_id": "99",
+        "home_team": "Udinese",
+        "kickoff_utc": "2026-10-18T10:30:00+00:00",
+        "league": "Serie_A",
+        "odds": {
+          "away": 4.33,
+          "draw": 3.5,
+          "home": 1.85
+        },
+        "portfolios": {
+          "alone_bundesliga_draw_xgb": null,
+          "alone_epl_away_logit": null,
+          "alone_l1_home_poisson": null,
+          "alone_seriea_away_control": {
+            "odds": 4.33,
+            "outcome": "away",
+            "source": "seriea_away_control",
+            "stake": 1.0
+          },
+          "alone_seriea_draw_logit": null,
+          "alone_seriea_draw_poisson": null,
+          "reference": null,
+          "reference_bundesliga_draw_xgb": null,
+          "reference_bundesliga_half": null,
+          "reference_epl_away_logit": null,
+          "reference_l1_home_poisson": null,
+          "reference_seriea_away_control": {
+            "odds": 4.33,
+            "outcome": "away",
+            "source": "seriea_away_control",
+            "stake": 1.0
+          },
+          "reference_seriea_draw_logit": null,
+          "reference_seriea_draw_poisson": null,
+          "reference_six_full": {
+            "odds": 4.33,
+            "outcome": "away",
+            "source": "seriea_away_control",
+            "stake": 1.0
+          },
+          "reference_six_half": {
+            "odds": 4.33,
+            "outcome": "away",
+            "source": "seriea_away_control",
+            "stake": 0.5
+          }
+        },
+        "probabilities": {
+          "logit_sports": {
+            "away": 0.2298071824096207,
+            "draw": 0.2836754696509256,
+            "home": 0.4865173479394537
+          },
+          "outcome_control": {
+            "away": 0.2651886098915206,
+            "draw": 0.29535879908100177,
+            "home": 0.43945259102747775
+          },
+          "poisson_sports": {
+            "away": 0.2527419902504131,
+            "draw": 0.24524260867329145,
+            "home": 0.5020154010762955
+          }
+        },
+        "production_fixture_id": "sportytrader:8522161",
+        "production_run_id": 39037700421,
+        "production_snapshot_completed_at_utc": "2026-10-17T13:48:48Z",
+        "quotes_collected_at_utc": "2026-10-17T13:49:34.928851+00:00",
+        "recorded_at_utc": "2026-10-17T13:49:53.361097+00:00",
+        "reference": null,
+        "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+        "schedule_source": "sportytrader_jsonld_utc",
+        "source_snapshot_sha256": {
+          "Bundesliga": "396536c72929250ba0ccdfe3ed69a9733cf679fdce1e6e74e3f00fea6a61f6bc",
+          "EPL": "3b480a58b323db06a15d78e31b4668a8557f05f46a82a4a227cda9de2fd56a4f",
+          "Ligue_1": "4ee8941f171ee88453ab8c0df61becd14effaa1fa6a20fb40c728ab0b0831191",
+          "Serie_A": "7479f418f261bcded6aca6e88bde1945993fbacf2f1a4607f8e09295b6b7ec5b",
+          "fixtures": "754420b5d83fe71d593909fd24a3e56d17df8d9aed50af85128033a47cd63680"
+        },
+        "sports_collected_at_utc": "2026-10-17T13:49:34.180639+00:00"
+      },
+      "previous_hash": "cc6c6c999697b38a77cc5805d1ba62824a62f68dd9d02acd4bef2fe9e1ffcba2",
+      "event_hash": "bec3913ed139e6d0d6d43dddb4a3fd7d8b56ecc1727113c9bdb1ad65eb1dc9fc"
+    },
+    {
+      "seq": 49,
+      "kind": "forecast",
+      "identity": "understat:31623",
+      "payload": {
+        "all_pre_triplets": {
+          "Avg": {
+            "away": 2.06,
+            "draw": 3.61,
+            "home": 3.28
+          },
+          "B365": {
+            "away": 2.05,
+            "draw": 3.6,
+            "home": 3.5
+          },
+          "BW": {
+            "away": 2.05,
+            "draw": 3.7,
+            "home": 3.3
+          },
+          "WH": null
+        },
+        "away_id": "286",
+        "away_team": "Como",
+        "capture_directory": "captures/20261017T134930316834Z",
+        "decisions": [
+          {
+            "ev_after_2pct": -0.14970045111727992,
+            "member": "seriea_draw_poisson",
+            "odds": 3.6,
+            "outcome": "draw",
+            "probability": 0.24101461136131522,
+            "selected": false
+          },
+          {
+            "ev_after_2pct": -0.029497109059503757,
+            "member": "seriea_draw_logit",
+            "odds": 3.6,
+            "outcome": "draw",
+            "probability": 0.27508585344118375,
+            "selected": false
+          },
+          {
+            "ev_after_2pct": 0.068035152468358,
+            "member": "seriea_away_control",
+            "odds": 2.05,
+            "outcome": "away",
+            "probability": 0.5316252625526919,
+            "selected": true
+          }
+        ],
+        "features": {
+          "logit_sports": {
+            "elo_rating_gap": -104.13250278380042,
+            "elo_win_probability": 0.4368276199629801,
+            "form_score_5_carry": 4.0,
+            "league_Bundesliga": 0.0,
+            "league_EPL": 0.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 0.0,
+            "league_Serie_A": 1.0,
+            "matches_played_in_season_before": 6.0,
+            "opponent_form_score_5_carry": 10.0,
+            "opponent_matches_played_in_season_before": 6.0,
+            "opponent_rest_days": 7.104166666666667,
+            "opponent_xG_against_last_5_carry": 1.3805593999999999,
+            "opponent_xG_last_5_carry": 2.20297,
+            "prev_season_defensive_gap": -0.4716799473684212,
+            "prev_season_points_per_game_gap": -0.763157894736842,
+            "prev_season_xG_gap": -0.41582084210526316,
+            "team_rest_days": 8.0,
+            "team_xG_against_last_5_carry": 1.4414462000000001,
+            "team_xG_last_5_carry": 1.6304465999999997
+          },
+          "outcome_control": {
+            "league_Bundesliga": 0.0,
+            "league_EPL": 0.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 0.0,
+            "league_Serie_A": 1.0,
+            "pre_avg_minus_b365_away": -0.009185820884323459,
+            "pre_avg_minus_b365_draw": -0.004688365805968042,
+            "pre_avg_minus_b365_home": 0.013874186690291612,
+            "pre_avg_overround": 1.0673232522336789,
+            "pre_b365_log_away_home": 0.5349231753450513,
+            "pre_b365_log_draw_home": -0.02817087696669622,
+            "pre_b365_overround": 1.0512969415408442,
+            "pre_book_count": 2.0,
+            "pre_book_std_away": 0.002144545314382157,
+            "pre_book_std_draw": 0.004758787266539943,
+            "pre_book_std_home": 0.006903332580922128,
+            "pre_has_BW": 1.0,
+            "pre_has_WH": 0.0
+          },
+          "poisson_sports": {
+            "elo_rating_gap": -104.13250278380042,
+            "elo_win_probability": 0.4368276199629801,
+            "form_score_5_carry": 4.0,
+            "league_Bundesliga": 0.0,
+            "league_EPL": 0.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 0.0,
+            "league_Serie_A": 1.0,
+            "matches_played_in_season_before": 6.0,
+            "opponent_form_score_5_carry": 10.0,
+            "opponent_matches_played_in_season_before": 6.0,
+            "opponent_rest_days": 7.104166666666667,
+            "opponent_xG_against_last_5_carry": 1.3805593999999999,
+            "opponent_xG_last_5_carry": 2.20297,
+            "prev_season_defensive_gap": -0.4716799473684212,
+            "prev_season_points_per_game_gap": -0.763157894736842,
+            "prev_season_xG_gap": -0.41582084210526316,
+            "team_rest_days": 8.0,
+            "team_xG_against_last_5_carry": 1.4414462000000001,
+            "team_xG_last_5_carry": 1.6304465999999997
+          }
+        },
+        "fixture_id": "understat:31623",
+        "github_run_attempt": "1",
+        "github_run_id": "39038104583",
+        "history_audit": {
+          "history_team_rows": 9240,
+          "latest_history_kickoff_assumed_utc": "2026-10-12T18:45:00Z",
+          "sporting_cutoff_utc": "2026-10-15T13:00:00+00:00"
+        },
+        "home_id": "110",
+        "home_team": "Fiorentina",
+        "kickoff_utc": "2026-10-18T13:00:00+00:00",
+        "league": "Serie_A",
+        "odds": {
+          "away": 2.05,
+          "draw": 3.6,
+          "home": 3.5
+        },
+        "portfolios": {
+          "alone_bundesliga_draw_xgb": null,
+          "alone_epl_away_logit": null,
+          "alone_l1_home_poisson": null,
+          "alone_seriea_away_control": {
+            "odds": 2.05,
+            "outcome": "away",
+            "source": "seriea_away_control",
+            "stake": 1.0
+          },
+          "alone_seriea_draw_logit": null,
+          "alone_seriea_draw_poisson": null,
+          "reference": null,
+          "reference_bundesliga_draw_xgb": null,
+          "reference_bundesliga_half": null,
+          "reference_epl_away_logit": null,
+          "reference_l1_home_poisson": null,
+          "reference_seriea_away_control": {
+            "odds": 2.05,
+            "outcome": "away",
+            "source": "seriea_away_control",
+            "stake": 1.0
+          },
+          "reference_seriea_draw_logit": null,
+          "reference_seriea_draw_poisson": null,
+          "reference_six_full": {
+            "odds": 2.05,
+            "outcome": "away",
+            "source": "seriea_away_control",
+            "stake": 1.0
+          },
+          "reference_six_half": {
+            "odds": 2.05,
+            "outcome": "away",
+            "source": "seriea_away_control",
+            "stake": 0.5
+          }
+        },
+        "probabilities": {
+          "logit_sports": {
+            "away": 0.47306645165322336,
+            "draw": 0.27508585344118375,
+            "home": 0.25184769490559283
+          },
+          "outcome_control": {
+            "away": 0.5316252625526919,
+            "draw": 0.25104301172031196,
+            "home": 0.21733172572699616
+          },
+          "poisson_sports": {
+            "away": 0.49692912415920654,
+            "draw": 0.24101461136131522,
+            "home": 0.2620562644794783
+          }
+        },
+        "production_fixture_id": "sportytrader:8522154",
+        "production_run_id": 39037700421,
+        "production_snapshot_completed_at_utc": "2026-10-17T13:48:48Z",
+        "quotes_collected_at_utc": "2026-10-17T13:49:34.928851+00:00",
+        "recorded_at_utc": "2026-10-17T13:49:56.033436+00:00",
+        "reference": null,
+        "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+        "schedule_source": "sportytrader_jsonld_utc",
+        "source_snapshot_sha256": {
+          "Bundesliga": "396536c72929250ba0ccdfe3ed69a9733cf679fdce1e6e74e3f00fea6a61f6bc",
+          "EPL": "3b480a58b323db06a15d78e31b4668a8557f05f46a82a4a227cda9de2fd56a4f",
+          "Ligue_1": "4ee8941f171ee88453ab8c0df61becd14effaa1fa6a20fb40c728ab0b0831191",
+          "Serie_A": "7479f418f261bcded6aca6e88bde1945993fbacf2f1a4607f8e09295b6b7ec5b",
+          "fixtures": "754420b5d83fe71d593909fd24a3e56d17df8d9aed50af85128033a47cd63680"
+        },
+        "sports_collected_at_utc": "2026-10-17T13:49:34.180639+00:00"
+      },
+      "previous_hash": "bec3913ed139e6d0d6d43dddb4a3fd7d8b56ecc1727113c9bdb1ad65eb1dc9fc",
+      "event_hash": "b83111d30d824de6c405dc2b692b3f03fbf121266f183bd9dc6f7abb3b95397a"
+    },
+    {
+      "seq": 50,
+      "kind": "run",
+      "identity": "20261017T134930316834Z",
+      "payload": {
+        "eligible_new_candidates": 8,
+        "finished_at_utc": "2026-10-17T13:49:56.368599+00:00",
+        "github_run_attempt": "1",
+        "github_run_id": "39038104583",
+        "new_forecasts": 8,
+        "new_settlements": 0,
+        "production_changed": false,
+        "production_run_id": 39037700421,
+        "production_snapshot_age_hours": 0.01899127,
+        "rejected_rows": 21,
+        "run_id": "20261017T134930316834Z",
+        "settlement_issues": [],
+        "started_at_utc": "2026-10-17T13:49:30.316834+00:00",
+        "state": "collected"
+      },
+      "previous_hash": "b83111d30d824de6c405dc2b692b3f03fbf121266f183bd9dc6f7abb3b95397a",
+      "event_hash": "8bbe6249ed4ac04be438be9b7333bc97d2cfe84962952d738f14427b53cb99c4"
     }
   ]
 }
