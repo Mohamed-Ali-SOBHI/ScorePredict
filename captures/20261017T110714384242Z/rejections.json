@@ -1,0 +1,156 @@
+[
+  {
+    "league": "Bundesliga",
+    "home": "Ein Frankfurt",
+    "away": "FC Koln",
+    "provider_day": "2026-10-16",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Bundesliga",
+    "home": "Leverkusen",
+    "away": "Freiburg",
+    "provider_day": "2026-10-18",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Bundesliga",
+    "home": "M'gladbach",
+    "away": "Hoffenheim",
+    "provider_day": "2026-10-18",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "EPL",
+    "home": "Bournemouth",
+    "away": "Sunderland",
+    "provider_day": "2026-10-18",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "EPL",
+    "home": "Brighton",
+    "away": "Crystal Palace",
+    "provider_day": "2026-10-18",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "EPL",
+    "home": "Leeds",
+    "away": "Man United",
+    "provider_day": "2026-10-18",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "EPL",
+    "home": "Nott'm Forest",
+    "away": "Arsenal",
+    "provider_day": "2026-10-18",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "EPL",
+    "home": "Tottenham",
+    "away": "Coventry",
+    "provider_day": "2026-10-19",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Ligue_1",
+    "home": "Le Mans",
+    "away": "Toulouse",
+    "provider_day": "2026-10-16",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Ligue_1",
+    "home": "Strasbourg",
+    "away": "Paris SG",
+    "provider_day": "2026-10-17",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Ligue_1",
+    "home": "Angers",
+    "away": "Marseille",
+    "provider_day": "2026-10-18",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Ligue_1",
+    "home": "Le Havre",
+    "away": "Auxerre",
+    "provider_day": "2026-10-18",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Ligue_1",
+    "home": "Lorient",
+    "away": "Monaco",
+    "provider_day": "2026-10-18",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Ligue_1",
+    "home": "Paris FC",
+    "away": "Rennes",
+    "provider_day": "2026-10-18",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Ligue_1",
+    "home": "Lyon",
+    "away": "Nice",
+    "provider_day": "2026-10-18",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Frosinone",
+    "away": "Sassuolo",
+    "provider_day": "2026-10-16",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Udinese",
+    "away": "Lecce",
+    "provider_day": "2026-10-18",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Fiorentina",
+    "away": "Como",
+    "provider_day": "2026-10-18",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Milan",
+    "away": "Atalanta",
+    "provider_day": "2026-10-18",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Juventus",
+    "away": "Lazio",
+    "provider_day": "2026-10-18",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Monza",
+    "away": "Cagliari",
+    "provider_day": "2026-10-19",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Parma",
+    "away": "Torino",
+    "provider_day": "2026-10-19",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  }
+]
