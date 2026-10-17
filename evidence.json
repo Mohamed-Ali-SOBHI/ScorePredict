@@ -5346,6 +5346,109 @@
       },
       "previous_hash": "bdf4d48c49266f595576621dae4cf8292e4c895575047f0eb36cd80882a82a66",
       "event_hash": "238623a6b7ac8af6175dced8ecc71629ef407d9ee79d77a3a9f5d3bea6143e9b"
+    },
+    {
+      "seq": 58,
+      "kind": "settlement",
+      "identity": "understat:32763",
+      "payload": {
+        "away_goals": 3,
+        "forecast_sha256": "3bfe17cf6a21b01531a2d77a3a27a6f2ed6f6e9f668a39c63c061d5a6d5fe87c",
+        "home_goals": 4,
+        "outcome": "home",
+        "result_seen_at_utc": "2026-10-17T15:52:54.029199+00:00",
+        "source_snapshot_sha256": "892b81bf15b87914c57b30e8c25a6b8a5d2af9f58e9b8341e4535537ed3267a2",
+        "source_url": "https://understat.com/getLeagueData/Bundesliga/2026"
+      },
+      "previous_hash": "238623a6b7ac8af6175dced8ecc71629ef407d9ee79d77a3a9f5d3bea6143e9b",
+      "event_hash": "4afdae93ab3b4597d4d0247ac6a96021b61bd6fbc36b9d6264b78f32eaa1b99b"
+    },
+    {
+      "seq": 59,
+      "kind": "settlement",
+      "identity": "understat:32291",
+      "payload": {
+        "away_goals": 0,
+        "forecast_sha256": "2c476357e4ebe79f9898f9cddbb2ddc5dcc6902a4786bf78a309af76cecc75a3",
+        "home_goals": 1,
+        "outcome": "home",
+        "result_seen_at_utc": "2026-10-17T15:52:54.029199+00:00",
+        "source_snapshot_sha256": "892b81bf15b87914c57b30e8c25a6b8a5d2af9f58e9b8341e4535537ed3267a2",
+        "source_url": "https://understat.com/getLeagueData/Bundesliga/2026"
+      },
+      "previous_hash": "4afdae93ab3b4597d4d0247ac6a96021b61bd6fbc36b9d6264b78f32eaa1b99b",
+      "event_hash": "246791b4442efd5416c0dbceae90c662a937138ae750aaa88cf720019d425553"
+    },
+    {
+      "seq": 60,
+      "kind": "settlement",
+      "identity": "understat:32292",
+      "payload": {
+        "away_goals": 1,
+        "forecast_sha256": "5d1ab7be35697d969128146199d2e39afaf7b7ac217ad3b58afcd2f2abfb3f24",
+        "home_goals": 0,
+        "outcome": "away",
+        "result_seen_at_utc": "2026-10-17T15:52:54.029199+00:00",
+        "source_snapshot_sha256": "892b81bf15b87914c57b30e8c25a6b8a5d2af9f58e9b8341e4535537ed3267a2",
+        "source_url": "https://understat.com/getLeagueData/Bundesliga/2026"
+      },
+      "previous_hash": "246791b4442efd5416c0dbceae90c662a937138ae750aaa88cf720019d425553",
+      "event_hash": "0ace55f369377272c0762b7582173c40436d992003cc6caaf177ad53739c4209"
+    },
+    {
+      "seq": 61,
+      "kind": "settlement",
+      "identity": "understat:32293",
+      "payload": {
+        "away_goals": 0,
+        "forecast_sha256": "0f1eeffbebcd887b88c30fdb5466a504c736122e0b16c3246fc6a4c4674ce33f",
+        "home_goals": 0,
+        "outcome": "draw",
+        "result_seen_at_utc": "2026-10-17T15:52:54.029199+00:00",
+        "source_snapshot_sha256": "892b81bf15b87914c57b30e8c25a6b8a5d2af9f58e9b8341e4535537ed3267a2",
+        "source_url": "https://understat.com/getLeagueData/Bundesliga/2026"
+      },
+      "previous_hash": "0ace55f369377272c0762b7582173c40436d992003cc6caaf177ad53739c4209",
+      "event_hash": "5b12a00a5341f629c783e2109846c525f9ffd7897317b8380bc510157118d02a"
+    },
+    {
+      "seq": 62,
+      "kind": "settlement",
+      "identity": "understat:32294",
+      "payload": {
+        "away_goals": 2,
+        "forecast_sha256": "faa01136fb8a81b687f279774114c5c8a72c64f96980e3ec6a08ae13c6121cfd",
+        "home_goals": 2,
+        "outcome": "draw",
+        "result_seen_at_utc": "2026-10-17T15:52:54.029199+00:00",
+        "source_snapshot_sha256": "892b81bf15b87914c57b30e8c25a6b8a5d2af9f58e9b8341e4535537ed3267a2",
+        "source_url": "https://understat.com/getLeagueData/Bundesliga/2026"
+      },
+      "previous_hash": "5b12a00a5341f629c783e2109846c525f9ffd7897317b8380bc510157118d02a",
+      "event_hash": "c6e2b7eaf1eedca64120d23384086841ebf1646217fcb5138758fc31bbefb2b5"
+    },
+    {
+      "seq": 63,
+      "kind": "run",
+      "identity": "20261017T155251017116Z",
+      "payload": {
+        "eligible_new_candidates": 0,
+        "finished_at_utc": "2026-10-17T15:52:54.303850+00:00",
+        "github_run_attempt": "1",
+        "github_run_id": "39046930520",
+        "new_forecasts": 0,
+        "new_settlements": 5,
+        "production_changed": false,
+        "production_run_id": 39045105023,
+        "production_snapshot_age_hours": 0.3264732866666667,
+        "rejected_rows": 20,
+        "run_id": "20261017T155251017116Z",
+        "settlement_issues": [],
+        "started_at_utc": "2026-10-17T15:52:51.017116+00:00",
+        "state": "collected"
+      },
+      "previous_hash": "c6e2b7eaf1eedca64120d23384086841ebf1646217fcb5138758fc31bbefb2b5",
+      "event_hash": "3f21edbf632f043d42471d23f2b403d04fde14da188ae692102f59ae5e0f1ab9"
     }
   ]
 }

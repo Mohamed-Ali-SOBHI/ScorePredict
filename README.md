@@ -2,29 +2,29 @@
 
 **Simulation uniquement. La stratégie de production reste inchangée.**
 
-Dernier passage : 2026-10-17T15:34:23.077534+00:00 — **collected**.
-Décisions figées avant match : 30. Résultats confirmés : 4.
+Dernier passage : 2026-10-17T15:52:54.303850+00:00 — **collected**.
+Décisions figées avant match : 30. Résultats confirmés : 9.
 
 Exécution sur GitHub après chaque pipeline de prévisions réussi et à 00:35, 06:35, 12:35 et 18:35 UTC chaque jour. Les horaires planifiés peuvent subir un retard GitHub.
 
 | Portefeuille | Paris réglés | En attente | Mise en attente | Gain net (u) | ROI | Baisse max (u) | Gain des ajouts (u) |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Production observée à la capture | 0 | 2 | 2.00 | 0.00 | — | 0.00 | 0.00 |
-| Référence + Bundesliga à demi-mise | 1 | 3 | 2.50 | -0.50 | -100.00 % | 0.50 | -0.50 |
-| Référence + union des six, mise 1 | 3 | 12 | 12.00 | -3.00 | -100.00 % | 3.00 | -3.00 |
-| Référence + union des six, mise 0,5 | 3 | 12 | 7.00 | -1.50 | -100.00 % | 1.50 | -1.50 |
+| Production observée à la capture | 2 | 0 | 0.00 | 2.27 | 113.50 % | 0.00 | 0.00 |
+| Référence + Bundesliga à demi-mise | 4 | 0 | 0.00 | 1.27 | 42.33 % | 0.50 | -1.00 |
+| Référence + union des six, mise 1 | 6 | 9 | 9.00 | -1.73 | -28.83 % | 2.00 | -4.00 |
+| Référence + union des six, mise 0,5 | 6 | 9 | 4.50 | 0.27 | 6.75 % | 1.00 | -2.00 |
 | Ligue 1 · domicile Poisson seule | 0 | 3 | 3.00 | 0.00 | — | 0.00 | 0.00 |
-| Référence + Ligue 1 · domicile Poisson | 0 | 5 | 5.00 | 0.00 | — | 0.00 | 0.00 |
+| Référence + Ligue 1 · domicile Poisson | 2 | 3 | 3.00 | 2.27 | 113.50 % | 0.00 | 0.00 |
 | Serie A · nul Poisson seule | 0 | 0 | 0.00 | 0.00 | — | 0.00 | 0.00 |
-| Référence + Serie A · nul Poisson | 0 | 2 | 2.00 | 0.00 | — | 0.00 | 0.00 |
+| Référence + Serie A · nul Poisson | 2 | 0 | 0.00 | 2.27 | 113.50 % | 0.00 | 0.00 |
 | Serie A · nul logistique seule | 1 | 0 | 0.00 | -1.00 | -100.00 % | 1.00 | -1.00 |
-| Référence + Serie A · nul logistique | 1 | 2 | 2.00 | -1.00 | -100.00 % | 1.00 | -1.00 |
-| Bundesliga · nul XGBoost seule | 1 | 3 | 3.00 | -1.00 | -100.00 % | 1.00 | -1.00 |
-| Référence + Bundesliga · nul XGBoost | 1 | 3 | 3.00 | -1.00 | -100.00 % | 1.00 | -1.00 |
+| Référence + Serie A · nul logistique | 3 | 0 | 0.00 | 1.27 | 42.33 % | 1.00 | -1.00 |
+| Bundesliga · nul XGBoost seule | 4 | 0 | 0.00 | 0.20 | 5.00 % | 1.00 | 0.20 |
+| Référence + Bundesliga · nul XGBoost | 4 | 0 | 0.00 | 0.27 | 6.75 % | 1.00 | -2.00 |
 | Premier League · extérieur logistique seule | 0 | 2 | 2.00 | 0.00 | — | 0.00 | 0.00 |
-| Référence + Premier League · extérieur logistique | 0 | 4 | 4.00 | 0.00 | — | 0.00 | 0.00 |
+| Référence + Premier League · extérieur logistique | 2 | 2 | 2.00 | 2.27 | 113.50 % | 0.00 | 0.00 |
 | Serie A · extérieur outcome_control seule | 2 | 4 | 4.00 | -2.00 | -100.00 % | 2.00 | -2.00 |
-| Référence + Serie A · extérieur outcome_control | 2 | 6 | 6.00 | -2.00 | -100.00 % | 2.00 | -2.00 |
+| Référence + Serie A · extérieur outcome_control | 4 | 4 | 4.00 | 0.27 | 6.75 % | 1.00 | -2.00 |
 
 La référence correspond aux recommandations de production observées lors de la première capture admissible, sur les mêmes matchs que les challengers. Elle ne reproduit donc pas tous les paris historiques de production.
 
@@ -36,6 +36,6 @@ Le gain et le rendement concernent les paris réglés. La baisse maximale est ca
 
 [Exécutions GitHub](https://github.com/Mohamed-Ali-SOBHI/ScorePredict/actions/workflows/paper-simulation.yml) · [Protocole](registration.json) · [Comparaison complète](comparison.csv) · [Diagnostics](last_run.json) · [Journal des preuves](evidence.json)
 
-Journal : 57 événements, empreinte `7085dcc95ad1da9636ecd86f11e5f2b37ec3b9c0b925784a649cfa33f817e8c2`.
+Journal : 63 événements, empreinte `c7922404b3438ef365325b99de72fc0f3b8cc7d41a4fc06d8f4973f3ddd832dc`.
 
 Le journal et les captures sont conservés dans cette branche entre les exécutions. Une sauvegarde supplémentaire est jointe aux exécutions Actions pendant 90 jours. Un journal manquant ou altéré bloque le suivi.
