@@ -1,1 +1,7 @@
 ﻿fixture_id,league,home_team,away_team,kickoff_utc,recorded_at_utc,outcome,odds,stake,source,selected_members,status,profit
+understat:31246,EPL,Bournemouth,Sunderland,2026-10-18T13:00:00+00:00,2026-10-17T21:40:57.560032+00:00,away,3.6,1.0,local_price_only|EPL|away|0.05|all,local_price_only|EPL|away|0.05|all,pending,
+understat:31245,EPL,Brighton,Crystal Palace,2026-10-18T13:00:00+00:00,2026-10-17T21:41:01.044194+00:00,away,5.5,1.0,local_price_only|EPL|away|0.05|all,local_price_only|EPL|away|0.05|all,pending,
+understat:31247,EPL,Leeds,Manchester United,2026-10-18T13:00:00+00:00,2026-10-17T21:41:04.573796+00:00,home,2.35,1.0,local_price_only|EPL|home|0.02|all,local_price_only|EPL|home|0.02|all,pending,
+understat:31248,EPL,Nottingham Forest,Arsenal,2026-10-18T15:30:00+00:00,2026-10-17T21:41:08.079399+00:00,away,1.6,1.0,local_price_only|EPL|away|0.05|all,local_price_only|EPL|away|0.05|all,pending,
+understat:31994,Ligue_1,Angers,Marseille,2026-10-18T13:00:00+00:00,2026-10-17T21:41:11.557767+00:00,home,3.3,1.0,local_price_only|Ligue_1|home|0.02|all,local_price_only|Ligue_1|home|0.02|all,pending,
+understat:32000,Ligue_1,Paris FC,Rennes,2026-10-18T15:15:00+00:00,2026-10-17T21:41:21.930071+00:00,draw,3.6,1.0,residual_sport_recency|Ligue_1|draw|0.05|all,residual_sport_recency|Ligue_1|draw|0.05|all ; native_mean|Ligue_1|draw|0.05|all,pending,

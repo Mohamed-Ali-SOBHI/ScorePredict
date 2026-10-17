@@ -1,1 +1,105 @@
-[]
+[
+  {
+    "fixture_id": "understat:31246",
+    "league": "EPL",
+    "home_team": "Bournemouth",
+    "away_team": "Sunderland",
+    "kickoff_utc": "2026-10-18T13:00:00+00:00",
+    "recorded_at_utc": "2026-10-17T21:40:57.560032+00:00",
+    "outcome": "away",
+    "odds": 3.6,
+    "stake": 1.0,
+    "source": "local_price_only|EPL|away|0.05|all",
+    "selected_members": [
+      "local_price_only|EPL|away|0.05|all"
+    ],
+    "status": "pending",
+    "profit": null
+  },
+  {
+    "fixture_id": "understat:31245",
+    "league": "EPL",
+    "home_team": "Brighton",
+    "away_team": "Crystal Palace",
+    "kickoff_utc": "2026-10-18T13:00:00+00:00",
+    "recorded_at_utc": "2026-10-17T21:41:01.044194+00:00",
+    "outcome": "away",
+    "odds": 5.5,
+    "stake": 1.0,
+    "source": "local_price_only|EPL|away|0.05|all",
+    "selected_members": [
+      "local_price_only|EPL|away|0.05|all"
+    ],
+    "status": "pending",
+    "profit": null
+  },
+  {
+    "fixture_id": "understat:31247",
+    "league": "EPL",
+    "home_team": "Leeds",
+    "away_team": "Manchester United",
+    "kickoff_utc": "2026-10-18T13:00:00+00:00",
+    "recorded_at_utc": "2026-10-17T21:41:04.573796+00:00",
+    "outcome": "home",
+    "odds": 2.35,
+    "stake": 1.0,
+    "source": "local_price_only|EPL|home|0.02|all",
+    "selected_members": [
+      "local_price_only|EPL|home|0.02|all"
+    ],
+    "status": "pending",
+    "profit": null
+  },
+  {
+    "fixture_id": "understat:31248",
+    "league": "EPL",
+    "home_team": "Nottingham Forest",
+    "away_team": "Arsenal",
+    "kickoff_utc": "2026-10-18T15:30:00+00:00",
+    "recorded_at_utc": "2026-10-17T21:41:08.079399+00:00",
+    "outcome": "away",
+    "odds": 1.6,
+    "stake": 1.0,
+    "source": "local_price_only|EPL|away|0.05|all",
+    "selected_members": [
+      "local_price_only|EPL|away|0.05|all"
+    ],
+    "status": "pending",
+    "profit": null
+  },
+  {
+    "fixture_id": "understat:31994",
+    "league": "Ligue_1",
+    "home_team": "Angers",
+    "away_team": "Marseille",
+    "kickoff_utc": "2026-10-18T13:00:00+00:00",
+    "recorded_at_utc": "2026-10-17T21:41:11.557767+00:00",
+    "outcome": "home",
+    "odds": 3.3,
+    "stake": 1.0,
+    "source": "local_price_only|Ligue_1|home|0.02|all",
+    "selected_members": [
+      "local_price_only|Ligue_1|home|0.02|all"
+    ],
+    "status": "pending",
+    "profit": null
+  },
+  {
+    "fixture_id": "understat:32000",
+    "league": "Ligue_1",
+    "home_team": "Paris FC",
+    "away_team": "Rennes",
+    "kickoff_utc": "2026-10-18T15:15:00+00:00",
+    "recorded_at_utc": "2026-10-17T21:41:21.930071+00:00",
+    "outcome": "draw",
+    "odds": 3.6,
+    "stake": 1.0,
+    "source": "residual_sport_recency|Ligue_1|draw|0.05|all",
+    "selected_members": [
+      "residual_sport_recency|Ligue_1|draw|0.05|all",
+      "native_mean|Ligue_1|draw|0.05|all"
+    ],
+    "status": "pending",
+    "profit": null
+  }
+]
