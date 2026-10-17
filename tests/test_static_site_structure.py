@@ -135,7 +135,7 @@ class StaticSiteStructureTests(unittest.TestCase):
         for name in {"index.html", "dashboard.html", "explorer.html"}:
             page = (STATIC / name).read_text(encoding="utf-8")
             self.assertIn('class="global-nav-cta" href="./dashboard.html"', page)
-            self.assertIn('href="./assets/navigation.css?v=5"', page)
+            self.assertIn('href="./assets/navigation.css?v=6"', page)
             nav = page[page.index('<nav class="global-nav"'):page.index("</nav>", page.index('<nav class="global-nav"'))]
             self.assertGreater(nav.index('class="global-nav-cta"'), nav.index('href="./explorer.html"'))
         self.assertIn(".global-nav a.global-nav-cta", navigation)

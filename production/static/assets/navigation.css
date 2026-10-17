@@ -98,6 +98,13 @@ body section[id], .journal-dashboard #suivi { scroll-margin-top: 96px; }
   .nav-label-short { display: inline; }
   body section[id], .journal-dashboard #suivi { scroll-margin-top: 82px; }
 }
+@media (max-width: 380px) {
+  .global-header-inner { gap: 10px; }
+  .global-header .brand-logo-header { width: 88px; height: 30px; }
+  .global-nav { gap: 8px; }
+  .global-nav a { font-size: 11px; }
+  .global-nav a.global-nav-cta { padding-inline: 10px; }
+}
 @media (prefers-reduced-motion: reduce) {
   .global-nav a,
   .global-nav a::after { transition: none; }
