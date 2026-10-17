@@ -1,0 +1,21 @@
+{
+  "registration_sha256": "e0aef3ecaa03d082774a84d42b76c6692f03f356a5b2f143751c4b9086949498",
+  "events_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "event_count": 0,
+  "source_event_count": 0,
+  "source_events_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "sealed_at_utc": "2026-10-17T22:37:15.456420+00:00",
+  "github_run_id": null,
+  "files": {
+    ".gitattributes": "8b9c3028d6467ff3be7c793141927841d70f47f52d0590677438f488ca154992",
+    "comparison.csv": "28b291b80cd6679d8d879f5394207f7ae7420e91e2a0809e956f7cafa971b1cb",
+    "evidence.json": "98a0b821abecbe5f6139e49904da116cc7df8890137265536b0a9dcd7011b939",
+    "journal.sqlite3": "1fc2cba1b5f2b092b9bf2dbb1f414a1fb80ac9e2e6008b66127c5faa59396abe",
+    "rapport.html": "8e8d7c9248c0ae6417cf05d562ba19c6847cd2df8d6847fe9643567510061c88",
+    "README.md": "61bdc6236ef884a9fa408711ac5e0bdf4a032246c73fb22588d2050e9c85219c",
+    "registration.json": "4149a34a98297b2edd6c827eb592bafb79e3df7d2c7f4070e038b939535f767d",
+    "report.json": "ad78b601655733404114429a18fa6962333a147bfb17fd17604353f147e0fbf7",
+    "tickets.csv": "3fe3ecfca71a534db605bca63bf26e0fd4099c6a3b4dfe98af0f8abd9e5af034",
+    "tickets.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  }
+}

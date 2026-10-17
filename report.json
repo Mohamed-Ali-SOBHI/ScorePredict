@@ -1,0 +1,65 @@
+{
+  "registered_at_utc": "2026-10-17T22:36:40.340148+00:00",
+  "status": {
+    "state": "registered_waiting_first_capture",
+    "finished_at_utc": "2026-10-17T22:37:15.449370+00:00"
+  },
+  "forecasts": 0,
+  "settled_fixtures": 0,
+  "portfolios": [
+    {
+      "portfolio": "reference",
+      "label": "Nuls Bundesliga seuls",
+      "committed_bets": 0,
+      "settled_bets": 0,
+      "pending_bets": 0,
+      "pending_stake": 0,
+      "settled_stake": 0,
+      "wins": 0,
+      "profit": 0,
+      "roi": null,
+      "max_daily_drawdown": 0,
+      "additional_profit": 0
+    },
+    {
+      "portfolio": "bundesliga_plus9",
+      "label": "Nuls Bundesliga + 9 stratégies",
+      "committed_bets": 0,
+      "settled_bets": 0,
+      "pending_bets": 0,
+      "pending_stake": 0,
+      "settled_stake": 0,
+      "wins": 0,
+      "profit": 0,
+      "roi": null,
+      "max_daily_drawdown": 0,
+      "additional_profit": 0
+    },
+    {
+      "portfolio": "bundesliga_plus15",
+      "label": "Nuls Bundesliga + 15 stratégies, même période",
+      "committed_bets": 0,
+      "settled_bets": 0,
+      "pending_bets": 0,
+      "pending_stake": 0,
+      "settled_stake": 0,
+      "wins": 0,
+      "profit": 0,
+      "roi": null,
+      "max_daily_drawdown": 0,
+      "additional_profit": 0
+    }
+  ],
+  "comparison": {
+    "profit_9_minus_15": 0,
+    "settled_stake_9_minus_15": 0,
+    "roi_9_minus_15": null,
+    "same_outcome": 0,
+    "different_outcome": 0,
+    "nine_only": 0,
+    "fifteen_only": 0
+  },
+  "fifteen_lifetime_separate": null,
+  "production_changed": false,
+  "historical_bets_imported": false
+}
