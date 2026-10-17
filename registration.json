@@ -1,0 +1,560 @@
+{
+  "experiment": "bundesliga_plus15_positive_recent_prospective_2026_10_17_v1",
+  "registered_at_utc": "2026-10-17T21:31:35.447192+00:00",
+  "season": 2026,
+  "members": [
+    {
+      "id": "Bundesliga_anchor",
+      "method": "native_mean",
+      "model": "native_mean",
+      "league": "Bundesliga",
+      "outcome": "draw",
+      "threshold": 0.02,
+      "profile": "all",
+      "label": "Bundesliga · nuls de référence"
+    },
+    {
+      "id": "residual_sport_recency|Ligue_1|draw|0.05|all",
+      "method": "residual_sport_recency",
+      "league": "Ligue_1",
+      "outcome": "draw",
+      "threshold": 0.05,
+      "profile": "all",
+      "model": "residual_sport_recency",
+      "label": "Ligue 1 · nul · residual_sport_recency · EV>5% · all"
+    },
+    {
+      "id": "local_sport_only|EPL|draw|0.10|all",
+      "method": "local_sport_only",
+      "league": "EPL",
+      "outcome": "draw",
+      "threshold": 0.1,
+      "profile": "all",
+      "model": "local_sport_only",
+      "label": "Premier League · nul · local_sport_only · EV>10% · all"
+    },
+    {
+      "id": "local_price_only|EPL|home|0.02|all",
+      "method": "local_price_only",
+      "league": "EPL",
+      "outcome": "home",
+      "threshold": 0.02,
+      "profile": "all",
+      "model": "local_price_only",
+      "label": "Premier League · domicile · local_price_only · EV>2% · all"
+    },
+    {
+      "id": "native_mean|Ligue_1|home|0.05|all",
+      "method": "native_mean",
+      "league": "Ligue_1",
+      "outcome": "home",
+      "threshold": 0.05,
+      "profile": "all",
+      "model": "native_mean",
+      "label": "Ligue 1 · domicile · native_mean · EV>5% · all"
+    },
+    {
+      "id": "local_price_only|EPL|away|0.05|all",
+      "method": "local_price_only",
+      "league": "EPL",
+      "outcome": "away",
+      "threshold": 0.05,
+      "profile": "all",
+      "model": "local_price_only",
+      "label": "Premier League · extérieur · local_price_only · EV>5% · all"
+    },
+    {
+      "id": "local_price_only|EPL|draw|0.05|all",
+      "method": "local_price_only",
+      "league": "EPL",
+      "outcome": "draw",
+      "threshold": 0.05,
+      "profile": "all",
+      "model": "local_price_only",
+      "label": "Premier League · nul · local_price_only · EV>5% · all"
+    },
+    {
+      "id": "residual_price|Bundesliga|draw|0.02|all",
+      "method": "residual_price",
+      "league": "Bundesliga",
+      "outcome": "draw",
+      "threshold": 0.02,
+      "profile": "all",
+      "model": "residual_price",
+      "label": "Bundesliga · nul · residual_price · EV>2% · all"
+    },
+    {
+      "id": "local_sport_only|La_liga|draw|0.05|balanced_market",
+      "method": "local_sport_only",
+      "league": "La_liga",
+      "outcome": "draw",
+      "threshold": 0.05,
+      "profile": "balanced_market",
+      "model": "local_sport_only",
+      "label": "Liga · nul · local_sport_only · EV>5% · balanced_market"
+    },
+    {
+      "id": "local_sport_only|Serie_A|away|0.05|all",
+      "method": "local_sport_only",
+      "league": "Serie_A",
+      "outcome": "away",
+      "threshold": 0.05,
+      "profile": "all",
+      "model": "local_sport_only",
+      "label": "Serie A · extérieur · local_sport_only · EV>5% · all"
+    },
+    {
+      "id": "residual_sport_recency|Serie_A|away|0.02|all",
+      "method": "residual_sport_recency",
+      "league": "Serie_A",
+      "outcome": "away",
+      "threshold": 0.02,
+      "profile": "all",
+      "model": "residual_sport_recency",
+      "label": "Serie A · extérieur · residual_sport_recency · EV>2% · all"
+    },
+    {
+      "id": "local_sport_only|Serie_A|draw|0.10|low_goal_parity",
+      "method": "local_sport_only",
+      "league": "Serie_A",
+      "outcome": "draw",
+      "threshold": 0.1,
+      "profile": "low_goal_parity",
+      "model": "local_sport_only",
+      "label": "Serie A · nul · local_sport_only · EV>10% · low_goal_parity"
+    },
+    {
+      "id": "native_mean|Serie_A|draw|0.02|balanced_market",
+      "method": "native_mean",
+      "league": "Serie_A",
+      "outcome": "draw",
+      "threshold": 0.02,
+      "profile": "balanced_market",
+      "model": "native_mean",
+      "label": "Serie A · nul · native_mean · EV>2% · balanced_market"
+    },
+    {
+      "id": "local_price_only|Ligue_1|home|0.02|all",
+      "method": "local_price_only",
+      "league": "Ligue_1",
+      "outcome": "home",
+      "threshold": 0.02,
+      "profile": "all",
+      "model": "local_price_only",
+      "label": "Ligue 1 · domicile · local_price_only · EV>2% · all"
+    },
+    {
+      "id": "native_mean|Ligue_1|draw|0.05|all",
+      "method": "native_mean",
+      "league": "Ligue_1",
+      "outcome": "draw",
+      "threshold": 0.05,
+      "profile": "all",
+      "model": "native_mean",
+      "label": "Ligue 1 · nul · native_mean · EV>5% · all"
+    },
+    {
+      "id": "local_price_only|Ligue_1|draw|0.05|low_goal_parity",
+      "method": "local_price_only",
+      "league": "Ligue_1",
+      "outcome": "draw",
+      "threshold": 0.05,
+      "profile": "low_goal_parity",
+      "model": "local_price_only",
+      "label": "Ligue 1 · nul · local_price_only · EV>5% · low_goal_parity"
+    }
+  ],
+  "portfolios": [
+    {
+      "id": "reference",
+      "label": "Nuls Bundesliga seuls",
+      "members": [],
+      "baseline": true,
+      "addition_stake": 0
+    },
+    {
+      "id": "bundesliga_plus15",
+      "label": "Nuls Bundesliga + 15 ajouts (union sans doublon)",
+      "members": [
+        "residual_sport_recency|Ligue_1|draw|0.05|all",
+        "local_sport_only|EPL|draw|0.10|all",
+        "local_price_only|EPL|home|0.02|all",
+        "native_mean|Ligue_1|home|0.05|all",
+        "local_price_only|EPL|away|0.05|all",
+        "local_price_only|EPL|draw|0.05|all",
+        "residual_price|Bundesliga|draw|0.02|all",
+        "local_sport_only|La_liga|draw|0.05|balanced_market",
+        "local_sport_only|Serie_A|away|0.05|all",
+        "residual_sport_recency|Serie_A|away|0.02|all",
+        "local_sport_only|Serie_A|draw|0.10|low_goal_parity",
+        "native_mean|Serie_A|draw|0.02|balanced_market",
+        "local_price_only|Ligue_1|home|0.02|all",
+        "native_mean|Ligue_1|draw|0.05|all",
+        "local_price_only|Ligue_1|draw|0.05|low_goal_parity"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_residual_sport_recency|Ligue_1|draw|0.05|all",
+      "label": "Ligue 1 · nul · residual_sport_recency · EV>5% · all seule",
+      "members": [
+        "residual_sport_recency|Ligue_1|draw|0.05|all"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_residual_sport_recency|Ligue_1|draw|0.05|all",
+      "label": "Bundesliga + Ligue 1 · nul · residual_sport_recency · EV>5% · all",
+      "members": [
+        "residual_sport_recency|Ligue_1|draw|0.05|all"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_local_sport_only|EPL|draw|0.10|all",
+      "label": "Premier League · nul · local_sport_only · EV>10% · all seule",
+      "members": [
+        "local_sport_only|EPL|draw|0.10|all"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_local_sport_only|EPL|draw|0.10|all",
+      "label": "Bundesliga + Premier League · nul · local_sport_only · EV>10% · all",
+      "members": [
+        "local_sport_only|EPL|draw|0.10|all"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_local_price_only|EPL|home|0.02|all",
+      "label": "Premier League · domicile · local_price_only · EV>2% · all seule",
+      "members": [
+        "local_price_only|EPL|home|0.02|all"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_local_price_only|EPL|home|0.02|all",
+      "label": "Bundesliga + Premier League · domicile · local_price_only · EV>2% · all",
+      "members": [
+        "local_price_only|EPL|home|0.02|all"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_native_mean|Ligue_1|home|0.05|all",
+      "label": "Ligue 1 · domicile · native_mean · EV>5% · all seule",
+      "members": [
+        "native_mean|Ligue_1|home|0.05|all"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_native_mean|Ligue_1|home|0.05|all",
+      "label": "Bundesliga + Ligue 1 · domicile · native_mean · EV>5% · all",
+      "members": [
+        "native_mean|Ligue_1|home|0.05|all"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_local_price_only|EPL|away|0.05|all",
+      "label": "Premier League · extérieur · local_price_only · EV>5% · all seule",
+      "members": [
+        "local_price_only|EPL|away|0.05|all"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_local_price_only|EPL|away|0.05|all",
+      "label": "Bundesliga + Premier League · extérieur · local_price_only · EV>5% · all",
+      "members": [
+        "local_price_only|EPL|away|0.05|all"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_local_price_only|EPL|draw|0.05|all",
+      "label": "Premier League · nul · local_price_only · EV>5% · all seule",
+      "members": [
+        "local_price_only|EPL|draw|0.05|all"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_local_price_only|EPL|draw|0.05|all",
+      "label": "Bundesliga + Premier League · nul · local_price_only · EV>5% · all",
+      "members": [
+        "local_price_only|EPL|draw|0.05|all"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_residual_price|Bundesliga|draw|0.02|all",
+      "label": "Bundesliga · nul · residual_price · EV>2% · all seule",
+      "members": [
+        "residual_price|Bundesliga|draw|0.02|all"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_residual_price|Bundesliga|draw|0.02|all",
+      "label": "Bundesliga + Bundesliga · nul · residual_price · EV>2% · all",
+      "members": [
+        "residual_price|Bundesliga|draw|0.02|all"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_local_sport_only|La_liga|draw|0.05|balanced_market",
+      "label": "Liga · nul · local_sport_only · EV>5% · balanced_market seule",
+      "members": [
+        "local_sport_only|La_liga|draw|0.05|balanced_market"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_local_sport_only|La_liga|draw|0.05|balanced_market",
+      "label": "Bundesliga + Liga · nul · local_sport_only · EV>5% · balanced_market",
+      "members": [
+        "local_sport_only|La_liga|draw|0.05|balanced_market"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_local_sport_only|Serie_A|away|0.05|all",
+      "label": "Serie A · extérieur · local_sport_only · EV>5% · all seule",
+      "members": [
+        "local_sport_only|Serie_A|away|0.05|all"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_local_sport_only|Serie_A|away|0.05|all",
+      "label": "Bundesliga + Serie A · extérieur · local_sport_only · EV>5% · all",
+      "members": [
+        "local_sport_only|Serie_A|away|0.05|all"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_residual_sport_recency|Serie_A|away|0.02|all",
+      "label": "Serie A · extérieur · residual_sport_recency · EV>2% · all seule",
+      "members": [
+        "residual_sport_recency|Serie_A|away|0.02|all"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_residual_sport_recency|Serie_A|away|0.02|all",
+      "label": "Bundesliga + Serie A · extérieur · residual_sport_recency · EV>2% · all",
+      "members": [
+        "residual_sport_recency|Serie_A|away|0.02|all"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_local_sport_only|Serie_A|draw|0.10|low_goal_parity",
+      "label": "Serie A · nul · local_sport_only · EV>10% · low_goal_parity seule",
+      "members": [
+        "local_sport_only|Serie_A|draw|0.10|low_goal_parity"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_local_sport_only|Serie_A|draw|0.10|low_goal_parity",
+      "label": "Bundesliga + Serie A · nul · local_sport_only · EV>10% · low_goal_parity",
+      "members": [
+        "local_sport_only|Serie_A|draw|0.10|low_goal_parity"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_native_mean|Serie_A|draw|0.02|balanced_market",
+      "label": "Serie A · nul · native_mean · EV>2% · balanced_market seule",
+      "members": [
+        "native_mean|Serie_A|draw|0.02|balanced_market"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_native_mean|Serie_A|draw|0.02|balanced_market",
+      "label": "Bundesliga + Serie A · nul · native_mean · EV>2% · balanced_market",
+      "members": [
+        "native_mean|Serie_A|draw|0.02|balanced_market"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_local_price_only|Ligue_1|home|0.02|all",
+      "label": "Ligue 1 · domicile · local_price_only · EV>2% · all seule",
+      "members": [
+        "local_price_only|Ligue_1|home|0.02|all"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_local_price_only|Ligue_1|home|0.02|all",
+      "label": "Bundesliga + Ligue 1 · domicile · local_price_only · EV>2% · all",
+      "members": [
+        "local_price_only|Ligue_1|home|0.02|all"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_native_mean|Ligue_1|draw|0.05|all",
+      "label": "Ligue 1 · nul · native_mean · EV>5% · all seule",
+      "members": [
+        "native_mean|Ligue_1|draw|0.05|all"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_native_mean|Ligue_1|draw|0.05|all",
+      "label": "Bundesliga + Ligue 1 · nul · native_mean · EV>5% · all",
+      "members": [
+        "native_mean|Ligue_1|draw|0.05|all"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    },
+    {
+      "id": "alone_local_price_only|Ligue_1|draw|0.05|low_goal_parity",
+      "label": "Ligue 1 · nul · local_price_only · EV>5% · low_goal_parity seule",
+      "members": [
+        "local_price_only|Ligue_1|draw|0.05|low_goal_parity"
+      ],
+      "baseline": false,
+      "addition_stake": 1
+    },
+    {
+      "id": "reference_local_price_only|Ligue_1|draw|0.05|low_goal_parity",
+      "label": "Bundesliga + Ligue 1 · nul · local_price_only · EV>5% · low_goal_parity",
+      "members": [
+        "local_price_only|Ligue_1|draw|0.05|low_goal_parity"
+      ],
+      "baseline": true,
+      "addition_stake": 1
+    }
+  ],
+  "models_train_max_season": 2024,
+  "decision_rule": "First complete eligible capture per canonical fixture, 5 minutes to 24 hours before verified kickoff; no later replacement, no backfill.",
+  "selection": "15 positive marginal recent contributions; unchanged models/thresholds/profiles, original frozen order after Bundesliga anchor. Selection uses known results; only future capture validates it.",
+  "reference": "Frozen native_mean Bundesliga draw, threshold .02, decimal odds1.2..10, p*odds*.98-1>.02; same capture and prices as additions.",
+  "feature_timing": "Sports history cutoff kickoff-72h with +2h availability guard; archive actually retrieved before capture. Odds observed from current Football-Data snapshot, not claimed to be J-3 prices.",
+  "price_status": "Bet365-labelled periodic provider snapshot, exact bookmaker observation time and real executability unverified. Paper units only.",
+  "settlement": "Understat stable event id, completed result and goals, >=2h after kickoff; changed kickoff >30m quarantined, no guessed voids; never import historical bets as prospective.",
+  "immutability": "Append-only SQLite hash chain, persistent Git state branch and GitHub Actions run timestamps. No retroactive forecasts or automatic reset.",
+  "production_changed": false,
+  "auto_retraining": false,
+  "auto_promotion": false,
+  "production_manifest_sha256": "dfabad5d10f3af03e840947af1308271f266dbb3dc5576332deca3b1987fcdba",
+  "runtime": {
+    "numpy": "2.3.5",
+    "pandas": "2.3.3",
+    "sklearn": "1.9.0",
+    "xgboost": "3.4.1"
+  },
+  "frozen_sha256": {
+    "cloud_state.py": "75ffa5184ac2c2dd43e4edcbc68a6f91b3779168da16a8b6bcd798320f89bc29",
+    "members.json": "768dccd61d187137f23f07a3b2ff75aa38280b2be562920ad1e09c9651925957",
+    "paper_core.py": "e6a113ee6aff8bad12267db957cb30eff339b6af0a8b5e1f3ec558de73b67511",
+    "paper_models.py": "167d3af163a488f57d2aa8bb2e98156481f6cad56897f8298773058a75e392f5",
+    "README.md": "4d9e12ac13577cf62e723258b111f26f40c0a2dddfb5fd4f742fa0f4b78f0c2f",
+    "requirements.txt": "bf3bea0dbd168c22e4c4490b0d391f1236524796c454c08808289fd02a690eec",
+    "run_paper.py": "6b5c7e38bac5e1e432fe28a13865757d0171f692ba20093e9d49d50165c91695",
+    "selection_provenance.json": "bd7a905684d82a59500c85cdca87c6c09145ee56cde4f2f830f7f5f863ef0cce",
+    "sport_features.py": "5198e3a3c240694b4e6cf74fc1ed120a124621e652627eb28ae4b0eb9f838f7e",
+    "sport_history.csv.gz": "30d1438c953914a12361dce0c83b156ef7fe82e16f0df29febe039e9b5a9cda8",
+    "test_cloud_state.py": "38db78d67965211cd8e06120d8271f356fd8c3fee6bf485a10d3f5d0e49fd3cf",
+    "test_positive15.py": "a45a05a99e6c4d1475480f508101501b6e53907a3d3fd3dbff173d08d7f09e7d",
+    "models/fold_2026_EPL_local_price_only_2026.ubj": "0dce6df69ad3f5da0710947d29cb2c8a45b85b262085e1142821caaac484021b",
+    "models/fold_2026_EPL_local_price_only_42.ubj": "6b9726ba7f0c87c4bfec989e0acf1d57684b078dc7c81acb5bcc38c2d1b6845e",
+    "models/fold_2026_EPL_local_price_only_73.ubj": "eae340c0c2b3a9dcda761bf123171b9e53a4b29fc480ec86ba00ef681b1c6053",
+    "models/fold_2026_EPL_local_sport_only_2026.ubj": "6e06e98f59188b628bbab3e98256474cfe430a212f946539063cf2facca07b4c",
+    "models/fold_2026_EPL_local_sport_only_42.ubj": "b65799e9253bf874ca4b0a8e03e1cc6ced955edf0afe0fcf47880c4c5f72e2db",
+    "models/fold_2026_EPL_local_sport_only_73.ubj": "197a368014c65d78643d804e308eabcf3b15911e975f0ee50521185131c576de",
+    "models/fold_2026_La_liga_local_sport_only_2026.ubj": "c415e834127b25cd88802a6a8d695b01ed688833d1c8fb9229d26f6583da8dc4",
+    "models/fold_2026_La_liga_local_sport_only_42.ubj": "092157742ef1aa4b520647775618459e1d587971abeed3ca3b1ad783fb1c404e",
+    "models/fold_2026_La_liga_local_sport_only_73.ubj": "fa3536b1a238f9ac7adf43951363466c6cbd3d04fb61b436bab957083d17319e",
+    "models/fold_2026_Ligue_1_local_price_only_2026.ubj": "6244b3abec0d9c9a0c916c784062583c9225936a3f334dbf69fe331bff20379e",
+    "models/fold_2026_Ligue_1_local_price_only_42.ubj": "95dc0bdae938f082a2284cc56aa90227fce8073d350d8466a5fabbdde8bbf929",
+    "models/fold_2026_Ligue_1_local_price_only_73.ubj": "25183ac716b85ae39e181d0eeeb29da2e9d8f5149b2f5d69787abac49224789f",
+    "models/fold_2026_Serie_A_local_sport_only_2026.ubj": "ad45934a9e1075ccc159f698c8215efe2ea8cc87f285c7a2c91f32388a61101c",
+    "models/fold_2026_Serie_A_local_sport_only_42.ubj": "9384beaf08272f41c23f4ac8168c81c453bef4c71b1005d6a1648e667cf2d301",
+    "models/fold_2026_Serie_A_local_sport_only_73.ubj": "7d5a1300e6116f0a3f5a11c9b0c9f624f37a92b20832e610aed82e0d1ac7dbd2",
+    "models/native_Bundesliga_2026.ubj": "cd1070334cd792f151694bc22598d78f670608bcf82bfe6af8f4b1cf57e5df9a",
+    "models/native_Bundesliga_42.ubj": "981c3ec535e810f0073230bb89732675ccf0ec95d2e4c808d51245d4c7ab0a7f",
+    "models/native_Bundesliga_73.ubj": "eef6f86607b055d46f532941c6aba9e8c2084d8cd7c0f9f5dd8f6ad97c3b7287",
+    "models/native_EPL_2026.ubj": "80f0227d0e378a5ff4855d2fe8f945b69a232abed1e6c3176565a1d05ea2349b",
+    "models/native_EPL_42.ubj": "9f7fbbb6c23c0db1a123825569ba22ecc1f4fa8fb1d4c1482fde2958b6d84cc9",
+    "models/native_EPL_73.ubj": "1ba159a8f2bc088f35bb64ab314306f73889c222acf2e7e591e7bacf865e2e1f",
+    "models/native_Serie_A_2026.ubj": "5b0ce71454ccd3ed36ee04169b7ce35c3c9604e5671d4cdab5026cad1870f7a4",
+    "models/native_Serie_A_42.ubj": "52575f4b63c2bf17dbcbbb0553cbac2e83125a241986c1eb37810d1b5f52f914",
+    "models/native_Serie_A_73.ubj": "fe7821957eede5fbb9029a72062278c2dfe8395c97fe7741fb0943792d9f34f6",
+    "models/residual_price_2026.ubj": "99a542c089b06ee40c5b992d9abc490c758f125b54a3e214608388f689c205e0",
+    "models/residual_price_42.ubj": "a580285718926782fb44afea65e3eab4c61c4126a8385933264aa169b74f5a28",
+    "models/residual_price_73.ubj": "0646a775aa6c116744055607b49963c72d66c03fc074946c93180d565c179a0e",
+    "models/residual_sport_recency_2026.ubj": "9936bbf00df58bd2c9f9a23864819fd5bead32414326f6c5739ee095944d1b64",
+    "models/residual_sport_recency_42.ubj": "9d7ba6920b354f64b80117888ddf8fec30ce5e2bf4689c95ff52fab15697690b",
+    "models/residual_sport_recency_73.ubj": "64d742ed427bd40cdef5f44ab4c623a96b9d3ada1dc7deddae103ece667bceaa",
+    "test_fixtures/causal.csv.gz": "13de67af5250e8b3011f40f040212b91b41352234075d6163e8cd9b6a4f12a0e",
+    "test_fixtures/parity.csv.gz": "5c1e9a7635698905e23cefdb4f6345ec1aa66f558d88b883fd1a16b0ebc16c77",
+    "../paper_simulation/cloud_state.py": "0eac3965a1d22f922821a1cd2bd184f48048f9e49483f1ee98e48a9c3ab219dd",
+    "../paper_simulation/frozen/history_through_previous_season.pkl": "0c0c460c9cf60fab76ffd763ce754ce207ab5d35fd3c2208414c5aa0d8bd102e",
+    "../paper_simulation/frozen/linear_residual.py": "3541c1943b94596f9f99b8609ef4608955e0d192d499edd6215e7398aa44b4f5",
+    "../paper_simulation/frozen/models/fold_2026_Bundesliga_2026_primary.ubj": "cd1070334cd792f151694bc22598d78f670608bcf82bfe6af8f4b1cf57e5df9a",
+    "../paper_simulation/frozen/models/fold_2026_Bundesliga_42_primary.ubj": "981c3ec535e810f0073230bb89732675ccf0ec95d2e4c808d51245d4c7ab0a7f",
+    "../paper_simulation/frozen/models/fold_2026_Bundesliga_73_primary.ubj": "eef6f86607b055d46f532941c6aba9e8c2084d8cd7c0f9f5dd8f6ad97c3b7287",
+    "../paper_simulation/frozen/models/sports_and_control.pkl": "cdab08e02fcee469ea45098555e8779b7103446c89713e9dcd0c8fe29e0746c0",
+    "../paper_simulation/frozen/native_fit_audit.json": "f4692bf13876f744a8362ba4300362540158d5e61a3074c049f608d4ed093c07",
+    "../paper_simulation/frozen/original_six_selection.json": "3aa70567b913b2263ca6aaac4e974c475640c3d9d91f759f0779e9f06cf27725",
+    "../paper_simulation/frozen/source/data_pipeline/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "../paper_simulation/frozen/source/data_pipeline/market_data.py": "b96b48ed3cd89d16eeb3b938f0a4d4e33182f1e856addcdc550fadcd2b9a2742",
+    "../paper_simulation/frozen/source/data_pipeline/scrapper.py": "77884c0bd142ffd497a397a24230e985a1e22049967dea74e44b9cf23c0f8a91",
+    "../paper_simulation/frozen/source/data_pipeline/team_registry.py": "18a2638eb8c5c75300c2d415d2ba69e63acf1786183584af5c30cb8ed4eda238",
+    "../paper_simulation/frozen/source/inference/portfolio_presets.py": "57cede94382f34fc089df6629b01e368d639b0d7cd1bcfebd41fd433b19d3530",
+    "../paper_simulation/frozen/source/inference/releases/draw_pooled_2026_09_05/manifest.json": "dfabad5d10f3af03e840947af1308271f266dbb3dc5576332deca3b1987fcdba",
+    "../paper_simulation/frozen/source/inference/upcoming_portfolio_strategy.py": "45a00e3655ecfa5dd83a864cd97c4bdfb56a6a6f456b142c4fcf737c1c5f0af2",
+    "../paper_simulation/frozen/source/train/make_dataset.py": "8424400a6896c5963f98f7496f7fe1168c0087c05b8c62f16ef068965c9efd82",
+    "../paper_simulation/frozen/source/train/ml_common.py": "a00605d9ae28bf1e77098d4507d97887a6cc97da58c70c0a14aeabab06640448",
+    "../paper_simulation/frozen/source/train/strategy_search_common.py": "ff37a33ddfe5cdc595a91839b85d8b2e60339a7c7cc33640dee8ba7e2cf8dad9",
+    "../paper_simulation/paper_core.py": "6cf594b570740e73c65d2d19cc4dd4cf913e9c5febc9e890c26169199086d2cd",
+    "../paper_simulation/paper_models.py": "e2919c7b2285aa1e6f5f48c1f7cf3ff0f9eb08761a29b1ec7275db59d871b0c3",
+    "../paper_simulation/requirements.txt": "bf3bea0dbd168c22e4c4490b0d391f1236524796c454c08808289fd02a690eec",
+    "../paper_simulation/run_paper.py": "9dfc2213c084ce9f32972a234a57db0a9fccb998bbd2b21f336a7eff159417f0",
+    "../paper_simulation/test_cloud_state.py": "38db78d67965211cd8e06120d8271f356fd8c3fee6bf485a10d3f5d0e49fd3cf",
+    "../paper_simulation/test_paper.py": "4e62e80789a4046ff076362315b8e22273a96a1e71aa1e79a4c6e71092f4cb3a",
+    "../paper_simulation/registration.json": "aa224025cf9ec82c2696b3e5150c64a2c6e4f198f83f0841a7a22736ca8636b3"
+  },
+  "state_branch": "observation-positive15-state"
+}

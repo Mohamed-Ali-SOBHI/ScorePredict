@@ -1,0 +1,21 @@
+{
+  "registration_sha256": "2d59c654696808fcdcf0601e6019c42db719bd2c23b9de77ec44583fd7ba0438",
+  "events_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "event_count": 0,
+  "github_run_id": null,
+  "github_run_attempt": null,
+  "sealed_at_utc": "2026-10-17T21:37:36.120114+00:00",
+  "files": {
+    ".gitattributes": "8b9c3028d6467ff3be7c793141927841d70f47f52d0590677438f488ca154992",
+    "comparison.csv": "447ba2505bcab1d218ebe2822efdc66407ed4691d0d530222d062f141be388e4",
+    "evidence.json": "0100021bc9368ac9d9515711046cb97b5e16df9a170221f77d667c9c32e0716b",
+    "journal.sqlite3": "1fc2cba1b5f2b092b9bf2dbb1f414a1fb80ac9e2e6008b66127c5faa59396abe",
+    "last_run.json": "6fcb586d3ddfc861b50de23c40ae8033627423b4072b75599ece94de55dedbad",
+    "rapport.html": "6bf6443acd2b66eadda27392b42d19d8e00f42540cbec059f6bea8d7ea2a88df",
+    "README.md": "6b6bad4c8c977c0ecb38aab752888181ab3c34d90082ca6a5550fb2d13ba39f2",
+    "registration.json": "608ed6bc5247f4b247ea6bf0219167ad8265fa6e02955cfe3985a93756169c26",
+    "report.json": "2adb5231f7da64a0c4f24e461722cbc026846fb6dfa1da939a12394fd790770e",
+    "tickets.csv": "beb8eac8e5c1f1e7a90404ae40c59e585d09ba4d10a711ad348d8642c70a2fad",
+    "tickets.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  }
+}
