@@ -22,12 +22,14 @@ class ResultMonitorTests(unittest.TestCase):
     def test_daily_lookup_settles_only_returned_final_results(self):
         ledger = pd.concat([self._ledger(), self._ledger()], ignore_index=True)
         ledger.loc[1, "team_name"] = "Missing United"
-        payload = {"events": [{
-            "strTimestamp": "2026-08-22T14:00:00",
-            "strHomeTeam": "Ipswich", "strAwayTeam": "Sunderland",
-            "strStatus": "FT", "intHomeScore": "1", "intAwayScore": "1",
+        payload = {"events": [{"id": "test", "date": "2026-08-22T14:00:00Z",
+            "status": {"type": {"name": "STATUS_FULL_TIME", "state": "post", "completed": True}},
+            "competitions": [{"competitors": [
+                {"homeAway": "home", "team": {"displayName": "Ipswich"}, "score": "1"},
+                {"homeAway": "away", "team": {"displayName": "Sunderland"}, "score": "1"},
+            ]}],
         }]}
-        with patch("inference.sportytrader_client.urlopen") as opened, patch(
+        with patch("inference.espn_results.urlopen") as opened, patch(
             "inference.result_monitor.get_league_data", return_value={},
         ):
             response = opened.return_value.__enter__.return_value
@@ -39,13 +41,45 @@ class ResultMonitorTests(unittest.TestCase):
                 timeout_seconds=10,
             )
         url = urlparse(opened.call_args.args[0].full_url)
-        self.assertTrue(url.path.endswith("/eventsday.php"))
-        self.assertEqual(parse_qs(url.query), {"d": ["2026-08-22"], "l": ["4328"]})
+        self.assertTrue(url.path.endswith("/soccer/eng.1/scoreboard"))
+        self.assertEqual(parse_qs(url.query), {"dates": ["20260822"], "limit": ["100"]})
         self.assertEqual(opened.call_count, 1)
         self.assertEqual(warnings, [])
         updated, counts = settle_due_predictions(ledger, results, now=pd.Timestamp("2026-08-22 18:00"))
         self.assertEqual(updated.result_status.tolist(), ["won", "pending"])
         self.assertEqual(counts["unmatched"], 1)
+
+    def test_conflicting_finals_do_not_settle(self):
+        results = pd.concat([self._official("FT"), self._official("FT")], ignore_index=True)
+        results.loc[1, "home_score"] = 2
+        updated, counts = settle_due_predictions(self._ledger(), results, now=pd.Timestamp("2026-08-22 18:00"))
+        self.assertEqual(counts["conflicts"], 1)
+        self.assertEqual(updated.iloc[0].result_status, "pending")
+
+    def test_primary_success_does_not_wait_for_fallback(self):
+        with patch("inference.result_monitor.fetch_scoreboard", return_value=self._official("FT")), patch(
+            "inference.result_monitor.get_league_data",
+        ) as backup:
+            results, warnings = collect_results_for_due_rows(
+                self._ledger(), now=pd.Timestamp("2026-08-22 18:00"), minimum_elapsed_minutes=105,
+                portfolio_name=DEFAULT_PORTFOLIO_NAME, timeout_seconds=10,
+            )
+        backup.assert_not_called()
+        self.assertEqual(len(results), 1)
+        self.assertEqual(warnings, [])
+
+    def test_primary_failure_uses_understat(self):
+        with patch("inference.result_monitor.fetch_scoreboard", side_effect=TimeoutError("timeout")), patch(
+            "inference.result_monitor.get_league_data", return_value={},
+        ), patch("inference.result_monitor.understat_finished_results", return_value=self._official("FT")):
+            results, warnings = collect_results_for_due_rows(
+                self._ledger(), now=pd.Timestamp("2026-08-22 18:00"), minimum_elapsed_minutes=105,
+                portfolio_name=DEFAULT_PORTFOLIO_NAME, timeout_seconds=10,
+            )
+        self.assertIn("ESPN", warnings[0])
+        updated, counts = settle_due_predictions(self._ledger(), results, now=pd.Timestamp("2026-08-22 18:00"))
+        self.assertEqual(counts["settled"], 1)
+        self.assertEqual(updated.iloc[0].result_status, "won")
 
     def test_snapshot_preserves_authoritative_utc(self):
         ledger = self._ledger()

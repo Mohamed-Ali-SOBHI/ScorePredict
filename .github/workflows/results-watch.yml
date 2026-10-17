@@ -1,0 +1,39 @@
+name: Surveillance des fins de matchs
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Previsions quotidiennes et site"]
+    types: [completed]
+    branches: [main]
+  schedule:
+    - cron: "47 10-23 * * *"
+      timezone: "Europe/Paris"
+    - cron: "47 0-1 * * *"
+      timezone: "Europe/Paris"
+
+# Independent from scorepredict-pages: waiting never blocks a publication.
+concurrency:
+  group: scorepredict-results-watch
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  watch:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          persist-credentials: false
+      - name: Verifier le declenchement cible
+        run: python3 -m unittest tests.test_results_watch
+      - name: Controler toutes les cinq minutes autour des fins de matchs
+        run: python3 -m inference.results_watch

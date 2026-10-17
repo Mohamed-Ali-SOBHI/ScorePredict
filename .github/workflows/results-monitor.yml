@@ -44,7 +44,7 @@ jobs:
 
       - name: Verifier le moniteur
         run: |
-          python -m unittest tests.test_result_monitor tests.test_sportytrader_client tests.test_prediction_window
+          python -m unittest tests.test_result_monitor tests.test_espn_results tests.test_sportytrader_client tests.test_prediction_window tests.test_terminal_result_immutability tests.test_pooled_release
           python -m py_compile inference/result_monitor.py
 
       - name: Verifier la memoire permanente
@@ -112,14 +112,14 @@ jobs:
         with:
           path: production/static
 
-      - name: Conserver le diagnostic en cas d'echec
-        if: ${{ failure() }}
+      - name: Conserver la provenance et le diagnostic des resultats
+        if: ${{ always() }}
         uses: actions/upload-artifact@v5
         with:
           name: result-monitor-${{ github.run_id }}
           path: inference/output/result_monitor_status.json
           if-no-files-found: ignore
-          retention-days: 7
+          retention-days: 90
 
   deploy:
     name: Publier le resultat

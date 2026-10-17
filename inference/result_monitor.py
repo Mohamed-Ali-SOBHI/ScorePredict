@@ -15,7 +15,8 @@ from inference.live_tracking import refresh_pending_fixture_dates_from_catalog
 from inference.prediction_window import in_prediction_window
 from inference.kickoff_time import paris_iso, paris_naive
 from inference.portfolio_presets import DEFAULT_PORTFOLIO_NAME
-from inference.sportytrader_client import DISPLAY_TIMEZONE, fetch_sportsdb_fixture_times, infer_season
+from inference.sportytrader_client import DISPLAY_TIMEZONE, infer_season
+from inference.espn_results import fetch_scoreboard
 
 
 FINAL_STATUSES = {"FT", "AET", "PEN", "AWD"}
@@ -184,6 +185,11 @@ def settle_due_predictions(
             counters["still_running"] += 1
             continue
 
+        # Conflicting confirmed scores must not irreversibly settle a bet.
+        scores = final_candidates[["home_score", "away_score"]].astype(float).drop_duplicates()
+        if len(scores) != 1:
+            counters["conflicts"] = counters.get("conflicts", 0) + 1
+            continue
         result = final_candidates.sort_values("distance").iloc[0]
         home_score = int(float(result["home_score"]))
         away_score = int(float(result["away_score"]))
@@ -204,6 +210,8 @@ def settle_due_predictions(
             "won_live_bet": won,
             "realized_profit_units": profit_units,
             "realized_profit": profit_units * stake,
+            "result_source": result.get("result_source", ""),
+            "result_event_id": result.get("result_event_id", ""),
         }
         for column, value in values.items():
             if column not in updated.columns:
@@ -482,26 +490,31 @@ def collect_results_for_due_rows(
         for row in due.itertuples(index=False)
     }
     for league, season in sorted(groups):
-        # The free season endpoint only returns 15 fixtures. Query each due
-        # match day instead; Understat remains the fallback because the daily
-        # endpoint also has a limited response. Missing rows are never results.
+        league_frames = []
         days = sorted({
             paris_datetime(ledger_kickoff(row)).date().isoformat()
             for _, row in due.iterrows()
             if str(row.get("league")) == league
             and infer_season(paris_datetime(row.get("date"))) == season
         })
-        try:
-            for day in days:
-                sportsdb = fetch_sportsdb_fixture_times(
-                    league, season, timeout_seconds=timeout_seconds, fixture_day=day,
-                )
-                if not sportsdb.empty:
-                    sportsdb = sportsdb.copy()
-                    sportsdb["result_source"] = "thesportsdb_final_status"
-                    frames.append(sportsdb)
-        except Exception as exc:
-            warnings.append(f"TheSportsDB {league}: {exc}")
+        for day in days:
+            try:
+                primary = fetch_scoreboard(league, day, timeout_seconds=timeout_seconds)
+                if not primary.empty:
+                    league_frames.append(primary)
+            except Exception as exc:
+                warnings.append(f"ESPN {league} {day}: {exc}")
+        primary_results = pd.concat(league_frames, ignore_index=True) if league_frames else pd.DataFrame()
+        frames.extend(league_frames)
+        league_due = due[(due["league"].astype(str) == league) & due["date"].map(
+            lambda date: infer_season(paris_datetime(date)) == season
+        )]
+        _, coverage = settle_due_predictions(
+            league_due, primary_results, now=now, minimum_elapsed_minutes=minimum_elapsed_minutes,
+            portfolio_name=portfolio_name,
+        )
+        if coverage["settled"] == len(league_due):
+            continue
         try:
             understat = understat_finished_results(
                 get_league_data(league, str(season)),
@@ -584,6 +597,13 @@ def main() -> None:
         **counters,
         "checkedAtParis": now.isoformat(),
         "warnings": warnings,
+        "settlements": [
+            {key: row.get(key) for key in ("league", "team_name", "opponent_name", "date",
+             "actual_home_score", "actual_away_score", "result_source", "result_event_id")}
+            for _, row in updated.iterrows()
+            if str(row.get("result_status")) in TERMINAL_RESULT_STATUSES
+            and str(ledger.loc[row.name].get("result_status")) not in TERMINAL_RESULT_STATUSES
+        ],
     }
     status_path.write_text(json.dumps(status, ensure_ascii=False, indent=2), encoding="utf-8")
     print(status)
