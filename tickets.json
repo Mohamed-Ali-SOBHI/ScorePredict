@@ -99,6 +99,23 @@
       "residual_sport_recency|Ligue_1|draw|0.05|all",
       "native_mean|Ligue_1|draw|0.05|all"
     ],
+    "status": "lost",
+    "profit": -1.0
+  },
+  {
+    "fixture_id": "understat:31626",
+    "league": "Serie_A",
+    "home_team": "Monza",
+    "away_team": "Cagliari",
+    "kickoff_utc": "2026-10-19T16:30:00+00:00",
+    "recorded_at_utc": "2026-10-18T18:56:03.898149+00:00",
+    "outcome": "away",
+    "odds": 3.1,
+    "stake": 1.0,
+    "source": "local_sport_only|Serie_A|away|0.05|all",
+    "selected_members": [
+      "local_sport_only|Serie_A|away|0.05|all"
+    ],
     "status": "pending",
     "profit": null
   }
