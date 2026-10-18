@@ -307,17 +307,25 @@ def main() -> None:
     explorer_rows = score_explorer_rows(future_df, bundles, strategies)
     if args.portfolio == PRODUCTION_PORTFOLIO_NAME:
         from inference.private_observation import record_forecasts
-        from inference.publication_policy import PUBLIC_LEAGUES
+        from inference.english_away_public import score_public_english
         record_forecasts(scored)
         if 'league' in scored:
-            scored = scored.loc[scored['league'].isin(PUBLIC_LEAGUES)].copy()
+            # The retired English DRAW rule remains private.
+            scored = scored.loc[scored['league'].eq('Bundesliga') & scored['selected_outcome'].eq('draw')].copy()
+        english = score_public_english(resolve_path(args.fixtures_csv), fixtures, future_df,
+                                       resolve_path(args.output_all).parent / 'english_public')
+        scored = pd.concat([scored, english], ignore_index=True)
     bets = dedupe_recommended_bets(scored)
-    bets = assign_flat_stakes(
-        bets,
-        bankroll_eur=args.bankroll_eur,
-        stake_fraction=args.stake_fraction,
-        max_total_exposure_fraction=args.max_total_exposure_fraction,
-    )
+    if args.portfolio == PRODUCTION_PORTFOLIO_NAME:
+        from inference.english_away_public import fixed_unit_stakes
+        if not bets.empty:
+            # One unit per verified fixture, regardless of outcome/model overlap.
+            bets = bets.drop_duplicates(['fixture_id'], keep='first')
+        bets = fixed_unit_stakes(bets, args.bankroll_eur * args.stake_fraction)
+    else:
+        bets = assign_flat_stakes(
+            bets, bankroll_eur=args.bankroll_eur, stake_fraction=args.stake_fraction,
+            max_total_exposure_fraction=args.max_total_exposure_fraction)
 
     output_all = resolve_path(args.output_all)
     output_bets = resolve_path(args.output_bets)

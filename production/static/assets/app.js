@@ -192,7 +192,7 @@ function predictionMarkup(prediction) {
       </div>
       <div class="object-bet-footer">
         <div><span>Cote</span><b>${decimal.format(prediction.odds)}</b></div>
-        <div><span>Mise indicative</span><b>${decimal.format(prediction.stakeEur)} €</b></div>
+        <div><span>Mise de référence</span><b>1 unité</b></div>
       </div>
       </div>
     </article>`;
@@ -284,7 +284,7 @@ function resultMarkup(row, index = 0) {
   </tr><tr class="detail-row" id="${detailId}" hidden><td colspan="7"><div class="detail-panel"><div class="detail-heading"><strong>Décision publiée</strong><span>${escapeHtml(choice)}</span></div><dl class="published-details">
     <div><dt>Cote publiée</dt><dd>${odds === null ? "—" : decimal.format(odds)}</dd></div>
     <div><dt>Indice du modèle</dt><dd>${model === null ? "—" : percent.format(model)}</dd></div>
-    <div><dt>Mise indicative</dt><dd>${stake === null ? "—" : `${decimal.format(stake)} €`}</dd></div>
+    <div><dt>Mise de référence</dt><dd>1 unité</dd></div>
     <div><dt>Résultat en mises</dt><dd>${terminalResult(row) && profit !== null ? signed(profit) : "—"}</dd></div>
   </dl></div></td></tr>`;
 }

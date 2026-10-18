@@ -11,12 +11,13 @@ import copy
 from datetime import datetime,timezone,timedelta
 import json
 from pathlib import Path
+from inference.english_away_public import STRATEGY as ENGLISH_STRATEGY, ACTIVATED_AT as ENGLISH_ACTIVATED_AT, qualifies
 
-VERSION = 'bundesliga_only_2026_10_18'
+VERSION = 'bundesliga_draw_epl_away_strict_2026_10_18'
 ACTIVATED_AT = '2026-10-18T12:09:15+00:00'
 PRIVATE_PORTFOLIO = 'observation_italy_epl_2026_10_18'
 PRIVATE_FREEZE_DATE = '2026-10-18'
-PUBLIC_LEAGUES = frozenset({'Bundesliga'})
+PUBLIC_LEAGUES = frozenset({'Bundesliga','EPL'})
 PRIVATE_LEAGUES = frozenset({'Serie_A','EPL'})
 # This decision was public before the restriction. It must remain auditable,
 # continue to settle and never be advertised as a new current recommendation.
@@ -27,7 +28,20 @@ def public_row(row):
     outcome=row.get('outcome',row.get('selected_outcome'))
     if outcome is None:
         outcome='draw' if row.get('outcomeLabel') in {'Match nul','Nul'} else ''
-    return row.get('league') in PUBLIC_LEAGUES and outcome=='draw'
+    if row.get('league') == 'Bundesliga':
+        return outcome == 'draw'
+    if row.get('league') != 'EPL' or outcome not in {'away','away_win'}:
+        return False
+    strategy = row.get('strategy', row.get('strategy_names', row.get('strategy_name', '')))
+    if strategy != ENGLISH_STRATEGY:
+        return False
+    try:
+        recorded = datetime.fromisoformat(row.get('recordedAt', row.get('prediction_generated_at_utc', '')).replace('Z','+00:00'))
+        if recorded < datetime.fromisoformat(ENGLISH_ACTIVATED_AT):
+            return False
+    except (ValueError, TypeError, AttributeError):
+        return False
+    return qualifies(row.get('modelProbability',row.get('predicted_probability')),row.get('odds',row.get('selected_odds')))
 
 
 def original_history(row):
@@ -38,10 +52,16 @@ def apply_publication_policy(payload):
     """Idempotent publication boundary, preserving the original public history."""
     data=copy.deepcopy(payload)
     meta=data.setdefault('meta',{})
-    meta.update(publicationVersion=VERSION,publicationActivatedAt=ACTIVATED_AT,
-        publicLeagues=sorted(PUBLIC_LEAGUES),publicOutcomes=['draw'],
+    meta.update(publicationVersion=VERSION,publicationActivatedAt=ENGLISH_ACTIVATED_AT,
+        publicLeagues=sorted(PUBLIC_LEAGUES),publicOutcomes=['draw','away_win'],stakeUnits=1,
+        publicStrategies=[{'league':'Bundesliga','outcome':'draw','label':'Bundesliga · match nul'},
+                          {'id':ENGLISH_STRATEGY,'league':'EPL','outcome':'away_win','label':'Premier League · victoire extérieure',
+                           'oddsMin':2,'oddsMax':6,'evThreshold':.10,'priceHaircut':.02,
+                           'activatedAt':ENGLISH_ACTIVATED_AT,'trainingMaxSeason':2024}],
         historyScope='published_history_including_prior_publication_versions')
     predictions=[p for p in data.get('predictions',[]) if public_row(p)]
+    for p in predictions:
+        p['stakeUnits']=1
     data['predictions']=predictions
     activity=[]
     for source in data.get('activity',[]):

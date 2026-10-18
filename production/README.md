@@ -179,3 +179,29 @@ charge localement via Node ; elle est indépendante des secrets Supabase.
 Le choix d'une stratégie à publier doit distinguer le suivi enregistré avant
 match des simulations ayant servi à sa sélection. Au dernier journal des neuf
 vérifié le 18 octobre à 11:42 UTC, aucun de leurs paris n'était encore réglé.
+
+## Ajout public de l’extérieur Premier League — 18 octobre 2026
+
+Sur demande explicite, `bundesliga_draw_epl_away_strict_2026_10_18` ajoute
+`epl_away_logit_strict_2026_10_18` aux nuls Bundesliga existants. Les anciens
+nuls EPL et Serie A restent privés. Le modèle sportif logistique scellé est
+entraîné jusqu’à 2024 ; ses caractéristiques gardent la coupure sportive à J−3.
+Les cotes B365 sont collectées sur Football-Data et rapprochées d’un horaire
+Sportytrader UTC et d’une rencontre Understat non terminée. La sélection exige
+une cote extérieure comprise entre 2 et 6 et `p_away * cote * 0.98 - 1 > 0.10`.
+La collecte est horodatée ; elle ne certifie pas l’exécution chez le bookmaker.
+
+`inference/english_away_worker.py` utilise les fonctions et modèles du dossier
+scellé dans un processus séparé, après vérification de leurs empreintes et des
+versions des bibliothèques. Il ne modifie aucun des anciens essais. Les sources,
+caractéristiques, probabilités, exclusions et décisions sont conservées dans
+`inference/output/english_public/` et dans les preuves du workflow quotidien.
+Une erreur de collecte ou de modèle interrompt la publication ; un match hors
+filtre produit une abstention. Aucun repli silencieux vers un autre modèle.
+
+Le journal public d’origine conserve son identité et ses décisions déjà
+publiées. Aucun pari de simulation n’est importé rétroactivement. Une seule mise
+fixe de 1 unité est comptée par rencontre ; la valeur indicative de l’unité EUR
+reste celle de la configuration, sans réduction automatique les jours chargés.
+Les performances passées ont servi à choisir l’ajout anglais : le suivi public
+qui commence maintenant doit être distingué de cette sélection exploratoire.

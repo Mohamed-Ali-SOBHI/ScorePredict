@@ -23,7 +23,7 @@ FINAL_STATUSES = {"FT", "AET", "PEN", "AWD"}
 OUTCOME_LABELS = {
     "draw": "Match nul",
     "home_win": "Victoire domicile",
-    "away_win": "Victoire extérieur",
+    "away_win": "Victoire extérieure",
 }
 LEAGUE_LABELS = {
     "EPL": "Premier League",
@@ -321,6 +321,9 @@ def update_public_snapshot(
         item["date"] = paris_iso(row.get("date"))
         item["status"] = status
         item["profitUnits"] = _number(row.get("realized_profit_units"))
+        item.update(outcome=row.get('selected_outcome', ''), strategy=row.get('strategy_names', ''),
+                    recordedAt=row.get('prediction_generated_at_utc', ''),
+                    modelProbability=_number(row.get('predicted_probability')))
         if status in TERMINAL_RESULT_STATUSES and pd.notna(row.get("actual_home_score")):
             item["actualScore"] = f"{int(float(row['actual_home_score']))} - {int(float(row['actual_away_score']))}"
 
@@ -337,6 +340,10 @@ def update_public_snapshot(
                 "leagueLabel": LEAGUE_LABELS.get(str(row.get("league")), str(row.get("league", ""))),
                 "homeTeam": row.get("team_name", ""),
                 "awayTeam": row.get("opponent_name", ""),
+                "outcome": row.get("selected_outcome", ""),
+                "strategy": row.get("strategy_names", ""),
+                "recordedAt": row.get("prediction_generated_at_utc", ""),
+                "modelProbability": _number(row.get("predicted_probability")),
                 "outcomeLabel": OUTCOME_LABELS.get(str(row.get("selected_outcome")), "Choix publié"),
                 "portfolioLabel": "Stratégie championne",
                 "odds": _number(row.get("selected_odds")),
@@ -391,6 +398,8 @@ def update_public_snapshot(
             "outcomeLabel": OUTCOME_LABELS.get(selected_outcome, "Choix publié"),
             "odds": odds,
             "modelProbability": probability,
+            "strategy": row.get("strategy_names", ""),
+            "recordedAt": row.get("prediction_generated_at_utc", ""),
             "marketProbability": _number(row.get("market_probability")),
             "edge": _number(row.get("edge")),
             "stakeEur": stake,

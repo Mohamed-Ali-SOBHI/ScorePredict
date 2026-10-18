@@ -539,6 +539,7 @@ class DashboardService:
                     "stakeEur": _float(row.get("stake_eur")),
                     "potentialProfitEur": _float(row.get("potential_profit_eur_if_win")),
                     "strategy": row.get("strategy_names", ""),
+                    "recordedAt": row.get("prediction_generated_at_utc") or now.isoformat(),
                     "recommended": recommended,
                     "adviceLabel": "Pari recommandé",
                     "recommendationNote": "Indice du modèle : " + str(round(model_probability * 100)) + "/100. Sert à comparer les matchs ; ne garantit pas le succès.",
@@ -746,6 +747,10 @@ class DashboardService:
                     "leagueLabel": LEAGUE_LABELS.get(row.get("league", ""), row.get("league", "")),
                     "homeTeam": row.get("team_name", ""),
                     "awayTeam": row.get("opponent_name", ""),
+                    "outcome": row.get("selected_outcome", ""),
+                    "strategy": row.get("strategy_names", ""),
+                    "recordedAt": row.get("prediction_generated_at_utc", ""),
+                    "modelProbability": _float(row.get("predicted_probability")),
                     "outcomeLabel": OUTCOME_LABELS.get(row.get("selected_outcome", ""), row.get("selected_outcome", "")),
                     "portfolioLabel": PORTFOLIO_LABELS.get(
                         row.get("portfolio_name", ""), row.get("portfolio_name", "Portefeuille live")
