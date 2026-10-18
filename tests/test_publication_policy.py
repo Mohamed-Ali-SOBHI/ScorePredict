@@ -38,6 +38,14 @@ class PublicationPolicyTests(unittest.TestCase):
         data=apply_publication_policy(source)
         self.assertEqual(len(data['activity']),2)
 
+    def test_archived_pending_bet_is_preserved_but_not_counted_as_current(self):
+        data=apply_publication_policy(self.snapshot())
+        self.assertEqual(data['tracking']['pending'],0)
+        self.assertEqual(data['tracking']['pendingAll'],0)
+        self.assertEqual(data['summary']['pendingPredictions'],0)
+        self.assertEqual(data['activity'][0]['id'],'original-milan')
+        self.assertEqual(data['activity'][0]['status'],'pending')
+
     def test_already_published_italian_result_is_kept_even_after_settlement(self):
         source=self.snapshot();source['activity'][0].update(status='lost',actualScore='1 - 0',profitUnits=-1)
         data=apply_publication_policy(source)

@@ -232,7 +232,7 @@ function renderPredictions(data) {
     holder.hidden = !hasPredictions;
     $("#no-pick").hidden = hasPredictions;
     resetNoPickCopy(data);
-    const awaitingResult = (data.activity || []).some(row => row.recommended === true && !terminalResult(row) && new Date(row.date).getTime() <= Date.now());
+    const awaitingResult = (data.activity || []).some(row => row.recommended === true && row.historicalOnly !== true && !terminalResult(row) && new Date(row.date).getTime() <= Date.now());
     if (!hasPredictions && awaitingResult) {
       setText(".no-pick-kicker", "Le suivi continue");
       setText(".no-pick-label", "Aucun autre pari à venir");
@@ -340,7 +340,7 @@ function renderTracking(data) {
     const tracking = data.tracking || {};
     const performanceLive = data.performance?.live || {};
     const allRows = (Array.isArray(data.activity) ? data.activity : []).filter(row => row?.recommended === true);
-    const pending = allRows.filter(row => !terminalResult(row) && inPublicWindow(row.date)).length;
+    const pending = allRows.filter(row => row.historicalOnly !== true && !terminalResult(row) && inPublicWindow(row.date)).length;
     const verified = numberOrNull(tracking.verified) ?? numberOrNull(performanceLive.settledBets) ?? 0;
     const won = numberOrNull(tracking.won) ?? 0;
     const lost = numberOrNull(tracking.lost) ?? 0;
@@ -367,7 +367,8 @@ function renderTracking(data) {
       setText("#live-return", "—");
       setText("#live-return-copy", "Pas encore assez de résultats pour calculer le rendement réel");
     }
-    historyRows = allRows.filter(row => new Date(row.date).getTime() <= Date.now() || inPublicWindow(row.date))
+    historyRows = allRows.filter(row => row.historicalOnly !== true || terminalResult(row))
+      .filter(row => new Date(row.date).getTime() <= Date.now() || inPublicWindow(row.date))
       .sort((a, b) => new Date(b.date) - new Date(a.date));
     renderHistory();
   } catch (e) {

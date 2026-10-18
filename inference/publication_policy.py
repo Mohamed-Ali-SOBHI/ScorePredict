@@ -63,11 +63,11 @@ def apply_publication_policy(payload):
             return stamp.tzinfo is not None and now<=stamp<now+timedelta(days=1)
         except (KeyError,ValueError,TypeError):
             return False
-    pending=sum(r.get('status') not in {'won','lost','void'} and future(r) for r in activity)
+    pending=sum(not r.get('historicalOnly') and r.get('status') not in {'won','lost','void'} and future(r) for r in activity)
     summary['pendingPredictions']=pending
     tracking=data.setdefault('tracking',{})
     tracking['pending']=pending
-    tracking['pendingAll']=sum(r.get('status') not in {'won','lost','void'} for r in activity)
+    tracking['pendingAll']=sum(not r.get('historicalOnly') and r.get('status') not in {'won','lost','void'} for r in activity)
     tracking['historyLabel']='Tous les paris déjà publiés, anciennes versions comprises'
     scope=data.get('performance',{}).get('scope')
     if scope and scope.get('strategyCount')==4:

@@ -122,3 +122,30 @@ assert.equal(evaluate('matchCards(lifecycle,clock+3600000).length'),0);
 evaluate(`lifecycle.predictions=[{...choice,historicalOnly:true}];`);
 assert.equal(evaluate('futurePublishedPredictions(lifecycle,clock-1).length'),0);
 console.log('Publication policy: old Italian ticket remains history-only.');
+
+evaluate(`
+  const archivedTicket={...choice,id:'archived-italian',homeTeam:'AC Milan',awayTeam:'Atalanta',league:'Serie_A',
+    date:new Date(Date.now()+3600000).toISOString(),status:'pending',historicalOnly:true,odds:6.3};
+  const archivedFixture={activity:[archivedTicket],summary:{},tracking:{verified:0,won:0,lost:0},performance:{live:{}}};
+  historyFilter='all'; renderTracking(archivedFixture);
+`);
+assert.equal(node('#tracking-pending').textContent,'0');
+assert.doesNotMatch(node('#result-list').innerHTML,/AC Milan/);
+evaluate(`historyFilter='pending'; renderHistory();`);
+assert.doesNotMatch(node('#result-list').innerHTML,/AC Milan/);
+evaluate(`
+  archivedTicket.date=new Date(Date.now()-3600000).toISOString();
+  historyFilter='all'; renderTracking(archivedFixture);
+`);
+assert.doesNotMatch(node('#result-list').innerHTML,/AC Milan/);
+evaluate(`
+  archivedTicket.status='lost'; archivedTicket.actualScore='1 - 0'; archivedTicket.profitUnits=-1;
+  const archivedResult=currentSeasonData(archivedFixture);
+  historyFilter='settled'; renderTracking(archivedResult);
+`);
+assert.match(node('#result-list').innerHTML,/AC Milan/);
+assert.match(node('#result-list').innerHTML,/Ancien pari publié/);
+assert.equal(node('#tracking-verified').textContent,'1');
+assert.equal(node('#tracking-lost').textContent,'1');
+assert.equal(node('#live-return').textContent,'−100,0 %');
+console.log('Archived pending ticket: hidden from active lists; original result remains auditable.');
