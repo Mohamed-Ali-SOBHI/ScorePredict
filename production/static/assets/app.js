@@ -275,9 +275,9 @@ function resultMarkup(row, index = 0) {
   const detailId = `history-detail-${index}`;
   return `<tr class="result-row">
     <td class="league-cell"><span>${escapeHtml(league)}</span></td>
-    <th class="encounter-cell" scope="row"><span class="mobile-meta">${escapeHtml(league)} · ${escapeHtml(formatDate(row.date, true))}</span><span class="encounter-name">${escapeHtml(row.homeTeam)} <span class="versus">vs</span> ${escapeHtml(row.awayTeam)}</span><span class="mobile-choice">${escapeHtml(choice)}</span></th>
+    <th class="encounter-cell" scope="row"><span class="mobile-meta">${escapeHtml(league)} · ${escapeHtml(formatDate(row.date, true))}</span><span class="encounter-name">${escapeHtml(row.homeTeam)} <span class="versus">vs</span> ${escapeHtml(row.awayTeam)}</span><span class="mobile-choice">${escapeHtml(choice)}${row.historicalOnly ? ' · ancien pari publié' : ''}</span></th>
     <td class="date-cell"><time datetime="${escapeHtml(row.date || "")}">${escapeHtml(formatDate(row.date, true))}</time></td>
-    <td class="choice-cell">${escapeHtml(choice)}${row.historicalOnly ? '<small>Ancien pari publié</small>' : ''}</td>
+    <td class="choice-cell">${escapeHtml(choice)}${row.historicalOnly ? '<br><small>Ancien pari publié</small>' : ''}</td>
     <td class="odds-cell">${odds === null ? "—" : decimal.format(odds)}</td>
     <td class="verdict-cell"><div class="result-verdict">${row.actualScore ? `<strong class="final-score">${escapeHtml(row.actualScore)}</strong>` : ""}<b class="${row.status === "won" ? "won" : row.status === "lost" ? "lost" : ""}">${escapeHtml(resultLabel(row.status, row.date))}</b></div></td>
     <td class="action-cell"><button class="detail-toggle" type="button" aria-expanded="false" aria-controls="${detailId}" data-history-detail="${detailId}"><span aria-hidden="true">+</span><span class="sr-only">Détails du pari ${escapeHtml(row.homeTeam)} contre ${escapeHtml(row.awayTeam)}</span></button></td>
