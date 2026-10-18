@@ -1,8 +1,8 @@
 ﻿portfolio,label,committed_bets,settled_bets,pending_bets,pending_stake,settled_stake,wins,profit,roi,max_daily_drawdown,additional_profit,additional_settled_bets,profit_difference_vs_reference,drawdown_difference_vs_reference
 reference,Production observée à la capture,2,2,0,0,2.0,1,2.2699999999999996,1.1349999999999998,0,0,0,0.0,0
 reference_bundesliga_half,Référence + Bundesliga à demi-mise,4,4,0,0,3.0,1,1.2699999999999996,0.4233333333333332,0.5,-1.0,2,-1.0,0.5
-reference_six_full,"Référence + union des six, mise 1",19,14,5,5.0,14.0,4,-1.7300000000000004,-0.1235714285714286,4.11,-4.0,12,-4.0,4.11
-reference_six_half,"Référence + union des six, mise 0,5",19,14,5,2.5,8.0,4,0.2699999999999996,0.03374999999999995,1.0,-2.0,12,-2.0,1.0
+reference_six_full,"Référence + union des six, mise 1",19,15,4,4.0,15.0,4,-2.7300000000000004,-0.18200000000000002,4.11,-5.0,13,-5.0,4.11
+reference_six_half,"Référence + union des six, mise 0,5",19,15,4,2.0,8.5,4,-0.23000000000000043,-0.027058823529411816,1.0,-2.5,13,-2.5,1.0
 alone_l1_home_poisson,Ligue 1 · domicile Poisson seule,3,2,1,1.0,2.0,0,-2.0,-1.0,2.0,-2.0,2,-4.27,2.0
 reference_l1_home_poisson,Référence + Ligue 1 · domicile Poisson,5,4,1,1.0,4.0,1,0.2699999999999996,0.0674999999999999,1.0,-2.0,2,-2.0,1.0
 alone_seriea_draw_poisson,Serie A · nul Poisson seule,0,0,0,0,0,0,0,,0,0,0,-2.2699999999999996,0
@@ -13,5 +13,5 @@ alone_bundesliga_draw_xgb,Bundesliga · nul XGBoost seule,4,4,0,0,4.0,1,0.200000
 reference_bundesliga_draw_xgb,Référence + Bundesliga · nul XGBoost,4,4,0,0,4.0,1,0.2699999999999996,0.0674999999999999,1.0,-2.0,2,-2.0,1.0
 alone_epl_away_logit,Premier League · extérieur logistique seule,2,2,0,0,2.0,0,-2.0,-1.0,2.0,-2.0,2,-4.27,2.0
 reference_epl_away_logit,Référence + Premier League · extérieur logistique,4,4,0,0,4.0,1,0.2699999999999996,0.0674999999999999,1.0,-2.0,2,-2.0,1.0
-alone_seriea_away_control,Serie A · extérieur outcome_control seule,10,6,4,4.0,6.0,3,2.0,0.3333333333333333,2.38,2.0,6,-0.2699999999999996,2.38
-reference_seriea_away_control,Référence + Serie A · extérieur outcome_control,12,8,4,4.0,8.0,4,4.27,0.53375,1.0,2.0,6,2.0,1.0
+alone_seriea_away_control,Serie A · extérieur outcome_control seule,10,7,3,3.0,7.0,3,1.0,0.14285714285714285,2.38,1.0,7,-1.2699999999999996,2.38
+reference_seriea_away_control,Référence + Serie A · extérieur outcome_control,12,9,3,3.0,9.0,4,3.2699999999999996,0.3633333333333333,1.0,1.0,7,1.0,1.0
