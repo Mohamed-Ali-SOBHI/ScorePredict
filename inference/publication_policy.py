@@ -24,7 +24,10 @@ LEGACY_HISTORY = frozenset({('Serie_A','2026-10-18','AC Milan','Atalanta')})
 
 
 def public_row(row):
-    return row.get('league') in PUBLIC_LEAGUES and row.get('outcome',row.get('selected_outcome','draw'))=='draw'
+    outcome=row.get('outcome',row.get('selected_outcome'))
+    if outcome is None:
+        outcome='draw' if row.get('outcomeLabel') in {'Match nul','Nul'} else ''
+    return row.get('league') in PUBLIC_LEAGUES and outcome=='draw'
 
 
 def original_history(row):
@@ -66,6 +69,9 @@ def apply_publication_policy(payload):
     tracking['pending']=pending
     tracking['pendingAll']=sum(r.get('status') not in {'won','lost','void'} for r in activity)
     tracking['historyLabel']='Tous les paris déjà publiés, anciennes versions comprises'
+    scope=data.get('performance',{}).get('scope')
+    if scope and scope.get('strategyCount')==4:
+        scope['label']='Simulation historique du portefeuille précédent · quatre stratégies'
     return data
 
 

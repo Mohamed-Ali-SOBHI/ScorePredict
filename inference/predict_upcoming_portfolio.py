@@ -309,7 +309,8 @@ def main() -> None:
         from inference.private_observation import record_forecasts
         from inference.publication_policy import PUBLIC_LEAGUES
         record_forecasts(scored)
-        scored = scored.loc[scored['league'].isin(PUBLIC_LEAGUES)].copy()
+        if 'league' in scored:
+            scored = scored.loc[scored['league'].isin(PUBLIC_LEAGUES)].copy()
     bets = dedupe_recommended_bets(scored)
     bets = assign_flat_stakes(
         bets,

@@ -45,5 +45,14 @@ class PublicationPolicyTests(unittest.TestCase):
         self.assertEqual(data['activity'][0]['actualScore'],'1 - 0')
         self.assertEqual(data['activity'][0]['profitUnits'],-1)
 
+    def test_bundesliga_home_and_away_bets_are_not_public(self):
+        source=self.snapshot()
+        for outcome in ['home','away']:
+            source['predictions']=[dict(source['activity'][1],outcome=outcome)]
+            self.assertEqual(apply_publication_policy(source)['predictions'],[])
+        row=dict(source['activity'][1]);row.pop('outcome');row['outcomeLabel']='Match nul'
+        source['predictions']=[row]
+        self.assertEqual(len(apply_publication_policy(source)['predictions']),1)
+
 
 if __name__=='__main__':unittest.main()
