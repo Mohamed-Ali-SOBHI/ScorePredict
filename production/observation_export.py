@@ -108,14 +108,9 @@ def fetch_state(branch,destination):
     destination.mkdir()
     with tarfile.open(fileobj=io.BytesIO(archive)) as tar:tar.extractall(destination,filter='data')
 
-def main():
-    parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--source-state',type=Path);parser.add_argument('--comparison-state',type=Path)
-    parser.add_argument('--output',type=Path,default=OUTPUT)
-    args=parser.parse_args()
-    require_private_output(args.output)
+def snapshot(source_state=None,comparison_state=None):
     try:
-        if args.source_state and args.comparison_state:result=build(args.source_state,args.comparison_state)
+        if source_state and comparison_state:result=build(source_state,comparison_state)
         else:
             with tempfile.TemporaryDirectory(prefix='scorepredict-observation-') as temp:
                 temp=Path(temp);source=temp/'source';comparison=temp/'comparison'
@@ -125,6 +120,15 @@ def main():
     except Exception as error:
         result=base_payload();result['message']='Le dernier suivi ne peut pas être vérifié.'
         print('::warning::Observation export unavailable: '+str(error),file=sys.stderr)
+    return result
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--source-state',type=Path);parser.add_argument('--comparison-state',type=Path)
+    parser.add_argument('--output',type=Path,default=OUTPUT)
+    args=parser.parse_args()
+    require_private_output(args.output)
+    result=snapshot(args.source_state,args.comparison_state)
     atomic_write(args.output,result)
     print('Observation snapshot:',result['status'],len(result['tickets']),'unique tickets')
 

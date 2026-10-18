@@ -85,4 +85,27 @@ class ObservationExportTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             ex.require_private_output(ex.ROOT/'production/static/data/observation.json')
 
+    def test_personal_page_preserves_periods_and_escapes_fixture_names(self):
+        from production import observation_personal as personal
+        data=ex.build(self.source,self.comparison)
+        data['tickets'][0]['home_team']='</th><script>alert(1)</script>'
+        page=personal.render(data)
+        self.assertNotIn('<script>alert(1)</script>',page)
+        self.assertIn('&lt;script&gt;alert(1)&lt;/script&gt;',page)
+        self.assertEqual(page.count('Total avec Bundesliga · sans doublon'),3)
+        self.assertEqual(page.count('data-status="pending"'),1)
+        self.assertIn('+34,52 u',personal.report_table(data,'season'))
+        self.assertNotIn('+34,52 u',personal.report_table(data,'live'))
+        self.assertIn("connect-src 'none'",page)
+        self.assertNotIn('<script src=',page)
+        self.assertFalse(personal.OUTPUT.resolve().is_relative_to((ex.ROOT/'production/static').resolve()))
+
+    def test_personal_unavailable_state_does_not_show_a_verified_live_result(self):
+        from production import observation_personal as personal
+        data=ex.base_payload()
+        self.assertNotIn('<table>',personal.report_table(data,'live'))
+        page=personal.render(data)
+        self.assertIn('Liste actuelle non vérifiée.',page)
+        self.assertIn('Actualisation non vérifiée.',page)
+
 if __name__=='__main__':unittest.main()
