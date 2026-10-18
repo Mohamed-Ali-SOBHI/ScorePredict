@@ -69,8 +69,8 @@
     "outcome": "away",
     "source": "local_price_only|EPL|away|0.05|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "won",
+    "profit": 0.6000000000000001,
     "selected_members": [
       "local_price_only|EPL|away|0.05|all"
     ]
@@ -107,10 +107,29 @@
     "outcome": "draw",
     "source": "residual_sport_recency|Ligue_1|draw|0.05|all",
     "stake": 1.0,
+    "status": "lost",
+    "profit": -1.0,
+    "selected_members": [
+      "residual_sport_recency|Ligue_1|draw|0.05|all"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus9",
+    "fixture_id": "understat:31626",
+    "league": "Serie_A",
+    "home_team": "Monza",
+    "away_team": "Cagliari",
+    "kickoff_utc": "2026-10-19T16:30:00+00:00",
+    "enrolled_at_utc": "2026-10-18T21:15:35.416735+00:00",
+    "source_recorded_at_utc": "2026-10-18T18:56:03.898149+00:00",
+    "odds": 3.1,
+    "outcome": "away",
+    "source": "local_sport_only|Serie_A|away|0.05|all",
+    "stake": 1.0,
     "status": "pending",
     "profit": null,
     "selected_members": [
-      "residual_sport_recency|Ligue_1|draw|0.05|all"
+      "local_sport_only|Serie_A|away|0.05|all"
     ]
   },
   {
@@ -183,8 +202,8 @@
     "outcome": "away",
     "source": "local_price_only|EPL|away|0.05|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "won",
+    "profit": 0.6000000000000001,
     "selected_members": [
       "local_price_only|EPL|away|0.05|all"
     ]
@@ -221,11 +240,30 @@
     "outcome": "draw",
     "source": "residual_sport_recency|Ligue_1|draw|0.05|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "lost",
+    "profit": -1.0,
     "selected_members": [
       "residual_sport_recency|Ligue_1|draw|0.05|all",
       "native_mean|Ligue_1|draw|0.05|all"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus15",
+    "fixture_id": "understat:31626",
+    "league": "Serie_A",
+    "home_team": "Monza",
+    "away_team": "Cagliari",
+    "kickoff_utc": "2026-10-19T16:30:00+00:00",
+    "enrolled_at_utc": "2026-10-18T21:15:35.416735+00:00",
+    "source_recorded_at_utc": "2026-10-18T18:56:03.898149+00:00",
+    "odds": 3.1,
+    "outcome": "away",
+    "source": "local_sport_only|Serie_A|away|0.05|all",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "local_sport_only|Serie_A|away|0.05|all"
     ]
   }
 ]

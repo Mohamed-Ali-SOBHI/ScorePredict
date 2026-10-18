@@ -3,14 +3,14 @@
 **Simulation à 1 unité par pari. Aucun pari déjà réglé n’est importé.**
 
 Inscription de la comparaison : 2026-10-17T22:36:40.340148+00:00
-Dernier passage : 2026-10-18T16:08:34.720132+00:00 — collected
-Matchs inscrits avant le coup d’envoi : 19. Résultats confirmés : 8.
+Dernier passage : 2026-10-18T21:15:35.466897+00:00 — collected
+Matchs inscrits avant le coup d’envoi : 21. Résultats confirmés : 17.
 
 | Portefeuille | Réglés | En attente | Mises réglées | Gain net (u) | Rendement | Baisse max (u) |
 |---|---:|---:|---:|---:|---:|---:|
 | Nuls Bundesliga seuls | 0 | 0 | 0.00 | 0.00 | — | 0.00 |
-| Nuls Bundesliga + 9 stratégies | 4 | 2 | 4.00 | -4.00 | -100.00 % | 4.00 |
-| Nuls Bundesliga + 15 stratégies, même période | 4 | 2 | 4.00 | -4.00 | -100.00 % | 4.00 |
+| Nuls Bundesliga + 9 stratégies | 6 | 1 | 6.00 | -4.40 | -73.33 % | 4.40 |
+| Nuls Bundesliga + 15 stratégies, même période | 6 | 1 | 6.00 | -4.40 | -73.33 % | 4.40 |
 
 Différence de gain des 9 moins les 15 : 0.00 u.
 
