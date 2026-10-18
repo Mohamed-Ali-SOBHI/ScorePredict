@@ -123,8 +123,6 @@ jobs:
           if ($dashboard.meta.activePortfolio -ne $expectedPortfolio) { throw "Le snapshot ne correspond pas au portefeuille de production." }
           if ($dashboard.meta.strategyPolicy -ne "unweighted__pooled_cautious") { throw "La politique publiee ne correspond pas au filtre commun approuve." }
 
-      - name: Actualiser les strategies en observation
-        run: python -m production.observation_export
 
       - name: Preparer GitHub Pages
         uses: actions/configure-pages@v6

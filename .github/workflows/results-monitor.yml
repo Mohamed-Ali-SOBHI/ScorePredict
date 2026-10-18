@@ -98,9 +98,6 @@ jobs:
             --portfolio "$(python -c 'from inference.portfolio_presets import DEFAULT_PORTFOLIO_NAME; print(DEFAULT_PORTFOLIO_NAME)')" \
             --status-output inference/output/prediction_store_status.json
 
-      - name: Actualiser les strategies en observation
-        if: steps.result.outputs.changed == 'true'
-        run: python -m production.observation_export
 
       - name: Preparer GitHub Pages
         if: steps.result.outputs.changed == 'true'

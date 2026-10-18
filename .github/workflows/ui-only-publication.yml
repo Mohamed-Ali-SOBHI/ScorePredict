@@ -2,10 +2,6 @@ name: Publier uniquement l'interface
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows: ["Observation des 15 ajouts avec les nuls Bundesliga"]
-    types: [completed]
-    branches: [main]
 
 concurrency:
   group: scorepredict-pages
@@ -18,7 +14,6 @@ permissions:
 
 jobs:
   build:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     name: Preparer l'interface et conserver les donnees publiees
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -33,8 +28,6 @@ jobs:
           node --check production/static/assets/app.js
           node tests/test_dashboard_client.cjs
           python3 -m unittest tests.test_observation_export
-          node --check production/static/assets/observation.js
-          node tests/test_observation_client.cjs
       - name: Conserver exactement les donnees actuellement en ligne
         run: |
           mkdir -p "${RUNNER_TEMP}/published-data"
@@ -51,8 +44,6 @@ jobs:
           cmp "${RUNNER_TEMP}/published-data/dashboard.json" production/static/data/dashboard.json
           cmp "${RUNNER_TEMP}/published-data/explorer.json" production/static/data/explorer.json
           sha256sum production/static/data/dashboard.json production/static/data/explorer.json
-      - name: Actualiser le suivi verifie des neuf strategies
-        run: python3 -m production.observation_export
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:

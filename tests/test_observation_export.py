@@ -71,12 +71,18 @@ class ObservationExportTests(unittest.TestCase):
         data=ex.read(target)
         self.assertEqual(data['status'],'unavailable');self.assertIsNone(data['live']);self.assertEqual(data['tickets'],[])
 
-    def test_all_publication_paths_refresh_observation_and_successful_collect_triggers_site(self):
-        workflows=ex.ROOT/'.github/workflows'
+    def test_observation_is_not_published(self):
         for name in ['daily-predictions.yml','results-monitor.yml','ui-only-publication.yml']:
-            self.assertIn('-m production.observation_export',(workflows/name).read_text(encoding='utf8'))
-        interface=(workflows/'ui-only-publication.yml').read_text(encoding='utf8')
-        self.assertIn('workflows: ["Observation des 15 ajouts avec les nuls Bundesliga"]',interface)
-        self.assertIn("github.event.workflow_run.conclusion == 'success'",interface)
+            workflow=(ex.ROOT/'.github/workflows'/name).read_text(encoding='utf8')
+            self.assertNotIn('-m production.observation_export',workflow)
+        public=ex.ROOT/'production/static'
+        self.assertFalse(list(public.rglob('*observation*')))
+        for page in public.glob('*.html'):
+            self.assertNotIn('observation.html',page.read_text(encoding='utf8'))
+        self.assertFalse(ex.OUTPUT.resolve().is_relative_to(public.resolve()))
+
+    def test_export_cannot_write_into_public_site(self):
+        with self.assertRaises(ValueError):
+            ex.require_private_output(ex.ROOT/'production/static/data/observation.json')
 
 if __name__=='__main__':unittest.main()

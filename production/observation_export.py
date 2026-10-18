@@ -1,4 +1,4 @@
-"""Publish a read-only view of the sealed nine-strategy experiment."""
+"""Export a local read-only view of the sealed nine-strategy experiment."""
 from __future__ import annotations
 import argparse,hashlib,importlib,json,os,subprocess,sys,tarfile,tempfile
 from datetime import datetime,timezone
@@ -6,7 +6,11 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
 HISTORY=ROOT/'production/observation_history.json'
-OUTPUT=ROOT/'production/static/data/observation.json'
+OUTPUT=ROOT.parent/'suivi_prive_9/data.json'
+
+def require_private_output(path):
+    if Path(path).resolve().is_relative_to((ROOT/'production/static').resolve()):
+        raise ValueError('Le suivi personnel ne doit pas être écrit dans le site public.')
 
 def read(path):return json.loads(Path(path).read_text(encoding='utf8'))
 def atomic_write(path,value):
@@ -109,6 +113,7 @@ def main():
     parser.add_argument('--source-state',type=Path);parser.add_argument('--comparison-state',type=Path)
     parser.add_argument('--output',type=Path,default=OUTPUT)
     args=parser.parse_args()
+    require_private_output(args.output)
     try:
         if args.source_state and args.comparison_state:result=build(args.source_state,args.comparison_state)
         else:
