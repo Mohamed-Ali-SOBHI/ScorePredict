@@ -5302,6 +5302,24 @@
       },
       "previous_hash": "07c0f750a57152dd015ed1ad83f48bc4d2cdbae04f317bb79641cff10aa60d08",
       "event_hash": "1a859e156407b3f30a01ee66a21429f2c4baf937b71164666c91870fbbc4695c"
+    },
+    {
+      "seq": 23,
+      "kind": "run",
+      "identity": "collection:20261018T050730925900Z",
+      "payload": {
+        "finished_at_utc": "2026-10-18T05:07:30.999902+00:00",
+        "github_run_id": "39099362555",
+        "new_forecasts": 0,
+        "new_settlements": 0,
+        "run_id": "20261018T050730925900Z",
+        "source15_events_sha256": "85f4b9d9f7ff6a624312ef2086664a668dcd3f3adf7c8e7009f34031e190c7b3",
+        "source15_finished_at_utc": "2026-10-18T05:07:14.184512+00:00",
+        "state": "collected",
+        "type": "collection"
+      },
+      "previous_hash": "1a859e156407b3f30a01ee66a21429f2c4baf937b71164666c91870fbbc4695c",
+      "event_hash": "2153bfe0f2dca32cbac7c6526caba883abb861cc2a6eb75ac0228d5bcbfde887"
     }
   ]
 }
