@@ -2,7 +2,7 @@
 
 **Simulation uniquement. La stratégie de production reste inchangée.**
 
-Dernier passage : 2026-10-18T00:21:18.802592+00:00 — **collected**.
+Dernier passage : 2026-10-18T05:02:50.713916+00:00 — **collected**.
 Décisions figées avant match : 33. Résultats confirmés : 18.
 
 Exécution sur GitHub après chaque pipeline de prévisions réussi et à 00:35, 06:35, 12:35 et 18:35 UTC chaque jour. Les horaires planifiés peuvent subir un retard GitHub.
@@ -36,6 +36,6 @@ Le gain et le rendement concernent les paris réglés. La baisse maximale est ca
 
 [Exécutions GitHub](https://github.com/Mohamed-Ali-SOBHI/ScorePredict/actions/workflows/paper-simulation.yml) · [Protocole](registration.json) · [Comparaison complète](comparison.csv) · [Diagnostics](last_run.json) · [Journal des preuves](evidence.json)
 
-Journal : 79 événements, empreinte `60a8140b5d90a6f08c6ac6ce2860679ee9091c9d0abd32be0fab0a130d624e15`.
+Journal : 80 événements, empreinte `5897e4cb00c85a87759eed64ded48d7380a238b0c423e445af1764eb91e8f761`.
 
 Le journal et les captures sont conservés dans cette branche entre les exécutions. Une sauvegarde supplémentaire est jointe aux exécutions Actions pendant 90 jours. Un journal manquant ou altéré bloque le suivi.
