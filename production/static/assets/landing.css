@@ -401,12 +401,11 @@ section { scroll-margin-top: 68px; }
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1.4fr;
-  gap: 80px;
+  gap: 32px 80px;
   align-items: start;
 }
 .process-intro {
-  position: sticky;
-  top: 110px;
+  position: static;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -509,6 +508,24 @@ section { scroll-margin-top: 68px; }
   line-height: 1.55;
 }
 .process-note strong { color: var(--forest); font-weight: 700; }
+
+.method-detail {
+  grid-column: 1 / -1;
+  min-width: 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+.method-detail summary {
+  width: fit-content;
+  max-width: 100%;
+  color: var(--forest);
+  font-weight: 600;
+  cursor: pointer;
+}
+.method-detail p { max-width: 80ch; margin-top: 16px; }
 
 /* 2. Sealed Section: CLEANED UP LIGHT THEME (Zero heavy dark box) */
 .sealed {
