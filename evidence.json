@@ -5164,6 +5164,125 @@
       },
       "previous_hash": "32982dec06b0b8f9654e2074379ccd2043718591b3ed3e9181a4b02364d4be17",
       "event_hash": "ba7a2d7ccf8ec9fa6485252e7bdf68626f43d81ce73c5aafb1691d9d1fa56a29"
+    },
+    {
+      "seq": 30,
+      "kind": "settlement",
+      "identity": "understat:31246",
+      "payload": {
+        "away_goals": 0,
+        "forecast_sha256": "064ecad4d8d644c2fef8fea2c0acc51ab6931b774218e1c34be53081e979313f",
+        "home_goals": 2,
+        "outcome": "home",
+        "result_seen_at_utc": "2026-10-18T15:26:55.604604+00:00",
+        "source_snapshot_sha256": "a04fb4521137fce1007b234ef9c91225696a41ca1e3aff0bcfe69a7d83c89dc1",
+        "source_url": "https://understat.com/getLeagueData/EPL/2026"
+      },
+      "previous_hash": "ba7a2d7ccf8ec9fa6485252e7bdf68626f43d81ce73c5aafb1691d9d1fa56a29",
+      "event_hash": "9376787b04ed91b65677020b7083f4e4c5ed67e0ca3d8ab7d5895cdf0f6c3d9d"
+    },
+    {
+      "seq": 31,
+      "kind": "settlement",
+      "identity": "understat:31245",
+      "payload": {
+        "away_goals": 0,
+        "forecast_sha256": "61276b44b12e0af54af83ac133bd82554ccb4afeba00d08db524d0f94d78a6ac",
+        "home_goals": 5,
+        "outcome": "home",
+        "result_seen_at_utc": "2026-10-18T15:26:55.604604+00:00",
+        "source_snapshot_sha256": "a04fb4521137fce1007b234ef9c91225696a41ca1e3aff0bcfe69a7d83c89dc1",
+        "source_url": "https://understat.com/getLeagueData/EPL/2026"
+      },
+      "previous_hash": "9376787b04ed91b65677020b7083f4e4c5ed67e0ca3d8ab7d5895cdf0f6c3d9d",
+      "event_hash": "e383cff51ce6bd1b95d6f25817723dc78aa18343f1ba50d4ebada79a641fcbfc"
+    },
+    {
+      "seq": 32,
+      "kind": "settlement",
+      "identity": "understat:31247",
+      "payload": {
+        "away_goals": 1,
+        "forecast_sha256": "fb784f02161decce7d97d74e5b22cd81c28ff0172bc716c8ff9e86dd2534b269",
+        "home_goals": 1,
+        "outcome": "draw",
+        "result_seen_at_utc": "2026-10-18T15:26:55.604604+00:00",
+        "source_snapshot_sha256": "a04fb4521137fce1007b234ef9c91225696a41ca1e3aff0bcfe69a7d83c89dc1",
+        "source_url": "https://understat.com/getLeagueData/EPL/2026"
+      },
+      "previous_hash": "e383cff51ce6bd1b95d6f25817723dc78aa18343f1ba50d4ebada79a641fcbfc",
+      "event_hash": "449e2a28c8a70bdf02db9986a6557bcaa11ca63731c7caa8585c6dd52aa2c2bc"
+    },
+    {
+      "seq": 33,
+      "kind": "settlement",
+      "identity": "understat:31994",
+      "payload": {
+        "away_goals": 5,
+        "forecast_sha256": "9caa314f7ea2277d50df562ad30db1eed0afc3c7e1e46887e8ce34af9edac120",
+        "home_goals": 2,
+        "outcome": "away",
+        "result_seen_at_utc": "2026-10-18T15:26:55.583554+00:00",
+        "source_snapshot_sha256": "c3a5c494f81f3c241ab763008fd7e9c5fc31551574d56a6bace5a4e8fc714eeb",
+        "source_url": "https://understat.com/getLeagueData/Ligue_1/2026"
+      },
+      "previous_hash": "449e2a28c8a70bdf02db9986a6557bcaa11ca63731c7caa8585c6dd52aa2c2bc",
+      "event_hash": "8221236ef25bf2cf121da706fdc0fef6dacd640c120a68779f2aa2d8a2e1223c"
+    },
+    {
+      "seq": 34,
+      "kind": "settlement",
+      "identity": "understat:31623",
+      "payload": {
+        "away_goals": 3,
+        "forecast_sha256": "d1f05dee62ad98cac7d995a1710163884757f5a1bcf852e5389e41eb3d6939d9",
+        "home_goals": 1,
+        "outcome": "away",
+        "result_seen_at_utc": "2026-10-18T15:26:55.603611+00:00",
+        "source_snapshot_sha256": "468dd93539c2fd12ae92798581263fa22fe5c78cbe79458aaf74cc352481d17e",
+        "source_url": "https://understat.com/getLeagueData/Serie_A/2026"
+      },
+      "previous_hash": "8221236ef25bf2cf121da706fdc0fef6dacd640c120a68779f2aa2d8a2e1223c",
+      "event_hash": "5d87947480f4a16b396edac1466279a7fbd2ec3087d32fcf0954d78337106d9f"
+    },
+    {
+      "seq": 35,
+      "kind": "settlement",
+      "identity": "understat:30856",
+      "payload": {
+        "away_goals": 0,
+        "forecast_sha256": "af4ae73172d8c21266c20d344af97503dbdac8f085fd4aa29156242b505ff692",
+        "home_goals": 2,
+        "outcome": "home",
+        "result_seen_at_utc": "2026-10-18T15:26:56.675108+00:00",
+        "source_snapshot_sha256": "acdec3db16e9034f36ebc35a5f019b966e73f4cdfdf792cdd2235e8984ba353d",
+        "source_url": "https://understat.com/getLeagueData/La_liga/2026"
+      },
+      "previous_hash": "5d87947480f4a16b396edac1466279a7fbd2ec3087d32fcf0954d78337106d9f",
+      "event_hash": "c77c36bcfeaa4d74da308820abf6533863089f1902bb98c6998f0586e20dccb0"
+    },
+    {
+      "seq": 36,
+      "kind": "run",
+      "identity": "20261018T152652679822Z",
+      "payload": {
+        "eligible_new_candidates": 0,
+        "finished_at_utc": "2026-10-18T15:26:56.742847+00:00",
+        "github_run_attempt": "1",
+        "github_run_id": "39140420711",
+        "new_forecasts": 0,
+        "new_settlements": 6,
+        "production_changed": false,
+        "production_run_id": 39139874228,
+        "production_snapshot_age_hours": 0.023539675,
+        "rejected_rows": 43,
+        "run_id": "20261018T152652679822Z",
+        "settlement_issues": [],
+        "started_at_utc": "2026-10-18T15:26:52.679822+00:00",
+        "state": "collected"
+      },
+      "previous_hash": "c77c36bcfeaa4d74da308820abf6533863089f1902bb98c6998f0586e20dccb0",
+      "event_hash": "a69e6039f157b8f9aab870dcfa2e1c8018d89fe4db6407a54632919ea7bde915"
     }
   ]
 }

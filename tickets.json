@@ -13,8 +13,8 @@
     "selected_members": [
       "local_price_only|EPL|away|0.05|all"
     ],
-    "status": "pending",
-    "profit": null
+    "status": "lost",
+    "profit": -1.0
   },
   {
     "fixture_id": "understat:31245",
@@ -30,8 +30,8 @@
     "selected_members": [
       "local_price_only|EPL|away|0.05|all"
     ],
-    "status": "pending",
-    "profit": null
+    "status": "lost",
+    "profit": -1.0
   },
   {
     "fixture_id": "understat:31247",
@@ -47,8 +47,8 @@
     "selected_members": [
       "local_price_only|EPL|home|0.02|all"
     ],
-    "status": "pending",
-    "profit": null
+    "status": "lost",
+    "profit": -1.0
   },
   {
     "fixture_id": "understat:31248",
@@ -81,8 +81,8 @@
     "selected_members": [
       "local_price_only|Ligue_1|home|0.02|all"
     ],
-    "status": "pending",
-    "profit": null
+    "status": "lost",
+    "profit": -1.0
   },
   {
     "fixture_id": "understat:32000",
