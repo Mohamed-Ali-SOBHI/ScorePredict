@@ -64,8 +64,8 @@
     "selected_members": [
       "local_price_only|EPL|away|0.05|all"
     ],
-    "status": "pending",
-    "profit": null
+    "status": "won",
+    "profit": 0.6000000000000001
   },
   {
     "fixture_id": "understat:31994",

@@ -1,6 +1,6 @@
 ﻿portfolio,label,committed_bets,settled_bets,pending_bets,pending_stake,settled_stake,wins,profit,roi,max_daily_drawdown,additional_profit,additional_settled_bets,profit_difference_vs_reference,drawdown_difference_vs_reference
 reference,Nuls Bundesliga seuls,0,0,0,0,0,0,0,,0,0,0,0,0
-bundesliga_plus15,Nuls Bundesliga + 15 ajouts (union sans doublon),7,5,2,2.0,5.0,0,-5.0,-1.0,5.0,-5.0,5,-5.0,5.0
+bundesliga_plus15,Nuls Bundesliga + 15 ajouts (union sans doublon),7,6,1,1.0,6.0,1,-4.4,-0.7333333333333334,4.4,-4.4,6,-4.4,4.4
 alone_residual_sport_recency|Ligue_1|draw|0.05|all,Ligue 1 · nul · residual_sport_recency · EV>5% · all seule,1,1,0,0,1.0,0,-1.0,-1.0,1.0,-1.0,1,-1.0,1.0
 reference_residual_sport_recency|Ligue_1|draw|0.05|all,Bundesliga + Ligue 1 · nul · residual_sport_recency · EV>5% · all,1,1,0,0,1.0,0,-1.0,-1.0,1.0,-1.0,1,-1.0,1.0
 alone_local_sport_only|EPL|draw|0.10|all,Premier League · nul · local_sport_only · EV>10% · all seule,0,0,0,0,0,0,0,,0,0,0,0,0
@@ -9,8 +9,8 @@ alone_local_price_only|EPL|home|0.02|all,Premier League · domicile · local_pri
 reference_local_price_only|EPL|home|0.02|all,Bundesliga + Premier League · domicile · local_price_only · EV>2% · all,1,1,0,0,1.0,0,-1.0,-1.0,1.0,-1.0,1,-1.0,1.0
 alone_native_mean|Ligue_1|home|0.05|all,Ligue 1 · domicile · native_mean · EV>5% · all seule,0,0,0,0,0,0,0,,0,0,0,0,0
 reference_native_mean|Ligue_1|home|0.05|all,Bundesliga + Ligue 1 · domicile · native_mean · EV>5% · all,0,0,0,0,0,0,0,,0,0,0,0,0
-alone_local_price_only|EPL|away|0.05|all,Premier League · extérieur · local_price_only · EV>5% · all seule,3,2,1,1.0,2.0,0,-2.0,-1.0,2.0,-2.0,2,-2.0,2.0
-reference_local_price_only|EPL|away|0.05|all,Bundesliga + Premier League · extérieur · local_price_only · EV>5% · all,3,2,1,1.0,2.0,0,-2.0,-1.0,2.0,-2.0,2,-2.0,2.0
+alone_local_price_only|EPL|away|0.05|all,Premier League · extérieur · local_price_only · EV>5% · all seule,3,3,0,0,3.0,1,-1.4,-0.4666666666666666,1.4,-1.4,3,-1.4,1.4
+reference_local_price_only|EPL|away|0.05|all,Bundesliga + Premier League · extérieur · local_price_only · EV>5% · all,3,3,0,0,3.0,1,-1.4,-0.4666666666666666,1.4,-1.4,3,-1.4,1.4
 alone_local_price_only|EPL|draw|0.05|all,Premier League · nul · local_price_only · EV>5% · all seule,0,0,0,0,0,0,0,,0,0,0,0,0
 reference_local_price_only|EPL|draw|0.05|all,Bundesliga + Premier League · nul · local_price_only · EV>5% · all,0,0,0,0,0,0,0,,0,0,0,0,0
 alone_residual_price|Bundesliga|draw|0.02|all,Bundesliga · nul · residual_price · EV>2% · all seule,0,0,0,0,0,0,0,,0,0,0,0,0
