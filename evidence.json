@@ -5564,6 +5564,46 @@
       },
       "previous_hash": "64b44e043dd9aee0e064dfac9106715fd0acc4472f77989031e478f89b6df3d0",
       "event_hash": "739014c1e7102e6e574531e3b352bf0a0797b4ba4ce2500a37a2ff17bddf3ec9"
+    },
+    {
+      "seq": 36,
+      "kind": "run",
+      "identity": "settlement:understat:32287",
+      "payload": {
+        "fixture_id": "understat:32287",
+        "forecast_sha256": "381c372bea62b5e544df94e84a70c1c8ad07165f4fc0e28e62acfea107698d9c",
+        "recorded_at_utc": "2026-10-18T16:08:34.713554+00:00",
+        "source_settlement": {
+          "away_goals": 1,
+          "forecast_sha256": "e817ab42105575081e16a11da8218ce168f4da93b19e8a07464ba2e784c073ac",
+          "home_goals": 2,
+          "outcome": "home",
+          "result_seen_at_utc": "2026-10-18T16:08:18.735585+00:00",
+          "source_snapshot_sha256": "6f3daea4349a3aab80e324e3b7b1e3e0b01cfd068fc77c05c7968e8f45ef4f5e",
+          "source_url": "https://understat.com/getLeagueData/Bundesliga/2026"
+        },
+        "type": "settlement"
+      },
+      "previous_hash": "739014c1e7102e6e574531e3b352bf0a0797b4ba4ce2500a37a2ff17bddf3ec9",
+      "event_hash": "c4c363c4be1d07b8767cb76d77a2fc9f9cbc57c50614f9953cfdf2040e5e65cd"
+    },
+    {
+      "seq": 37,
+      "kind": "run",
+      "identity": "collection:20261018T160834623039Z",
+      "payload": {
+        "finished_at_utc": "2026-10-18T16:08:34.720132+00:00",
+        "github_run_id": "39143537858",
+        "new_forecasts": 0,
+        "new_settlements": 1,
+        "run_id": "20261018T160834623039Z",
+        "source15_events_sha256": "fdb3774cf1ad649fba3ce1085111c4d3e5bf2f3c3f791ba86cf33e27dfca5aa0",
+        "source15_finished_at_utc": "2026-10-18T16:08:19.800339+00:00",
+        "state": "collected",
+        "type": "collection"
+      },
+      "previous_hash": "c4c363c4be1d07b8767cb76d77a2fc9f9cbc57c50614f9953cfdf2040e5e65cd",
+      "event_hash": "1e48e1a19e8701145154677db4177eb57874e8fd05540092db3a5ff26bb5cf17"
     }
   ]
 }
