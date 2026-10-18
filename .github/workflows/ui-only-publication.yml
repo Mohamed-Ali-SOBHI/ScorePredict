@@ -28,6 +28,7 @@ jobs:
           node --check production/static/assets/app.js
           node tests/test_dashboard_client.cjs
           python3 -m unittest tests.test_observation_export
+          python3 -m unittest tests.test_publication_policy
       - name: Conserver exactement les donnees actuellement en ligne
         run: |
           mkdir -p "${RUNNER_TEMP}/published-data"
@@ -44,6 +45,10 @@ jobs:
           cmp "${RUNNER_TEMP}/published-data/dashboard.json" production/static/data/dashboard.json
           cmp "${RUNNER_TEMP}/published-data/explorer.json" production/static/data/explorer.json
           sha256sum production/static/data/dashboard.json production/static/data/explorer.json
+      - name: Appliquer la version de publication Bundesliga en conservant le journal
+        run: |
+          python3 -m inference.publication_policy
+          python3 -m inference.publication_policy --check
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:

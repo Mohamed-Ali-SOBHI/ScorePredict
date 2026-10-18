@@ -142,3 +142,35 @@ les lignes individuelles ne s'additionnent pas.
 
 Ce mode local ne rend pas privés les journaux techniques déjà présents dans le
 repository GitHub public et son historique.
+
+## Publication Bundesliga et observation Italie/Angleterre — 18 octobre 2026
+
+La version de publication `bundesliga_only_2026_10_18` conserve les modèles et
+filtres scellés du 5 septembre. Elle restreint les nouvelles recommandations
+publiques aux deux règles de nul Bundesliga. L'identité du portefeuille de
+modèles et son journal original ne sont pas renommés. Cette restriction a été
+choisie après consultation des résultats 2026, sans nouvelle validation indépendante.
+
+L'ancien pari Milan–Atalanta reste visible dans l'historique, marqué ancien pari
+publié, et continue d'être réglé à sa cote d'origine. Il est exclu des cartes de
+recommandations actuelles. Les bilans du site portent sur tous les paris déjà
+publiés, anciennes versions comprises ; ils ne sont pas remis à zéro.
+
+Les prochains signaux Serie A/EPL sont enregistrés avant match dans le portefeuille
+Supabase distinct `observation_italy_epl_2026_10_18`. Les cotes originales et les
+résultats terminaux restent immuables. Les montants EUR de ce suivi sont nuls ;
+les gains sont exprimés en unités virtuelles. Les données en clair se trouvent
+uniquement dans le dossier de travail `inference/output/private_observation`,
+jamais dans `production/static`. Les artefacts Actions ne contiennent que le
+rapport chiffré RSA-OAEP-SHA256 + AES-256-GCM. Les workflows ne possèdent que la
+clé publique `production/observation_recipient.pem`.
+
+La clé privée est conservée hors dépôt dans
+`../suivi_prive_9/.private/observation_key.pem`. Ne pas la publier ni la supprimer :
+elle est nécessaire pour lire les rapports archivés. La page personnelle la
+charge localement via Node ; elle est indépendante des secrets Supabase.
+`python -m production.observation_personal --open` actualise aussi ce suivi privé.
+
+Le choix d'une stratégie à publier doit distinguer le suivi enregistré avant
+match des simulations ayant servi à sa sélection. Au dernier journal des neuf
+vérifié le 18 octobre à 11:42 UTC, aucun de leurs paris n'était encore réglé.

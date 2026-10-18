@@ -87,6 +87,8 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw "La syntaxe du dashboard est invalide." }
           node tests/test_dashboard_client.cjs
           if ($LASTEXITCODE -ne 0) { throw "Le filtrage et le suivi du dashboard sont invalides." }
+          node tests/test_private_observation_crypto.cjs
+          if ($LASTEXITCODE -ne 0) { throw "Le chiffrement du suivi prive est invalide." }
           node --check production/static/assets/landing.js
           if ($LASTEXITCODE -ne 0) { throw "La syntaxe de la landing page est invalide." }
 
@@ -95,6 +97,17 @@ jobs:
         run: |
           $pythonExe = (Get-Command python).Source
           ./production/publish_dashboard.ps1 -PythonExe $pythonExe
+
+      - name: Chiffrer le suivi personnel Italie et Angleterre
+        run: node production/private_observation_crypto.cjs encrypt --input inference/output/private_observation/report.json --public-key production/observation_recipient.pem --output inference/output/private_observation/private-observation.encrypted.json
+
+      - name: Conserver uniquement le suivi personnel chiffre
+        uses: actions/upload-artifact@v5
+        with:
+          name: private-italy-epl-encrypted
+          path: inference/output/private_observation/private-observation.encrypted.json
+          if-no-files-found: error
+          retention-days: 90
 
       - name: Evaluer les challengers en mode fantome
         id: shadows
@@ -122,6 +135,8 @@ jobs:
           if (-not $dashboard.quality.teamRegistryReady) { throw "La liste des clubs est incomplete." }
           if ($dashboard.meta.activePortfolio -ne $expectedPortfolio) { throw "Le snapshot ne correspond pas au portefeuille de production." }
           if ($dashboard.meta.strategyPolicy -ne "unweighted__pooled_cautious") { throw "La politique publiee ne correspond pas au filtre commun approuve." }
+          python -m inference.publication_policy --check
+          if ($LASTEXITCODE -ne 0) { throw "Une strategie privee serait publiee." }
 
 
       - name: Preparer GitHub Pages

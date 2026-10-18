@@ -461,6 +461,9 @@ def update_public_snapshot(
         }
     )
     output.setdefault("meta", {})["generatedAt"] = generated_at.isoformat()
+    if output['meta'].get('publicationVersion'):
+        from inference.publication_policy import apply_publication_policy
+        output = apply_publication_policy(output)
     return output
 
 

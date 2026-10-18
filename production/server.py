@@ -10,6 +10,7 @@ from typing import Callable, Iterable
 from urllib.parse import parse_qs
 
 from production.dashboard import DashboardService
+from inference.publication_policy import apply_publication_policy
 
 
 STATIC_ROOT = Path(__file__).resolve().parent / "static"
@@ -90,7 +91,7 @@ def application(environ: dict, start_response: Callable) -> Iterable[bytes]:
         return _response(
             start_response,
             "200 OK",
-            _json_bytes(SERVICE.get_dashboard(force=force)),
+            _json_bytes(apply_publication_policy(SERVICE.get_dashboard(force=force))),
             "application/json; charset=utf-8",
             cache_control="private, max-age=15",
             environ=environ,

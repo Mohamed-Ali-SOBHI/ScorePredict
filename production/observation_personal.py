@@ -52,7 +52,29 @@ def report_table(data, period):
             + ''.join(rows) + '</tbody></table></div>')
 
 
-def render(data):
+def private_section(data):
+    heading='<h2>Italie et Angleterre · observation privée</h2>'
+    if not data or data.get('status')!='ready':
+        return heading+'<p class="note">La dernière collecte privée ne peut pas être vérifiée.</p>'
+    rows=''.join(metric_row(escape(s['code']+' · '+s['label']),s['metrics']) for s in data['strategies'])
+    result=(heading+'<p class="note">Anciennes règles du site, suivies séparément depuis le 18/10/2026. '
+        +'Ces résultats ne sont pas additionnés au portefeuille des neuf.</p>'
+        +'<div class="scroll"><table><thead><tr><th>Stratégie</th><th>Réglés</th><th>Gain net</th>'
+        +'<th>Rendement</th><th>En attente</th></tr></thead><tbody>'+rows+'</tbody></table></div>')
+    codes={s['id']:s['code'] for s in data['strategies']}
+    tickets=[]
+    for t in sorted(data['tickets'],key=lambda r:r['date'],reverse=True):
+        status={'won':'Gagné','lost':'Perdu','void':'Annulé'}.get(t['status'],'En attente')
+        tickets.append('<tr><th>'+escape(t['home']+' – '+t['away'])+'<small>'+escape(date(t['date']))+'</small></th>'
+            +'<td>'+escape(codes.get(t['strategy'],t['strategy']))+'</td><td>'+f'{t["odds"]:.2f}'+'</td>'
+            +'<td>'+status+'</td><td>'+number(t['profit'],units=True)+'</td></tr>')
+    result+='<p class="note">Données du '+escape(date(data['updatedAt']))+' (heure de Paris).</p>'
+    if tickets:
+        result+='<div class="scroll"><table><thead><tr><th>Match · nul</th><th>Stratégie</th><th>Cote</th><th>Statut</th><th>Gain</th></tr></thead><tbody>'+''.join(tickets)+'</tbody></table></div>'
+    return result
+
+
+def render(data,private=None):
     codes = {s['id']: s['code'] for s in data['strategies']}
     codes['Bundesliga_anchor'] = 'Nuls Bundesliga'
     sections = []
@@ -96,14 +118,14 @@ def render(data):
         ticket_area = '<p>Liste actuelle non vérifiée.</p>'
     return TEMPLATE.replace('@@STAMP@@', escape(date(stamp))).replace(
         '@@NOTICE@@', notice).replace('@@SECTIONS@@', ''.join(sections)).replace(
-        '@@TICKETS@@', ticket_area)
+        '@@TICKETS@@', ticket_area).replace('@@PRIVATE@@',private_section(private))
 
 
 TEMPLATE = '''<!doctype html>
 <html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; base-uri 'none'; form-action 'none'">
-<title>Mon suivi · 9 stratégies</title>
+<title>Mon suivi · stratégies en observation</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f7f8f5;color:#202c26;font:15px/1.5 system-ui,sans-serif}
 main{max-width:1000px;margin:auto;padding:40px 24px}h1{font-size:30px;letter-spacing:-1px;margin:4px 0}h2{font-size:21px;margin:0}
@@ -115,7 +137,7 @@ th,td{padding:13px 12px;border-bottom:1px solid #e5eae4;white-space:nowrap}th:fi
 .total{background:#e8f1e9;font-weight:650}.total th{font-weight:650}.note{margin:12px 0 26px}.notice{border-left:3px solid #98733b;padding:10px 15px;background:#fff8e9}footer{font-size:12px;color:#617068;margin-top:32px}
 [hidden]{display:none!important}@media(max-width:600px){main{padding:24px 16px}.toolbar{align-items:flex-start;flex-direction:column;gap:8px}h1{font-size:26px}th,td{padding:11px 9px}th:first-child{min-width:215px}}
 </style></head><body><main>
-<header><span class="eyebrow">Suivi personnel · fichier local</span><h1>Mes 9 stratégies</h1>
+<header><span class="eyebrow">Suivi personnel · fichier local</span><h1>Mes stratégies en observation</h1>
 <p class="note">Données du @@STAMP@@ (heure de Paris).<br>Pour actualiser : ouvrir « Actualiser le suivi.cmd ».</p></header>
 @@NOTICE@@
 <div class="toolbar"><h2>Bilans</h2><label>Période <select id="period">
@@ -124,6 +146,7 @@ th,td{padding:13px 12px;border-bottom:1px solid #e5eae4;white-space:nowrap}th:fi
 @@SECTIONS@@
 <div class="toolbar"><h2>Paris enregistrés</h2><label>Afficher <select id="filter"><option value="pending">En attente</option><option value="settled">Réglés</option><option value="all">Tous</option></select></label></div>
 @@TICKETS@@
+<section style="margin-top:36px">@@PRIVATE@@</section>
 <footer>1 unité virtuelle par pari. Un seul pari par match dans le total : priorité aux nuls Bundesliga, puis à l’ordre figé des stratégies. Les lignes individuelles ne s’additionnent pas.</footer>
 </main><script>
 const period=document.querySelector('#period');
@@ -141,9 +164,11 @@ def main():
     args = parser.parse_args()
     ex.require_private_output(args.output)
     data = ex.snapshot()
+    from production.private_observation_personal import load_latest
+    private = load_latest()
     args.output.parent.mkdir(parents=True, exist_ok=True)
     temp = args.output.with_suffix('.html.tmp')
-    temp.write_text(render(data), encoding='utf8')
+    temp.write_text(render(data,private), encoding='utf8')
     os.replace(temp, args.output)
     print('Suivi personnel :', args.output, '(' + data['status'] + ')')
     if args.open:

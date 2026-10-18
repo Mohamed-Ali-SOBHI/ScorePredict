@@ -36,6 +36,13 @@ try {
         --status-output $storeStatus
     if ($LASTEXITCODE -ne 0) { throw "La lecture de la mémoire des prévisions a échoué ($LASTEXITCODE)." }
 
+    $publicPortfolio = (& $PythonExe -c "from inference.portfolio_presets import DEFAULT_PORTFOLIO_NAME; print(DEFAULT_PORTFOLIO_NAME)").Trim()
+    $privateEnabled = $Portfolio -eq $publicPortfolio
+    if ($privateEnabled) {
+        & $PythonExe -m inference.private_observation pull
+        if ($LASTEXITCODE -ne 0) { throw "La lecture du suivi prive Italie/Angleterre a echoue." }
+    }
+
     $runnerArgs = @(
         "-ExecutionPolicy", "Bypass",
         "-File", ".\inference\run_weekend_predictions.ps1",
@@ -51,6 +58,11 @@ try {
 
     powershell @runnerArgs
     if ($LASTEXITCODE -ne 0) { throw "Le calcul des prédictions a échoué ($LASTEXITCODE)." }
+
+    if ($privateEnabled) {
+        & $PythonExe -m inference.private_observation evaluate-push
+        if ($LASTEXITCODE -ne 0) { throw "La sauvegarde du suivi prive Italie/Angleterre a echoue." }
+    }
 
     & $PythonExe .\inference\evaluate_live_portfolio.py `
         --ledger $ledger `

@@ -116,3 +116,9 @@ assert.equal(evaluate('seasonResult.activity.length'),4);
 assert.equal(evaluate('currentSeasonData({...seasonFixture,activity:[]}).performance.metrics.roi'),null);
 assert.equal(evaluate('currentSeasonData({...seasonFixture,activity:[{...seasonFixture.activity[1],profitUnits:null}]}).performance.metrics.roi'),null);
 console.log('Current season: 8 assertions passed.');
+
+evaluate(`lifecycle.activity=[{...choice,historicalOnly:true,status:'pending'}]; lifecycle.predictions=[];`);
+assert.equal(evaluate('matchCards(lifecycle,clock+3600000).length'),0);
+evaluate(`lifecycle.predictions=[{...choice,historicalOnly:true}];`);
+assert.equal(evaluate('futurePublishedPredictions(lifecycle,clock-1).length'),0);
+console.log('Publication policy: old Italian ticket remains history-only.');

@@ -790,6 +790,8 @@ def write_snapshot(service: DashboardService, output: Path | None = None) -> Pat
     target = output or service.paths.snapshot
     target.parent.mkdir(parents=True, exist_ok=True)
     payload = service._build_payload(prefer_snapshot=False)
+    from inference.publication_policy import apply_publication_policy
+    payload = apply_publication_policy(payload)
     temporary = target.with_suffix(target.suffix + ".tmp")
     temporary.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     temporary.replace(target)

@@ -305,6 +305,11 @@ def main() -> None:
                        resolve_path(args.output_all).with_name("upcoming_input_audit.json"))
     scored = score_strategy_rows(future_df, bundles, strategies)
     explorer_rows = score_explorer_rows(future_df, bundles, strategies)
+    if args.portfolio == PRODUCTION_PORTFOLIO_NAME:
+        from inference.private_observation import record_forecasts
+        from inference.publication_policy import PUBLIC_LEAGUES
+        record_forecasts(scored)
+        scored = scored.loc[scored['league'].isin(PUBLIC_LEAGUES)].copy()
     bets = dedupe_recommended_bets(scored)
     bets = assign_flat_stakes(
         bets,

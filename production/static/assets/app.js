@@ -30,7 +30,7 @@ function publicationIsFresh(value) {
 function futurePublishedPredictions(data, now = Date.now()) {
   return data.predictions.filter((prediction) => {
     const kickoff = new Date(prediction.date).getTime();
-    return Number.isFinite(kickoff) && kickoff > now && inPublicWindow(prediction.date, now);
+    return prediction.historicalOnly !== true && Number.isFinite(kickoff) && kickoff > now && inPublicWindow(prediction.date, now);
   });
 }
 
@@ -44,7 +44,7 @@ function matchCards(data, now = Date.now()) {
   // The ledger takes over after kickoff, even when the daily export no longer has the prediction.
   for (const row of [...data.predictions, ...(data.activity || [])]) {
     const kickoff = new Date(row.date).getTime();
-    if (row.recommended !== true || !Number.isFinite(kickoff) || kickoff > now) continue;
+    if (row.recommended !== true || row.historicalOnly === true || !Number.isFinite(kickoff) || kickoff > now) continue;
     const previous = cards.get(key(row));
     if (previous && terminalResult(previous) && !terminalResult(row)) continue;
     cards.set(key(row), {...previous, ...row, started: true});
@@ -277,7 +277,7 @@ function resultMarkup(row, index = 0) {
     <td class="league-cell"><span>${escapeHtml(league)}</span></td>
     <th class="encounter-cell" scope="row"><span class="mobile-meta">${escapeHtml(league)} · ${escapeHtml(formatDate(row.date, true))}</span><span class="encounter-name">${escapeHtml(row.homeTeam)} <span class="versus">vs</span> ${escapeHtml(row.awayTeam)}</span><span class="mobile-choice">${escapeHtml(choice)}</span></th>
     <td class="date-cell"><time datetime="${escapeHtml(row.date || "")}">${escapeHtml(formatDate(row.date, true))}</time></td>
-    <td class="choice-cell">${escapeHtml(choice)}</td>
+    <td class="choice-cell">${escapeHtml(choice)}${row.historicalOnly ? '<small>Ancien pari publié</small>' : ''}</td>
     <td class="odds-cell">${odds === null ? "—" : decimal.format(odds)}</td>
     <td class="verdict-cell"><div class="result-verdict">${row.actualScore ? `<strong class="final-score">${escapeHtml(row.actualScore)}</strong>` : ""}<b class="${row.status === "won" ? "won" : row.status === "lost" ? "lost" : ""}">${escapeHtml(resultLabel(row.status, row.date))}</b></div></td>
     <td class="action-cell"><button class="detail-toggle" type="button" aria-expanded="false" aria-controls="${detailId}" data-history-detail="${detailId}"><span aria-hidden="true">+</span><span class="sr-only">Détails du pari ${escapeHtml(row.homeTeam)} contre ${escapeHtml(row.awayTeam)}</span></button></td>
@@ -767,7 +767,7 @@ function renderDashboard(data) {
     data = currentSeasonData(data);
     const seasonLabel = `${data.meta.currentSeason}/${String(data.meta.currentSeason+1).slice(-2)}`;
     setText('#season-scope', `Saison ${seasonLabel} · uniquement les paris réellement publiés et leurs résultats confirmés`);
-    setText('#tracking-scope', `Saison ${seasonLabel} · stratégie actuellement publiée`);
+    setText('#tracking-scope', data.meta.publicationVersion ? `Saison ${seasonLabel} · tous les paris publiés, anciennes versions comprises` : `Saison ${seasonLabel} · stratégie actuellement publiée`);
     const ready = data.meta.status === "ready";
     const fresh = publicationIsFresh(data.meta.generatedAt);
     const futurePredictions = matchCards(data);

@@ -39,6 +39,10 @@ jobs:
           cache: pip
           cache-dependency-path: requirements-results.txt
 
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+
       - name: Installer les dependances legeres
         run: python -m pip install -r requirements-results.txt
 
@@ -86,6 +90,20 @@ jobs:
           echo "changed=${changed}" >> "$GITHUB_OUTPUT"
           cat inference/output/result_monitor_status.json
 
+      - name: Regler le suivi prive sans publier ses decisions
+        run: |
+          python -m inference.private_observation pull
+          python -m inference.private_observation settle
+          node production/private_observation_crypto.cjs encrypt --input inference/output/private_observation/report.json --public-key production/observation_recipient.pem --output inference/output/private_observation/private-observation.encrypted.json
+
+      - name: Conserver uniquement le suivi personnel chiffre
+        uses: actions/upload-artifact@v5
+        with:
+          name: private-italy-epl-encrypted
+          path: inference/output/private_observation/private-observation.encrypted.json
+          if-no-files-found: error
+          retention-days: 90
+
       - name: Enregistrer le resultat dans Supabase
         if: steps.result.outputs.changed == 'true'
         run: |
@@ -98,6 +116,12 @@ jobs:
             --portfolio "$(python -c 'from inference.portfolio_presets import DEFAULT_PORTFOLIO_NAME; print(DEFAULT_PORTFOLIO_NAME)')" \
             --status-output inference/output/prediction_store_status.json
 
+
+      - name: Verifier le perimetre public Bundesliga
+        if: steps.result.outputs.changed == 'true'
+        run: |
+          python -m inference.publication_policy
+          python -m inference.publication_policy --check
 
       - name: Preparer GitHub Pages
         if: steps.result.outputs.changed == 'true'
