@@ -205,3 +205,26 @@ fixe de 1 unité est comptée par rencontre ; la valeur indicative de l’unité
 reste celle de la configuration, sans réduction automatique les jours chargés.
 Les performances passées ont servi à choisir l’ajout anglais : le suivi public
 qui commence maintenant doit être distingué de cette sélection exploratoire.
+
+## Correctif du règlement Understat — 18 octobre 2026
+
+Les deux workflows d’observation passent par
+`python -m production.paper_settlement_runtime --experiment paper_simulation`
+(ou `paper_positive15`). Cet adaptateur versionné ne modifie aucun fichier du
+protocole scellé. Son empreinte, les protocoles sources acceptés et les fuseaux
+IANA autorisés sont consignés dans `production/paper_settlement_runtime_v1.json`.
+
+Pour chaque résultat, il vérifie l’empreinte de la capture Understat antérieure
+au match et rapproche son heure de l’horaire UTC vérifié à cette époque. Il
+établit ainsi si le champ sans fuseau était en UTC ou dans l’heure locale du
+championnat. Seule la copie des données transmise au règlement est normalisée ;
+les données brutes, les caractéristiques, les probabilités et les paris figés
+restent inchangés. Les véritables déplacements de plus de 30 minutes, les
+changements d’équipes, les révisions de score et les heures ambiguës restent
+bloqués. Un ancrage manquant ou altéré ne permet jamais un règlement par défaut.
+
+Chaque passage ajoute une trace `run` au journal existant et une capture
+`settlement_runtime.json` avec l’empreinte du correctif et les conversions
+appliquées. Les événements antérieurs restent dans la même chaîne. Le premier
+cas corrigé est Lorient–Monaco : 15 h 15 à Paris = 13 h 15 UTC le 18 octobre,
+comme dans les captures avant match. Aucun modèle n’est réentraîné.

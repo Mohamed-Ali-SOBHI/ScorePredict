@@ -9,3 +9,5 @@ paper_positive15/test_fixtures/** -whitespace
 paper_compare9/** -text whitespace=cr-at-eol
 production/english_away_export.py -text whitespace=cr-at-eol
 production/english_away_registration.json -text whitespace=cr-at-eol
+production/paper_settlement_runtime.py -text whitespace=cr-at-eol
+production/paper_settlement_runtime_v1.json -text whitespace=cr-at-eol

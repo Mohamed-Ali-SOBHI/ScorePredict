@@ -1,0 +1,18 @@
+{
+  "version": "understat_settlement_timezone_v1_2026_10_18",
+  "registered_at_utc": "2026-10-18T21:11:18.992589+00:00",
+  "scope": "Settlement timestamp normalization only. Sealed models, features, filters, stakes, forecasts, registrations and existing events remain unchanged.",
+  "rule": "Infer UTC or league IANA timezone from hash-verified pre-match source and verified kickoff. Quarantine missing/ambiguous anchors and all actual kickoff changes beyond the original 30-minute tolerance.",
+  "timezone_candidates": {
+    "Ligue_1": "Europe/Paris",
+    "EPL": "Europe/London",
+    "Bundesliga": "Europe/Berlin",
+    "Serie_A": "Europe/Rome",
+    "La_liga": "Europe/Madrid"
+  },
+  "source_registration_sha256": {
+    "paper_simulation": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+    "paper_positive15": "2d59c654696808fcdcf0601e6019c42db719bd2c23b9de77ec44583fd7ba0438"
+  },
+  "runtime_sha256": "1ccd2e450e0bf120a545b249fcc0be593939a7ed283e5727bb174e46cc1e77f7"
+}
