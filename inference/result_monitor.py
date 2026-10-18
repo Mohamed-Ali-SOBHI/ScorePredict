@@ -119,6 +119,8 @@ def due_prediction_mask(
     minimum_elapsed_minutes: int,
     portfolio_name: str,
 ) -> pd.Series:
+    if ledger.empty:
+        return pd.Series(False,index=ledger.index,dtype=bool)
     dates = ledger.apply(lambda row: paris_datetime(ledger_kickoff(row)), axis=1)
     statuses = ledger.get("result_status", pd.Series("pending", index=ledger.index)).astype(str).str.lower()
     recommended = ledger.get("recommended", pd.Series(False, index=ledger.index)).map(_truthy)

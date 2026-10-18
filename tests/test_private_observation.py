@@ -56,5 +56,15 @@ class PrivateObservationTests(unittest.TestCase):
         self.assertEqual(report['tickets'],[])
         self.assertTrue(all(s['metrics']['roi'] is None for s in report['strategies']))
 
+    def test_settlement_only_run_with_no_private_bet_keeps_status_unverified(self):
+        private.record_forecasts(pd.DataFrame())
+        (self.state/'last_collection.json').unlink()
+        with patch('sys.argv',['private_observation','settle']),patch('inference.supabase_prediction_store.push') as push:
+            private.main()
+        push.assert_called_once()
+        report=json.loads(private.REPORT.read_text(encoding='utf8'))
+        self.assertEqual(report['status'],'unavailable')
+        self.assertEqual(report['tickets'],[])
+
 
 if __name__=='__main__':unittest.main()

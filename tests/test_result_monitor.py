@@ -19,6 +19,16 @@ from inference.result_monitor import (
 
 
 class ResultMonitorTests(unittest.TestCase):
+    def test_empty_portfolio_requires_no_network_lookup_or_settlement(self):
+        ledger=self._ledger().iloc[0:0].copy()
+        with patch('inference.result_monitor.fetch_scoreboard') as primary,patch('inference.result_monitor.get_league_data') as backup:
+            results,warnings=collect_results_for_due_rows(ledger,now=pd.Timestamp('2026-10-18 16:00'),
+                minimum_elapsed_minutes=105,portfolio_name=DEFAULT_PORTFOLIO_NAME,timeout_seconds=10)
+        primary.assert_not_called();backup.assert_not_called()
+        self.assertTrue(results.empty);self.assertEqual(warnings,[])
+        updated,counts=settle_due_predictions(ledger,results,now=pd.Timestamp('2026-10-18 16:00'))
+        self.assertTrue(updated.empty);self.assertEqual(counts['settled'],0)
+
     def test_daily_lookup_settles_only_returned_final_results(self):
         ledger = pd.concat([self._ledger(), self._ledger()], ignore_index=True)
         ledger.loc[1, "team_name"] = "Missing United"
