@@ -5283,6 +5283,45 @@
       },
       "previous_hash": "c77c36bcfeaa4d74da308820abf6533863089f1902bb98c6998f0586e20dccb0",
       "event_hash": "a69e6039f157b8f9aab870dcfa2e1c8018d89fe4db6407a54632919ea7bde915"
+    },
+    {
+      "seq": 37,
+      "kind": "settlement",
+      "identity": "understat:32287",
+      "payload": {
+        "away_goals": 1,
+        "forecast_sha256": "e817ab42105575081e16a11da8218ce168f4da93b19e8a07464ba2e784c073ac",
+        "home_goals": 2,
+        "outcome": "home",
+        "result_seen_at_utc": "2026-10-18T16:08:18.735585+00:00",
+        "source_snapshot_sha256": "6f3daea4349a3aab80e324e3b7b1e3e0b01cfd068fc77c05c7968e8f45ef4f5e",
+        "source_url": "https://understat.com/getLeagueData/Bundesliga/2026"
+      },
+      "previous_hash": "a69e6039f157b8f9aab870dcfa2e1c8018d89fe4db6407a54632919ea7bde915",
+      "event_hash": "4ad5984e89b5b649d3025343c127eeae3d4e8b9a4fe4b8b5f464fe607fc68e8c"
+    },
+    {
+      "seq": 38,
+      "kind": "run",
+      "identity": "20261018T160816662051Z",
+      "payload": {
+        "eligible_new_candidates": 0,
+        "finished_at_utc": "2026-10-18T16:08:19.800339+00:00",
+        "github_run_attempt": "1",
+        "github_run_id": "39143537858",
+        "new_forecasts": 0,
+        "new_settlements": 1,
+        "production_changed": false,
+        "production_run_id": 39139874228,
+        "production_snapshot_age_hours": 0.7132778669444445,
+        "rejected_rows": 44,
+        "run_id": "20261018T160816662051Z",
+        "settlement_issues": [],
+        "started_at_utc": "2026-10-18T16:08:16.662051+00:00",
+        "state": "collected"
+      },
+      "previous_hash": "4ad5984e89b5b649d3025343c127eeae3d4e8b9a4fe4b8b5f464fe607fc68e8c",
+      "event_hash": "dbcca06fea0957ec1a40a9c87f5942857d5bc0f38021e427bd3c8739ec1b6b29"
     }
   ]
 }
