@@ -139,6 +139,11 @@ Les simulations historiques (`observation_history.json`, arrêtées au 17 octobr
 restent séparées du suivi prospectif démarré le 18 octobre, heure de Paris.
 Une seule issue et une unité virtuelle par match dans le total avec Bundesliga ;
 les lignes individuelles ne s'additionnent pas.
+La référence des journaux des neuf/quinze est `Bundesliga_anchor` (`native_mean`,
+seuil 2 % après décote de prix). Elle diffère des deux règles du modèle public
+scellé (minimum multiclasses/binaire, seuil commun 10 % et écart 4 points).
+Le bilan de ce panier de recherche ne doit pas être présenté comme le bilan
+de la version publique additionnée aux neuf. Le protocole figé reste inchangé.
 
 Ce mode local ne rend pas privés les journaux techniques déjà présents dans le
 repository GitHub public et son historique.

@@ -39,7 +39,7 @@ def report_table(data, period):
     metrics = data['live'] if period == 'live' else data['history']['periods'][period]
     if metrics is None:
         return '<p role="status">Suivi indisponible : aucun bilan actuel vérifié.</p>'
-    rows = [metric_row('Nuls Bundesliga', metrics['baseline'])]
+    rows = [metric_row('Nuls Bundesliga<small>Référence de recherche</small>', metrics['baseline'])]
     for strategy in data['strategies']:
         detail = strategy['model']
         label = (f'{escape(strategy["code"])} · {escape(strategy["label"])}'
@@ -89,7 +89,7 @@ def render(data,private=None):
             if period == 'season':
                 note += ' Bilan arrêté au 17/10/2026.'
         sections.append(f'<section data-period="{period}"{hidden}>{report_table(data, period)}'
-                        f'<p class="note">{note}</p></section>')
+                        f'<p class="note">{note} Le comparateur Bundesliga est celui de l’étude, avec un modèle différent de celui du site.</p></section>')
 
     rows = []
     for ticket in sorted(data['tickets'], key=lambda t: (t['kickoff_utc'], t['fixture_id'])):
