@@ -91,12 +91,16 @@ jobs:
           cat inference/output/result_monitor_status.json
 
       - name: Regler le suivi prive sans publier ses decisions
+        id: private_observation
         run: |
           python -m inference.private_observation pull
           python -m inference.private_observation settle
           node production/private_observation_crypto.cjs encrypt --input inference/output/private_observation/report.json --public-key production/observation_recipient.pem --output inference/output/private_observation/private-observation.encrypted.json
+          verified=$(python -c "import json; print(str(json.load(open('inference/output/private_observation/report.json'))['status'] == 'ready').lower())")
+          echo "verified=${verified}" >> "$GITHUB_OUTPUT"
 
       - name: Conserver uniquement le suivi personnel chiffre
+        if: steps.private_observation.outputs.verified == 'true'
         uses: actions/upload-artifact@v5
         with:
           name: private-italy-epl-encrypted
