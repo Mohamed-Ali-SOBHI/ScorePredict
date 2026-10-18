@@ -27,7 +27,7 @@ LEAGUE_LABELS = {
 OUTCOME_LABELS = {
     "draw": "Match nul",
     "home_win": "Victoire domicile",
-    "away_win": "Victoire extérieur",
+    "away_win": "Victoire extérieure",
 }
 
 PORTFOLIO_LABELS = {
