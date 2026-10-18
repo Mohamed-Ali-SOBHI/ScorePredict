@@ -1,0 +1,47 @@
+{
+  "strategy_id": "epl_away_logit_strict_2026_10_18",
+  "registered_at_utc": "2026-10-18T14:53:41.762509+00:00",
+  "private": true,
+  "stake_units": 1,
+  "model_train_max_season": 2024,
+  "rule": {
+    "league": "EPL",
+    "model": "logit_sports",
+    "outcome": "away",
+    "odds_min": 2,
+    "odds_max": 6,
+    "ev_threshold": 0.1,
+    "price_haircut": 0.02
+  },
+  "source_branch": "simulation-state",
+  "source_commit_at_registration": "e1051fe3cf91603118b4f554f0008ce3ee9e82eb",
+  "source_registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+  "source_prefix": {
+    "event_count": 85,
+    "events_sha256": "e1447d35acad55e158ec5e6887ed5a2506077faf8bc011b63a494b9d1d6bd635"
+  },
+  "observer_sha256": "e65b39fd72bd194cfe3d2a1fb9ba3a1f69ba34d0141bbb555fcd063c7653774c",
+  "selection": "Only first sealed source forecasts recorded after registration, never enroll an earlier forecast even for an upcoming fixture.",
+  "deduplication": "One1u bet per canonical source fixture. Public Bundesliga reference first, then E02; duplicate or conflicting outcomes never double a stake.",
+  "retrospective_history": {
+    "from": "2026-08-15",
+    "through": "2026-10-17",
+    "standalone": {
+      "bets": 12,
+      "profit": 7.8,
+      "roi": 0.65
+    },
+    "with_public_bundesliga": {
+      "bets": 22,
+      "profit": 10.5,
+      "roi": 0.4772727272727273
+    },
+    "not_prospective": true
+  },
+  "limitations": [
+    "Derived deterministically from preregistered filters and source probabilities actually recorded before kickoff, not real-money execution.",
+    "Historical simulation used to discover this filter is not fresh validation.",
+    "Provider quotes are not guaranteed bookmaker-executable; day-close drawdown does not cover unsettled capital."
+  ],
+  "public_recommendations_changed": false
+}

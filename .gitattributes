@@ -7,3 +7,5 @@ paper_positive15/models/** -whitespace
 paper_positive15/*.gz -whitespace
 paper_positive15/test_fixtures/** -whitespace
 paper_compare9/** -text whitespace=cr-at-eol
+production/english_away_export.py -text whitespace=cr-at-eol
+production/english_away_registration.json -text whitespace=cr-at-eol

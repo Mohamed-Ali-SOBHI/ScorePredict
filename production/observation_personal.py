@@ -74,7 +74,39 @@ def private_section(data):
     return result
 
 
-def render(data,private=None):
+def english_section(data):
+    heading='<h2>E02 · Angleterre extérieur · filtre strict</h2>'
+    if not data or data.get('status')=='unavailable':
+        return heading+'<p class="note">La dernière collecte ne peut pas être vérifiée.</p>'
+    result=(heading+'<p class="note">Observation privée depuis le '+escape(date(data['registeredAt']))
+        +'. Cotes 2 à 6 incluses ; valeur attendue supérieure à 10 % après décote de 2 %. '
+        +'1 unité virtuelle par pari. La simulation passée reste séparée.</p>')
+    if data['status']=='awaiting_capture':
+        result+='<p class="note">En attente de la première collecte après activation. Aucun ancien pari repris.</p>'
+    elif data['status']=='attention':
+        result+='<p class="notice">Dernière collecte incomplète ; bilan du journal vérifié.</p>'
+    result+='<div class="scroll"><table><thead><tr><th>Depuis l’activation</th><th>Réglés</th><th>Gain net</th><th>Rendement</th><th>En attente</th></tr></thead><tbody>'
+    result+=metric_row('Angleterre extérieur · E02',data['metrics'])
+    result+=metric_row('Nuls Bundesliga<small>Référence publique observée sur les premières captures après activation</small>',data['baseline'])
+    result+=metric_row('Total Bundesliga + E02 · sans doublon',data['union'],total=True)
+    result+='</tbody></table></div>'
+    history=data['history']
+    standalone=history['standalone'];combined=history['with_public_bundesliga']
+    result+='<details><summary>Simulation du 15 août au 17 octobre · historique séparé</summary><p class="note">Angleterre seule : '+str(standalone['bets'])+' paris, '+number(standalone['profit'],units=True)+', '+number(standalone['roi'],percent=True)+'. Avec les nuls Bundesliga actuels, sans doublons : '+str(combined['bets'])+' paris, '+number(combined['profit'],units=True)+', '+number(combined['roi'],percent=True)+'. Ces paris ne sont pas inclus dans le suivi depuis activation.</p></details>'
+    rows=[]
+    for ticket in sorted(data['tickets'],key=lambda r:r['date'],reverse=True):
+        label={'pending':'En attente','won':'Gagné','lost':'Perdu'}[ticket['status']]
+        rows.append('<tr><th>'+escape(ticket['home']+' – '+ticket['away'])+'<small>'+escape(date(ticket['date']))+'</small></th>'
+            +'<td>Extérieur</td><td>'+f'{ticket["odds"]:.2f}'+'</td><td>'+label+'</td><td>'+number(ticket['profit'],units=True)+'</td></tr>')
+    if rows:
+        result+='<div class="scroll"><table><thead><tr><th>Match</th><th>Pari</th><th>Cote</th><th>Statut</th><th>Gain net</th></tr></thead><tbody>'+''.join(rows)+'</tbody></table></div>'
+    else:
+        result+='<p class="note">Aucun pari E02 enregistré depuis son activation.</p>'
+    result+='<p class="note">Source vérifiée du '+escape(date(data['sourceUpdatedAt']))+' (heure de Paris).</p>'
+    return result
+
+
+def render(data,private=None,english=None):
     codes = {s['id']: s['code'] for s in data['strategies']}
     codes['Bundesliga_anchor'] = 'Nuls Bundesliga'
     sections = []
@@ -118,7 +150,8 @@ def render(data,private=None):
         ticket_area = '<p>Liste actuelle non vérifiée.</p>'
     return TEMPLATE.replace('@@STAMP@@', escape(date(stamp))).replace(
         '@@NOTICE@@', notice).replace('@@SECTIONS@@', ''.join(sections)).replace(
-        '@@TICKETS@@', ticket_area).replace('@@PRIVATE@@',private_section(private))
+        '@@TICKETS@@', ticket_area).replace('@@PRIVATE@@',private_section(private)
+            +'<section style="margin-top:36px">'+english_section(english)+'</section>')
 
 
 TEMPLATE = '''<!doctype html>
@@ -166,9 +199,11 @@ def main():
     data = ex.snapshot()
     from production.private_observation_personal import load_latest
     private = load_latest()
+    from production.english_away_export import snapshot as english_snapshot
+    english = english_snapshot()
     args.output.parent.mkdir(parents=True, exist_ok=True)
     temp = args.output.with_suffix('.html.tmp')
-    temp.write_text(render(data,private), encoding='utf8')
+    temp.write_text(render(data,private,english), encoding='utf8')
     os.replace(temp, args.output)
     print('Suivi personnel :', args.output, '(' + data['status'] + ')')
     if args.open:
