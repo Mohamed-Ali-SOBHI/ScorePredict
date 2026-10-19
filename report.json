@@ -1,14 +1,14 @@
 {
   "registered_at_utc": "2026-10-17T22:36:40.340148+00:00",
   "status": {
-    "run_id": "20261019T051844496112Z",
+    "run_id": "20261019T100001829126Z",
     "state": "collected",
-    "finished_at_utc": "2026-10-19T05:18:44.585775+00:00",
+    "finished_at_utc": "2026-10-19T10:00:01.904773+00:00",
     "new_forecasts": 0,
     "new_settlements": 0,
-    "source15_finished_at_utc": "2026-10-19T05:18:26.692785+00:00",
-    "source15_events_sha256": "95fae26cca7002888d9dc2a14b418e4046f05de8e972d57f5c682d241fbf7ec5",
-    "github_run_id": "39203743336"
+    "source15_finished_at_utc": "2026-10-19T09:59:44.146055+00:00",
+    "source15_events_sha256": "805e3ac55b87678024ac7bfa04b94b8a905c8313bfc5e7aaa8286066eb21f2be",
+    "github_run_id": "39234007936"
   },
   "forecasts": 23,
   "settled_fixtures": 19,
