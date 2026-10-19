@@ -133,6 +133,25 @@
     ]
   },
   {
+    "portfolio": "bundesliga_plus9",
+    "fixture_id": "understat:31249",
+    "league": "EPL",
+    "home_team": "Tottenham",
+    "away_team": "Coventry",
+    "kickoff_utc": "2026-10-19T19:00:00+00:00",
+    "enrolled_at_utc": "2026-10-19T00:34:31.512983+00:00",
+    "source_recorded_at_utc": "2026-10-19T00:34:13.005224+00:00",
+    "odds": 4.5,
+    "outcome": "draw",
+    "source": "local_price_only|EPL|draw|0.05|all",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "local_price_only|EPL|draw|0.05|all"
+    ]
+  },
+  {
     "portfolio": "bundesliga_plus15",
     "fixture_id": "understat:31246",
     "league": "EPL",
@@ -264,6 +283,25 @@
     "profit": null,
     "selected_members": [
       "local_sport_only|Serie_A|away|0.05|all"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus15",
+    "fixture_id": "understat:31249",
+    "league": "EPL",
+    "home_team": "Tottenham",
+    "away_team": "Coventry",
+    "kickoff_utc": "2026-10-19T19:00:00+00:00",
+    "enrolled_at_utc": "2026-10-19T00:34:31.512983+00:00",
+    "source_recorded_at_utc": "2026-10-19T00:34:13.005224+00:00",
+    "odds": 4.5,
+    "outcome": "draw",
+    "source": "local_price_only|EPL|draw|0.05|all",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "local_price_only|EPL|draw|0.05|all"
     ]
   }
 ]
