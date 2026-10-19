@@ -7145,6 +7145,68 @@
       },
       "previous_hash": "74eeb10e12a1feb7f0aa8489c2bc6a6177e89aec1561a7cc3bacf42bb688f17c",
       "event_hash": "15d2c37f14fb231d3d45dd8fb120881819a33a9437cb3c3eff0b53fc83c8b946"
+    },
+    {
+      "seq": 62,
+      "kind": "run",
+      "identity": "settlement:understat:31249",
+      "payload": {
+        "fixture_id": "understat:31249",
+        "forecast_sha256": "7a1515e49ad9c864d3d9bfe98e04c67efe32579a5bc5981c250477560623af32",
+        "recorded_at_utc": "2026-10-19T22:39:04.824998+00:00",
+        "source_settlement": {
+          "away_goals": 1,
+          "forecast_sha256": "abf75c0e30208edf44cf88697963f934b1a42aafc02742c2a63c608d43d4a74a",
+          "home_goals": 3,
+          "outcome": "home",
+          "result_seen_at_utc": "2026-10-19T22:38:45.887655+00:00",
+          "source_snapshot_sha256": "d377d7c8a81894005565289881dd8265fdb356d70922e7f78c7a395beeb4a3d4",
+          "source_url": "https://understat.com/getLeagueData/EPL/2026"
+        },
+        "type": "settlement"
+      },
+      "previous_hash": "15d2c37f14fb231d3d45dd8fb120881819a33a9437cb3c3eff0b53fc83c8b946",
+      "event_hash": "4818f45002ba6863492ed57629af3b41ba7740e3ced78d4cdf40d19f85fb2318"
+    },
+    {
+      "seq": 63,
+      "kind": "run",
+      "identity": "settlement:understat:30854",
+      "payload": {
+        "fixture_id": "understat:30854",
+        "forecast_sha256": "6e4ad6f63336902f7e5958f72ffd22d565d349fd4990cfd3dd168872caaea608",
+        "recorded_at_utc": "2026-10-19T22:39:04.833511+00:00",
+        "source_settlement": {
+          "away_goals": 1,
+          "forecast_sha256": "ecfd50aa2f4416320e9fda7b9ad38831c46b8aea40e993d2201b5e6f61c79aa2",
+          "home_goals": 1,
+          "outcome": "draw",
+          "result_seen_at_utc": "2026-10-19T22:38:46.895530+00:00",
+          "source_snapshot_sha256": "8f05fa0ad42ecbf485224a0e2494ca8e4b954023c14939a98dcd48ce7332be91",
+          "source_url": "https://understat.com/getLeagueData/La_liga/2026"
+        },
+        "type": "settlement"
+      },
+      "previous_hash": "4818f45002ba6863492ed57629af3b41ba7740e3ced78d4cdf40d19f85fb2318",
+      "event_hash": "41ec919ca3739cf73216128c7fbd2056f7833481a31505f58110b96657adec9d"
+    },
+    {
+      "seq": 64,
+      "kind": "run",
+      "identity": "collection:20261019T223904706801Z",
+      "payload": {
+        "finished_at_utc": "2026-10-19T22:39:04.837025+00:00",
+        "github_run_id": "39336242351",
+        "new_forecasts": 0,
+        "new_settlements": 2,
+        "run_id": "20261019T223904706801Z",
+        "source15_events_sha256": "a15e171e819e49e271e93b1ead448b28366f87af0557385713e75ac1143e6312",
+        "source15_finished_at_utc": "2026-10-19T22:38:47.060126+00:00",
+        "state": "collected",
+        "type": "collection"
+      },
+      "previous_hash": "41ec919ca3739cf73216128c7fbd2056f7833481a31505f58110b96657adec9d",
+      "event_hash": "0ff9b5ce2cd138b9735dded69101f0b71834ac3328b37b40697bd05c2cbcfb77"
     }
   ]
 }

@@ -145,8 +145,8 @@
     "outcome": "draw",
     "source": "local_price_only|EPL|draw|0.05|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "lost",
+    "profit": -1.0,
     "selected_members": [
       "local_price_only|EPL|draw|0.05|all"
     ]
@@ -298,8 +298,8 @@
     "outcome": "draw",
     "source": "local_price_only|EPL|draw|0.05|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "lost",
+    "profit": -1.0,
     "selected_members": [
       "local_price_only|EPL|draw|0.05|all"
     ]
