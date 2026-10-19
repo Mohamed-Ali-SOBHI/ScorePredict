@@ -126,8 +126,8 @@
     "outcome": "away",
     "source": "local_sport_only|Serie_A|away|0.05|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "lost",
+    "profit": -1.0,
     "selected_members": [
       "local_sport_only|Serie_A|away|0.05|all"
     ]
@@ -279,8 +279,8 @@
     "outcome": "away",
     "source": "local_sport_only|Serie_A|away|0.05|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "lost",
+    "profit": -1.0,
     "selected_members": [
       "local_sport_only|Serie_A|away|0.05|all"
     ]
