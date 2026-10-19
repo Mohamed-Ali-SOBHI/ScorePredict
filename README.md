@@ -2,8 +2,8 @@
 
 **Simulation uniquement. La stratégie de production reste inchangée.**
 
-Dernier passage : 2026-10-19T21:19:53.052965+00:00 — **collected**.
-Décisions figées avant match : 36. Résultats confirmés : 35.
+Dernier passage : 2026-10-19T22:36:05.618133+00:00 — **collected**.
+Décisions figées avant match : 36. Résultats confirmés : 36.
 
 Exécution sur GitHub après chaque pipeline de prévisions réussi et à 00:35, 06:35, 12:35 et 18:35 UTC chaque jour. Les horaires planifiés peuvent subir un retard GitHub.
 
@@ -11,8 +11,8 @@ Exécution sur GitHub après chaque pipeline de prévisions réussi et à 00:35,
 |---|---:|---:|---:|---:|---:|---:|---:|
 | Production observée à la capture | 2 | 0 | 0.00 | 2.27 | 113.50 % | 0.00 | 0.00 |
 | Référence + Bundesliga à demi-mise | 4 | 0 | 0.00 | 1.27 | 42.33 % | 0.50 | -1.00 |
-| Référence + union des six, mise 1 | 19 | 1 | 1.00 | 2.12 | 11.16 % | 4.11 | -0.15 |
-| Référence + union des six, mise 0,5 | 19 | 1 | 0.50 | 2.19 | 20.90 % | 1.00 | -0.07 |
+| Référence + union des six, mise 1 | 20 | 0 | 0.00 | 1.12 | 5.60 % | 4.11 | -1.15 |
+| Référence + union des six, mise 0,5 | 20 | 0 | 0.00 | 1.69 | 15.41 % | 1.50 | -0.57 |
 | Ligue 1 · domicile Poisson seule | 3 | 0 | 0.00 | 0.60 | 20.00 % | 1.00 | 0.60 |
 | Référence + Ligue 1 · domicile Poisson | 5 | 0 | 0.00 | 2.87 | 57.40 % | 0.00 | 0.60 |
 | Serie A · nul Poisson seule | 0 | 0 | 0.00 | 0.00 | — | 0.00 | 0.00 |
@@ -21,8 +21,8 @@ Exécution sur GitHub après chaque pipeline de prévisions réussi et à 00:35,
 | Référence + Serie A · nul logistique | 4 | 0 | 0.00 | 0.27 | 6.75 % | 1.00 | -2.00 |
 | Bundesliga · nul XGBoost seule | 4 | 0 | 0.00 | 0.20 | 5.00 % | 1.00 | 0.20 |
 | Référence + Bundesliga · nul XGBoost | 4 | 0 | 0.00 | 0.27 | 6.75 % | 1.00 | -2.00 |
-| Premier League · extérieur logistique seule | 2 | 1 | 1.00 | -2.00 | -100.00 % | 2.00 | -2.00 |
-| Référence + Premier League · extérieur logistique | 4 | 1 | 1.00 | 0.27 | 6.75 % | 1.00 | -2.00 |
+| Premier League · extérieur logistique seule | 3 | 0 | 0.00 | -3.00 | -100.00 % | 3.00 | -3.00 |
+| Référence + Premier League · extérieur logistique | 5 | 0 | 0.00 | -0.73 | -14.60 % | 2.00 | -3.00 |
 | Serie A · extérieur outcome_control seule | 10 | 0 | 0.00 | 5.70 | 57.00 % | 2.38 | 5.70 |
 | Référence + Serie A · extérieur outcome_control | 12 | 0 | 0.00 | 7.97 | 66.42 % | 1.00 | 5.70 |
 
@@ -36,6 +36,6 @@ Le gain et le rendement concernent les paris réglés. La baisse maximale est ca
 
 [Exécutions GitHub](https://github.com/Mohamed-Ali-SOBHI/ScorePredict/actions/workflows/paper-simulation.yml) · [Protocole](registration.json) · [Comparaison complète](comparison.csv) · [Diagnostics](last_run.json) · [Journal des preuves](evidence.json)
 
-Journal : 122 événements, empreinte `d9615d4d3c9dd80b19b839460b8c9d8fdc2ee6721d5a339004c47a7125c088bc`.
+Journal : 125 événements, empreinte `332f40323e696c57eab1f6f8d166b3a4c4004bfeabebc0d0fd56e6517672f4b9`.
 
 Le journal et les captures sont conservés dans cette branche entre les exécutions. Une sauvegarde supplémentaire est jointe aux exécutions Actions pendant 90 jours. Un journal manquant ou altéré bloque le suivi.
