@@ -1,0 +1,41 @@
+{
+  "run": {
+    "createdAt": "2026-10-19T16:58:40Z",
+    "databaseId": 39290143297,
+    "headSha": "3230b0ae693bf65a8bb36795cd741c08ea4398f8",
+    "updatedAt": "2026-10-19T17:05:35Z"
+  },
+  "artifact_sha256": {
+    "train/output/data_quality_audit.json": "61d5bdc2ae73338f2e80c04b5af4a863dd16aeac69f4eb0f7543214fa5f47b3d",
+    "train/output/club_coverage_audit.json": "d5a9b1ee83aae24e2ac27908a49589eb01b9c2b05843483917301676a59e74cf",
+    "train/output/team_registry_audit.json": "f17a0fb2c9c9d0d6912fcbe68cd1a84d687820b27026316f85ec3759ec05f8e5",
+    "train/output/club_coverage_sources/EPL-2026.json": "91823acede56d5ae705d76bea7d05edb1ef8f7d2a01ac1bfbcd5573edc802710",
+    "train/output/club_coverage_sources/Bundesliga-2026.json": "5c950bfbe9cbd52eb01f04194f3bbe2886f9db8179a1a444b5b6304ee4a67bb3",
+    "train/output/club_coverage_sources/Serie_A-2026.json": "c115655125313169b73df3e4cdc117180ffa02e02e096d55cc9ea6dd9e7de331",
+    "train/output/club_coverage_sources/La_liga-2026.json": "88dc63e31be2f171bd584fbc060fafacdf25b9f53b3badad106f798f721fe0f5",
+    "train/output/club_coverage_sources/Ligue_1-2026.json": "4cbabb0e4531007e4c21b372528484c64d0a85a2c0ecaf7297138ad9c79fd8ff",
+    "inference/output/live_portfolio_evaluation.csv": "7e230e7b05c5014056fe6fad50b39c906d0f826fcae1c85a7a45d44dc7c08e7b",
+    "inference/output/sportytrader_upcoming_portfolio_odds.csv": "5c95aaa7e8b8b1755ba0def7f6a3f222f68ef2d9c2a0576d1bb41b99beedb019",
+    "inference/output/upcoming_input_audit.json": "88d60e5698cb03af1f67d35e72a816cd9a0c3e8edcbc45b320c9d2361d201507",
+    "inference/output/live_portfolio_evaluation_summary.json": "0b6be25456e4dd2a20cbf7d62a581a87d16f82bcdc3837141091ad332202bfa0",
+    "inference/output/live_portfolio_bet_log.csv": "5363dc9258456ba588fe1a5ce81b4bc25b8e6be87ee8bbae3676ae1e28fd1a47",
+    "inference/output/shadow/shadow_portfolios_status.json": "a08a6feedaa946a83556e3693bd5877b65de2d443e4d6234e8a3b4ea9ed2563e",
+    "inference/output/english_public/scored.csv": "81ec1ee7cc1d6ba179f364bca58626c52b47d157cf1a247bb0023c451b895708",
+    "inference/output/shadow/shadow_draw_consensus_recency_2026_09_01/live_portfolio_evaluation.csv": "6d45ed93dbd0b5b9a11067f849ba2a2cec123a189565e483b3b0077ef766fc04",
+    "inference/output/shadow/shadow_draw_consensus_recency_2026_09_01/prediction_store_status.json": "fbae4bcca352dfcb02b0b0bcf1a71fd5150d6f6b70b39a87795c548ba5943bab",
+    "inference/output/shadow/shadow_draw_consensus_recency_2026_09_01/upcoming_portfolio_bets.csv": "b2fd740aaa81e26d9a81a00b6a3182b403d8cb3e9b9da77c51065fa179053e41",
+    "inference/output/shadow/shadow_draw_consensus_recency_2026_09_01/upcoming_portfolio_predictions.csv": "736606dc73d352263c191efa742ea8b6b357436ec6744dd151bca2144bf6e41a",
+    "inference/output/shadow/shadow_draw_consensus_recency_2026_09_01/live_portfolio_evaluation_summary.json": "e768cb72776435296449c232cf9901a09d1192d39ee13b311368aac8cf9e795a",
+    "inference/output/shadow/shadow_draw_consensus_recency_2026_09_01/live_portfolio_bet_log.csv": "196fe66086e7d6b572fb913e645d802ccf64fcca0790fda653b872d9dadd9397",
+    "inference/output/shadow/shadow_draw_consensus_unweighted_2026_09_01/live_portfolio_evaluation.csv": "0739ed63b1ef21ca5852ff84152b260effc65ef16b3bd163ed96557f5733ea26",
+    "inference/output/shadow/shadow_draw_consensus_unweighted_2026_09_01/prediction_store_status.json": "a22f8eff6e4456bd42aa5d67127fb37b6df460141a5623af90af68bfec0b7253",
+    "inference/output/shadow/shadow_draw_consensus_unweighted_2026_09_01/upcoming_portfolio_bets.csv": "b2fd740aaa81e26d9a81a00b6a3182b403d8cb3e9b9da77c51065fa179053e41",
+    "inference/output/shadow/shadow_draw_consensus_unweighted_2026_09_01/upcoming_portfolio_predictions.csv": "443cc26d1f7a8bad3152e680330ea52238fcfe6caee9fd8b9c68b19633d8949e",
+    "inference/output/shadow/shadow_draw_consensus_unweighted_2026_09_01/live_portfolio_evaluation_summary.json": "18f88d4ec2c5d84736a56ca237e6c445f46a3e58f967f4d0a9fe1f5a23ef1123",
+    "inference/output/shadow/shadow_draw_consensus_unweighted_2026_09_01/live_portfolio_bet_log.csv": "4b59d2d1c7a7c1a13bba7ec7c6cf747275988436f7da811e855c4a68fcc59542",
+    "inference/output/english_public/capture-20261019T170321403811Z/audit.json": "7683fc682a7dcba6008c5a1e25e5ee84302c831dbd9c241ce4a20dbf606268bd",
+    "inference/output/english_public/capture-20261019T170321403811Z/EPL.gz": "7bbcacf7c2b9725a16248ee52a2d30dd0c8398c8680a0d75130d9298b7c6767c",
+    "inference/output/english_public/capture-20261019T170321403811Z/fixtures.gz": "9a4a2044b2521cc4a99dfc38158db07309d6297af3dc06c3939ff56d742b7999",
+    "inference/releases/draw_pooled_2026_09_05/manifest.json": "dfabad5d10f3af03e840947af1308271f266dbb3dc5576332deca3b1987fcdba"
+  }
+}
