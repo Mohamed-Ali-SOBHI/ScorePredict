@@ -5,5 +5,5 @@ understat:31247,EPL,Leeds,Manchester United,2026-10-18T13:00:00+00:00,2026-10-17
 understat:31248,EPL,Nottingham Forest,Arsenal,2026-10-18T15:30:00+00:00,2026-10-17T21:41:08.079399+00:00,away,1.6,1.0,local_price_only|EPL|away|0.05|all,local_price_only|EPL|away|0.05|all,won,0.6000000000000001
 understat:31994,Ligue_1,Angers,Marseille,2026-10-18T13:00:00+00:00,2026-10-17T21:41:11.557767+00:00,home,3.3,1.0,local_price_only|Ligue_1|home|0.02|all,local_price_only|Ligue_1|home|0.02|all,lost,-1.0
 understat:32000,Ligue_1,Paris FC,Rennes,2026-10-18T15:15:00+00:00,2026-10-17T21:41:21.930071+00:00,draw,3.6,1.0,residual_sport_recency|Ligue_1|draw|0.05|all,residual_sport_recency|Ligue_1|draw|0.05|all ; native_mean|Ligue_1|draw|0.05|all,lost,-1.0
-understat:31626,Serie_A,Monza,Cagliari,2026-10-19T16:30:00+00:00,2026-10-18T18:56:03.898149+00:00,away,3.1,1.0,local_sport_only|Serie_A|away|0.05|all,local_sport_only|Serie_A|away|0.05|all,pending,
+understat:31626,Serie_A,Monza,Cagliari,2026-10-19T16:30:00+00:00,2026-10-18T18:56:03.898149+00:00,away,3.1,1.0,local_sport_only|Serie_A|away|0.05|all,local_sport_only|Serie_A|away|0.05|all,lost,-1.0
 understat:31249,EPL,Tottenham,Coventry,2026-10-19T19:00:00+00:00,2026-10-19T00:34:13.005224+00:00,draw,4.5,1.0,local_price_only|EPL|draw|0.05|all,local_price_only|EPL|draw|0.05|all,pending,

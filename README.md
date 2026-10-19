@@ -2,15 +2,15 @@
 
 **Simulation uniquement. La stratégie de production reste inchangée.**
 
-Dernier passage : 2026-10-19T17:07:01.505744+00:00 — **collected**.
-Décisions figées avant match : 23. Résultats confirmés : 19.
+Dernier passage : 2026-10-19T21:20:31.145737+00:00 — **collected**.
+Décisions figées avant match : 23. Résultats confirmés : 21.
 
 Exécution sur GitHub après chaque pipeline de prévisions réussi et à 00:40, 06:40, 12:40 et 18:40 UTC chaque jour. Les horaires planifiés peuvent subir un retard GitHub.
 
 | Portefeuille | Paris réglés | En attente | Mise en attente | Gain net (u) | ROI | Baisse max (u) | Gain des ajouts (u) |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | Nuls Bundesliga seuls | 0 | 0 | 0.00 | 0.00 | — | 0.00 | 0.00 |
-| Nuls Bundesliga + 15 ajouts (union sans doublon) | 6 | 2 | 2.00 | -4.40 | -73.33 % | 4.40 | -4.40 |
+| Nuls Bundesliga + 15 ajouts (union sans doublon) | 7 | 1 | 1.00 | -5.40 | -77.14 % | 5.40 | -5.40 |
 | Ligue 1 · nul · residual_sport_recency · EV>5% · all seule | 1 | 0 | 0.00 | -1.00 | -100.00 % | 1.00 | -1.00 |
 | Bundesliga + Ligue 1 · nul · residual_sport_recency · EV>5% · all | 1 | 0 | 0.00 | -1.00 | -100.00 % | 1.00 | -1.00 |
 | Premier League · nul · local_sport_only · EV>10% · all seule | 0 | 0 | 0.00 | 0.00 | — | 0.00 | 0.00 |
@@ -27,8 +27,8 @@ Exécution sur GitHub après chaque pipeline de prévisions réussi et à 00:40,
 | Bundesliga + Bundesliga · nul · residual_price · EV>2% · all | 0 | 0 | 0.00 | 0.00 | — | 0.00 | 0.00 |
 | Liga · nul · local_sport_only · EV>5% · balanced_market seule | 0 | 0 | 0.00 | 0.00 | — | 0.00 | 0.00 |
 | Bundesliga + Liga · nul · local_sport_only · EV>5% · balanced_market | 0 | 0 | 0.00 | 0.00 | — | 0.00 | 0.00 |
-| Serie A · extérieur · local_sport_only · EV>5% · all seule | 0 | 1 | 1.00 | 0.00 | — | 0.00 | 0.00 |
-| Bundesliga + Serie A · extérieur · local_sport_only · EV>5% · all | 0 | 1 | 1.00 | 0.00 | — | 0.00 | 0.00 |
+| Serie A · extérieur · local_sport_only · EV>5% · all seule | 1 | 0 | 0.00 | -1.00 | -100.00 % | 1.00 | -1.00 |
+| Bundesliga + Serie A · extérieur · local_sport_only · EV>5% · all | 1 | 0 | 0.00 | -1.00 | -100.00 % | 1.00 | -1.00 |
 | Serie A · extérieur · residual_sport_recency · EV>2% · all seule | 0 | 0 | 0.00 | 0.00 | — | 0.00 | 0.00 |
 | Bundesliga + Serie A · extérieur · residual_sport_recency · EV>2% · all | 0 | 0 | 0.00 | 0.00 | — | 0.00 | 0.00 |
 | Serie A · nul · local_sport_only · EV>10% · low_goal_parity seule | 0 | 0 | 0.00 | 0.00 | — | 0.00 | 0.00 |
@@ -52,6 +52,6 @@ Le gain et le rendement concernent les paris réglés. La baisse maximale est ca
 
 [Exécutions GitHub](https://github.com/Mohamed-Ali-SOBHI/ScorePredict/actions/workflows/paper-positive15.yml) · [Protocole](registration.json) · [Comparaison complète](comparison.csv) · [Paris uniques, cotes et stratégies](tickets.json) · [Diagnostics](last_run.json) · [Journal des preuves](evidence.json)
 
-Journal : 67 événements, empreinte `205123229b0f8583ab465bba8606606a4cc1d4cb4a18eddee0c8e9515f8fcc13`.
+Journal : 71 événements, empreinte `7f75aaeef708bddd787978ecd3e8186948ac8fd22f639797df239c850b7f0b81`.
 
 Le journal et les captures sont conservés dans cette branche entre les exécutions. Une sauvegarde supplémentaire est jointe aux exécutions Actions pendant 90 jours. Un journal manquant ou altéré bloque le suivi.
