@@ -121,7 +121,7 @@ evaluate(`lifecycle.activity=[{...choice,historicalOnly:true,status:'pending'}];
 assert.equal(evaluate('matchCards(lifecycle,clock+3600000).length'),0);
 evaluate(`lifecycle.predictions=[{...choice,historicalOnly:true}];`);
 assert.equal(evaluate('futurePublishedPredictions(lifecycle,clock-1).length'),0);
-console.log('Publication policy: old Italian ticket remains history-only.');
+console.log('Publication policy: archived tickets are excluded from active lists.');
 
 evaluate(`
   const archivedTicket={...choice,id:'archived-italian',homeTeam:'AC Milan',awayTeam:'Atalanta',league:'Serie_A',
@@ -143,9 +143,10 @@ evaluate(`
   const archivedResult=currentSeasonData(archivedFixture);
   historyFilter='settled'; renderTracking(archivedResult);
 `);
-assert.match(node('#result-list').innerHTML,/AC Milan/);
-assert.match(node('#result-list').innerHTML,/Ancien pari publié/);
-assert.equal(node('#tracking-verified').textContent,'1');
-assert.equal(node('#tracking-lost').textContent,'1');
-assert.equal(node('#live-return').textContent,'−100,0 %');
-console.log('Archived pending ticket: hidden from active lists; original result remains auditable.');
+assert.doesNotMatch(node('#result-list').innerHTML,/AC Milan/);
+assert.equal(node('#tracking-verified').textContent,'0');
+assert.equal(node('#tracking-lost').textContent,'0');
+assert.equal(node('#live-return').textContent,'—');
+assert.equal(evaluate('archivedFixture.activity[0].profitUnits'),-1);
+assert.equal(evaluate('archivedResult.activity.length'),0);
+console.log('Archived Italian ticket: absent from public history and totals, source retained.');

@@ -228,3 +228,19 @@ Chaque passage ajoute une trace `run` au journal existant et une capture
 appliquées. Les événements antérieurs restent dans la même chaîne. Le premier
 cas corrigé est Lorient–Monaco : 15 h 15 à Paris = 13 h 15 UTC le 18 octobre,
 comme dans les captures avant match. Aucun modèle n’est réentraîné.
+
+## Périmètre du journal public — 19 octobre 2026
+
+La version `bundesliga_draw_epl_away_current_history_2026_10_19` remplace la
+présentation précédente qui gardait Milan–Atalanta dans l’historique public.
+À la demande de l’utilisateur, les paris des stratégies retirées restent
+archivés mais ne figurent plus dans le journal ni dans son bilan public,
+qu’ils soient en attente, gagnants ou perdants. Le périmètre affiché est
+explicitement celui des stratégies actuellement publiées : nuls Bundesliga
+et extérieur Premier League avec le filtre strict.
+
+La frontière de publication recalcule les compteurs, le gain et le rendement
+sur les mêmes lignes que le journal visible. Le client exclut aussi les lignes
+`historicalOnly` d’un ancien snapshot en cache. La mémoire Supabase n’est ni
+supprimée ni réécrite ; une copie du snapshot avant changement est conservée
+hors site dans `../suivi_prive_9/archives/public-before-scope-2026-10-19.json`.

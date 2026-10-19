@@ -17,7 +17,7 @@ class PublicationPolicyTests(unittest.TestCase):
             'activity':[milan,bundes],
             'predictions':[dict(milan),dict(bundes,date=future),dict(milan,id='new-english',league='EPL')]}
 
-    def test_only_future_bundesliga_is_public_without_changing_recorded_history(self):
+    def test_only_active_public_strategies_are_displayed_without_changing_source_history(self):
         source=self.snapshot();frozen=copy.deepcopy(source)
         data=apply_publication_policy(source)
         self.assertEqual(source,frozen)
@@ -26,32 +26,45 @@ class PublicationPolicyTests(unittest.TestCase):
         self.assertEqual(data['meta']['publicationVersion'],VERSION)
         self.assertEqual(data['meta']['activePortfolio'],'unchanged-model-version')
         self.assertEqual(data['summary']['liveProfitUnits'],3.27)
-        milan=data['activity'][0]
-        self.assertTrue(milan['historicalOnly'])
-        for key in ['id','odds','status','profitUnits','date']:
-            self.assertEqual(milan[key],source['activity'][0][key])
+        self.assertEqual([row['id'] for row in data['activity']],['original-bundes'])
+        self.assertEqual(source['activity'][0]['id'],'original-milan')
         self.assertEqual(data,apply_publication_policy(data))
 
     def test_later_private_decisions_cannot_appear_as_public_history(self):
         source=self.snapshot()
         source['activity'].append(dict(source['activity'][0],id='private-forecast',homeTeam='Private home'))
         data=apply_publication_policy(source)
-        self.assertEqual(len(data['activity']),2)
+        self.assertEqual(len(data['activity']),1)
 
-    def test_archived_pending_bet_is_preserved_but_not_counted_as_current(self):
+    def test_archived_pending_bet_is_not_public_or_counted_as_current(self):
         data=apply_publication_policy(self.snapshot())
         self.assertEqual(data['tracking']['pending'],0)
         self.assertEqual(data['tracking']['pendingAll'],0)
         self.assertEqual(data['summary']['pendingPredictions'],0)
-        self.assertEqual(data['activity'][0]['id'],'original-milan')
-        self.assertEqual(data['activity'][0]['status'],'pending')
+        self.assertFalse(any(row['id']=='original-milan' for row in data['activity']))
 
-    def test_already_published_italian_result_is_kept_even_after_settlement(self):
-        source=self.snapshot();source['activity'][0].update(status='lost',actualScore='1 - 0',profitUnits=-1)
+    def test_retired_italian_strategy_stays_private_after_either_a_win_or_loss(self):
+        for status,profit in [('lost',-1),('won',5.3)]:
+            with self.subTest(status=status):
+                source=self.snapshot();source['activity'][0].update(status=status,profitUnits=profit,historicalOnly=True)
+                source['summary'].update(liveProfitUnits=3.27+profit,settledLiveBets=2)
+                data=apply_publication_policy(source)
+                self.assertFalse(any(row['id']=='original-milan' for row in data['activity']))
+                self.assertEqual(data['summary']['liveProfitUnits'],3.27)
+                self.assertEqual(data['summary']['settledLiveBets'],1)
+                self.assertEqual(data['tracking']['verified'],1)
+                self.assertEqual(data['tracking']['won'],1)
+                self.assertEqual(data['tracking']['lost'],0)
+                self.assertEqual(data['performance']['live']['profitUnits'],3.27)
+                self.assertEqual(data['performance']['live']['roi'],3.27)
+                self.assertEqual(source['activity'][0]['profitUnits'],profit)
+                self.assertEqual(data,apply_publication_policy(data))
+
+    def test_unknown_visible_profit_does_not_produce_an_invented_return(self):
+        source=self.snapshot();source['activity'][1]['profitUnits']=None
         data=apply_publication_policy(source)
-        self.assertEqual(data['activity'][0]['status'],'lost')
-        self.assertEqual(data['activity'][0]['actualScore'],'1 - 0')
-        self.assertEqual(data['activity'][0]['profitUnits'],-1)
+        self.assertIsNone(data['summary']['liveProfitUnits'])
+        self.assertIsNone(data['performance']['live']['roi'])
 
     def test_bundesliga_home_and_away_bets_are_not_public(self):
         source=self.snapshot()

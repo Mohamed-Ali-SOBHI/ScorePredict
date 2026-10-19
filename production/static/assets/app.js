@@ -339,7 +339,7 @@ function renderTracking(data) {
   try {
     const tracking = data.tracking || {};
     const performanceLive = data.performance?.live || {};
-    const allRows = (Array.isArray(data.activity) ? data.activity : []).filter(row => row?.recommended === true);
+    const allRows = (Array.isArray(data.activity) ? data.activity : []).filter(row => row?.recommended === true && row.historicalOnly !== true);
     const pending = allRows.filter(row => row.historicalOnly !== true && !terminalResult(row) && inPublicWindow(row.date)).length;
     const verified = numberOrNull(tracking.verified) ?? numberOrNull(performanceLive.settledBets) ?? 0;
     const won = numberOrNull(tracking.won) ?? 0;
@@ -367,8 +367,7 @@ function renderTracking(data) {
       setText("#live-return", "—");
       setText("#live-return-copy", "Pas encore assez de résultats pour calculer le rendement réel");
     }
-    historyRows = allRows.filter(row => row.historicalOnly !== true || terminalResult(row))
-      .filter(row => new Date(row.date).getTime() <= Date.now() || inPublicWindow(row.date))
+    historyRows = allRows.filter(row => new Date(row.date).getTime() <= Date.now() || inPublicWindow(row.date))
       .sort((a, b) => new Date(b.date) - new Date(a.date));
     renderHistory();
   } catch (e) {
@@ -687,7 +686,7 @@ function currentSeasonData(data, now = Date.now()) {
   };
   const unique = new Map();
   for (const row of Array.isArray(data.activity) ? data.activity : []) {
-    if (row.recommended !== true || seasonOf(row.date) !== season) continue;
+    if (row.recommended !== true || row.historicalOnly === true || seasonOf(row.date) !== season) continue;
     const key = [row.league,row.homeTeam,row.awayTeam, new Intl.DateTimeFormat('en-CA',{timeZone:MATCH_TIMEZONE}).format(new Date(row.date)),row.outcomeLabel].join('|');
     if (!unique.has(key) || terminalResult(row)) unique.set(key,row);
   }
@@ -768,7 +767,7 @@ function renderDashboard(data) {
     data = currentSeasonData(data);
     const seasonLabel = `${data.meta.currentSeason}/${String(data.meta.currentSeason+1).slice(-2)}`;
     setText('#season-scope', `Saison ${seasonLabel} · uniquement les paris réellement publiés et leurs résultats confirmés`);
-    setText('#tracking-scope', data.meta.publicationVersion ? `Saison ${seasonLabel} · tous les paris publiés, anciennes versions comprises` : `Saison ${seasonLabel} · stratégie actuellement publiée`);
+    setText('#tracking-scope', `Saison ${seasonLabel} · paris publiés des stratégies actuellement affichées`);
     const ready = data.meta.status === "ready";
     const fresh = publicationIsFresh(data.meta.generatedAt);
     const futurePredictions = matchCards(data);
