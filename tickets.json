@@ -118,5 +118,22 @@
     ],
     "status": "pending",
     "profit": null
+  },
+  {
+    "fixture_id": "understat:31249",
+    "league": "EPL",
+    "home_team": "Tottenham",
+    "away_team": "Coventry",
+    "kickoff_utc": "2026-10-19T19:00:00+00:00",
+    "recorded_at_utc": "2026-10-19T00:34:13.005224+00:00",
+    "outcome": "draw",
+    "odds": 4.5,
+    "stake": 1.0,
+    "source": "local_price_only|EPL|draw|0.05|all",
+    "selected_members": [
+      "local_price_only|EPL|draw|0.05|all"
+    ],
+    "status": "pending",
+    "profit": null
   }
 ]
