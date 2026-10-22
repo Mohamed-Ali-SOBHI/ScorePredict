@@ -1,16 +1,16 @@
 {
-  "run_id": "20261022T052033921906Z",
-  "started_at_utc": "2026-10-22T05:20:33.921906+00:00",
-  "finished_at_utc": "2026-10-22T05:20:37.034269+00:00",
+  "run_id": "20261022T093202183655Z",
+  "started_at_utc": "2026-10-22T09:32:02.183655+00:00",
+  "finished_at_utc": "2026-10-22T09:32:06.966870+00:00",
   "state": "collected",
-  "production_snapshot_age_hours": 4.378898401388889,
+  "production_snapshot_age_hours": 0.026657458055555555,
   "new_forecasts": 0,
   "new_settlements": 0,
   "eligible_new_candidates": 0,
   "rejected_rows": 1,
   "settlement_issues": [],
-  "production_run_id": 39702201528,
-  "github_run_id": "39727339011",
+  "production_run_id": 39755151239,
+  "github_run_id": "39755963779",
   "github_run_attempt": "1",
   "production_changed": false
 }
