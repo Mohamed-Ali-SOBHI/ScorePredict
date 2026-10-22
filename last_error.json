@@ -1,0 +1,8 @@
+{
+  "at_utc": "2026-10-22T15:23:49.829279+00:00",
+  "error": "No successful production snapshot",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/ScorePredict/ScorePredict/paper_positive15/run_paper.py\", line 203, in main\n    run,catalog,baseline_file,artifacthashes=production_snapshot(registration)\n                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/ScorePredict/ScorePredict/paper_positive15/run_paper.py\", line 33, in production_snapshot\n    if not runs:raise ValueError('No successful production snapshot')\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: No successful production snapshot\n",
+  "github_run_id": "39804264487",
+  "github_run_attempt": "1",
+  "production_changed": false
+}
