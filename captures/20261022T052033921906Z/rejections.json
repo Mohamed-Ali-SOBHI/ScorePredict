@@ -1,0 +1,9 @@
+[
+  {
+    "league": "La_liga",
+    "home": "Levante",
+    "away": "Ath Bilbao",
+    "provider_day": "2026-10-21",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  }
+]
