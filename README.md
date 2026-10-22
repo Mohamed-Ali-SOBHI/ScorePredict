@@ -3,7 +3,7 @@
 **Simulation à 1 unité par pari. Aucun pari déjà réglé n’est importé.**
 
 Inscription de la comparaison : 2026-10-17T22:36:40.340148+00:00
-Dernier passage : 2026-10-22T00:59:35.703758+00:00 — collected
+Dernier passage : 2026-10-22T05:20:51.882496+00:00 — collected
 Matchs inscrits avant le coup d’envoi : 24. Résultats confirmés : 23.
 
 | Portefeuille | Réglés | En attente | Mises réglées | Gain net (u) | Rendement | Baisse max (u) |
