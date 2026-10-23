@@ -12,8 +12,8 @@
     "outcome": "draw",
     "source": "reference",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "lost",
+    "profit": -1.0,
     "selected_members": [
       "Bundesliga_anchor"
     ]
@@ -221,8 +221,8 @@
     "outcome": "draw",
     "source": "reference",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "lost",
+    "profit": -1.0,
     "selected_members": [
       "Bundesliga_anchor"
     ]
@@ -259,8 +259,8 @@
     "outcome": "draw",
     "source": "local_price_only|EPL|draw|0.05|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "won",
+    "profit": 2.4,
     "selected_members": [
       "local_price_only|EPL|draw|0.05|all"
     ]
@@ -317,8 +317,8 @@
     "outcome": "home",
     "source": "local_price_only|Ligue_1|home|0.02|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "lost",
+    "profit": -1.0,
     "selected_members": [
       "local_price_only|Ligue_1|home|0.02|all"
     ]
@@ -527,8 +527,8 @@
     "outcome": "draw",
     "source": "reference",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "lost",
+    "profit": -1.0,
     "selected_members": [
       "Bundesliga_anchor"
     ]
@@ -565,8 +565,8 @@
     "outcome": "draw",
     "source": "local_price_only|EPL|draw|0.05|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "won",
+    "profit": 2.4,
     "selected_members": [
       "local_price_only|EPL|draw|0.05|all"
     ]
@@ -643,8 +643,8 @@
     "outcome": "home",
     "source": "local_price_only|Ligue_1|home|0.02|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "lost",
+    "profit": -1.0,
     "selected_members": [
       "local_price_only|Ligue_1|home|0.02|all"
     ]
