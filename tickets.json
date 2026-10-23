@@ -273,5 +273,39 @@
     ],
     "status": "pending",
     "profit": null
+  },
+  {
+    "fixture_id": "understat:32296",
+    "league": "Bundesliga",
+    "home_team": "Borussia Dortmund",
+    "away_team": "Eintracht Frankfurt",
+    "kickoff_utc": "2026-10-24T16:30:00+00:00",
+    "recorded_at_utc": "2026-10-23T20:10:04.243767+00:00",
+    "outcome": "draw",
+    "odds": 5.0,
+    "stake": 1.0,
+    "source": "reference",
+    "selected_members": [
+      "Bundesliga_anchor"
+    ],
+    "status": "pending",
+    "profit": null
+  },
+  {
+    "fixture_id": "understat:31255",
+    "league": "EPL",
+    "home_team": "Chelsea",
+    "away_team": "Tottenham",
+    "kickoff_utc": "2026-10-24T16:30:00+00:00",
+    "recorded_at_utc": "2026-10-23T20:10:06.829508+00:00",
+    "outcome": "home",
+    "odds": 1.7,
+    "stake": 1.0,
+    "source": "local_price_only|EPL|home|0.02|all",
+    "selected_members": [
+      "local_price_only|EPL|home|0.02|all"
+    ],
+    "status": "pending",
+    "profit": null
   }
 ]

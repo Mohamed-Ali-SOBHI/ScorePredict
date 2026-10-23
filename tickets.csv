@@ -15,3 +15,5 @@ understat:31254,EPL,Arsenal,Everton,2026-10-24T14:00:00+00:00,2026-10-23T15:10:0
 understat:31253,EPL,Coventry,Fulham,2026-10-24T14:00:00+00:00,2026-10-23T15:10:09.703039+00:00,draw,3.4,1.0,local_price_only|EPL|draw|0.05|all,local_price_only|EPL|draw|0.05|all,pending,
 understat:32005,Ligue_1,Brest,Nice,2026-10-23T18:45:00+00:00,2026-10-23T15:10:12.926688+00:00,home,2.2,1.0,local_price_only|Ligue_1|home|0.02|all,local_price_only|Ligue_1|home|0.02|all,pending,
 understat:30865,La_liga,Racing Santander,Espanyol,2026-10-24T14:15:00+00:00,2026-10-23T15:10:32.737993+00:00,draw,3.6,1.0,local_sport_only|La_liga|draw|0.05|balanced_market,local_sport_only|La_liga|draw|0.05|balanced_market,pending,
+understat:32296,Bundesliga,Borussia Dortmund,Eintracht Frankfurt,2026-10-24T16:30:00+00:00,2026-10-23T20:10:04.243767+00:00,draw,5.0,1.0,reference,Bundesliga_anchor,pending,
+understat:31255,EPL,Chelsea,Tottenham,2026-10-24T16:30:00+00:00,2026-10-23T20:10:06.829508+00:00,home,1.7,1.0,local_price_only|EPL|home|0.02|all,local_price_only|EPL|home|0.02|all,pending,
