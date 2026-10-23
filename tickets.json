@@ -135,5 +135,143 @@
     ],
     "status": "lost",
     "profit": -1.0
+  },
+  {
+    "fixture_id": "understat:32302",
+    "league": "Bundesliga",
+    "home_team": "VfB Stuttgart",
+    "away_team": "Borussia M.Gladbach",
+    "kickoff_utc": "2026-10-23T18:30:00+00:00",
+    "recorded_at_utc": "2026-10-23T15:09:41.522429+00:00",
+    "outcome": "draw",
+    "odds": 5.75,
+    "stake": 1.0,
+    "source": "reference",
+    "selected_members": [
+      "Bundesliga_anchor"
+    ],
+    "status": "pending",
+    "profit": null
+  },
+  {
+    "fixture_id": "understat:32297",
+    "league": "Bundesliga",
+    "home_team": "FC Cologne",
+    "away_team": "Schalke 04",
+    "kickoff_utc": "2026-10-24T13:30:00+00:00",
+    "recorded_at_utc": "2026-10-23T15:09:47.546689+00:00",
+    "outcome": "draw",
+    "odds": 3.75,
+    "stake": 1.0,
+    "source": "reference",
+    "selected_members": [
+      "Bundesliga_anchor"
+    ],
+    "status": "pending",
+    "profit": null
+  },
+  {
+    "fixture_id": "understat:31250",
+    "league": "EPL",
+    "home_team": "Ipswich",
+    "away_team": "Nottingham Forest",
+    "kickoff_utc": "2026-10-23T19:00:00+00:00",
+    "recorded_at_utc": "2026-10-23T15:09:59.857766+00:00",
+    "outcome": "draw",
+    "odds": 3.4,
+    "stake": 1.0,
+    "source": "local_price_only|EPL|draw|0.05|all",
+    "selected_members": [
+      "local_price_only|EPL|draw|0.05|all"
+    ],
+    "status": "pending",
+    "profit": null
+  },
+  {
+    "fixture_id": "understat:31251",
+    "league": "EPL",
+    "home_team": "Aston Villa",
+    "away_team": "Manchester City",
+    "kickoff_utc": "2026-10-24T11:30:00+00:00",
+    "recorded_at_utc": "2026-10-23T15:10:03.157764+00:00",
+    "outcome": "draw",
+    "odds": 4.33,
+    "stake": 1.0,
+    "source": "local_sport_only|EPL|draw|0.10|all",
+    "selected_members": [
+      "local_sport_only|EPL|draw|0.10|all",
+      "local_price_only|EPL|home|0.02|all",
+      "local_price_only|EPL|draw|0.05|all"
+    ],
+    "status": "pending",
+    "profit": null
+  },
+  {
+    "fixture_id": "understat:31254",
+    "league": "EPL",
+    "home_team": "Arsenal",
+    "away_team": "Everton",
+    "kickoff_utc": "2026-10-24T14:00:00+00:00",
+    "recorded_at_utc": "2026-10-23T15:10:06.442069+00:00",
+    "outcome": "draw",
+    "odds": 4.6,
+    "stake": 1.0,
+    "source": "local_sport_only|EPL|draw|0.10|all",
+    "selected_members": [
+      "local_sport_only|EPL|draw|0.10|all"
+    ],
+    "status": "pending",
+    "profit": null
+  },
+  {
+    "fixture_id": "understat:31253",
+    "league": "EPL",
+    "home_team": "Coventry",
+    "away_team": "Fulham",
+    "kickoff_utc": "2026-10-24T14:00:00+00:00",
+    "recorded_at_utc": "2026-10-23T15:10:09.703039+00:00",
+    "outcome": "draw",
+    "odds": 3.4,
+    "stake": 1.0,
+    "source": "local_price_only|EPL|draw|0.05|all",
+    "selected_members": [
+      "local_price_only|EPL|draw|0.05|all"
+    ],
+    "status": "pending",
+    "profit": null
+  },
+  {
+    "fixture_id": "understat:32005",
+    "league": "Ligue_1",
+    "home_team": "Brest",
+    "away_team": "Nice",
+    "kickoff_utc": "2026-10-23T18:45:00+00:00",
+    "recorded_at_utc": "2026-10-23T15:10:12.926688+00:00",
+    "outcome": "home",
+    "odds": 2.2,
+    "stake": 1.0,
+    "source": "local_price_only|Ligue_1|home|0.02|all",
+    "selected_members": [
+      "local_price_only|Ligue_1|home|0.02|all"
+    ],
+    "status": "pending",
+    "profit": null
+  },
+  {
+    "fixture_id": "understat:30865",
+    "league": "La_liga",
+    "home_team": "Racing Santander",
+    "away_team": "Espanyol",
+    "kickoff_utc": "2026-10-24T14:15:00+00:00",
+    "recorded_at_utc": "2026-10-23T15:10:32.737993+00:00",
+    "outcome": "draw",
+    "odds": 3.6,
+    "stake": 1.0,
+    "source": "local_sport_only|La_liga|draw|0.05|balanced_market",
+    "selected_members": [
+      "local_sport_only|La_liga|draw|0.05|balanced_market"
+    ],
+    "status": "pending",
+    "profit": null
   }
 ]
