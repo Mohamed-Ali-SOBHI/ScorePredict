@@ -2,29 +2,29 @@
 
 **Simulation uniquement. La stratégie de production reste inchangée.**
 
-Dernier passage : 2026-10-23T17:23:57.043269+00:00 — **collected**.
-Décisions figées avant match : 50. Résultats confirmés : 36.
+Dernier passage : 2026-10-23T20:10:08.267706+00:00 — **collected**.
+Décisions figées avant match : 55. Résultats confirmés : 36.
 
 Exécution sur GitHub après chaque pipeline de prévisions réussi et à 00:35, 06:35, 12:35 et 18:35 UTC chaque jour. Les horaires planifiés peuvent subir un retard GitHub.
 
 | Portefeuille | Paris réglés | En attente | Mise en attente | Gain net (u) | ROI | Baisse max (u) | Gain des ajouts (u) |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Production observée à la capture | 2 | 0 | 0.00 | 2.27 | 113.50 % | 0.00 | 0.00 |
-| Référence + Bundesliga à demi-mise | 4 | 2 | 1.00 | 1.27 | 42.33 % | 0.50 | -1.00 |
-| Référence + union des six, mise 1 | 20 | 7 | 7.00 | 1.12 | 5.60 % | 4.11 | -1.15 |
-| Référence + union des six, mise 0,5 | 20 | 7 | 3.50 | 1.69 | 15.41 % | 1.50 | -0.57 |
-| Ligue 1 · domicile Poisson seule | 3 | 1 | 1.00 | 0.60 | 20.00 % | 1.00 | 0.60 |
-| Référence + Ligue 1 · domicile Poisson | 5 | 1 | 1.00 | 2.87 | 57.40 % | 0.00 | 0.60 |
+| Production observée à la capture | 2 | 1 | 1.00 | 2.27 | 113.50 % | 0.00 | 0.00 |
+| Référence + Bundesliga à demi-mise | 4 | 3 | 2.00 | 1.27 | 42.33 % | 0.50 | -1.00 |
+| Référence + union des six, mise 1 | 20 | 10 | 10.00 | 1.12 | 5.60 % | 4.11 | -1.15 |
+| Référence + union des six, mise 0,5 | 20 | 10 | 5.50 | 1.69 | 15.41 % | 1.50 | -0.57 |
+| Ligue 1 · domicile Poisson seule | 3 | 2 | 2.00 | 0.60 | 20.00 % | 1.00 | 0.60 |
+| Référence + Ligue 1 · domicile Poisson | 5 | 3 | 3.00 | 2.87 | 57.40 % | 0.00 | 0.60 |
 | Serie A · nul Poisson seule | 0 | 0 | 0.00 | 0.00 | — | 0.00 | 0.00 |
-| Référence + Serie A · nul Poisson | 2 | 0 | 0.00 | 2.27 | 113.50 % | 0.00 | 0.00 |
+| Référence + Serie A · nul Poisson | 2 | 1 | 1.00 | 2.27 | 113.50 % | 0.00 | 0.00 |
 | Serie A · nul logistique seule | 2 | 0 | 0.00 | -2.00 | -100.00 % | 2.00 | -2.00 |
-| Référence + Serie A · nul logistique | 4 | 0 | 0.00 | 0.27 | 6.75 % | 1.00 | -2.00 |
-| Bundesliga · nul XGBoost seule | 4 | 2 | 2.00 | 0.20 | 5.00 % | 1.00 | 0.20 |
-| Référence + Bundesliga · nul XGBoost | 4 | 2 | 2.00 | 0.27 | 6.75 % | 1.00 | -2.00 |
+| Référence + Serie A · nul logistique | 4 | 1 | 1.00 | 0.27 | 6.75 % | 1.00 | -2.00 |
+| Bundesliga · nul XGBoost seule | 4 | 3 | 3.00 | 0.20 | 5.00 % | 1.00 | 0.20 |
+| Référence + Bundesliga · nul XGBoost | 4 | 3 | 3.00 | 0.27 | 6.75 % | 1.00 | -2.00 |
 | Premier League · extérieur logistique seule | 3 | 2 | 2.00 | -3.00 | -100.00 % | 3.00 | -3.00 |
-| Référence + Premier League · extérieur logistique | 5 | 2 | 2.00 | -0.73 | -14.60 % | 2.00 | -3.00 |
-| Serie A · extérieur outcome_control seule | 10 | 2 | 2.00 | 5.70 | 57.00 % | 2.38 | 5.70 |
-| Référence + Serie A · extérieur outcome_control | 12 | 2 | 2.00 | 7.97 | 66.42 % | 1.00 | 5.70 |
+| Référence + Premier League · extérieur logistique | 5 | 3 | 3.00 | -0.73 | -14.60 % | 2.00 | -3.00 |
+| Serie A · extérieur outcome_control seule | 10 | 3 | 3.00 | 5.70 | 57.00 % | 2.38 | 5.70 |
+| Référence + Serie A · extérieur outcome_control | 12 | 4 | 4.00 | 7.97 | 66.42 % | 1.00 | 5.70 |
 
 La référence correspond aux recommandations de production observées lors de la première capture admissible, sur les mêmes matchs que les challengers. Elle ne reproduit donc pas tous les paris historiques de production.
 
@@ -36,6 +36,6 @@ Le gain et le rendement concernent les paris réglés. La baisse maximale est ca
 
 [Exécutions GitHub](https://github.com/Mohamed-Ali-SOBHI/ScorePredict/actions/workflows/paper-simulation.yml) · [Protocole](registration.json) · [Comparaison complète](comparison.csv) · [Diagnostics](last_run.json) · [Journal des preuves](evidence.json)
 
-Journal : 197 événements, empreinte `ae7f77fd8a2e11f1974e9addca1b10df9e2c94042c27bf5b3f417921c8eab414`.
+Journal : 204 événements, empreinte `3f1232455535bd213e79f73d7409d1c113dfd6068b93a29d5ae9d1f273e9b52b`.
 
 Le journal et les captures sont conservés dans cette branche entre les exécutions. Une sauvegarde supplémentaire est jointe aux exécutions Actions pendant 90 jours. Un journal manquant ou altéré bloque le suivi.
