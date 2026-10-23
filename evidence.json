@@ -21314,6 +21314,2660 @@
       },
       "previous_hash": "686915cdc9f41a98c2f8b3ceae9df857848099b12465c79df8ae9ec1baa62e2f",
       "event_hash": "ab75e9346c0e73d7bee2e7af1df97029bbea59df3de3417301b8e13edf2819ef"
+    },
+    {
+      "seq": 180,
+      "kind": "forecast",
+      "identity": "understat:32302",
+      "payload": {
+        "all_pre_triplets": {
+          "Avg": {
+            "away": 7.02,
+            "draw": 5.71,
+            "home": 1.34
+          },
+          "B365": {
+            "away": 7.0,
+            "draw": 5.75,
+            "home": 1.36
+          },
+          "BW": {
+            "away": 6.75,
+            "draw": 5.75,
+            "home": 1.36
+          },
+          "WH": null
+        },
+        "away_id": "130",
+        "away_team": "Borussia M.Gladbach",
+        "capture_directory": "captures/20261023T150904768442Z",
+        "decisions": [
+          {
+            "ev_after_2pct": 0.11791056007146827,
+            "member": "bundesliga_draw_xgb",
+            "odds": 5.75,
+            "outcome": "draw",
+            "probability": 0.19838696718215942,
+            "selected": true
+          }
+        ],
+        "features": {
+          "original_xgb_ensemble": {
+            "deep_advantage_1": 9.0,
+            "deep_advantage_1_carry": 9.0,
+            "deep_advantage_3": 1.666666666666667,
+            "deep_advantage_3_carry": 1.666666666666667,
+            "deep_advantage_5": 1.9999999999999991,
+            "deep_advantage_5_carry": 1.9999999999999991,
+            "defensive_advantage_1": 0.5035000000000001,
+            "defensive_advantage_1_carry": 0.5035000000000001,
+            "defensive_advantage_3": 0.4358766666666669,
+            "defensive_advantage_3_carry": 0.4358766666666669,
+            "defensive_advantage_5": 0.13455799999999973,
+            "defensive_advantage_5_carry": 0.13455799999999973,
+            "defensive_trend_gap": -0.3760800000000002,
+            "elo_rating_gap": 117.52553467619828,
+            "elo_win_probability": 0.7353462530298748,
+            "market_away_prob_open": 0.13578746310123285,
+            "market_away_win_odds_open": 7.0,
+            "market_draw_odds_open": 5.75,
+            "market_draw_prob_open": 0.16530647681889218,
+            "market_entropy_open": 0.8190414257555376,
+            "market_favorite_gap_open": 0.5335995832609828,
+            "market_favorite_prob_open": 0.698906060079875,
+            "market_home_minus_away_prob_open": 0.5631185969786421,
+            "market_home_prob_open": 0.698906060079875,
+            "market_home_win_odds_open": 1.36,
+            "market_non_draw_prob_open": 0.8346935231811078,
+            "market_overround_open": 1.0520643039824624,
+            "ppda_advantage_1": 70.0,
+            "ppda_advantage_1_carry": 70.0,
+            "ppda_advantage_3": 19.666666666666657,
+            "ppda_advantage_3_carry": 19.666666666666657,
+            "ppda_advantage_5": 31.0,
+            "ppda_advantage_5_carry": 31.0,
+            "prev_season_defensive_gap": 0.0929918823529412,
+            "prev_season_points_per_game_gap": 0.7058823529411764,
+            "prev_season_xG_gap": 0.6364878529411766,
+            "relative_form_10": 6.0,
+            "relative_form_10_carry": 8.823529411764705,
+            "relative_form_5": 6.0,
+            "relative_form_5_carry": 6.0,
+            "rest_days_diff": 1.083333333333333,
+            "rest_days_ratio": 1.2113821138211383,
+            "season_points_per_game_gap": 1.0,
+            "xG_advantage_1": 1.87759,
+            "xG_advantage_1_carry": 1.87759,
+            "xG_advantage_3": 0.33487300000000064,
+            "xG_advantage_3_carry": 0.33487300000000064,
+            "xG_advantage_5": 0.8081441999999996,
+            "xG_advantage_5_carry": 0.8081441999999996,
+            "xG_efficiency_gap_5": 0.4966221827971382,
+            "xG_trend_gap": -0.3412071666666663
+          }
+        },
+        "fixture_id": "understat:32302",
+        "github_run_attempt": "1",
+        "github_run_id": "39975690484",
+        "history_audit": {
+          "history_team_rows": 7452,
+          "latest_history_kickoff_assumed_utc": "2026-10-18T15:30:00Z",
+          "sporting_cutoff_utc": "2026-10-20T18:30:00+00:00"
+        },
+        "home_id": "133",
+        "home_team": "VfB Stuttgart",
+        "kickoff_utc": "2026-10-23T18:30:00+00:00",
+        "league": "Bundesliga",
+        "odds": {
+          "away": 7.0,
+          "draw": 5.75,
+          "home": 1.36
+        },
+        "portfolios": {
+          "alone_bundesliga_draw_xgb": {
+            "odds": 5.75,
+            "outcome": "draw",
+            "source": "bundesliga_draw_xgb",
+            "stake": 1.0
+          },
+          "alone_epl_away_logit": null,
+          "alone_l1_home_poisson": null,
+          "alone_seriea_away_control": null,
+          "alone_seriea_draw_logit": null,
+          "alone_seriea_draw_poisson": null,
+          "reference": null,
+          "reference_bundesliga_draw_xgb": {
+            "odds": 5.75,
+            "outcome": "draw",
+            "source": "bundesliga_draw_xgb",
+            "stake": 1.0
+          },
+          "reference_bundesliga_half": {
+            "odds": 5.75,
+            "outcome": "draw",
+            "source": "bundesliga_draw_xgb",
+            "stake": 0.5
+          },
+          "reference_epl_away_logit": null,
+          "reference_l1_home_poisson": null,
+          "reference_seriea_away_control": null,
+          "reference_seriea_draw_logit": null,
+          "reference_seriea_draw_poisson": null,
+          "reference_six_full": {
+            "odds": 5.75,
+            "outcome": "draw",
+            "source": "bundesliga_draw_xgb",
+            "stake": 1.0
+          },
+          "reference_six_half": {
+            "odds": 5.75,
+            "outcome": "draw",
+            "source": "bundesliga_draw_xgb",
+            "stake": 0.5
+          }
+        },
+        "probabilities": {
+          "original_xgb_ensemble": {
+            "away": 0.09092796593904495,
+            "draw": 0.19838696718215942,
+            "home": 0.7106850743293762
+          }
+        },
+        "production_fixture_id": "sportytrader:8595816",
+        "production_run_id": 39975028505,
+        "production_snapshot_completed_at_utc": "2026-10-23T15:08:24Z",
+        "quotes_collected_at_utc": "2026-10-23T15:09:08.879759+00:00",
+        "recorded_at_utc": "2026-10-23T15:09:12.167899+00:00",
+        "reference": null,
+        "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+        "schedule_source": "sportytrader_jsonld_utc",
+        "source_snapshot_sha256": {
+          "Bundesliga": "8bcad5db9253b127b4c95d4e968c091a0563808ec61f445c0a62595f36efd4e5",
+          "EPL": "d377d7c8a81894005565289881dd8265fdb356d70922e7f78c7a395beeb4a3d4",
+          "Ligue_1": "08663cc0af9f74ef572ba88b70e698b3a087c2f096219301baac2ac5d648ec8d",
+          "Serie_A": "24da622febf5660b5bda2b7d4bfef1062c30fff9629483649fc64a68cfa7b570",
+          "fixtures": "f87691adc9a3d562d0d141f5fe3d44165cc6e7713191a091b0c6a29593878793"
+        },
+        "sports_collected_at_utc": "2026-10-23T15:09:08.712952+00:00"
+      },
+      "previous_hash": "ab75e9346c0e73d7bee2e7af1df97029bbea59df3de3417301b8e13edf2819ef",
+      "event_hash": "18e8b424078510c87b80bfe003f8e17d6e9dd824dd96942aea0bfca8d13400da"
+    },
+    {
+      "seq": 181,
+      "kind": "forecast",
+      "identity": "understat:32295",
+      "payload": {
+        "all_pre_triplets": {
+          "Avg": {
+            "away": 3.73,
+            "draw": 3.89,
+            "home": 1.84
+          },
+          "B365": {
+            "away": 4.1,
+            "draw": 3.9,
+            "home": 1.83
+          },
+          "BW": {
+            "away": 3.75,
+            "draw": 3.9,
+            "home": 1.87
+          },
+          "WH": null
+        },
+        "away_id": "240",
+        "away_team": "Union Berlin",
+        "capture_directory": "captures/20261023T150904768442Z",
+        "decisions": [
+          {
+            "ev_after_2pct": -0.18305824574828156,
+            "member": "bundesliga_draw_xgb",
+            "odds": 3.9,
+            "outcome": "draw",
+            "probability": 0.21374718844890594,
+            "selected": false
+          }
+        ],
+        "features": {
+          "original_xgb_ensemble": {
+            "deep_advantage_1": 10.0,
+            "deep_advantage_1_carry": 10.0,
+            "deep_advantage_3": 5.333333333333333,
+            "deep_advantage_3_carry": 5.333333333333333,
+            "deep_advantage_5": 2.2,
+            "deep_advantage_5_carry": 2.2,
+            "defensive_advantage_1": -3.01139,
+            "defensive_advantage_1_carry": -3.01139,
+            "defensive_advantage_3": -1.8274766666666669,
+            "defensive_advantage_3_carry": -1.8274766666666669,
+            "defensive_advantage_5": -0.6537239999999995,
+            "defensive_advantage_5_carry": -0.6537239999999995,
+            "defensive_trend_gap": 1.3297050000000008,
+            "elo_rating_gap": 36.19663781412419,
+            "elo_win_probability": 0.6350057283596182,
+            "market_away_prob_open": 0.2330068560235064,
+            "market_away_win_odds_open": 4.1,
+            "market_draw_odds_open": 3.9,
+            "market_draw_prob_open": 0.24495592556317342,
+            "market_entropy_open": 1.0233247634018183,
+            "market_favorite_gap_open": 0.2770812928501469,
+            "market_favorite_prob_open": 0.5220372184133203,
+            "market_home_minus_away_prob_open": 0.2890303623898139,
+            "market_home_prob_open": 0.5220372184133203,
+            "market_home_win_odds_open": 1.83,
+            "market_non_draw_prob_open": 0.7550440744368265,
+            "market_overround_open": 1.0467607828663406,
+            "ppda_advantage_1": 166.0,
+            "ppda_advantage_1_carry": 166.0,
+            "ppda_advantage_3": 24.0,
+            "ppda_advantage_3_carry": 24.0,
+            "ppda_advantage_5": -23.600000000000023,
+            "ppda_advantage_5_carry": -23.600000000000023,
+            "prev_season_defensive_gap": -0.27850529411764713,
+            "prev_season_points_per_game_gap": 0.11764705882352944,
+            "prev_season_xG_gap": 0.08385673529411752,
+            "relative_form_10": 3.0,
+            "relative_form_10_carry": 3.4705882352941178,
+            "relative_form_5": 1.0,
+            "relative_form_5_carry": 1.0,
+            "rest_days_diff": 0.0,
+            "rest_days_ratio": 1.0,
+            "season_points_per_game_gap": 0.4999999999999999,
+            "xG_advantage_1": 2.800556,
+            "xG_advantage_1_carry": 2.800556,
+            "xG_advantage_3": 1.263897,
+            "xG_advantage_3_carry": 1.263897,
+            "xG_advantage_5": 0.7824484,
+            "xG_advantage_5_carry": 0.7824484,
+            "xG_efficiency_gap_5": -0.258146032605301,
+            "xG_trend_gap": 0.06966166666666662
+          }
+        },
+        "fixture_id": "understat:32295",
+        "github_run_attempt": "1",
+        "github_run_id": "39975690484",
+        "history_audit": {
+          "history_team_rows": 7452,
+          "latest_history_kickoff_assumed_utc": "2026-10-18T15:30:00Z",
+          "sporting_cutoff_utc": "2026-10-21T13:30:00+00:00"
+        },
+        "home_id": "121",
+        "home_team": "Augsburg",
+        "kickoff_utc": "2026-10-24T13:30:00+00:00",
+        "league": "Bundesliga",
+        "odds": {
+          "away": 4.1,
+          "draw": 3.9,
+          "home": 1.83
+        },
+        "portfolios": {
+          "alone_bundesliga_draw_xgb": null,
+          "alone_epl_away_logit": null,
+          "alone_l1_home_poisson": null,
+          "alone_seriea_away_control": null,
+          "alone_seriea_draw_logit": null,
+          "alone_seriea_draw_poisson": null,
+          "reference": null,
+          "reference_bundesliga_draw_xgb": null,
+          "reference_bundesliga_half": null,
+          "reference_epl_away_logit": null,
+          "reference_l1_home_poisson": null,
+          "reference_seriea_away_control": null,
+          "reference_seriea_draw_logit": null,
+          "reference_seriea_draw_poisson": null,
+          "reference_six_full": null,
+          "reference_six_half": null
+        },
+        "probabilities": {
+          "original_xgb_ensemble": {
+            "away": 0.40951302647590637,
+            "draw": 0.21374718844890594,
+            "home": 0.3767397403717041
+          }
+        },
+        "production_fixture_id": "sportytrader:8595819",
+        "production_run_id": 39975028505,
+        "production_snapshot_completed_at_utc": "2026-10-23T15:08:24Z",
+        "quotes_collected_at_utc": "2026-10-23T15:09:08.879759+00:00",
+        "recorded_at_utc": "2026-10-23T15:09:15.217089+00:00",
+        "reference": null,
+        "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+        "schedule_source": "sportytrader_jsonld_utc",
+        "source_snapshot_sha256": {
+          "Bundesliga": "8bcad5db9253b127b4c95d4e968c091a0563808ec61f445c0a62595f36efd4e5",
+          "EPL": "d377d7c8a81894005565289881dd8265fdb356d70922e7f78c7a395beeb4a3d4",
+          "Ligue_1": "08663cc0af9f74ef572ba88b70e698b3a087c2f096219301baac2ac5d648ec8d",
+          "Serie_A": "24da622febf5660b5bda2b7d4bfef1062c30fff9629483649fc64a68cfa7b570",
+          "fixtures": "f87691adc9a3d562d0d141f5fe3d44165cc6e7713191a091b0c6a29593878793"
+        },
+        "sports_collected_at_utc": "2026-10-23T15:09:08.712952+00:00"
+      },
+      "previous_hash": "18e8b424078510c87b80bfe003f8e17d6e9dd824dd96942aea0bfca8d13400da",
+      "event_hash": "0723d162465618c410ad46d24d425fe092d477b21ced176527b6ce08988821dc"
+    },
+    {
+      "seq": 182,
+      "kind": "forecast",
+      "identity": "understat:32297",
+      "payload": {
+        "all_pre_triplets": {
+          "Avg": {
+            "away": 3.23,
+            "draw": 3.73,
+            "home": 2.04
+          },
+          "B365": {
+            "away": 3.3,
+            "draw": 3.75,
+            "home": 2.05
+          },
+          "BW": {
+            "away": 3.3,
+            "draw": 3.7,
+            "home": 2.05
+          },
+          "WH": null
+        },
+        "away_id": "124",
+        "away_team": "Schalke 04",
+        "capture_directory": "captures/20261023T150904768442Z",
+        "decisions": [
+          {
+            "ev_after_2pct": 0.09789490774273868,
+            "member": "bundesliga_draw_xgb",
+            "odds": 3.75,
+            "outcome": "draw",
+            "probability": 0.29874691367149353,
+            "selected": true
+          }
+        ],
+        "features": {
+          "original_xgb_ensemble": {
+            "deep_advantage_1": -3.0,
+            "deep_advantage_1_carry": -3.0,
+            "deep_advantage_3": 0.6666666666666661,
+            "deep_advantage_3_carry": 0.6666666666666661,
+            "deep_advantage_5": 1.1999999999999993,
+            "deep_advantage_5_carry": 1.1999999999999993,
+            "defensive_advantage_1": 0.26227999999999985,
+            "defensive_advantage_1_carry": 0.26227999999999985,
+            "defensive_advantage_3": -0.14493933333333353,
+            "defensive_advantage_3_carry": -0.14493933333333353,
+            "defensive_advantage_5": -0.2335676,
+            "defensive_advantage_5_carry": -0.2335676,
+            "defensive_trend_gap": 0.5525196666666667,
+            "elo_rating_gap": -20.519294366659324,
+            "elo_win_probability": 0.556574001992364,
+            "market_away_prob_open": 0.28655297735532564,
+            "market_away_win_odds_open": 3.3,
+            "market_draw_odds_open": 3.75,
+            "market_draw_prob_open": 0.2521666200726866,
+            "market_entropy_open": 1.0624595487825175,
+            "market_favorite_gap_open": 0.17472742521666207,
+            "market_favorite_prob_open": 0.4612804025719877,
+            "market_home_minus_away_prob_open": 0.17472742521666207,
+            "market_home_prob_open": 0.4612804025719877,
+            "market_home_win_odds_open": 2.05,
+            "market_non_draw_prob_open": 0.7478333799273134,
+            "market_overround_open": 1.0575018477457503,
+            "ppda_advantage_1": 31.0,
+            "ppda_advantage_1_carry": 31.0,
+            "ppda_advantage_3": 89.66666666666669,
+            "ppda_advantage_3_carry": 89.66666666666669,
+            "ppda_advantage_5": 61.39999999999998,
+            "ppda_advantage_5_carry": 61.39999999999998,
+            "prev_season_defensive_gap": null,
+            "prev_season_points_per_game_gap": null,
+            "prev_season_xG_gap": null,
+            "relative_form_10": 2.0,
+            "relative_form_10_carry": 5.764705882352942,
+            "relative_form_5": -1.0,
+            "relative_form_5_carry": -1.0,
+            "rest_days_diff": 0.791666666666667,
+            "rest_days_ratio": 1.1130952380952381,
+            "season_points_per_game_gap": 0.33333333333333337,
+            "xG_advantage_1": 0.617534,
+            "xG_advantage_1_carry": 0.617534,
+            "xG_advantage_3": 0.8908503333333334,
+            "xG_advantage_3_carry": 0.8908503333333334,
+            "xG_advantage_5": 0.7350481999999998,
+            "xG_advantage_5_carry": 0.7350481999999998,
+            "xG_efficiency_gap_5": -0.4707755735965893,
+            "xG_trend_gap": 0.19877516666666672
+          }
+        },
+        "fixture_id": "understat:32297",
+        "github_run_attempt": "1",
+        "github_run_id": "39975690484",
+        "history_audit": {
+          "history_team_rows": 7452,
+          "latest_history_kickoff_assumed_utc": "2026-10-18T15:30:00Z",
+          "sporting_cutoff_utc": "2026-10-21T13:30:00+00:00"
+        },
+        "home_id": "134",
+        "home_team": "FC Cologne",
+        "kickoff_utc": "2026-10-24T13:30:00+00:00",
+        "league": "Bundesliga",
+        "odds": {
+          "away": 3.3,
+          "draw": 3.75,
+          "home": 2.05
+        },
+        "portfolios": {
+          "alone_bundesliga_draw_xgb": {
+            "odds": 3.75,
+            "outcome": "draw",
+            "source": "bundesliga_draw_xgb",
+            "stake": 1.0
+          },
+          "alone_epl_away_logit": null,
+          "alone_l1_home_poisson": null,
+          "alone_seriea_away_control": null,
+          "alone_seriea_draw_logit": null,
+          "alone_seriea_draw_poisson": null,
+          "reference": null,
+          "reference_bundesliga_draw_xgb": {
+            "odds": 3.75,
+            "outcome": "draw",
+            "source": "bundesliga_draw_xgb",
+            "stake": 1.0
+          },
+          "reference_bundesliga_half": {
+            "odds": 3.75,
+            "outcome": "draw",
+            "source": "bundesliga_draw_xgb",
+            "stake": 0.5
+          },
+          "reference_epl_away_logit": null,
+          "reference_l1_home_poisson": null,
+          "reference_seriea_away_control": null,
+          "reference_seriea_draw_logit": null,
+          "reference_seriea_draw_poisson": null,
+          "reference_six_full": {
+            "odds": 3.75,
+            "outcome": "draw",
+            "source": "bundesliga_draw_xgb",
+            "stake": 1.0
+          },
+          "reference_six_half": {
+            "odds": 3.75,
+            "outcome": "draw",
+            "source": "bundesliga_draw_xgb",
+            "stake": 0.5
+          }
+        },
+        "probabilities": {
+          "original_xgb_ensemble": {
+            "away": 0.3123544156551361,
+            "draw": 0.29874691367149353,
+            "home": 0.3888986110687256
+          }
+        },
+        "production_fixture_id": "sportytrader:8595821",
+        "production_run_id": 39975028505,
+        "production_snapshot_completed_at_utc": "2026-10-23T15:08:24Z",
+        "quotes_collected_at_utc": "2026-10-23T15:09:08.879759+00:00",
+        "recorded_at_utc": "2026-10-23T15:09:18.372388+00:00",
+        "reference": null,
+        "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+        "schedule_source": "sportytrader_jsonld_utc",
+        "source_snapshot_sha256": {
+          "Bundesliga": "8bcad5db9253b127b4c95d4e968c091a0563808ec61f445c0a62595f36efd4e5",
+          "EPL": "d377d7c8a81894005565289881dd8265fdb356d70922e7f78c7a395beeb4a3d4",
+          "Ligue_1": "08663cc0af9f74ef572ba88b70e698b3a087c2f096219301baac2ac5d648ec8d",
+          "Serie_A": "24da622febf5660b5bda2b7d4bfef1062c30fff9629483649fc64a68cfa7b570",
+          "fixtures": "f87691adc9a3d562d0d141f5fe3d44165cc6e7713191a091b0c6a29593878793"
+        },
+        "sports_collected_at_utc": "2026-10-23T15:09:08.712952+00:00"
+      },
+      "previous_hash": "0723d162465618c410ad46d24d425fe092d477b21ced176527b6ce08988821dc",
+      "event_hash": "43475ab7aa1f89a81bad69fe1a4e34b61339894e2320dd2524ffc4d0a4a2369d"
+    },
+    {
+      "seq": 183,
+      "kind": "forecast",
+      "identity": "understat:32300",
+      "payload": {
+        "all_pre_triplets": {
+          "Avg": {
+            "away": 4.21,
+            "draw": 4.01,
+            "home": 1.72
+          },
+          "B365": {
+            "away": 4.5,
+            "draw": 4.0,
+            "home": 1.73
+          },
+          "BW": {
+            "away": 4.2,
+            "draw": 4.1,
+            "home": 1.73
+          },
+          "WH": null
+        },
+        "away_id": "123",
+        "away_team": "Werder Bremen",
+        "capture_directory": "captures/20261023T150904768442Z",
+        "decisions": [
+          {
+            "ev_after_2pct": -0.18997415900230408,
+            "member": "bundesliga_draw_xgb",
+            "odds": 4.0,
+            "outcome": "draw",
+            "probability": 0.20663924515247345,
+            "selected": false
+          }
+        ],
+        "features": {
+          "original_xgb_ensemble": {
+            "deep_advantage_1": -17.0,
+            "deep_advantage_1_carry": -17.0,
+            "deep_advantage_3": -7.333333333333333,
+            "deep_advantage_3_carry": -7.333333333333333,
+            "deep_advantage_5": -3.4000000000000004,
+            "deep_advantage_5_carry": -3.4000000000000004,
+            "defensive_advantage_1": 0.9626239999999999,
+            "defensive_advantage_1_carry": 0.9626239999999999,
+            "defensive_advantage_3": -0.3540260000000002,
+            "defensive_advantage_3_carry": -0.3540260000000002,
+            "defensive_advantage_5": -0.05672739999999976,
+            "defensive_advantage_5_carry": -0.05672739999999976,
+            "defensive_trend_gap": 0.589069666666667,
+            "elo_rating_gap": 37.75967367641897,
+            "elo_win_probability": 0.6370885792409522,
+            "market_away_prob_open": 0.21158844213423023,
+            "market_away_win_odds_open": 4.5,
+            "market_draw_odds_open": 4.0,
+            "market_draw_prob_open": 0.238036997401009,
+            "market_entropy_open": 0.9989416247652978,
+            "market_favorite_gap_open": 0.3123375630637517,
+            "market_favorite_prob_open": 0.5503745604647607,
+            "market_home_minus_away_prob_open": 0.3387861183305305,
+            "market_home_prob_open": 0.5503745604647607,
+            "market_home_win_odds_open": 1.73,
+            "market_non_draw_prob_open": 0.761963002598991,
+            "market_overround_open": 1.050256904303147,
+            "ppda_advantage_1": 84.0,
+            "ppda_advantage_1_carry": 84.0,
+            "ppda_advantage_3": -6.666666666666686,
+            "ppda_advantage_3_carry": -6.666666666666686,
+            "ppda_advantage_5": 16.599999999999994,
+            "ppda_advantage_5_carry": 16.599999999999994,
+            "prev_season_defensive_gap": -0.0003568235294117983,
+            "prev_season_points_per_game_gap": 0.23529411764705888,
+            "prev_season_xG_gap": 0.615247238235294,
+            "relative_form_10": 1.0,
+            "relative_form_10_carry": 1.9411764705882355,
+            "relative_form_5": 0.0,
+            "relative_form_5_carry": 0.0,
+            "rest_days_diff": 0.0,
+            "rest_days_ratio": 1.0,
+            "season_points_per_game_gap": 0.16666666666666674,
+            "xG_advantage_1": -1.13466,
+            "xG_advantage_1_carry": -1.13466,
+            "xG_advantage_3": 0.4529936666666672,
+            "xG_advantage_3_carry": 0.4529936666666672,
+            "xG_advantage_5": 0.9689687999999999,
+            "xG_advantage_5_carry": 0.9689687999999999,
+            "xG_efficiency_gap_5": -0.4372269858493377,
+            "xG_trend_gap": -0.4546159999999997
+          }
+        },
+        "fixture_id": "understat:32300",
+        "github_run_attempt": "1",
+        "github_run_id": "39975690484",
+        "history_audit": {
+          "history_team_rows": 7452,
+          "latest_history_kickoff_assumed_utc": "2026-10-18T15:30:00Z",
+          "sporting_cutoff_utc": "2026-10-21T13:30:00+00:00"
+        },
+        "home_id": "125",
+        "home_team": "Mainz 05",
+        "kickoff_utc": "2026-10-24T13:30:00+00:00",
+        "league": "Bundesliga",
+        "odds": {
+          "away": 4.5,
+          "draw": 4.0,
+          "home": 1.73
+        },
+        "portfolios": {
+          "alone_bundesliga_draw_xgb": null,
+          "alone_epl_away_logit": null,
+          "alone_l1_home_poisson": null,
+          "alone_seriea_away_control": null,
+          "alone_seriea_draw_logit": null,
+          "alone_seriea_draw_poisson": null,
+          "reference": null,
+          "reference_bundesliga_draw_xgb": null,
+          "reference_bundesliga_half": null,
+          "reference_epl_away_logit": null,
+          "reference_l1_home_poisson": null,
+          "reference_seriea_away_control": null,
+          "reference_seriea_draw_logit": null,
+          "reference_seriea_draw_poisson": null,
+          "reference_six_full": null,
+          "reference_six_half": null
+        },
+        "probabilities": {
+          "original_xgb_ensemble": {
+            "away": 0.19441421329975128,
+            "draw": 0.20663924515247345,
+            "home": 0.5989465117454529
+          }
+        },
+        "production_fixture_id": "sportytrader:8595820",
+        "production_run_id": 39975028505,
+        "production_snapshot_completed_at_utc": "2026-10-23T15:08:24Z",
+        "quotes_collected_at_utc": "2026-10-23T15:09:08.879759+00:00",
+        "recorded_at_utc": "2026-10-23T15:09:21.458161+00:00",
+        "reference": null,
+        "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+        "schedule_source": "sportytrader_jsonld_utc",
+        "source_snapshot_sha256": {
+          "Bundesliga": "8bcad5db9253b127b4c95d4e968c091a0563808ec61f445c0a62595f36efd4e5",
+          "EPL": "d377d7c8a81894005565289881dd8265fdb356d70922e7f78c7a395beeb4a3d4",
+          "Ligue_1": "08663cc0af9f74ef572ba88b70e698b3a087c2f096219301baac2ac5d648ec8d",
+          "Serie_A": "24da622febf5660b5bda2b7d4bfef1062c30fff9629483649fc64a68cfa7b570",
+          "fixtures": "f87691adc9a3d562d0d141f5fe3d44165cc6e7713191a091b0c6a29593878793"
+        },
+        "sports_collected_at_utc": "2026-10-23T15:09:08.712952+00:00"
+      },
+      "previous_hash": "43475ab7aa1f89a81bad69fe1a4e34b61339894e2320dd2524ffc4d0a4a2369d",
+      "event_hash": "078ecf2b64d008c77b3c47bd75380c37b032645fbc3d36fda58d676e06bd4019"
+    },
+    {
+      "seq": 184,
+      "kind": "forecast",
+      "identity": "understat:32301",
+      "payload": {
+        "all_pre_triplets": {
+          "Avg": {
+            "away": 2.92,
+            "draw": 3.65,
+            "home": 2.22
+          },
+          "B365": {
+            "away": 3.0,
+            "draw": 3.75,
+            "home": 2.2
+          },
+          "BW": {
+            "away": 3.0,
+            "draw": 3.7,
+            "home": 2.2
+          },
+          "WH": null
+        },
+        "away_id": "118",
+        "away_team": "Hamburger SV",
+        "capture_directory": "captures/20261023T150904768442Z",
+        "decisions": [
+          {
+            "ev_after_2pct": -0.41319770775735376,
+            "member": "bundesliga_draw_xgb",
+            "odds": 3.75,
+            "outcome": "draw",
+            "probability": 0.15967409312725067,
+            "selected": false
+          }
+        ],
+        "features": {
+          "original_xgb_ensemble": {
+            "deep_advantage_1": 0.0,
+            "deep_advantage_1_carry": 0.0,
+            "deep_advantage_3": 3.666666666666667,
+            "deep_advantage_3_carry": 3.666666666666667,
+            "deep_advantage_5": 3.1999999999999997,
+            "deep_advantage_5_carry": 3.1999999999999997,
+            "defensive_advantage_1": -0.031549999999999745,
+            "defensive_advantage_1_carry": -0.031549999999999745,
+            "defensive_advantage_3": -0.40076933333333287,
+            "defensive_advantage_3_carry": -0.40076933333333287,
+            "defensive_advantage_5": 0.04577240000000016,
+            "defensive_advantage_5_carry": 0.04577240000000016,
+            "defensive_trend_gap": 0.3994829999999996,
+            "elo_rating_gap": -22.943999821836314,
+            "elo_win_probability": 0.5531265774201973,
+            "market_away_prob_open": 0.3160919540229885,
+            "market_away_win_odds_open": 3.0,
+            "market_draw_odds_open": 3.75,
+            "market_draw_prob_open": 0.25287356321839083,
+            "market_entropy_open": 1.0744617498156057,
+            "market_favorite_gap_open": 0.11494252873563221,
+            "market_favorite_prob_open": 0.4310344827586207,
+            "market_home_minus_away_prob_open": 0.11494252873563221,
+            "market_home_prob_open": 0.4310344827586207,
+            "market_home_win_odds_open": 2.2,
+            "market_non_draw_prob_open": 0.7471264367816092,
+            "market_overround_open": 1.0545454545454545,
+            "ppda_advantage_1": -47.0,
+            "ppda_advantage_1_carry": -47.0,
+            "ppda_advantage_3": -11.666666666666686,
+            "ppda_advantage_3_carry": -11.666666666666686,
+            "ppda_advantage_5": -5.600000000000023,
+            "ppda_advantage_5_carry": -5.600000000000023,
+            "prev_season_defensive_gap": null,
+            "prev_season_points_per_game_gap": null,
+            "prev_season_xG_gap": null,
+            "relative_form_10": -4.0,
+            "relative_form_10_carry": -8.470588235294118,
+            "relative_form_5": -5.0,
+            "relative_form_5_carry": -5.0,
+            "rest_days_diff": 0.0,
+            "rest_days_ratio": 1.0,
+            "season_points_per_game_gap": -0.6666666666666666,
+            "xG_advantage_1": -0.29925,
+            "xG_advantage_1_carry": -0.29925,
+            "xG_advantage_3": -0.15086000000000022,
+            "xG_advantage_3_carry": -0.15086000000000022,
+            "xG_advantage_5": -0.03479260000000006,
+            "xG_advantage_5_carry": -0.03479260000000006,
+            "xG_efficiency_gap_5": -0.8105806761780397,
+            "xG_trend_gap": -0.05264966666666693
+          }
+        },
+        "fixture_id": "understat:32301",
+        "github_run_attempt": "1",
+        "github_run_id": "39975690484",
+        "history_audit": {
+          "history_team_rows": 7452,
+          "latest_history_kickoff_assumed_utc": "2026-10-18T15:30:00Z",
+          "sporting_cutoff_utc": "2026-10-21T13:30:00+00:00"
+        },
+        "home_id": "205",
+        "home_team": "Paderborn",
+        "kickoff_utc": "2026-10-24T13:30:00+00:00",
+        "league": "Bundesliga",
+        "odds": {
+          "away": 3.0,
+          "draw": 3.75,
+          "home": 2.2
+        },
+        "portfolios": {
+          "alone_bundesliga_draw_xgb": null,
+          "alone_epl_away_logit": null,
+          "alone_l1_home_poisson": null,
+          "alone_seriea_away_control": null,
+          "alone_seriea_draw_logit": null,
+          "alone_seriea_draw_poisson": null,
+          "reference": null,
+          "reference_bundesliga_draw_xgb": null,
+          "reference_bundesliga_half": null,
+          "reference_epl_away_logit": null,
+          "reference_l1_home_poisson": null,
+          "reference_seriea_away_control": null,
+          "reference_seriea_draw_logit": null,
+          "reference_seriea_draw_poisson": null,
+          "reference_six_full": null,
+          "reference_six_half": null
+        },
+        "probabilities": {
+          "original_xgb_ensemble": {
+            "away": 0.25895577669143677,
+            "draw": 0.15967409312725067,
+            "home": 0.5813701152801514
+          }
+        },
+        "production_fixture_id": "sportytrader:8595822",
+        "production_run_id": 39975028505,
+        "production_snapshot_completed_at_utc": "2026-10-23T15:08:24Z",
+        "quotes_collected_at_utc": "2026-10-23T15:09:08.879759+00:00",
+        "recorded_at_utc": "2026-10-23T15:09:24.787390+00:00",
+        "reference": null,
+        "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+        "schedule_source": "sportytrader_jsonld_utc",
+        "source_snapshot_sha256": {
+          "Bundesliga": "8bcad5db9253b127b4c95d4e968c091a0563808ec61f445c0a62595f36efd4e5",
+          "EPL": "d377d7c8a81894005565289881dd8265fdb356d70922e7f78c7a395beeb4a3d4",
+          "Ligue_1": "08663cc0af9f74ef572ba88b70e698b3a087c2f096219301baac2ac5d648ec8d",
+          "Serie_A": "24da622febf5660b5bda2b7d4bfef1062c30fff9629483649fc64a68cfa7b570",
+          "fixtures": "f87691adc9a3d562d0d141f5fe3d44165cc6e7713191a091b0c6a29593878793"
+        },
+        "sports_collected_at_utc": "2026-10-23T15:09:08.712952+00:00"
+      },
+      "previous_hash": "078ecf2b64d008c77b3c47bd75380c37b032645fbc3d36fda58d676e06bd4019",
+      "event_hash": "1884b372e78ce0a97416993163b58f1d814398145985f2f1192f5020d2a635d9"
+    },
+    {
+      "seq": 185,
+      "kind": "forecast",
+      "identity": "understat:32764",
+      "payload": {
+        "all_pre_triplets": {
+          "Avg": {
+            "away": 6.04,
+            "draw": 5.15,
+            "home": 1.41
+          },
+          "B365": {
+            "away": 6.5,
+            "draw": 4.75,
+            "home": 1.44
+          },
+          "BW": {
+            "away": 5.75,
+            "draw": 5.25,
+            "home": 1.44
+          },
+          "WH": null
+        },
+        "away_id": "296",
+        "away_team": "Elversberg",
+        "capture_directory": "captures/20261023T150904768442Z",
+        "decisions": [
+          {
+            "ev_after_2pct": -0.2039129235595465,
+            "member": "bundesliga_draw_xgb",
+            "odds": 4.75,
+            "outcome": "draw",
+            "probability": 0.1710176318883896,
+            "selected": false
+          }
+        ],
+        "features": {
+          "original_xgb_ensemble": {
+            "deep_advantage_1": -2.0,
+            "deep_advantage_1_carry": -2.0,
+            "deep_advantage_3": 0.666666666666667,
+            "deep_advantage_3_carry": 0.666666666666667,
+            "deep_advantage_5": 3.3999999999999995,
+            "deep_advantage_5_carry": 3.3999999999999995,
+            "defensive_advantage_1": -1.1676100000000003,
+            "defensive_advantage_1_carry": -1.1676100000000003,
+            "defensive_advantage_3": -1.0558300000000003,
+            "defensive_advantage_3_carry": -1.0558300000000003,
+            "defensive_advantage_5": 0.2836217999999997,
+            "defensive_advantage_5_carry": 0.2836217999999997,
+            "defensive_trend_gap": 1.5224348333333335,
+            "elo_rating_gap": 54.378959681441984,
+            "elo_win_probability": 0.658904973782999,
+            "market_away_prob_open": 0.14530005310674457,
+            "market_away_win_odds_open": 6.5,
+            "market_draw_odds_open": 4.75,
+            "market_draw_prob_open": 0.19883165161975572,
+            "market_entropy_open": 0.8780914468770389,
+            "market_favorite_gap_open": 0.4570366436537441,
+            "market_favorite_prob_open": 0.6558682952734998,
+            "market_home_minus_away_prob_open": 0.5105682421667552,
+            "market_home_prob_open": 0.6558682952734998,
+            "market_home_win_odds_open": 1.44,
+            "market_non_draw_prob_open": 0.8011683483802443,
+            "market_overround_open": 1.0588169140800718,
+            "ppda_advantage_1": -105.0,
+            "ppda_advantage_1_carry": -105.0,
+            "ppda_advantage_3": -130.33333333333334,
+            "ppda_advantage_3_carry": -130.33333333333334,
+            "ppda_advantage_5": -29.399999999999977,
+            "ppda_advantage_5_carry": -29.399999999999977,
+            "prev_season_defensive_gap": null,
+            "prev_season_points_per_game_gap": null,
+            "prev_season_xG_gap": null,
+            "relative_form_10": -1.0,
+            "relative_form_10_carry": 6.647058823529413,
+            "relative_form_5": -1.0,
+            "relative_form_5_carry": -1.0,
+            "rest_days_diff": -0.125,
+            "rest_days_ratio": 0.9821428571428571,
+            "season_points_per_game_gap": -0.16666666666666674,
+            "xG_advantage_1": -3.29889,
+            "xG_advantage_1_carry": -3.29889,
+            "xG_advantage_3": 0.4305553333333334,
+            "xG_advantage_3_carry": 0.4305553333333334,
+            "xG_advantage_5": 0.2559532,
+            "xG_advantage_5_carry": 0.2559532,
+            "xG_efficiency_gap_5": -0.1900467323573165,
+            "xG_trend_gap": -0.17684566666666623
+          }
+        },
+        "fixture_id": "understat:32764",
+        "github_run_attempt": "1",
+        "github_run_id": "39975690484",
+        "history_audit": {
+          "history_team_rows": 7452,
+          "latest_history_kickoff_assumed_utc": "2026-10-18T15:30:00Z",
+          "sporting_cutoff_utc": "2026-10-21T13:30:00+00:00"
+        },
+        "home_id": "136",
+        "home_team": "RasenBallsport Leipzig",
+        "kickoff_utc": "2026-10-24T13:30:00+00:00",
+        "league": "Bundesliga",
+        "odds": {
+          "away": 6.5,
+          "draw": 4.75,
+          "home": 1.44
+        },
+        "portfolios": {
+          "alone_bundesliga_draw_xgb": null,
+          "alone_epl_away_logit": null,
+          "alone_l1_home_poisson": null,
+          "alone_seriea_away_control": null,
+          "alone_seriea_draw_logit": null,
+          "alone_seriea_draw_poisson": null,
+          "reference": null,
+          "reference_bundesliga_draw_xgb": null,
+          "reference_bundesliga_half": null,
+          "reference_epl_away_logit": null,
+          "reference_l1_home_poisson": null,
+          "reference_seriea_away_control": null,
+          "reference_seriea_draw_logit": null,
+          "reference_seriea_draw_poisson": null,
+          "reference_six_full": null,
+          "reference_six_half": null
+        },
+        "probabilities": {
+          "original_xgb_ensemble": {
+            "away": 0.1324010044336319,
+            "draw": 0.1710176318883896,
+            "home": 0.6965813636779785
+          }
+        },
+        "production_fixture_id": "sportytrader:8595815",
+        "production_run_id": 39975028505,
+        "production_snapshot_completed_at_utc": "2026-10-23T15:08:24Z",
+        "quotes_collected_at_utc": "2026-10-23T15:09:08.879759+00:00",
+        "recorded_at_utc": "2026-10-23T15:09:27.810149+00:00",
+        "reference": null,
+        "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+        "schedule_source": "sportytrader_jsonld_utc",
+        "source_snapshot_sha256": {
+          "Bundesliga": "8bcad5db9253b127b4c95d4e968c091a0563808ec61f445c0a62595f36efd4e5",
+          "EPL": "d377d7c8a81894005565289881dd8265fdb356d70922e7f78c7a395beeb4a3d4",
+          "Ligue_1": "08663cc0af9f74ef572ba88b70e698b3a087c2f096219301baac2ac5d648ec8d",
+          "Serie_A": "24da622febf5660b5bda2b7d4bfef1062c30fff9629483649fc64a68cfa7b570",
+          "fixtures": "f87691adc9a3d562d0d141f5fe3d44165cc6e7713191a091b0c6a29593878793"
+        },
+        "sports_collected_at_utc": "2026-10-23T15:09:08.712952+00:00"
+      },
+      "previous_hash": "1884b372e78ce0a97416993163b58f1d814398145985f2f1192f5020d2a635d9",
+      "event_hash": "a7104762d6a560ac0565515b56f411a42b3a1c774789871fe612a597a9a504c6"
+    },
+    {
+      "seq": 186,
+      "kind": "forecast",
+      "identity": "understat:31250",
+      "payload": {
+        "all_pre_triplets": {
+          "Avg": {
+            "away": 2.28,
+            "draw": 3.44,
+            "home": 3.01
+          },
+          "B365": {
+            "away": 2.3,
+            "draw": 3.4,
+            "home": 3.1
+          },
+          "BW": {
+            "away": 2.3,
+            "draw": 3.5,
+            "home": 2.95
+          },
+          "WH": null
+        },
+        "away_id": "249",
+        "away_team": "Nottingham Forest",
+        "capture_directory": "captures/20261023T150904768442Z",
+        "decisions": [
+          {
+            "ev_after_2pct": 0.03795222100570683,
+            "member": "epl_away_logit",
+            "odds": 2.3,
+            "outcome": "away",
+            "probability": 0.46049344321459934,
+            "selected": true
+          }
+        ],
+        "features": {
+          "logit_sports": {
+            "elo_rating_gap": -38.443316834724556,
+            "elo_win_probability": 0.5309828139016977,
+            "form_score_5_carry": 6.0,
+            "league_Bundesliga": 0.0,
+            "league_EPL": 1.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 0.0,
+            "league_Serie_A": 0.0,
+            "matches_played_in_season_before": 7.0,
+            "opponent_form_score_5_carry": 4.0,
+            "opponent_matches_played_in_season_before": 7.0,
+            "opponent_rest_days": 5.145833333333333,
+            "opponent_xG_against_last_5_carry": 1.285848,
+            "opponent_xG_last_5_carry": 1.8911444,
+            "prev_season_defensive_gap": null,
+            "prev_season_points_per_game_gap": null,
+            "prev_season_xG_gap": null,
+            "team_rest_days": 6.208333333333333,
+            "team_xG_against_last_5_carry": 2.0102314,
+            "team_xG_last_5_carry": 1.2729404
+          }
+        },
+        "fixture_id": "understat:31250",
+        "github_run_attempt": "1",
+        "github_run_id": "39975690484",
+        "history_audit": {
+          "history_team_rows": 9260,
+          "latest_history_kickoff_assumed_utc": "2026-10-19T19:00:00Z",
+          "sporting_cutoff_utc": "2026-10-20T19:00:00+00:00"
+        },
+        "home_id": "285",
+        "home_team": "Ipswich",
+        "kickoff_utc": "2026-10-23T19:00:00+00:00",
+        "league": "EPL",
+        "odds": {
+          "away": 2.3,
+          "draw": 3.4,
+          "home": 3.1
+        },
+        "portfolios": {
+          "alone_bundesliga_draw_xgb": null,
+          "alone_epl_away_logit": {
+            "odds": 2.3,
+            "outcome": "away",
+            "source": "epl_away_logit",
+            "stake": 1.0
+          },
+          "alone_l1_home_poisson": null,
+          "alone_seriea_away_control": null,
+          "alone_seriea_draw_logit": null,
+          "alone_seriea_draw_poisson": null,
+          "reference": null,
+          "reference_bundesliga_draw_xgb": null,
+          "reference_bundesliga_half": null,
+          "reference_epl_away_logit": {
+            "odds": 2.3,
+            "outcome": "away",
+            "source": "epl_away_logit",
+            "stake": 1.0
+          },
+          "reference_l1_home_poisson": null,
+          "reference_seriea_away_control": null,
+          "reference_seriea_draw_logit": null,
+          "reference_seriea_draw_poisson": null,
+          "reference_six_full": {
+            "odds": 2.3,
+            "outcome": "away",
+            "source": "epl_away_logit",
+            "stake": 1.0
+          },
+          "reference_six_half": {
+            "odds": 2.3,
+            "outcome": "away",
+            "source": "epl_away_logit",
+            "stake": 0.5
+          }
+        },
+        "probabilities": {
+          "logit_sports": {
+            "away": 0.46049344321459934,
+            "draw": 0.2542367177588825,
+            "home": 0.28526983902651815
+          }
+        },
+        "production_fixture_id": "sportytrader:8558889",
+        "production_run_id": 39975028505,
+        "production_snapshot_completed_at_utc": "2026-10-23T15:08:24Z",
+        "quotes_collected_at_utc": "2026-10-23T15:09:08.879759+00:00",
+        "recorded_at_utc": "2026-10-23T15:09:31.150503+00:00",
+        "reference": null,
+        "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+        "schedule_source": "sportytrader_jsonld_utc",
+        "source_snapshot_sha256": {
+          "Bundesliga": "8bcad5db9253b127b4c95d4e968c091a0563808ec61f445c0a62595f36efd4e5",
+          "EPL": "d377d7c8a81894005565289881dd8265fdb356d70922e7f78c7a395beeb4a3d4",
+          "Ligue_1": "08663cc0af9f74ef572ba88b70e698b3a087c2f096219301baac2ac5d648ec8d",
+          "Serie_A": "24da622febf5660b5bda2b7d4bfef1062c30fff9629483649fc64a68cfa7b570",
+          "fixtures": "f87691adc9a3d562d0d141f5fe3d44165cc6e7713191a091b0c6a29593878793"
+        },
+        "sports_collected_at_utc": "2026-10-23T15:09:08.767608+00:00"
+      },
+      "previous_hash": "a7104762d6a560ac0565515b56f411a42b3a1c774789871fe612a597a9a504c6",
+      "event_hash": "658c9bad095cc82d5e68d9a895c87a143a86ee1e47d5a7cca09564e390cb5e60"
+    },
+    {
+      "seq": 187,
+      "kind": "forecast",
+      "identity": "understat:31251",
+      "payload": {
+        "all_pre_triplets": {
+          "Avg": {
+            "away": 1.62,
+            "draw": 4.26,
+            "home": 4.73
+          },
+          "B365": {
+            "away": 1.62,
+            "draw": 4.33,
+            "home": 5.0
+          },
+          "BW": {
+            "away": 1.68,
+            "draw": 4.2,
+            "home": 4.5
+          },
+          "WH": null
+        },
+        "away_id": "88",
+        "away_team": "Manchester City",
+        "capture_directory": "captures/20261023T150904768442Z",
+        "decisions": [
+          {
+            "ev_after_2pct": -0.1784015471602829,
+            "member": "epl_away_logit",
+            "odds": 1.62,
+            "outcome": "away",
+            "probability": 0.5175097334591314,
+            "selected": false
+          }
+        ],
+        "features": {
+          "logit_sports": {
+            "elo_rating_gap": -120.41068939901447,
+            "elo_win_probability": 0.4139276897489735,
+            "form_score_5_carry": 8.0,
+            "league_Bundesliga": 0.0,
+            "league_EPL": 1.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 0.0,
+            "league_Serie_A": 0.0,
+            "matches_played_in_season_before": 7.0,
+            "opponent_form_score_5_carry": 15.0,
+            "opponent_matches_played_in_season_before": 7.0,
+            "opponent_rest_days": 6.895833333333333,
+            "opponent_xG_against_last_5_carry": 1.5347552,
+            "opponent_xG_last_5_carry": 2.3188839999999997,
+            "prev_season_defensive_gap": -0.26816413157894736,
+            "prev_season_points_per_game_gap": -0.3421052631578949,
+            "prev_season_xG_gap": -0.6093748421052632,
+            "team_rest_days": 6.791666666666667,
+            "team_xG_against_last_5_carry": 1.5060256,
+            "team_xG_last_5_carry": 1.670588
+          }
+        },
+        "fixture_id": "understat:31251",
+        "github_run_attempt": "1",
+        "github_run_id": "39975690484",
+        "history_audit": {
+          "history_team_rows": 9260,
+          "latest_history_kickoff_assumed_utc": "2026-10-19T19:00:00Z",
+          "sporting_cutoff_utc": "2026-10-21T11:30:00+00:00"
+        },
+        "home_id": "71",
+        "home_team": "Aston Villa",
+        "kickoff_utc": "2026-10-24T11:30:00+00:00",
+        "league": "EPL",
+        "odds": {
+          "away": 1.62,
+          "draw": 4.33,
+          "home": 5.0
+        },
+        "portfolios": {
+          "alone_bundesliga_draw_xgb": null,
+          "alone_epl_away_logit": null,
+          "alone_l1_home_poisson": null,
+          "alone_seriea_away_control": null,
+          "alone_seriea_draw_logit": null,
+          "alone_seriea_draw_poisson": null,
+          "reference": null,
+          "reference_bundesliga_draw_xgb": null,
+          "reference_bundesliga_half": null,
+          "reference_epl_away_logit": null,
+          "reference_l1_home_poisson": null,
+          "reference_seriea_away_control": null,
+          "reference_seriea_draw_logit": null,
+          "reference_seriea_draw_poisson": null,
+          "reference_six_full": null,
+          "reference_six_half": null
+        },
+        "probabilities": {
+          "logit_sports": {
+            "away": 0.5175097334591314,
+            "draw": 0.2382843988666049,
+            "home": 0.24420586767426375
+          }
+        },
+        "production_fixture_id": "sportytrader:8558884",
+        "production_run_id": 39975028505,
+        "production_snapshot_completed_at_utc": "2026-10-23T15:08:24Z",
+        "quotes_collected_at_utc": "2026-10-23T15:09:08.879759+00:00",
+        "recorded_at_utc": "2026-10-23T15:09:34.454840+00:00",
+        "reference": null,
+        "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+        "schedule_source": "sportytrader_jsonld_utc",
+        "source_snapshot_sha256": {
+          "Bundesliga": "8bcad5db9253b127b4c95d4e968c091a0563808ec61f445c0a62595f36efd4e5",
+          "EPL": "d377d7c8a81894005565289881dd8265fdb356d70922e7f78c7a395beeb4a3d4",
+          "Ligue_1": "08663cc0af9f74ef572ba88b70e698b3a087c2f096219301baac2ac5d648ec8d",
+          "Serie_A": "24da622febf5660b5bda2b7d4bfef1062c30fff9629483649fc64a68cfa7b570",
+          "fixtures": "f87691adc9a3d562d0d141f5fe3d44165cc6e7713191a091b0c6a29593878793"
+        },
+        "sports_collected_at_utc": "2026-10-23T15:09:08.767608+00:00"
+      },
+      "previous_hash": "658c9bad095cc82d5e68d9a895c87a143a86ee1e47d5a7cca09564e390cb5e60",
+      "event_hash": "494288e7524c2b3613f428378915115ed9d7d4571da883b6495aa68e8e347481"
+    },
+    {
+      "seq": 188,
+      "kind": "forecast",
+      "identity": "understat:31254",
+      "payload": {
+        "all_pre_triplets": {
+          "Avg": {
+            "away": 7.27,
+            "draw": 4.41,
+            "home": 1.43
+          },
+          "B365": {
+            "away": 8.0,
+            "draw": 4.6,
+            "home": 1.4
+          },
+          "BW": {
+            "away": 7.25,
+            "draw": 4.6,
+            "home": 1.43
+          },
+          "WH": null
+        },
+        "away_id": "72",
+        "away_team": "Everton",
+        "capture_directory": "captures/20261023T150904768442Z",
+        "decisions": [
+          {
+            "ev_after_2pct": 0.030341673262681557,
+            "member": "epl_away_logit",
+            "odds": 8.0,
+            "outcome": "away",
+            "probability": 0.13142113179370937,
+            "selected": true
+          }
+        ],
+        "features": {
+          "logit_sports": {
+            "elo_rating_gap": 161.46029918404292,
+            "elo_win_probability": 0.7815680945836688,
+            "form_score_5_carry": 12.0,
+            "league_Bundesliga": 0.0,
+            "league_EPL": 1.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 0.0,
+            "league_Serie_A": 0.0,
+            "matches_played_in_season_before": 7.0,
+            "opponent_form_score_5_carry": 6.0,
+            "opponent_matches_played_in_season_before": 7.0,
+            "opponent_rest_days": 7.104166666666667,
+            "opponent_xG_against_last_5_carry": 1.1690642,
+            "opponent_xG_last_5_carry": 1.7212658,
+            "prev_season_defensive_gap": 0.7068697315789475,
+            "prev_season_points_per_game_gap": 0.9473684210526316,
+            "prev_season_xG_gap": 0.7267457368421053,
+            "team_rest_days": 5.9375,
+            "team_xG_against_last_5_carry": 1.3117976,
+            "team_xG_last_5_carry": 1.8540200000000002
+          }
+        },
+        "fixture_id": "understat:31254",
+        "github_run_attempt": "1",
+        "github_run_id": "39975690484",
+        "history_audit": {
+          "history_team_rows": 9260,
+          "latest_history_kickoff_assumed_utc": "2026-10-19T19:00:00Z",
+          "sporting_cutoff_utc": "2026-10-21T14:00:00+00:00"
+        },
+        "home_id": "83",
+        "home_team": "Arsenal",
+        "kickoff_utc": "2026-10-24T14:00:00+00:00",
+        "league": "EPL",
+        "odds": {
+          "away": 8.0,
+          "draw": 4.6,
+          "home": 1.4
+        },
+        "portfolios": {
+          "alone_bundesliga_draw_xgb": null,
+          "alone_epl_away_logit": {
+            "odds": 8.0,
+            "outcome": "away",
+            "source": "epl_away_logit",
+            "stake": 1.0
+          },
+          "alone_l1_home_poisson": null,
+          "alone_seriea_away_control": null,
+          "alone_seriea_draw_logit": null,
+          "alone_seriea_draw_poisson": null,
+          "reference": null,
+          "reference_bundesliga_draw_xgb": null,
+          "reference_bundesliga_half": null,
+          "reference_epl_away_logit": {
+            "odds": 8.0,
+            "outcome": "away",
+            "source": "epl_away_logit",
+            "stake": 1.0
+          },
+          "reference_l1_home_poisson": null,
+          "reference_seriea_away_control": null,
+          "reference_seriea_draw_logit": null,
+          "reference_seriea_draw_poisson": null,
+          "reference_six_full": {
+            "odds": 8.0,
+            "outcome": "away",
+            "source": "epl_away_logit",
+            "stake": 1.0
+          },
+          "reference_six_half": {
+            "odds": 8.0,
+            "outcome": "away",
+            "source": "epl_away_logit",
+            "stake": 0.5
+          }
+        },
+        "probabilities": {
+          "logit_sports": {
+            "away": 0.13142113179370937,
+            "draw": 0.19679907697395962,
+            "home": 0.671779791232331
+          }
+        },
+        "production_fixture_id": "sportytrader:8558883",
+        "production_run_id": 39975028505,
+        "production_snapshot_completed_at_utc": "2026-10-23T15:08:24Z",
+        "quotes_collected_at_utc": "2026-10-23T15:09:08.879759+00:00",
+        "recorded_at_utc": "2026-10-23T15:09:37.725489+00:00",
+        "reference": null,
+        "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+        "schedule_source": "sportytrader_jsonld_utc",
+        "source_snapshot_sha256": {
+          "Bundesliga": "8bcad5db9253b127b4c95d4e968c091a0563808ec61f445c0a62595f36efd4e5",
+          "EPL": "d377d7c8a81894005565289881dd8265fdb356d70922e7f78c7a395beeb4a3d4",
+          "Ligue_1": "08663cc0af9f74ef572ba88b70e698b3a087c2f096219301baac2ac5d648ec8d",
+          "Serie_A": "24da622febf5660b5bda2b7d4bfef1062c30fff9629483649fc64a68cfa7b570",
+          "fixtures": "f87691adc9a3d562d0d141f5fe3d44165cc6e7713191a091b0c6a29593878793"
+        },
+        "sports_collected_at_utc": "2026-10-23T15:09:08.767608+00:00"
+      },
+      "previous_hash": "494288e7524c2b3613f428378915115ed9d7d4571da883b6495aa68e8e347481",
+      "event_hash": "b1f2c25c829ac0ab0007e40e2374542d0e5e796cea257070cb6837fa5a2c4a46"
+    },
+    {
+      "seq": 189,
+      "kind": "forecast",
+      "identity": "understat:31253",
+      "payload": {
+        "all_pre_triplets": {
+          "Avg": {
+            "away": 2.23,
+            "draw": 3.46,
+            "home": 3.04
+          },
+          "B365": {
+            "away": 2.25,
+            "draw": 3.4,
+            "home": 3.2
+          },
+          "BW": {
+            "away": 2.2,
+            "draw": 3.5,
+            "home": 3.1
+          },
+          "WH": null
+        },
+        "away_id": "228",
+        "away_team": "Fulham",
+        "capture_directory": "captures/20261023T150904768442Z",
+        "decisions": [
+          {
+            "ev_after_2pct": -0.15806212461144775,
+            "member": "epl_away_logit",
+            "odds": 2.25,
+            "outcome": "away",
+            "probability": 0.3818312360038786,
+            "selected": false
+          }
+        ],
+        "features": {
+          "logit_sports": {
+            "elo_rating_gap": -4.845315765820487,
+            "elo_win_probability": 0.5787138590397181,
+            "form_score_5_carry": 6.0,
+            "league_Bundesliga": 0.0,
+            "league_EPL": 1.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 0.0,
+            "league_Serie_A": 0.0,
+            "matches_played_in_season_before": 7.0,
+            "opponent_form_score_5_carry": 5.0,
+            "opponent_matches_played_in_season_before": 7.0,
+            "opponent_rest_days": 7.0,
+            "opponent_xG_against_last_5_carry": 1.5345518,
+            "opponent_xG_last_5_carry": 1.9150406,
+            "prev_season_defensive_gap": null,
+            "prev_season_points_per_game_gap": null,
+            "prev_season_xG_gap": null,
+            "team_rest_days": 4.791666666666667,
+            "team_xG_against_last_5_carry": 1.8929110000000002,
+            "team_xG_last_5_carry": 1.20861
+          }
+        },
+        "fixture_id": "understat:31253",
+        "github_run_attempt": "1",
+        "github_run_id": "39975690484",
+        "history_audit": {
+          "history_team_rows": 9260,
+          "latest_history_kickoff_assumed_utc": "2026-10-19T19:00:00Z",
+          "sporting_cutoff_utc": "2026-10-21T14:00:00+00:00"
+        },
+        "home_id": "294",
+        "home_team": "Coventry",
+        "kickoff_utc": "2026-10-24T14:00:00+00:00",
+        "league": "EPL",
+        "odds": {
+          "away": 2.25,
+          "draw": 3.4,
+          "home": 3.2
+        },
+        "portfolios": {
+          "alone_bundesliga_draw_xgb": null,
+          "alone_epl_away_logit": null,
+          "alone_l1_home_poisson": null,
+          "alone_seriea_away_control": null,
+          "alone_seriea_draw_logit": null,
+          "alone_seriea_draw_poisson": null,
+          "reference": null,
+          "reference_bundesliga_draw_xgb": null,
+          "reference_bundesliga_half": null,
+          "reference_epl_away_logit": null,
+          "reference_l1_home_poisson": null,
+          "reference_seriea_away_control": null,
+          "reference_seriea_draw_logit": null,
+          "reference_seriea_draw_poisson": null,
+          "reference_six_full": null,
+          "reference_six_half": null
+        },
+        "probabilities": {
+          "logit_sports": {
+            "away": 0.3818312360038786,
+            "draw": 0.27267895063530007,
+            "home": 0.3454898133608214
+          }
+        },
+        "production_fixture_id": "sportytrader:8558886",
+        "production_run_id": 39975028505,
+        "production_snapshot_completed_at_utc": "2026-10-23T15:08:24Z",
+        "quotes_collected_at_utc": "2026-10-23T15:09:08.879759+00:00",
+        "recorded_at_utc": "2026-10-23T15:09:41.044763+00:00",
+        "reference": null,
+        "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+        "schedule_source": "sportytrader_jsonld_utc",
+        "source_snapshot_sha256": {
+          "Bundesliga": "8bcad5db9253b127b4c95d4e968c091a0563808ec61f445c0a62595f36efd4e5",
+          "EPL": "d377d7c8a81894005565289881dd8265fdb356d70922e7f78c7a395beeb4a3d4",
+          "Ligue_1": "08663cc0af9f74ef572ba88b70e698b3a087c2f096219301baac2ac5d648ec8d",
+          "Serie_A": "24da622febf5660b5bda2b7d4bfef1062c30fff9629483649fc64a68cfa7b570",
+          "fixtures": "f87691adc9a3d562d0d141f5fe3d44165cc6e7713191a091b0c6a29593878793"
+        },
+        "sports_collected_at_utc": "2026-10-23T15:09:08.767608+00:00"
+      },
+      "previous_hash": "b1f2c25c829ac0ab0007e40e2374542d0e5e796cea257070cb6837fa5a2c4a46",
+      "event_hash": "4915d319b53c6cf9ec8fce5f936ab6d3c1133d5f0936ca826990dde6a8b57f13"
+    },
+    {
+      "seq": 190,
+      "kind": "forecast",
+      "identity": "understat:32005",
+      "payload": {
+        "all_pre_triplets": {
+          "Avg": {
+            "away": 3.11,
+            "draw": 3.49,
+            "home": 2.21
+          },
+          "B365": {
+            "away": 3.2,
+            "draw": 3.5,
+            "home": 2.2
+          },
+          "BW": {
+            "away": 3.2,
+            "draw": 3.5,
+            "home": 2.2
+          },
+          "WH": null
+        },
+        "away_id": "170",
+        "away_team": "Nice",
+        "capture_directory": "captures/20261023T150904768442Z",
+        "decisions": [
+          {
+            "ev_after_2pct": 0.05932928772574941,
+            "member": "l1_home_poisson",
+            "odds": 2.2,
+            "outcome": "home",
+            "probability": 0.4913401149006259,
+            "selected": true
+          }
+        ],
+        "features": {
+          "poisson_sports": {
+            "elo_rating_gap": 15.786664416609028,
+            "elo_win_probability": 0.6073682451721758,
+            "form_score_5_carry": 7.0,
+            "league_Bundesliga": 0.0,
+            "league_EPL": 0.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 1.0,
+            "league_Serie_A": 0.0,
+            "matches_played_in_season_before": 7.0,
+            "opponent_form_score_5_carry": 7.0,
+            "opponent_matches_played_in_season_before": 7.0,
+            "opponent_rest_days": 5.0,
+            "opponent_xG_against_last_5_carry": 1.3905688,
+            "opponent_xG_last_5_carry": 1.304182,
+            "prev_season_defensive_gap": 0.1326158235294117,
+            "prev_season_points_per_game_gap": 0.2058823529411764,
+            "prev_season_xG_gap": -0.012023411764705783,
+            "team_rest_days": 6.0,
+            "team_xG_against_last_5_carry": 1.3899252,
+            "team_xG_last_5_carry": 1.8779018000000005
+          }
+        },
+        "fixture_id": "understat:32005",
+        "github_run_attempt": "1",
+        "github_run_id": "39975690484",
+        "history_audit": {
+          "history_team_rows": 8598,
+          "latest_history_kickoff_assumed_utc": "2026-10-18T18:45:00Z",
+          "sporting_cutoff_utc": "2026-10-20T18:45:00+00:00"
+        },
+        "home_id": "241",
+        "home_team": "Brest",
+        "kickoff_utc": "2026-10-23T18:45:00+00:00",
+        "league": "Ligue_1",
+        "odds": {
+          "away": 3.2,
+          "draw": 3.5,
+          "home": 2.2
+        },
+        "portfolios": {
+          "alone_bundesliga_draw_xgb": null,
+          "alone_epl_away_logit": null,
+          "alone_l1_home_poisson": {
+            "odds": 2.2,
+            "outcome": "home",
+            "source": "l1_home_poisson",
+            "stake": 1.0
+          },
+          "alone_seriea_away_control": null,
+          "alone_seriea_draw_logit": null,
+          "alone_seriea_draw_poisson": null,
+          "reference": null,
+          "reference_bundesliga_draw_xgb": null,
+          "reference_bundesliga_half": null,
+          "reference_epl_away_logit": null,
+          "reference_l1_home_poisson": {
+            "odds": 2.2,
+            "outcome": "home",
+            "source": "l1_home_poisson",
+            "stake": 1.0
+          },
+          "reference_seriea_away_control": null,
+          "reference_seriea_draw_logit": null,
+          "reference_seriea_draw_poisson": null,
+          "reference_six_full": {
+            "odds": 2.2,
+            "outcome": "home",
+            "source": "l1_home_poisson",
+            "stake": 1.0
+          },
+          "reference_six_half": {
+            "odds": 2.2,
+            "outcome": "home",
+            "source": "l1_home_poisson",
+            "stake": 0.5
+          }
+        },
+        "probabilities": {
+          "poisson_sports": {
+            "away": 0.2632555225540861,
+            "draw": 0.2454043625452881,
+            "home": 0.4913401149006259
+          }
+        },
+        "production_fixture_id": "sportytrader:8532696",
+        "production_run_id": 39975028505,
+        "production_snapshot_completed_at_utc": "2026-10-23T15:08:24Z",
+        "quotes_collected_at_utc": "2026-10-23T15:09:08.879759+00:00",
+        "recorded_at_utc": "2026-10-23T15:09:44.243074+00:00",
+        "reference": null,
+        "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+        "schedule_source": "sportytrader_jsonld_utc",
+        "source_snapshot_sha256": {
+          "Bundesliga": "8bcad5db9253b127b4c95d4e968c091a0563808ec61f445c0a62595f36efd4e5",
+          "EPL": "d377d7c8a81894005565289881dd8265fdb356d70922e7f78c7a395beeb4a3d4",
+          "Ligue_1": "08663cc0af9f74ef572ba88b70e698b3a087c2f096219301baac2ac5d648ec8d",
+          "Serie_A": "24da622febf5660b5bda2b7d4bfef1062c30fff9629483649fc64a68cfa7b570",
+          "fixtures": "f87691adc9a3d562d0d141f5fe3d44165cc6e7713191a091b0c6a29593878793"
+        },
+        "sports_collected_at_utc": "2026-10-23T15:09:08.733546+00:00"
+      },
+      "previous_hash": "4915d319b53c6cf9ec8fce5f936ab6d3c1133d5f0936ca826990dde6a8b57f13",
+      "event_hash": "ccbd1a1512f1eed4c4d45824e68ca2db3cc4fca60ad53bb149d7b73ad6f1b7d7"
+    },
+    {
+      "seq": 191,
+      "kind": "forecast",
+      "identity": "understat:31638",
+      "payload": {
+        "all_pre_triplets": {
+          "Avg": {
+            "away": 3.43,
+            "draw": 3.45,
+            "home": 2.09
+          },
+          "B365": {
+            "away": 3.5,
+            "draw": 3.4,
+            "home": 2.1
+          },
+          "BW": {
+            "away": 3.4,
+            "draw": 3.5,
+            "home": 2.1
+          },
+          "WH": null
+        },
+        "away_id": "271",
+        "away_team": "Monza",
+        "capture_directory": "captures/20261023T150904768442Z",
+        "decisions": [
+          {
+            "ev_after_2pct": -0.18993516215977702,
+            "member": "seriea_draw_poisson",
+            "odds": 3.4,
+            "outcome": "draw",
+            "probability": 0.2431166980312794,
+            "selected": false
+          },
+          {
+            "ev_after_2pct": 0.006769156158929368,
+            "member": "seriea_draw_logit",
+            "odds": 3.4,
+            "outcome": "draw",
+            "probability": 0.3021516074906751,
+            "selected": false
+          },
+          {
+            "ev_after_2pct": 0.049691469426718315,
+            "member": "seriea_away_control",
+            "odds": 3.5,
+            "outcome": "away",
+            "probability": 0.3060324983751365,
+            "selected": true
+          }
+        ],
+        "features": {
+          "logit_sports": {
+            "elo_rating_gap": 78.29161861539501,
+            "elo_win_probability": 0.6891333065578452,
+            "form_score_5_carry": 10.0,
+            "league_Bundesliga": 0.0,
+            "league_EPL": 0.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 0.0,
+            "league_Serie_A": 1.0,
+            "matches_played_in_season_before": 7.0,
+            "opponent_form_score_5_carry": 7.0,
+            "opponent_matches_played_in_season_before": 7.0,
+            "opponent_rest_days": 4.09375,
+            "opponent_xG_against_last_5_carry": 1.9581498,
+            "opponent_xG_last_5_carry": 1.98799,
+            "prev_season_defensive_gap": null,
+            "prev_season_points_per_game_gap": null,
+            "prev_season_xG_gap": null,
+            "team_rest_days": 4.0,
+            "team_xG_against_last_5_carry": 1.2468398,
+            "team_xG_last_5_carry": 1.2294954
+          },
+          "outcome_control": {
+            "league_Bundesliga": 0.0,
+            "league_EPL": 0.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 0.0,
+            "league_Serie_A": 1.0,
+            "pre_avg_minus_b365_away": 0.004519555836415445,
+            "pre_avg_minus_b365_draw": -0.00503265071492931,
+            "pre_avg_minus_b365_home": 0.0005130948785136424,
+            "pre_avg_overround": 1.0598691614896725,
+            "pre_b365_log_away_home": -0.5108256237659907,
+            "pre_b365_log_draw_home": -0.4818380868927383,
+            "pre_b365_overround": 1.0560224089635852,
+            "pre_book_count": 2.0,
+            "pre_book_std_away": 0.003978779840848823,
+            "pre_book_std_draw": 0.003978779840848823,
+            "pre_book_std_home": 0.0,
+            "pre_has_BW": 1.0,
+            "pre_has_WH": 0.0
+          },
+          "poisson_sports": {
+            "elo_rating_gap": 78.29161861539501,
+            "elo_win_probability": 0.6891333065578452,
+            "form_score_5_carry": 10.0,
+            "league_Bundesliga": 0.0,
+            "league_EPL": 0.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 0.0,
+            "league_Serie_A": 1.0,
+            "matches_played_in_season_before": 7.0,
+            "opponent_form_score_5_carry": 7.0,
+            "opponent_matches_played_in_season_before": 7.0,
+            "opponent_rest_days": 4.09375,
+            "opponent_xG_against_last_5_carry": 1.9581498,
+            "opponent_xG_last_5_carry": 1.98799,
+            "prev_season_defensive_gap": null,
+            "prev_season_points_per_game_gap": null,
+            "prev_season_xG_gap": null,
+            "team_rest_days": 4.0,
+            "team_xG_against_last_5_carry": 1.2468398,
+            "team_xG_last_5_carry": 1.2294954
+          }
+        },
+        "fixture_id": "understat:31638",
+        "github_run_attempt": "1",
+        "github_run_id": "39975690484",
+        "history_audit": {
+          "history_team_rows": 9260,
+          "latest_history_kickoff_assumed_utc": "2026-10-19T18:45:00Z",
+          "sporting_cutoff_utc": "2026-10-20T18:45:00+00:00"
+        },
+        "home_id": "113",
+        "home_team": "Torino",
+        "kickoff_utc": "2026-10-23T18:45:00+00:00",
+        "league": "Serie_A",
+        "odds": {
+          "away": 3.5,
+          "draw": 3.4,
+          "home": 2.1
+        },
+        "portfolios": {
+          "alone_bundesliga_draw_xgb": null,
+          "alone_epl_away_logit": null,
+          "alone_l1_home_poisson": null,
+          "alone_seriea_away_control": {
+            "odds": 3.5,
+            "outcome": "away",
+            "source": "seriea_away_control",
+            "stake": 1.0
+          },
+          "alone_seriea_draw_logit": null,
+          "alone_seriea_draw_poisson": null,
+          "reference": null,
+          "reference_bundesliga_draw_xgb": null,
+          "reference_bundesliga_half": null,
+          "reference_epl_away_logit": null,
+          "reference_l1_home_poisson": null,
+          "reference_seriea_away_control": {
+            "odds": 3.5,
+            "outcome": "away",
+            "source": "seriea_away_control",
+            "stake": 1.0
+          },
+          "reference_seriea_draw_logit": null,
+          "reference_seriea_draw_poisson": null,
+          "reference_six_full": {
+            "odds": 3.5,
+            "outcome": "away",
+            "source": "seriea_away_control",
+            "stake": 1.0
+          },
+          "reference_six_half": {
+            "odds": 3.5,
+            "outcome": "away",
+            "source": "seriea_away_control",
+            "stake": 0.5
+          }
+        },
+        "probabilities": {
+          "logit_sports": {
+            "away": 0.21165623308582623,
+            "draw": 0.3021516074906751,
+            "home": 0.4861921594234985
+          },
+          "outcome_control": {
+            "away": 0.3060324983751365,
+            "draw": 0.2817992451425775,
+            "home": 0.41216825648228606
+          },
+          "poisson_sports": {
+            "away": 0.25829957781292234,
+            "draw": 0.2431166980312794,
+            "home": 0.49858372415579827
+          }
+        },
+        "production_fixture_id": "sportytrader:8522171",
+        "production_run_id": 39975028505,
+        "production_snapshot_completed_at_utc": "2026-10-23T15:08:24Z",
+        "quotes_collected_at_utc": "2026-10-23T15:09:08.879759+00:00",
+        "recorded_at_utc": "2026-10-23T15:09:47.566206+00:00",
+        "reference": null,
+        "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+        "schedule_source": "sportytrader_jsonld_utc",
+        "source_snapshot_sha256": {
+          "Bundesliga": "8bcad5db9253b127b4c95d4e968c091a0563808ec61f445c0a62595f36efd4e5",
+          "EPL": "d377d7c8a81894005565289881dd8265fdb356d70922e7f78c7a395beeb4a3d4",
+          "Ligue_1": "08663cc0af9f74ef572ba88b70e698b3a087c2f096219301baac2ac5d648ec8d",
+          "Serie_A": "24da622febf5660b5bda2b7d4bfef1062c30fff9629483649fc64a68cfa7b570",
+          "fixtures": "f87691adc9a3d562d0d141f5fe3d44165cc6e7713191a091b0c6a29593878793"
+        },
+        "sports_collected_at_utc": "2026-10-23T15:09:08.728085+00:00"
+      },
+      "previous_hash": "ccbd1a1512f1eed4c4d45824e68ca2db3cc4fca60ad53bb149d7b73ad6f1b7d7",
+      "event_hash": "de99c628fd23715a070be2417d2d1bd7525ab2ae780f46a8b0879d29d8f9d977"
+    },
+    {
+      "seq": 192,
+      "kind": "forecast",
+      "identity": "understat:31631",
+      "payload": {
+        "all_pre_triplets": {
+          "Avg": {
+            "away": 2.44,
+            "draw": 3.07,
+            "home": 3.07
+          },
+          "B365": {
+            "away": 2.45,
+            "draw": 3.0,
+            "home": 3.2
+          },
+          "BW": {
+            "away": 2.37,
+            "draw": 3.2,
+            "home": 3.1
+          },
+          "WH": null
+        },
+        "away_id": "97",
+        "away_team": "Bologna",
+        "capture_directory": "captures/20261023T150904768442Z",
+        "decisions": [
+          {
+            "ev_after_2pct": -0.255125159276011,
+            "member": "seriea_draw_poisson",
+            "odds": 3.0,
+            "outcome": "draw",
+            "probability": 0.25335878936190104,
+            "selected": false
+          },
+          {
+            "ev_after_2pct": -0.11896861723074437,
+            "member": "seriea_draw_logit",
+            "odds": 3.0,
+            "outcome": "draw",
+            "probability": 0.29967053835688967,
+            "selected": false
+          },
+          {
+            "ev_after_2pct": 0.040224986594035395,
+            "member": "seriea_away_control",
+            "odds": 2.45,
+            "outcome": "away",
+            "probability": 0.4332465583482029,
+            "selected": true
+          }
+        ],
+        "features": {
+          "logit_sports": {
+            "elo_rating_gap": -7.50771934209024,
+            "elo_win_probability": 0.5749728706002035,
+            "form_score_5_carry": 10.0,
+            "league_Bundesliga": 0.0,
+            "league_EPL": 0.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 0.0,
+            "league_Serie_A": 1.0,
+            "matches_played_in_season_before": 7.0,
+            "opponent_form_score_5_carry": 5.0,
+            "opponent_matches_played_in_season_before": 7.0,
+            "opponent_rest_days": 6.875,
+            "opponent_xG_against_last_5_carry": 1.9713281999999999,
+            "opponent_xG_last_5_carry": 1.5272698,
+            "prev_season_defensive_gap": -0.24873998157894728,
+            "prev_season_points_per_game_gap": -0.3421052631578947,
+            "prev_season_xG_gap": -0.16618376315789485,
+            "team_rest_days": 4.854166666666667,
+            "team_xG_against_last_5_carry": 1.5969464,
+            "team_xG_last_5_carry": 1.4811322
+          },
+          "outcome_control": {
+            "league_Bundesliga": 0.0,
+            "league_EPL": 0.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 0.0,
+            "league_Serie_A": 1.0,
+            "pre_avg_minus_b365_away": -0.0010894025537788177,
+            "pre_avg_minus_b365_draw": -0.009338316068814523,
+            "pre_avg_minus_b365_home": 0.010427718622593285,
+            "pre_avg_overround": 1.0613018636193732,
+            "pre_b365_log_away_home": 0.26706278524904514,
+            "pre_b365_log_draw_home": 0.06453852113757116,
+            "pre_b365_overround": 1.0539965986394557,
+            "pre_book_count": 2.0,
+            "pre_book_std_away": 0.005963091457113434,
+            "pre_book_std_draw": 0.010307264292358731,
+            "pre_book_std_home": 0.004344172835245297,
+            "pre_has_BW": 1.0,
+            "pre_has_WH": 0.0
+          },
+          "poisson_sports": {
+            "elo_rating_gap": -7.50771934209024,
+            "elo_win_probability": 0.5749728706002035,
+            "form_score_5_carry": 10.0,
+            "league_Bundesliga": 0.0,
+            "league_EPL": 0.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 0.0,
+            "league_Serie_A": 1.0,
+            "matches_played_in_season_before": 7.0,
+            "opponent_form_score_5_carry": 5.0,
+            "opponent_matches_played_in_season_before": 7.0,
+            "opponent_rest_days": 6.875,
+            "opponent_xG_against_last_5_carry": 1.9713281999999999,
+            "opponent_xG_last_5_carry": 1.5272698,
+            "prev_season_defensive_gap": -0.24873998157894728,
+            "prev_season_points_per_game_gap": -0.3421052631578947,
+            "prev_season_xG_gap": -0.16618376315789485,
+            "team_rest_days": 4.854166666666667,
+            "team_xG_against_last_5_carry": 1.5969464,
+            "team_xG_last_5_carry": 1.4811322
+          }
+        },
+        "fixture_id": "understat:31631",
+        "github_run_attempt": "1",
+        "github_run_id": "39975690484",
+        "history_audit": {
+          "history_team_rows": 9260,
+          "latest_history_kickoff_assumed_utc": "2026-10-19T18:45:00Z",
+          "sporting_cutoff_utc": "2026-10-21T13:00:00+00:00"
+        },
+        "home_id": "116",
+        "home_team": "Cagliari",
+        "kickoff_utc": "2026-10-24T13:00:00+00:00",
+        "league": "Serie_A",
+        "odds": {
+          "away": 2.45,
+          "draw": 3.0,
+          "home": 3.2
+        },
+        "portfolios": {
+          "alone_bundesliga_draw_xgb": null,
+          "alone_epl_away_logit": null,
+          "alone_l1_home_poisson": null,
+          "alone_seriea_away_control": {
+            "odds": 2.45,
+            "outcome": "away",
+            "source": "seriea_away_control",
+            "stake": 1.0
+          },
+          "alone_seriea_draw_logit": null,
+          "alone_seriea_draw_poisson": null,
+          "reference": null,
+          "reference_bundesliga_draw_xgb": null,
+          "reference_bundesliga_half": null,
+          "reference_epl_away_logit": null,
+          "reference_l1_home_poisson": null,
+          "reference_seriea_away_control": {
+            "odds": 2.45,
+            "outcome": "away",
+            "source": "seriea_away_control",
+            "stake": 1.0
+          },
+          "reference_seriea_draw_logit": null,
+          "reference_seriea_draw_poisson": null,
+          "reference_six_full": {
+            "odds": 2.45,
+            "outcome": "away",
+            "source": "seriea_away_control",
+            "stake": 1.0
+          },
+          "reference_six_half": {
+            "odds": 2.45,
+            "outcome": "away",
+            "source": "seriea_away_control",
+            "stake": 0.5
+          }
+        },
+        "probabilities": {
+          "logit_sports": {
+            "away": 0.3197380473074017,
+            "draw": 0.29967053835688967,
+            "home": 0.3805914143357086
+          },
+          "outcome_control": {
+            "away": 0.4332465583482029,
+            "draw": 0.3027786590937043,
+            "home": 0.26397478255809276
+          },
+          "poisson_sports": {
+            "away": 0.3203267950259155,
+            "draw": 0.25335878936190104,
+            "home": 0.4263144156121835
+          }
+        },
+        "production_fixture_id": "sportytrader:8522164",
+        "production_run_id": 39975028505,
+        "production_snapshot_completed_at_utc": "2026-10-23T15:08:24Z",
+        "quotes_collected_at_utc": "2026-10-23T15:09:08.879759+00:00",
+        "recorded_at_utc": "2026-10-23T15:09:50.853431+00:00",
+        "reference": null,
+        "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+        "schedule_source": "sportytrader_jsonld_utc",
+        "source_snapshot_sha256": {
+          "Bundesliga": "8bcad5db9253b127b4c95d4e968c091a0563808ec61f445c0a62595f36efd4e5",
+          "EPL": "d377d7c8a81894005565289881dd8265fdb356d70922e7f78c7a395beeb4a3d4",
+          "Ligue_1": "08663cc0af9f74ef572ba88b70e698b3a087c2f096219301baac2ac5d648ec8d",
+          "Serie_A": "24da622febf5660b5bda2b7d4bfef1062c30fff9629483649fc64a68cfa7b570",
+          "fixtures": "f87691adc9a3d562d0d141f5fe3d44165cc6e7713191a091b0c6a29593878793"
+        },
+        "sports_collected_at_utc": "2026-10-23T15:09:08.728085+00:00"
+      },
+      "previous_hash": "de99c628fd23715a070be2417d2d1bd7525ab2ae780f46a8b0879d29d8f9d977",
+      "event_hash": "3383e3816c6df41ebc3abd8604ea04abce1d2940f91eec5f6b59675de56c34b6"
+    },
+    {
+      "seq": 193,
+      "kind": "forecast",
+      "identity": "understat:31632",
+      "payload": {
+        "all_pre_triplets": {
+          "Avg": {
+            "away": 5.78,
+            "draw": 4.6,
+            "home": 1.49
+          },
+          "B365": {
+            "away": 5.5,
+            "draw": 4.75,
+            "home": 1.5
+          },
+          "BW": {
+            "away": 5.5,
+            "draw": 4.5,
+            "home": 1.53
+          },
+          "WH": null
+        },
+        "away_id": "104",
+        "away_team": "Sassuolo",
+        "capture_directory": "captures/20261023T150904768442Z",
+        "decisions": [
+          {
+            "ev_after_2pct": -0.1263188912140497,
+            "member": "seriea_draw_poisson",
+            "odds": 4.75,
+            "outcome": "draw",
+            "probability": 0.18768659694649847,
+            "selected": false
+          },
+          {
+            "ev_after_2pct": -0.03735800896153885,
+            "member": "seriea_draw_logit",
+            "odds": 4.75,
+            "outcome": "draw",
+            "probability": 0.20679742020160283,
+            "selected": false
+          },
+          {
+            "ev_after_2pct": -0.0426570225002163,
+            "member": "seriea_away_control",
+            "odds": 5.5,
+            "outcome": "away",
+            "probability": 0.17761465259736248,
+            "selected": false
+          }
+        ],
+        "features": {
+          "logit_sports": {
+            "elo_rating_gap": 119.7871348775368,
+            "elo_win_probability": 0.7378720982475444,
+            "form_score_5_carry": 10.0,
+            "league_Bundesliga": 0.0,
+            "league_EPL": 0.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 0.0,
+            "league_Serie_A": 1.0,
+            "matches_played_in_season_before": 7.0,
+            "opponent_form_score_5_carry": 5.0,
+            "opponent_matches_played_in_season_before": 7.0,
+            "opponent_rest_days": 7.760416666666667,
+            "opponent_xG_against_last_5_carry": 2.1231679999999997,
+            "opponent_xG_last_5_carry": 1.6452524,
+            "prev_season_defensive_gap": 0.5665335263157896,
+            "prev_season_points_per_game_gap": 0.5789473684210527,
+            "prev_season_xG_gap": 0.5250155263157894,
+            "team_rest_days": 6.0,
+            "team_xG_against_last_5_carry": 1.7255814,
+            "team_xG_last_5_carry": 2.4058420000000003
+          },
+          "outcome_control": {
+            "league_Bundesliga": 0.0,
+            "league_EPL": 0.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 0.0,
+            "league_Serie_A": 1.0,
+            "pre_avg_minus_b365_away": -0.008706592805967639,
+            "pre_avg_minus_b365_draw": 0.00599292605360166,
+            "pre_avg_minus_b365_home": 0.002713666752365951,
+            "pre_avg_overround": 1.0615426245679789,
+            "pre_b365_log_away_home": -1.2992829841302607,
+            "pre_b365_log_draw_home": -1.1526795099383855,
+            "pre_b365_overround": 1.059011164274322,
+            "pre_book_count": 2.0,
+            "pre_book_std_away": 0.00011168268579936358,
+            "pre_book_std_draw": 0.005658589413835097,
+            "pre_book_std_home": 0.005770272099634544,
+            "pre_has_BW": 1.0,
+            "pre_has_WH": 0.0
+          },
+          "poisson_sports": {
+            "elo_rating_gap": 119.7871348775368,
+            "elo_win_probability": 0.7378720982475444,
+            "form_score_5_carry": 10.0,
+            "league_Bundesliga": 0.0,
+            "league_EPL": 0.0,
+            "league_La_liga": 0.0,
+            "league_Ligue_1": 0.0,
+            "league_Serie_A": 1.0,
+            "matches_played_in_season_before": 7.0,
+            "opponent_form_score_5_carry": 5.0,
+            "opponent_matches_played_in_season_before": 7.0,
+            "opponent_rest_days": 7.760416666666667,
+            "opponent_xG_against_last_5_carry": 2.1231679999999997,
+            "opponent_xG_last_5_carry": 1.6452524,
+            "prev_season_defensive_gap": 0.5665335263157896,
+            "prev_season_points_per_game_gap": 0.5789473684210527,
+            "prev_season_xG_gap": 0.5250155263157894,
+            "team_rest_days": 6.0,
+            "team_xG_against_last_5_carry": 1.7255814,
+            "team_xG_last_5_carry": 2.4058420000000003
+          }
+        },
+        "fixture_id": "understat:31632",
+        "github_run_attempt": "1",
+        "github_run_id": "39975690484",
+        "history_audit": {
+          "history_team_rows": 9260,
+          "latest_history_kickoff_assumed_utc": "2026-10-19T18:45:00Z",
+          "sporting_cutoff_utc": "2026-10-21T13:00:00+00:00"
+        },
+        "home_id": "286",
+        "home_team": "Como",
+        "kickoff_utc": "2026-10-24T13:00:00+00:00",
+        "league": "Serie_A",
+        "odds": {
+          "away": 5.5,
+          "draw": 4.75,
+          "home": 1.5
+        },
+        "portfolios": {
+          "alone_bundesliga_draw_xgb": null,
+          "alone_epl_away_logit": null,
+          "alone_l1_home_poisson": null,
+          "alone_seriea_away_control": null,
+          "alone_seriea_draw_logit": null,
+          "alone_seriea_draw_poisson": null,
+          "reference": null,
+          "reference_bundesliga_draw_xgb": null,
+          "reference_bundesliga_half": null,
+          "reference_epl_away_logit": null,
+          "reference_l1_home_poisson": null,
+          "reference_seriea_away_control": null,
+          "reference_seriea_draw_logit": null,
+          "reference_seriea_draw_poisson": null,
+          "reference_six_full": null,
+          "reference_six_half": null
+        },
+        "probabilities": {
+          "logit_sports": {
+            "away": 0.12794196349185238,
+            "draw": 0.20679742020160283,
+            "home": 0.6652606163065449
+          },
+          "outcome_control": {
+            "away": 0.17761465259736248,
+            "draw": 0.21410588436349443,
+            "home": 0.608279463039143
+          },
+          "poisson_sports": {
+            "away": 0.149080590586335,
+            "draw": 0.18768659694649847,
+            "home": 0.6632328124671666
+          }
+        },
+        "production_fixture_id": "sportytrader:8522165",
+        "production_run_id": 39975028505,
+        "production_snapshot_completed_at_utc": "2026-10-23T15:08:24Z",
+        "quotes_collected_at_utc": "2026-10-23T15:09:08.879759+00:00",
+        "recorded_at_utc": "2026-10-23T15:09:54.201278+00:00",
+        "reference": null,
+        "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
+        "schedule_source": "sportytrader_jsonld_utc",
+        "source_snapshot_sha256": {
+          "Bundesliga": "8bcad5db9253b127b4c95d4e968c091a0563808ec61f445c0a62595f36efd4e5",
+          "EPL": "d377d7c8a81894005565289881dd8265fdb356d70922e7f78c7a395beeb4a3d4",
+          "Ligue_1": "08663cc0af9f74ef572ba88b70e698b3a087c2f096219301baac2ac5d648ec8d",
+          "Serie_A": "24da622febf5660b5bda2b7d4bfef1062c30fff9629483649fc64a68cfa7b570",
+          "fixtures": "f87691adc9a3d562d0d141f5fe3d44165cc6e7713191a091b0c6a29593878793"
+        },
+        "sports_collected_at_utc": "2026-10-23T15:09:08.728085+00:00"
+      },
+      "previous_hash": "3383e3816c6df41ebc3abd8604ea04abce1d2940f91eec5f6b59675de56c34b6",
+      "event_hash": "7c341a21c7dbb46abd74fe24ed2c810b46162af4fa03cbc28a0246d7e3db71e4"
+    },
+    {
+      "seq": 194,
+      "kind": "run",
+      "identity": "understat_settlement_timezone_v1_2026_10_18:20261023T150904768442Z",
+      "payload": {
+        "amendment_sha256": "63bfdf191868c23f13fcf9f823200cff317df534f0d3b19f7e42f94197d2757c",
+        "corrections": [
+          {
+            "fixture_id": "understat:32290",
+            "initial_datetime": "2026-10-16 18:30:00",
+            "observed_datetime": "2026-10-16 18:30:00",
+            "prematch_source_sha256": "d4bf23a7d55e3962f89cd2b1efceb98f208d3fc3dd44d2b490d76f60ca91643e",
+            "resolved_utc": "2026-10-16T18:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-16T18:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31624",
+            "initial_datetime": "2026-10-16 18:45:00",
+            "observed_datetime": "2026-10-16 18:45:00",
+            "prematch_source_sha256": "6f802707be5d97170e014afa9f0e363f8c75d4ac478e0f781338b91954c0d8bb",
+            "resolved_utc": "2026-10-16T18:45:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-16T18:45:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31240",
+            "initial_datetime": "2026-10-17 11:30:00",
+            "observed_datetime": "2026-10-17 11:30:00",
+            "prematch_source_sha256": "3b480a58b323db06a15d78e31b4668a8557f05f46a82a4a227cda9de2fd56a4f",
+            "resolved_utc": "2026-10-17T11:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-17T11:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32763",
+            "initial_datetime": "2026-10-17 13:30:00",
+            "observed_datetime": "2026-10-17 13:30:00",
+            "prematch_source_sha256": "d4bf23a7d55e3962f89cd2b1efceb98f208d3fc3dd44d2b490d76f60ca91643e",
+            "resolved_utc": "2026-10-17T13:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-17T13:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32291",
+            "initial_datetime": "2026-10-17 13:30:00",
+            "observed_datetime": "2026-10-17 13:30:00",
+            "prematch_source_sha256": "d4bf23a7d55e3962f89cd2b1efceb98f208d3fc3dd44d2b490d76f60ca91643e",
+            "resolved_utc": "2026-10-17T13:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-17T13:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32292",
+            "initial_datetime": "2026-10-17 13:30:00",
+            "observed_datetime": "2026-10-17 13:30:00",
+            "prematch_source_sha256": "d4bf23a7d55e3962f89cd2b1efceb98f208d3fc3dd44d2b490d76f60ca91643e",
+            "resolved_utc": "2026-10-17T13:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-17T13:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32293",
+            "initial_datetime": "2026-10-17 13:30:00",
+            "observed_datetime": "2026-10-17 13:30:00",
+            "prematch_source_sha256": "d4bf23a7d55e3962f89cd2b1efceb98f208d3fc3dd44d2b490d76f60ca91643e",
+            "resolved_utc": "2026-10-17T13:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-17T13:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32294",
+            "initial_datetime": "2026-10-17 13:30:00",
+            "observed_datetime": "2026-10-17 13:30:00",
+            "prematch_source_sha256": "d4bf23a7d55e3962f89cd2b1efceb98f208d3fc3dd44d2b490d76f60ca91643e",
+            "resolved_utc": "2026-10-17T13:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-17T13:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31242",
+            "initial_datetime": "2026-10-17 14:00:00",
+            "observed_datetime": "2026-10-17 14:00:00",
+            "prematch_source_sha256": "3b480a58b323db06a15d78e31b4668a8557f05f46a82a4a227cda9de2fd56a4f",
+            "resolved_utc": "2026-10-17T14:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-17T14:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31241",
+            "initial_datetime": "2026-10-17 14:00:00",
+            "observed_datetime": "2026-10-17 14:00:00",
+            "prematch_source_sha256": "3b480a58b323db06a15d78e31b4668a8557f05f46a82a4a227cda9de2fd56a4f",
+            "resolved_utc": "2026-10-17T14:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-17T14:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31243",
+            "initial_datetime": "2026-10-17 14:00:00",
+            "observed_datetime": "2026-10-17 14:00:00",
+            "prematch_source_sha256": "3b480a58b323db06a15d78e31b4668a8557f05f46a82a4a227cda9de2fd56a4f",
+            "resolved_utc": "2026-10-17T14:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-17T14:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31629",
+            "initial_datetime": "2026-10-17 13:00:00",
+            "observed_datetime": "2026-10-17 13:00:00",
+            "prematch_source_sha256": "6f802707be5d97170e014afa9f0e363f8c75d4ac478e0f781338b91954c0d8bb",
+            "resolved_utc": "2026-10-17T13:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-17T13:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32288",
+            "initial_datetime": "2026-10-17 16:30:00",
+            "observed_datetime": "2026-10-17 16:30:00",
+            "prematch_source_sha256": "d4bf23a7d55e3962f89cd2b1efceb98f208d3fc3dd44d2b490d76f60ca91643e",
+            "resolved_utc": "2026-10-17T16:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-17T16:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31244",
+            "initial_datetime": "2026-10-17 16:30:00",
+            "observed_datetime": "2026-10-17 16:30:00",
+            "prematch_source_sha256": "3b480a58b323db06a15d78e31b4668a8557f05f46a82a4a227cda9de2fd56a4f",
+            "resolved_utc": "2026-10-17T16:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-17T16:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31997",
+            "initial_datetime": "2026-10-17 18:45:00",
+            "observed_datetime": "2026-10-17 18:45:00",
+            "prematch_source_sha256": "16033a5c95e7cd96c0e5fe6b9b63b7e6ff12248c4b666ba479ac663287a00e5d",
+            "resolved_utc": "2026-10-17T18:45:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-17T18:45:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32002",
+            "initial_datetime": "2026-10-17 18:45:00",
+            "observed_datetime": "2026-10-17 18:45:00",
+            "prematch_source_sha256": "16033a5c95e7cd96c0e5fe6b9b63b7e6ff12248c4b666ba479ac663287a00e5d",
+            "resolved_utc": "2026-10-17T18:45:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-17T18:45:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31622",
+            "initial_datetime": "2026-10-17 16:00:00",
+            "observed_datetime": "2026-10-17 16:00:00",
+            "prematch_source_sha256": "6f802707be5d97170e014afa9f0e363f8c75d4ac478e0f781338b91954c0d8bb",
+            "resolved_utc": "2026-10-17T16:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-17T16:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31621",
+            "initial_datetime": "2026-10-17 18:45:00",
+            "observed_datetime": "2026-10-17 18:45:00",
+            "prematch_source_sha256": "6f802707be5d97170e014afa9f0e363f8c75d4ac478e0f781338b91954c0d8bb",
+            "resolved_utc": "2026-10-17T18:45:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-17T18:45:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32287",
+            "initial_datetime": "2026-10-18 13:30:00",
+            "observed_datetime": "2026-10-18 13:30:00",
+            "prematch_source_sha256": "396536c72929250ba0ccdfe3ed69a9733cf679fdce1e6e74e3f00fea6a61f6bc",
+            "resolved_utc": "2026-10-18T13:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T13:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31246",
+            "initial_datetime": "2026-10-18 13:00:00",
+            "observed_datetime": "2026-10-18 13:00:00",
+            "prematch_source_sha256": "3b480a58b323db06a15d78e31b4668a8557f05f46a82a4a227cda9de2fd56a4f",
+            "resolved_utc": "2026-10-18T13:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T13:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31245",
+            "initial_datetime": "2026-10-18 13:00:00",
+            "observed_datetime": "2026-10-18 13:00:00",
+            "prematch_source_sha256": "3b480a58b323db06a15d78e31b4668a8557f05f46a82a4a227cda9de2fd56a4f",
+            "resolved_utc": "2026-10-18T13:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T13:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31247",
+            "initial_datetime": "2026-10-18 13:00:00",
+            "observed_datetime": "2026-10-18 13:00:00",
+            "prematch_source_sha256": "3b480a58b323db06a15d78e31b4668a8557f05f46a82a4a227cda9de2fd56a4f",
+            "resolved_utc": "2026-10-18T13:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T13:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31994",
+            "initial_datetime": "2026-10-18 13:00:00",
+            "observed_datetime": "2026-10-18 13:00:00",
+            "prematch_source_sha256": "4ee8941f171ee88453ab8c0df61becd14effaa1fa6a20fb40c728ab0b0831191",
+            "resolved_utc": "2026-10-18T13:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T13:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31998",
+            "initial_datetime": "2026-10-18 15:15:00",
+            "observed_datetime": "2026-10-18 15:15:00",
+            "prematch_source_sha256": "4ee8941f171ee88453ab8c0df61becd14effaa1fa6a20fb40c728ab0b0831191",
+            "resolved_utc": "2026-10-18T13:15:00+00:00",
+            "timezone": "Europe/Paris",
+            "verified_kickoff_utc": "2026-10-18T13:15:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31628",
+            "initial_datetime": "2026-10-18 10:30:00",
+            "observed_datetime": "2026-10-18 10:30:00",
+            "prematch_source_sha256": "7479f418f261bcded6aca6e88bde1945993fbacf2f1a4607f8e09295b6b7ec5b",
+            "resolved_utc": "2026-10-18T10:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T10:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31623",
+            "initial_datetime": "2026-10-18 13:00:00",
+            "observed_datetime": "2026-10-18 13:00:00",
+            "prematch_source_sha256": "7479f418f261bcded6aca6e88bde1945993fbacf2f1a4607f8e09295b6b7ec5b",
+            "resolved_utc": "2026-10-18T13:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T13:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32289",
+            "initial_datetime": "2026-10-18 15:30:00",
+            "observed_datetime": "2026-10-18 15:30:00",
+            "prematch_source_sha256": "396536c72929250ba0ccdfe3ed69a9733cf679fdce1e6e74e3f00fea6a61f6bc",
+            "resolved_utc": "2026-10-18T15:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T15:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31248",
+            "initial_datetime": "2026-10-18 15:30:00",
+            "observed_datetime": "2026-10-18 15:30:00",
+            "prematch_source_sha256": "92960a8aa7c21cb59aaba6f1d5bc6d253ba38d9879d89798669968256ebac7f9",
+            "resolved_utc": "2026-10-18T15:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T15:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31995",
+            "initial_datetime": "2026-10-18 15:15:00",
+            "observed_datetime": "2026-10-18 15:15:00",
+            "prematch_source_sha256": "4ee8941f171ee88453ab8c0df61becd14effaa1fa6a20fb40c728ab0b0831191",
+            "resolved_utc": "2026-10-18T15:15:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T15:15:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32000",
+            "initial_datetime": "2026-10-18 15:15:00",
+            "observed_datetime": "2026-10-18 15:15:00",
+            "prematch_source_sha256": "4ee8941f171ee88453ab8c0df61becd14effaa1fa6a20fb40c728ab0b0831191",
+            "resolved_utc": "2026-10-18T15:15:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T15:15:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31999",
+            "initial_datetime": "2026-10-18 18:45:00",
+            "observed_datetime": "2026-10-18 18:45:00",
+            "prematch_source_sha256": "265077a0a3f6f2e5ef7f813ea9bdbb51015441cce6a921dbad9a81c659431e93",
+            "resolved_utc": "2026-10-18T18:45:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T18:45:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31620",
+            "initial_datetime": "2026-10-18 16:00:00",
+            "observed_datetime": "2026-10-18 16:00:00",
+            "prematch_source_sha256": "aee5a1d103bb03f5fb95454caae08c83a540086cbd69daaa9aee4f2e3705546f",
+            "resolved_utc": "2026-10-18T16:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T16:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31625",
+            "initial_datetime": "2026-10-18 18:45:00",
+            "observed_datetime": "2026-10-18 18:45:00",
+            "prematch_source_sha256": "aee5a1d103bb03f5fb95454caae08c83a540086cbd69daaa9aee4f2e3705546f",
+            "resolved_utc": "2026-10-18T18:45:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T18:45:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31626",
+            "initial_datetime": "2026-10-19 16:30:00",
+            "observed_datetime": "2026-10-19 16:30:00",
+            "prematch_source_sha256": "468dd93539c2fd12ae92798581263fa22fe5c78cbe79458aaf74cc352481d17e",
+            "resolved_utc": "2026-10-19T16:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-19T16:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31627",
+            "initial_datetime": "2026-10-19 18:45:00",
+            "observed_datetime": "2026-10-19 18:45:00",
+            "prematch_source_sha256": "468dd93539c2fd12ae92798581263fa22fe5c78cbe79458aaf74cc352481d17e",
+            "resolved_utc": "2026-10-19T18:45:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-19T18:45:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31249",
+            "initial_datetime": "2026-10-19 19:00:00",
+            "observed_datetime": "2026-10-19 19:00:00",
+            "prematch_source_sha256": "ed09be8e64ca8920d08ddfb637b093a6ef805e76441876f4bd0c2ae9024a7802",
+            "resolved_utc": "2026-10-19T19:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-19T19:00:00+00:00",
+            "within_original_30min_tolerance": true
+          }
+        ],
+        "github_run_id": "39975690484",
+        "runtime_sha256": "1ccd2e450e0bf120a545b249fcc0be593939a7ed283e5727bb174e46cc1e77f7",
+        "source_snapshot_sha256": {
+          "Bundesliga": "8bcad5db9253b127b4c95d4e968c091a0563808ec61f445c0a62595f36efd4e5",
+          "EPL": "d377d7c8a81894005565289881dd8265fdb356d70922e7f78c7a395beeb4a3d4",
+          "Ligue_1": "08663cc0af9f74ef572ba88b70e698b3a087c2f096219301baac2ac5d648ec8d",
+          "Serie_A": "24da622febf5660b5bda2b7d4bfef1062c30fff9629483649fc64a68cfa7b570",
+          "fixtures": "f87691adc9a3d562d0d141f5fe3d44165cc6e7713191a091b0c6a29593878793"
+        },
+        "unresolved": [],
+        "version": "understat_settlement_timezone_v1_2026_10_18"
+      },
+      "previous_hash": "7c341a21c7dbb46abd74fe24ed2c810b46162af4fa03cbc28a0246d7e3db71e4",
+      "event_hash": "7834ba9f11e77f874ff43dca42cda8b907b519cc7438b521a6679bc50c782f37"
+    },
+    {
+      "seq": 195,
+      "kind": "run",
+      "identity": "20261023T150904768442Z",
+      "payload": {
+        "eligible_new_candidates": 14,
+        "finished_at_utc": "2026-10-23T15:09:54.357030+00:00",
+        "github_run_attempt": "1",
+        "github_run_id": "39975690484",
+        "new_forecasts": 14,
+        "new_settlements": 0,
+        "production_changed": false,
+        "production_run_id": 39975028505,
+        "production_snapshot_age_hours": 0.025099166666666665,
+        "rejected_rows": 24,
+        "run_id": "20261023T150904768442Z",
+        "settlement_issues": [],
+        "started_at_utc": "2026-10-23T15:09:04.768442+00:00",
+        "state": "collected"
+      },
+      "previous_hash": "7834ba9f11e77f874ff43dca42cda8b907b519cc7438b521a6679bc50c782f37",
+      "event_hash": "f452173b145bb3f4f5dfe508b05372671dc9ca88b190f6003ab79a373b791c8a"
     }
   ]
 }
