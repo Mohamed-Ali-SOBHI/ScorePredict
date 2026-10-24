@@ -522,47 +522,6 @@ function renderCumulativeChart(rows) {
   });
 }
 
-function renderDrawdownChart(rows) {
-  const svg = $("#drawdown-chart");
-  if (!svg) return;
-  const { width, height, compact } = chartLayout(svg, 260);
-  const curve = usableCurve(rows).filter((row) => row.drawdown !== null);
-  if (curve.length < 2) {
-    svg.innerHTML = `<text x="${width / 2}" y="${height / 2}" text-anchor="middle" class="chart-axis">Données de baisse indisponibles</text>`;
-    return;
-  }
-
-  const margin = { top: 18, right: 12, bottom: 35, left: compact ? 42 : 62 };
-  const min = Math.min(...curve.map((row) => row.drawdown), -1) * 1.08;
-  const max = 0;
-  const x = (value) => scaleLinear(value, curve[0].timestamp, curve.at(-1).timestamp, margin.left, width - margin.right);
-  const y = (value) => scaleLinear(value, min, max, height - margin.bottom, margin.top);
-  const points = curve.map((row) => ({ ...row, x: x(row.timestamp), y: y(row.drawdown) }));
-  const line = pathFromPoints(points);
-  const baseline = y(0);
-  const area = `M${points[0].x},${baseline} ${line.slice(1)} L${points.at(-1).x},${baseline} Z`;
-  const ticks = [0, .33, .66, 1].map((ratio) => min * ratio);
-  const grid = ticks.map((tick) => {
-    const yValue = y(tick);
-    return `<line class="chart-grid" x1="${margin.left}" x2="${width - margin.right}" y1="${yValue}" y2="${yValue}"></line><text class="chart-axis" x="${margin.left - 12}" y="${yValue + 4}" text-anchor="end">${escapeHtml(signed(tick, decimalOne))}</text>`;
-  }).join("");
-  const xTicks = chartDateTicks(curve[0].timestamp, curve.at(-1).timestamp, compact ? 3 : 4, width, height, margin, compact);
-
-  svg.innerHTML = `
-    <title id="drawdown-chart-title">Baisses historiques depuis le meilleur niveau atteint</title>
-    <desc id="drawdown-chart-desc">La baisse la plus importante observée est de ${escapeHtml(signed(Math.min(...curve.map((row) => row.drawdown))))} mises.</desc>
-    <defs>
-      <linearGradient id="drawdown-area" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#e87c6f" stop-opacity=".05"></stop>
-        <stop offset="100%" stop-color="#e87c6f" stop-opacity=".4"></stop>
-      </linearGradient>
-    </defs>
-    ${grid}${xTicks}
-    <path class="drawdown-area" d="${area}"></path>
-    <path class="drawdown-line" d="${line}"></path>
-  `;
-}
-
 function aggregatePeriods(rows) {
   if (!Array.isArray(rows)) return [];
   const periods = new Map();
@@ -748,13 +707,10 @@ function renderPerformance(data) {
     const periods = performance.monthly || [];
     displayedChartRows = performance.curve || [];
     renderCumulativeChart(displayedChartRows);
-    renderDrawdownChart(displayedChartRows);
     renderPeriods(periods);
     renderPlausibleRange(metrics);
     renderLeagues(performance.leagues || []);
 
-    setText("#max-drawdown", maxDrawdown === null ? "—" : `${decimal.format(Math.abs(maxDrawdown))} mises`);
-    setText("#positive-periods", periods.length ? `${periods.filter(p => p.profit > 0).length} sur ${periods.length}` : "—");
     setText("#range-low", metrics.roiCiLow === null ? "—" : `${signed(metrics.roiCiLow * 100, decimalOne)} %`);
     setText("#range-high", metrics.roiCiHigh === null ? "—" : `${signed(metrics.roiCiHigh * 100, decimalOne)} %`);
   } catch (e) {
@@ -964,10 +920,9 @@ if ("ResizeObserver" in window) {
     }).some(Boolean);
     if (changed) {
       renderCumulativeChart(displayedChartRows);
-      renderDrawdownChart(displayedChartRows);
     }
   });
-  $$("#cumulative-chart, #drawdown-chart").forEach(svg => chartObserver.observe(svg.parentElement));
+  $$("#cumulative-chart").forEach(svg => chartObserver.observe(svg.parentElement));
 }
 setInterval(loadDashboard, 5 * 60 * 1000);
 // Update the kickoff state locally without an extra network poll or invented live score.
