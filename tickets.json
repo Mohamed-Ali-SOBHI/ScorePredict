@@ -203,8 +203,8 @@
       "local_price_only|EPL|home|0.02|all",
       "local_price_only|EPL|draw|0.05|all"
     ],
-    "status": "pending",
-    "profit": null
+    "status": "lost",
+    "profit": -1.0
   },
   {
     "fixture_id": "understat:31254",
@@ -304,6 +304,94 @@
     "source": "local_price_only|EPL|home|0.02|all",
     "selected_members": [
       "local_price_only|EPL|home|0.02|all"
+    ],
+    "status": "pending",
+    "profit": null
+  },
+  {
+    "fixture_id": "understat:31257",
+    "league": "EPL",
+    "home_team": "Crystal Palace",
+    "away_team": "Newcastle United",
+    "kickoff_utc": "2026-10-25T14:00:00+00:00",
+    "recorded_at_utc": "2026-10-24T14:08:37.019463+00:00",
+    "outcome": "draw",
+    "odds": 3.6,
+    "stake": 1.0,
+    "source": "local_sport_only|EPL|draw|0.10|all",
+    "selected_members": [
+      "local_sport_only|EPL|draw|0.10|all",
+      "local_price_only|EPL|draw|0.05|all"
+    ],
+    "status": "pending",
+    "profit": null
+  },
+  {
+    "fixture_id": "understat:31258",
+    "league": "EPL",
+    "home_team": "Hull",
+    "away_team": "Brentford",
+    "kickoff_utc": "2026-10-25T14:00:00+00:00",
+    "recorded_at_utc": "2026-10-24T14:08:42.035296+00:00",
+    "outcome": "draw",
+    "odds": 3.8,
+    "stake": 1.0,
+    "source": "local_sport_only|EPL|draw|0.10|all",
+    "selected_members": [
+      "local_sport_only|EPL|draw|0.10|all",
+      "local_price_only|EPL|draw|0.05|all"
+    ],
+    "status": "pending",
+    "profit": null
+  },
+  {
+    "fixture_id": "understat:31256",
+    "league": "EPL",
+    "home_team": "Manchester United",
+    "away_team": "Bournemouth",
+    "kickoff_utc": "2026-10-25T14:00:00+00:00",
+    "recorded_at_utc": "2026-10-24T14:08:51.962724+00:00",
+    "outcome": "draw",
+    "odds": 3.6,
+    "stake": 1.0,
+    "source": "local_sport_only|EPL|draw|0.10|all",
+    "selected_members": [
+      "local_sport_only|EPL|draw|0.10|all",
+      "local_price_only|EPL|away|0.05|all"
+    ],
+    "status": "pending",
+    "profit": null
+  },
+  {
+    "fixture_id": "understat:32008",
+    "league": "Ligue_1",
+    "home_team": "Monaco",
+    "away_team": "Lille",
+    "kickoff_utc": "2026-10-25T14:00:00+00:00",
+    "recorded_at_utc": "2026-10-24T14:08:56.834203+00:00",
+    "outcome": "home",
+    "odds": 2.05,
+    "stake": 1.0,
+    "source": "local_price_only|Ligue_1|home|0.02|all",
+    "selected_members": [
+      "local_price_only|Ligue_1|home|0.02|all"
+    ],
+    "status": "pending",
+    "profit": null
+  },
+  {
+    "fixture_id": "understat:31634",
+    "league": "Serie_A",
+    "home_team": "Inter",
+    "away_team": "Fiorentina",
+    "kickoff_utc": "2026-10-25T11:30:00+00:00",
+    "recorded_at_utc": "2026-10-24T14:09:01.751006+00:00",
+    "outcome": "away",
+    "odds": 8.0,
+    "stake": 1.0,
+    "source": "residual_sport_recency|Serie_A|away|0.02|all",
+    "selected_members": [
+      "residual_sport_recency|Serie_A|away|0.02|all"
     ],
     "status": "pending",
     "profit": null
