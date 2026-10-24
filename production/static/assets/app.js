@@ -602,29 +602,26 @@ function renderPlausibleRange(metrics) {
   $("#range-visual")?.setAttribute("aria-label", `Fourchette de ${signed(low100, decimalOne)} à ${signed(high100, decimalOne)}, résultat observé ${signed(observed100, decimalOne)}`);
 }
 
-function renderLeagues(rows) {
-  const holder = $("#league-list");
+function renderStrategies(rows) {
+  const holder = $("#strategy-list");
   if (!holder) return;
-  const leagues = (Array.isArray(rows) ? rows : []).map((row) => ({
-    label: row?.leagueLabel || row?.league,
-    bets: numberOrNull(row?.bets),
-    result: numberOrNull(row?.["roi"]),
-  })).filter((row) => validText(row.label) && row.bets !== null && row.result !== null);
-  if (!leagues.length) {
-    holder.innerHTML = '<p class="empty-results">Résultats par championnat indisponibles.</p>';
+  const strategies = Array.isArray(rows) ? rows : [];
+  if (!strategies.length) {
+    holder.innerHTML = '<p class="empty-results">Résultats par stratégie indisponibles.</p>';
     return;
   }
-  const maxAbsolute = Math.max(...leagues.map((row) => Math.abs(row.result)), .01);
-  holder.innerHTML = leagues.map((row) => {
-    const result100 = row.result * 100;
-    const negative = result100 < 0;
-    const width = Math.max(2, Math.min(100, (Math.abs(row.result) / maxAbsolute) * 100));
+  const maxAbsolute = Math.max(...strategies.map(row => Math.abs(row.profit ?? 0)), .01);
+  holder.innerHTML = strategies.map(row => {
+    const profit = numberOrNull(row.profit);
+    const roi = numberOrNull(row.roi);
+    const negative = profit !== null && profit < 0;
+    const width = profit === null ? 0 : Math.abs(profit) / maxAbsolute * 50;
     return `
-      <div class="league-row">
+      <div class="strategy-row">
         <strong>${escapeHtml(row.label)}</strong>
-        <span>${integer.format(row.bets)} choix</span>
-        <div class="league-meter" aria-hidden="true"><i class="${negative ? "negative" : ""}" style="width:${width}%"></i></div>
-        <b class="league-result ${negative ? "negative" : "positive"}">${escapeHtml(signed(result100, decimalOne))} / 100</b>
+        <b class="strategy-gain ${profit === null || profit === 0 ? "" : negative ? "negative" : "positive"}">${profit === null ? "—" : escapeHtml(signed(profit)) + " u"}</b>
+        <span class="strategy-stats">${integer.format(row.bets)} pari${row.bets === 1 ? "" : "s"} terminé${row.bets === 1 ? "" : "s"} · Rendement : ${roi === null ? "—" : escapeHtml(signed(roi * 100, decimalOne)) + " %"}</span>
+        <div class="strategy-meter" aria-hidden="true"><i class="${negative ? "negative" : "positive"}" style="width:${width}%"></i></div>
       </div>`;
   }).join("");
 }
@@ -651,6 +648,18 @@ function currentSeasonData(data, now = Date.now()) {
   }
   const activity = [...unique.values()].sort((a,b) => new Date(a.date)-new Date(b.date));
   const settled = activity.filter(r => ['won','lost'].includes(r.status) && new Date(r.date).getTime() <= now);
+  const publicStrategies = data.meta?.publicStrategies || [
+    {league:'Bundesliga',outcome:'draw',label:'Bundesliga · match nul'},
+    {id:'epl_away_logit_strict_2026_10_18',league:'EPL',outcome:'away_win',label:'Premier League · victoire extérieure'},
+  ];
+  const strategies = publicStrategies.map(strategy => {
+    const rows = settled.filter(row => row.league === strategy.league
+      && (row.outcome || ({'Match nul':'draw','Victoire extérieure':'away_win'})[row.outcomeLabel]) === strategy.outcome
+      && (!strategy.id || row.strategy === strategy.id));
+    const known = rows.every(row => numberOrNull(row.profitUnits) !== null);
+    const gain = known ? rows.reduce((sum,row) => sum + Number(row.profitUnits),0) : null;
+    return {label:strategy.label,bets:rows.length,profit:gain,roi:known && rows.length ? gain / rows.length : null};
+  });
   const complete = settled.every(r => numberOrNull(r.profitUnits) !== null);
   const won = settled.filter(r => r.status === 'won').length;
   let profit = 0, peak = 0, maxDrawdown = 0;
@@ -672,7 +681,7 @@ function currentSeasonData(data, now = Date.now()) {
   return {...data, meta:{...data.meta,currentSeason:season},activity,
     predictions:(data.predictions || []).filter(r => seasonOf(r.date) === season),
     tracking:{...data.tracking,verified:settled.length,won,lost:settled.length-won},
-    performance:{metrics,curve,monthly:[...monthly.values()],leagues:[...leagues.values()],live:{settledBets:settled.length,roi,profitUnits:metrics.profit}},
+    performance:{metrics,curve,strategies,monthly:[...monthly.values()],leagues:[...leagues.values()],live:{settledBets:settled.length,roi,profitUnits:metrics.profit}},
     summary:{...data.summary,liveReturn:roi,liveProfitUnits:metrics.profit}};
 }
 
@@ -709,7 +718,7 @@ function renderPerformance(data) {
     renderCumulativeChart(displayedChartRows);
     renderPeriods(periods);
     renderPlausibleRange(metrics);
-    renderLeagues(performance.leagues || []);
+    renderStrategies(performance.strategies || []);
 
     setText("#range-low", metrics.roiCiLow === null ? "—" : `${signed(metrics.roiCiLow * 100, decimalOne)} %`);
     setText("#range-high", metrics.roiCiHigh === null ? "—" : `${signed(metrics.roiCiHigh * 100, decimalOne)} %`);

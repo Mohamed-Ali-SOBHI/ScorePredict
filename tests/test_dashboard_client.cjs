@@ -22,6 +22,7 @@ vm.runInContext(`
   ${section('function escapeHtml(', 'function predictionMarkup(')}
   ${section('function predictionMarkup(', 'function resetNoPickCopy(')}
   ${section('function resultLabel(', 'function usableCurve(')}
+  ${section('function renderStrategies(', '// Public results are calculated')}
   ${section('function currentSeasonData(', 'function renderPerformance(')}
 `, context);
 const evaluate = code => vm.runInContext(code, context);
@@ -150,3 +151,34 @@ assert.equal(node('#live-return').textContent,'—');
 assert.equal(evaluate('archivedFixture.activity[0].profitUnits'),-1);
 assert.equal(evaluate('archivedResult.activity.length'),0);
 console.log('Archived Italian ticket: absent from public history and totals, source retained.');
+
+// Strategy totals use the same deduplicated, settled public tickets as the main chart.
+assert.equal(evaluate('seasonResult.performance.strategies[0].bets'),2);
+assert.equal(evaluate('seasonResult.performance.strategies[0].profit'),2);
+assert.equal(evaluate('seasonResult.performance.strategies[0].roi'),1);
+assert.equal(evaluate('seasonResult.performance.strategies[1].bets'),0);
+assert.equal(evaluate('seasonResult.performance.strategies[1].profit'),0);
+assert.equal(evaluate('seasonResult.performance.strategies[1].roi'),null);
+evaluate(`
+  const englishTicket={...choice,league:'EPL',outcome:'away_win',outcomeLabel:'Victoire extérieure',
+    strategy:'epl_away_logit_strict_2026_10_18',id:'english',date:'2026-09-05T13:00:00Z',status:'lost',profitUnits:-1};
+  const mixedResult=currentSeasonData({...seasonFixture,activity:[...seasonFixture.activity,englishTicket,
+    {...englishTicket}, {...englishTicket,id:'pending-epl',date:'2026-09-06T13:00:00Z',status:'pending',profitUnits:0},
+    {...englishTicket,id:'archived-epl',date:'2026-09-07T13:00:00Z',historicalOnly:true,profitUnits:100}]},Date.parse('2026-09-12T12:00:00Z'));
+  renderStrategies(mixedResult.performance.strategies);
+`);
+assert.equal(evaluate('mixedResult.performance.strategies[1].bets'),1);
+assert.equal(evaluate('mixedResult.performance.strategies[1].profit'),-1);
+assert.equal(evaluate('mixedResult.performance.strategies[1].roi'),-1);
+assert.equal(evaluate('mixedResult.performance.strategies.reduce((sum,row)=>sum+row.profit,0)'),evaluate('mixedResult.performance.metrics.profit'));
+assert.match(node('#strategy-list').innerHTML,/Rendement : −100,0 %/);
+assert.match(node('#strategy-list').innerHTML,/1 pari terminé/);
+evaluate('renderStrategies(seasonResult.performance.strategies);');
+assert.match(node('#strategy-list').innerHTML,/0 paris terminés · Rendement : —/);
+evaluate(`
+  const unknownResult=currentSeasonData({...seasonFixture,activity:[{...englishTicket,profitUnits:null}]},Date.parse('2026-09-12T12:00:00Z'));
+`);
+assert.equal(evaluate('unknownResult.performance.strategies[1].bets'),1);
+assert.equal(evaluate('unknownResult.performance.strategies[1].profit'),null);
+assert.equal(evaluate('unknownResult.performance.strategies[1].roi'),null);
+console.log('Strategy gains: settled counts, duplicates, pending, archived, losses and missing values verified.');

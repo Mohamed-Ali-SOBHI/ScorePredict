@@ -499,3 +499,19 @@
   .journal-dashboard .tracking-totals { gap: 7px; }
   .journal-dashboard .tracking-totals span { font-size: 10px; }
 }
+
+/* Published strategy gains share one scale, centred on zero. */
+.strategy-list { margin-top: 24px; }
+.strategy-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 16px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.strategy-row:first-child { padding-top: 0; }
+.strategy-row:last-child { border-bottom: 0; padding-bottom: 0; }
+.strategy-row > strong { font-size: 14px; line-height: 1.5; }
+.strategy-gain { font-size: 16px; white-space: nowrap; align-self: start; }
+.strategy-gain.positive { color: var(--field); }
+.strategy-gain.negative { color: var(--danger); }
+.strategy-stats { grid-column: 1 / -1; color: var(--muted); font-size: 12px; line-height: 1.6; }
+.strategy-meter { grid-column: 1 / -1; position: relative; height: 10px; margin-top: 4px; background: #f1f5f9; border-radius: 6px; overflow: hidden; }
+.strategy-meter::after { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--muted); }
+.strategy-meter i { position: absolute; height: 100%; }
+.strategy-meter i.positive { left: 50%; background: var(--field); }
+.strategy-meter i.negative { right: 50%; background: var(--danger); }
