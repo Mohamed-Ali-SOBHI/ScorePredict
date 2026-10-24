@@ -2,7 +2,7 @@
 
 **Simulation uniquement. La stratégie de production reste inchangée.**
 
-Dernier passage : 2026-10-24T08:57:56.094501+00:00 — **collected**.
+Dernier passage : 2026-10-24T11:36:38.276884+00:00 — **collected**.
 Décisions figées avant match : 48. Résultats confirmés : 28.
 
 Exécution sur GitHub après chaque pipeline de prévisions réussi et à 00:40, 06:40, 12:40 et 18:40 UTC chaque jour. Les horaires planifiés peuvent subir un retard GitHub.
@@ -52,6 +52,6 @@ Le gain et le rendement concernent les paris réglés. La baisse maximale est ca
 
 [Exécutions GitHub](https://github.com/Mohamed-Ali-SOBHI/ScorePredict/actions/workflows/paper-positive15.yml) · [Protocole](registration.json) · [Comparaison complète](comparison.csv) · [Paris uniques, cotes et stratégies](tickets.json) · [Diagnostics](last_run.json) · [Journal des preuves](evidence.json)
 
-Journal : 173 événements, empreinte `b34dfce716f92c10e288327ef54aec9136c74324b20fcb293abe50b1ac628f77`.
+Journal : 175 événements, empreinte `4c3cc71d1a4aa2f919a122c56793c65b65bf37932795694504f67bcc91704813`.
 
 Le journal et les captures sont conservés dans cette branche entre les exécutions. Une sauvegarde supplémentaire est jointe aux exécutions Actions pendant 90 jours. Un journal manquant ou altéré bloque le suivi.
