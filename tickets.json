@@ -167,8 +167,8 @@
     "selected_members": [
       "Bundesliga_anchor"
     ],
-    "status": "pending",
-    "profit": null
+    "status": "won",
+    "profit": 2.75
   },
   {
     "fixture_id": "understat:31250",
@@ -220,8 +220,8 @@
     "selected_members": [
       "local_sport_only|EPL|draw|0.10|all"
     ],
-    "status": "pending",
-    "profit": null
+    "status": "lost",
+    "profit": -1.0
   },
   {
     "fixture_id": "understat:31253",
@@ -237,8 +237,8 @@
     "selected_members": [
       "local_price_only|EPL|draw|0.05|all"
     ],
-    "status": "pending",
-    "profit": null
+    "status": "lost",
+    "profit": -1.0
   },
   {
     "fixture_id": "understat:32005",
