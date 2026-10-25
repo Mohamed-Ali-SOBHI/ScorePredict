@@ -245,6 +245,7 @@ def main() -> None:
         print({"fixtures_rejected_after_kickoff": rejected_started_fixtures})
     tracking_ledger = resolve_path(args.tracking_ledger)
     ensure_tracking_ledger(tracking_ledger)
+    existing_tracking = pd.DataFrame()
     if tracking_ledger.exists():
         existing_tracking = pd.read_csv(tracking_ledger)
         existing_tracking, refreshed_kickoffs = refresh_pending_fixture_dates_from_catalog(
@@ -319,15 +320,17 @@ def main() -> None:
         scored = apply_filter(scored)
         english = score_public_english(resolve_path(args.fixtures_csv), fixtures, future_df,
                                        resolve_path(args.output_all).parent / 'english_public')
-        scored = pd.concat([scored, english], ignore_index=True)
-    bets = dedupe_recommended_bets(scored)
+        from inference.public_additions import score_public_additions
+        additions = score_public_additions(resolve_path(args.fixtures_csv), future_df,
+                                           resolve_path(args.output_all).parent / 'public_additions')
+        scored = pd.concat([scored, english, additions], ignore_index=True)
     if args.portfolio == PRODUCTION_PORTFOLIO_NAME:
+        from inference.public_additions import select_public_bets
         from inference.english_away_public import fixed_unit_stakes
-        if not bets.empty:
-            # One unit per verified fixture, regardless of outcome/model overlap.
-            bets = bets.drop_duplicates(['fixture_id'], keep='first')
+        bets = select_public_bets(scored, existing_tracking, args.portfolio)
         bets = fixed_unit_stakes(bets, args.bankroll_eur * args.stake_fraction)
     else:
+        bets = dedupe_recommended_bets(scored)
         bets = assign_flat_stakes(
             bets, bankroll_eur=args.bankroll_eur, stake_fraction=args.stake_fraction,
             max_total_exposure_fraction=args.max_total_exposure_fraction)

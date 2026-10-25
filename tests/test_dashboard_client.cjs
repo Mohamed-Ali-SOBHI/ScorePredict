@@ -182,3 +182,23 @@ assert.equal(evaluate('unknownResult.performance.strategies[1].bets'),1);
 assert.equal(evaluate('unknownResult.performance.strategies[1].profit'),null);
 assert.equal(evaluate('unknownResult.performance.strategies[1].roi'),null);
 console.log('Strategy gains: settled counts, duplicates, pending, archived, losses and missing values verified.');
+
+// Two Bundesliga models share a league/outcome but each published ticket belongs to one strategy.
+evaluate(`
+  const promotedData={...seasonFixture,meta:{publicStrategies:[
+    {league:'Bundesliga',outcome:'draw',label:'Original',excludeStrategyIds:['public_bundesliga_xgb_2026_10_25']},
+    {id:'public_bundesliga_xgb_2026_10_25',league:'Bundesliga',outcome:'draw',label:'XGBoost'},
+    {id:'public_epl_home_price_2026_10_25',league:'EPL',outcome:'home_win',label:'Domicile'},
+  ]},activity:[
+    {...choice,id:'original',date:'2026-10-26T12:00:00Z',league:'Bundesliga',outcome:'draw',strategy:'original',status:'won',profitUnits:3},
+    {...choice,id:'xgb',homeTeam:'Another club',date:'2026-10-27T12:00:00Z',league:'Bundesliga',outcome:'draw',strategy:'public_bundesliga_xgb_2026_10_25',status:'lost',profitUnits:-1},
+    {...choice,id:'home',date:'2026-10-28T12:00:00Z',league:'EPL',outcome:'home_win',outcomeLabel:'Victoire domicile',strategy:'public_epl_home_price_2026_10_25',status:'won',profitUnits:2},
+  ]};
+  const promotedResult=currentSeasonData(promotedData,Date.parse('2026-10-30T12:00:00Z'));
+`);
+assert.equal(evaluate('promotedResult.performance.strategies[0].bets'),1);
+assert.equal(evaluate('promotedResult.performance.strategies[0].profit'),3);
+assert.equal(evaluate('promotedResult.performance.strategies[1].bets'),1);
+assert.equal(evaluate('promotedResult.performance.strategies[2].profit'),2);
+assert.equal(evaluate('promotedResult.performance.strategies.reduce((s,r)=>s+r.profit,0)'),4);
+assert.equal(evaluate('promotedResult.performance.metrics.profit'),4);

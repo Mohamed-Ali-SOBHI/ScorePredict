@@ -15,8 +15,10 @@ from pathlib import Path
 from inference.english_away_public import STRATEGY as ENGLISH_STRATEGY, ACTIVATED_AT as ENGLISH_ACTIVATED_AT, qualifies
 from inference.bundesliga_draw_public import (VERSION as DRAW_FILTER_VERSION,
     ACTIVATED_AT as DRAW_FILTER_ACTIVATED_AT, EV_THRESHOLD, PRICE_HAIRCUT, EDGE_MIN)
+from inference.public_additions import (STRATEGIES as ADDITIONS, BUNDESLIGA as XGB_STRATEGY,
+    ACTIVATED_AT as ADDITIONS_ACTIVATED_AT, public_addition_row)
 
-VERSION = 'bundesliga_original_restored_epl_away_preserved_history_2026_10_25'
+VERSION = 'four_public_strategies_preserved_history_2026_10_25'
 ACTIVATED_AT = '2026-10-18T12:09:15+00:00'
 PRIVATE_PORTFOLIO = 'observation_italy_epl_2026_10_18'
 PRIVATE_FREEZE_DATE = '2026-10-18'
@@ -28,6 +30,10 @@ def public_row(row):
     # Never expose private observations, even if accidentally passed to a renderer.
     strategy = row.get('strategy', row.get('strategy_names', row.get('strategy_name', '')))
     if str(strategy).startswith('private_bundesliga_recalibrated_') or str(row.get('portfolio_name','')).startswith('private_bundesliga_recalibrated_'):
+        return False
+    if strategy in ADDITIONS:
+        return public_addition_row(row, strategy)
+    if strategy in {'bundesliga_draw_xgb','Bundesliga_anchor'}:
         return False
     outcome=row.get('outcome',row.get('selected_outcome'))
     if outcome is None:
@@ -69,16 +75,21 @@ def apply_publication_policy(payload):
     """Public display scope only; the durable ledger and private archives remain intact."""
     data=copy.deepcopy(payload)
     meta=data.setdefault('meta',{})
-    meta.update(publicationVersion=VERSION,publicationActivatedAt=ENGLISH_ACTIVATED_AT,
-        publicLeagues=sorted(PUBLIC_LEAGUES),publicOutcomes=['draw','away_win'],stakeUnits=1,
+    meta.update(publicationVersion=VERSION,publicationActivatedAt=ADDITIONS_ACTIVATED_AT,
+        publicLeagues=sorted(PUBLIC_LEAGUES),publicOutcomes=['draw','away_win','home_win'],stakeUnits=1,
         publicStrategies=[{'league':'Bundesliga','outcome':'draw','label':'Bundesliga · match nul',
+                           'excludeStrategyIds':[XGB_STRATEGY],
                            'filterVersion':DRAW_FILTER_VERSION,'filterActivatedAt':DRAW_FILTER_ACTIVATED_AT,
                            'oddsMin':2.2,'oddsMaxExclusive':10,'evThreshold':EV_THRESHOLD,
                            'priceHaircut':PRICE_HAIRCUT,'edgeMin':EDGE_MIN,'marketFavoriteMode':'nonfavorite',
                            'historyIncludesPreviousFilters':True},
                           {'id':ENGLISH_STRATEGY,'league':'EPL','outcome':'away_win','label':'Premier League · victoire extérieure',
                            'oddsMin':2,'oddsMax':6,'evThreshold':.10,'priceHaircut':.02,
-                           'activatedAt':ENGLISH_ACTIVATED_AT,'trainingMaxSeason':2024}],
+                           'activatedAt':ENGLISH_ACTIVATED_AT,'trainingMaxSeason':2024}]
+                         + [dict(id=identity,league=spec['league'],outcome=spec['outcome'],label=spec['label'],
+                                 oddsMin=1.2,oddsMax=10,evThreshold=spec['threshold'],priceHaircut=.02,
+                                 activatedAt=ADDITIONS_ACTIVATED_AT,trainingMaxSeason=2024)
+                            for identity,spec in ADDITIONS.items()],
         historyScope='published_tickets_of_current_public_strategies',
         historyPolicyActivatedAt='2026-10-19T06:57:43+00:00')
     predictions=[p for p in data.get('predictions',[]) if public_row(p)]

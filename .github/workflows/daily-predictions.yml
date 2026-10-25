@@ -177,6 +177,7 @@ jobs:
             train/output/team_registry_audit.json
             inference/output/upcoming_input_audit.json
             inference/output/english_public/**
+            inference/output/public_additions/**
           if-no-files-found: warn
           retention-days: 90
 

@@ -654,8 +654,9 @@ function currentSeasonData(data, now = Date.now()) {
   ];
   const strategies = publicStrategies.map(strategy => {
     const rows = settled.filter(row => row.league === strategy.league
-      && (row.outcome || ({'Match nul':'draw','Victoire extérieure':'away_win'})[row.outcomeLabel]) === strategy.outcome
-      && (!strategy.id || row.strategy === strategy.id));
+      && (row.outcome || ({'Match nul':'draw','Victoire extérieure':'away_win','Victoire à domicile':'home_win','Victoire domicile':'home_win'})[row.outcomeLabel]) === strategy.outcome
+      && (!strategy.id || row.strategy === strategy.id)
+      && !(strategy.excludeStrategyIds || []).includes(row.strategy));
     const known = rows.every(row => numberOrNull(row.profitUnits) !== null);
     const gain = known ? rows.reduce((sum,row) => sum + Number(row.profitUnits),0) : null;
     return {label:strategy.label,bets:rows.length,profit:gain,roi:known && rows.length ? gain / rows.length : null};
