@@ -450,8 +450,8 @@
     "outcome": "away",
     "source": "residual_sport_recency|Serie_A|away|0.02|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "lost",
+    "profit": -1.0,
     "selected_members": [
       "residual_sport_recency|Serie_A|away|0.02|all"
     ]
@@ -931,8 +931,8 @@
     "outcome": "away",
     "source": "residual_sport_recency|Serie_A|away|0.02|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "lost",
+    "profit": -1.0,
     "selected_members": [
       "residual_sport_recency|Serie_A|away|0.02|all"
     ]
