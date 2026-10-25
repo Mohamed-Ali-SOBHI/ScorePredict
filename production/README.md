@@ -1,5 +1,25 @@
 # ScorePredict Web
 
+## Filtre Bundesliga activé le 25 octobre 2026
+
+La publication applique `inference.bundesliga_draw_public` après le score des
+modèles scellés et avant le dédoublonnage et l'inscription dans le journal :
+`min(p_multiclass_draw, p_binary_draw) * cote * 0.98 - 1 > 0.15`,
+avec un écart au marché normalisé d'au moins `0.04`. Les cotes restent dans
+`[2.2, 10[` et le nul ne doit pas être favori du marché. Le filtre ne peut que
+retirer des recommandations produites par les règles originales.
+
+Les poids, le manifeste de septembre, les expériences scellées, le portefeuille
+et les clés des tickets restent inchangés. Le nom de stratégie des nouvelles
+décisions porte le suffixe `__filter_bundesliga_draw_recalibrated_2026_10_25`.
+Les anciens tickets restent visibles et réglés avec leur choix et leur cote
+d'origine, même s'ils ne passeraient plus le filtre. Aucune simulation n'est
+ajoutée au bilan public. La stratégie anglaise reste inchangée.
+
+La règle a été choisie sur les validations 2024/25 et 2025/26 du protocole commun.
+Sa performance n'est pas considérée comme confirmée. La date de la règle et ses
+paramètres sont exposés dans `meta.publicStrategies` du snapshot public.
+
 Cette couche sert les exports existants sans réentraîner le modèle à chaque visite. C'est le découplage important pour la production : le pipeline calcule et valide, puis le site lit un snapshot immuable.
 
 ## Démarrage local

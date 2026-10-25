@@ -308,10 +308,12 @@ def main() -> None:
     if args.portfolio == PRODUCTION_PORTFOLIO_NAME:
         from inference.private_observation import record_forecasts
         from inference.english_away_public import score_public_english
+        from inference.bundesliga_draw_public import apply_filter
         record_forecasts(scored)
         if 'league' in scored:
             # The retired English DRAW rule remains private.
             scored = scored.loc[scored['league'].eq('Bundesliga') & scored['selected_outcome'].eq('draw')].copy()
+        scored = apply_filter(scored)
         english = score_public_english(resolve_path(args.fixtures_csv), fixtures, future_df,
                                        resolve_path(args.output_all).parent / 'english_public')
         scored = pd.concat([scored, english], ignore_index=True)

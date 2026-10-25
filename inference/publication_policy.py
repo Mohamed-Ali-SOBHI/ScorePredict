@@ -13,8 +13,10 @@ import json
 import math
 from pathlib import Path
 from inference.english_away_public import STRATEGY as ENGLISH_STRATEGY, ACTIVATED_AT as ENGLISH_ACTIVATED_AT, qualifies
+from inference.bundesliga_draw_public import (VERSION as DRAW_FILTER_VERSION,
+    ACTIVATED_AT as DRAW_FILTER_ACTIVATED_AT, EV_THRESHOLD, PRICE_HAIRCUT, EDGE_MIN)
 
-VERSION = 'bundesliga_draw_epl_away_current_history_2026_10_19'
+VERSION = 'bundesliga_recalibrated_epl_away_preserved_history_2026_10_25'
 ACTIVATED_AT = '2026-10-18T12:09:15+00:00'
 PRIVATE_PORTFOLIO = 'observation_italy_epl_2026_10_18'
 PRIVATE_FREEZE_DATE = '2026-10-18'
@@ -65,7 +67,11 @@ def apply_publication_policy(payload):
     meta=data.setdefault('meta',{})
     meta.update(publicationVersion=VERSION,publicationActivatedAt=ENGLISH_ACTIVATED_AT,
         publicLeagues=sorted(PUBLIC_LEAGUES),publicOutcomes=['draw','away_win'],stakeUnits=1,
-        publicStrategies=[{'league':'Bundesliga','outcome':'draw','label':'Bundesliga · match nul'},
+        publicStrategies=[{'league':'Bundesliga','outcome':'draw','label':'Bundesliga · match nul',
+                           'filterVersion':DRAW_FILTER_VERSION,'filterActivatedAt':DRAW_FILTER_ACTIVATED_AT,
+                           'oddsMin':2.2,'oddsMaxExclusive':10,'evThreshold':EV_THRESHOLD,
+                           'priceHaircut':PRICE_HAIRCUT,'edgeMin':EDGE_MIN,'marketFavoriteMode':'nonfavorite',
+                           'historyIncludesPreviousFilters':True},
                           {'id':ENGLISH_STRATEGY,'league':'EPL','outcome':'away_win','label':'Premier League · victoire extérieure',
                            'oddsMin':2,'oddsMax':6,'evThreshold':.10,'priceHaircut':.02,
                            'activatedAt':ENGLISH_ACTIVATED_AT,'trainingMaxSeason':2024}],
