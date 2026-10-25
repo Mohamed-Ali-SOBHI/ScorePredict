@@ -374,8 +374,8 @@
     "outcome": "draw",
     "source": "local_price_only|EPL|draw|0.05|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "lost",
+    "profit": -1.0,
     "selected_members": [
       "local_price_only|EPL|draw|0.05|all"
     ]
@@ -393,8 +393,8 @@
     "outcome": "draw",
     "source": "local_price_only|EPL|draw|0.05|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "won",
+    "profit": 2.8,
     "selected_members": [
       "local_price_only|EPL|draw|0.05|all"
     ]
@@ -412,8 +412,8 @@
     "outcome": "away",
     "source": "local_price_only|EPL|away|0.05|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "won",
+    "profit": 2.25,
     "selected_members": [
       "local_price_only|EPL|away|0.05|all"
     ]
@@ -431,8 +431,8 @@
     "outcome": "home",
     "source": "local_price_only|Ligue_1|home|0.02|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "lost",
+    "profit": -1.0,
     "selected_members": [
       "local_price_only|Ligue_1|home|0.02|all"
     ]
@@ -852,8 +852,8 @@
     "outcome": "draw",
     "source": "local_sport_only|EPL|draw|0.10|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "lost",
+    "profit": -1.0,
     "selected_members": [
       "local_sport_only|EPL|draw|0.10|all",
       "local_price_only|EPL|draw|0.05|all"
@@ -872,8 +872,8 @@
     "outcome": "draw",
     "source": "local_sport_only|EPL|draw|0.10|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "won",
+    "profit": 2.8,
     "selected_members": [
       "local_sport_only|EPL|draw|0.10|all",
       "local_price_only|EPL|draw|0.05|all"
@@ -892,8 +892,8 @@
     "outcome": "draw",
     "source": "local_sport_only|EPL|draw|0.10|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "lost",
+    "profit": -1.0,
     "selected_members": [
       "local_sport_only|EPL|draw|0.10|all",
       "local_price_only|EPL|away|0.05|all"
@@ -912,8 +912,8 @@
     "outcome": "home",
     "source": "local_price_only|Ligue_1|home|0.02|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "lost",
+    "profit": -1.0,
     "selected_members": [
       "local_price_only|Ligue_1|home|0.02|all"
     ]
