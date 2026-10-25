@@ -22,6 +22,6 @@ understat:31258,EPL,Hull,Brentford,2026-10-25T14:00:00+00:00,2026-10-24T14:08:42
 understat:31256,EPL,Manchester United,Bournemouth,2026-10-25T14:00:00+00:00,2026-10-24T14:08:51.962724+00:00,draw,3.6,1.0,local_sport_only|EPL|draw|0.10|all,local_sport_only|EPL|draw|0.10|all ; local_price_only|EPL|away|0.05|all,lost,-1.0
 understat:32008,Ligue_1,Monaco,Lille,2026-10-25T14:00:00+00:00,2026-10-24T14:08:56.834203+00:00,home,2.05,1.0,local_price_only|Ligue_1|home|0.02|all,local_price_only|Ligue_1|home|0.02|all,lost,-1.0
 understat:31634,Serie_A,Inter,Fiorentina,2026-10-25T11:30:00+00:00,2026-10-24T14:09:01.751006+00:00,away,8.0,1.0,residual_sport_recency|Serie_A|away|0.02|all,residual_sport_recency|Serie_A|away|0.02|all,lost,-1.0
-understat:31259,EPL,Sunderland,Leeds,2026-10-25T16:30:00+00:00,2026-10-24T19:02:36.366298+00:00,home,3.1,1.0,local_price_only|EPL|home|0.02|all,local_price_only|EPL|home|0.02|all,pending,
+understat:31259,EPL,Sunderland,Leeds,2026-10-25T16:30:00+00:00,2026-10-24T19:02:36.366298+00:00,home,3.1,1.0,local_price_only|EPL|home|0.02|all,local_price_only|EPL|home|0.02|all,lost,-1.0
 understat:32009,Ligue_1,Rennes,Strasbourg,2026-10-25T16:15:00+00:00,2026-10-24T19:02:50.713104+00:00,home,1.8,1.0,local_price_only|Ligue_1|home|0.02|all,local_price_only|Ligue_1|home|0.02|all,won,0.8
 understat:30863,La_liga,Celta Vigo,Real Betis,2026-10-25T15:15:00+00:00,2026-10-24T19:03:05.277463+00:00,draw,3.3,1.0,local_sport_only|La_liga|draw|0.05|balanced_market,local_sport_only|La_liga|draw|0.05|balanced_market,won,2.3

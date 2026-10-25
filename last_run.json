@@ -1,9 +1,9 @@
 {
-  "run_id": "20261025T183554119985Z",
-  "started_at_utc": "2026-10-25T18:35:54.119985+00:00",
-  "finished_at_utc": "2026-10-25T18:35:59.066595+00:00",
+  "run_id": "20261025T193709397182Z",
+  "started_at_utc": "2026-10-25T19:37:09.397182+00:00",
+  "finished_at_utc": "2026-10-25T19:37:12.994196+00:00",
   "state": "review_required",
-  "production_snapshot_age_hours": 3.5555740477777777,
+  "production_snapshot_age_hours": 0.018331718055555557,
   "new_forecasts": 0,
   "new_settlements": 4,
   "eligible_new_candidates": 0,
@@ -15,8 +15,8 @@
       "detail": "Archived timestamp cannot establish its timezone"
     }
   ],
-  "production_run_id": 40204590084,
-  "github_run_id": "40221900735",
+  "production_run_id": 40226265416,
+  "github_run_id": "40226806861",
   "github_run_attempt": "1",
   "production_changed": false
 }

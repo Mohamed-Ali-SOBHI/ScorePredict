@@ -410,8 +410,8 @@
     "selected_members": [
       "local_price_only|EPL|home|0.02|all"
     ],
-    "status": "pending",
-    "profit": null
+    "status": "lost",
+    "profit": -1.0
   },
   {
     "fixture_id": "understat:32009",
