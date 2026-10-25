@@ -1,13 +1,13 @@
 {
-  "run_id": "20261025T193648975109Z",
-  "started_at_utc": "2026-10-25T19:36:48.975109+00:00",
-  "finished_at_utc": "2026-10-25T19:36:52.128023+00:00",
+  "run_id": "20261025T200034818768Z",
+  "started_at_utc": "2026-10-25T20:00:34.818768+00:00",
+  "finished_at_utc": "2026-10-25T20:00:38.029450+00:00",
   "state": "review_required",
-  "production_snapshot_age_hours": 0.012535558611111112,
+  "production_snapshot_age_hours": 0.013619285555555556,
   "new_forecasts": 0,
-  "new_settlements": 3,
+  "new_settlements": 0,
   "eligible_new_candidates": 0,
-  "rejected_rows": 37,
+  "rejected_rows": 38,
   "settlement_issues": [
     {
       "fixture_id": "understat:32010",
@@ -15,8 +15,8 @@
       "detail": "Archived timestamp cannot establish its timezone"
     }
   ],
-  "production_run_id": 40226265416,
-  "github_run_id": "40226806888",
+  "production_run_id": 40228219477,
+  "github_run_id": "40228651202",
   "github_run_attempt": "1",
   "production_changed": false
 }
