@@ -309,7 +309,10 @@ def main() -> None:
         from inference.private_observation import record_forecasts
         from inference.english_away_public import score_public_english
         from inference.bundesliga_draw_public import apply_filter
+        from inference.bundesliga_observation import record_forecasts as record_private_bundesliga, persist as persist_private_bundesliga
         record_forecasts(scored)
+        record_private_bundesliga(scored)
+        persist_private_bundesliga()
         if 'league' in scored:
             # The retired English DRAW rule remains private.
             scored = scored.loc[scored['league'].eq('Bundesliga') & scored['selected_outcome'].eq('draw')].copy()

@@ -1,0 +1,41 @@
+{
+  "version": "paper_stop_rules_2026_10_25_v1",
+  "created_at_utc": "2026-10-25T12:23:09.850549+00:00",
+  "mode": "private_pipeline_observation_with_separate_verified_confirmation_cohort",
+  "start": "2026-10-26T00:00:00Z",
+  "deadline": "2028-10-26T00:00:00Z",
+  "filter_version": "bundesliga_draw_recalibrated_2026_10_25",
+  "filter": {
+    "ev_after_haircut_gt": 0.15,
+    "price_haircut": 0.02,
+    "edge_min": 0.04,
+    "odds_min": 2.2,
+    "odds_max_exclusive": 10,
+    "draw_nonfavorite": true
+  },
+  "frozen_files": {
+    "inference/releases/draw_pooled_2026_09_05/bundesliga_draw_2_20_4_00_nonfavorite_1_primary.ubj": "b79532a781b7c061b0f67cc05e1b2cbcad71b2f2fa980dd0a601ac7c62196d8c",
+    "inference/releases/draw_pooled_2026_09_05/bundesliga_draw_2_20_4_00_nonfavorite_1_secondary.ubj": "c8ab498e30d9d4e99f621403d715ee3629a7c6b8f660615a10422f91cc6e6653",
+    "inference/releases/draw_pooled_2026_09_05/bundesliga_draw_4_00_10_00_nonfavorite_4_primary.ubj": "b79532a781b7c061b0f67cc05e1b2cbcad71b2f2fa980dd0a601ac7c62196d8c",
+    "inference/releases/draw_pooled_2026_09_05/bundesliga_draw_4_00_10_00_nonfavorite_4_secondary.ubj": "c8ab498e30d9d4e99f621403d715ee3629a7c6b8f660615a10422f91cc6e6653",
+    "inference/bundesliga_draw_recalibrated.py": "da96b59918d908d232d1926d7c10adca2aac0f52468f5aa48987c99c763ac69c",
+    "inference/bundesliga_observation_rules.py": "834be47ef13d3be311847b3f3dd63a66ce8768443c1ec131d290112a2b270290"
+  },
+  "primary_hashes": [
+    "b79532a781b7c061b0f67cc05e1b2cbcad71b2f2fa980dd0a601ac7c62196d8c"
+  ],
+  "secondary_hashes": [
+    "c8ab498e30d9d4e99f621403d715ee3629a7c6b8f660615a10422f91cc6e6653"
+  ],
+  "stake_units": 1,
+  "max_loss_from_start_units": 10,
+  "no_reset_after_stop": true,
+  "max_new_bets": 100,
+  "risk": "Reject new simulated exposure when realized gain minus pending stakes is <= -10 u. At realized gain <= -10 u, stop this version permanently; settle already logged tickets. This is a budget rule, not statistical proof.",
+  "review": "50 settled bets: diagnostic only, no tuning. One final performance decision on the first 100 published bets after all settle, or at the 24-month deadline; fewer than 100 means insufficient evidence and closure without promotion.",
+  "abandonment": "Stop at the loss budget, irreparable data/model integrity issue, nonpositive gain after 2% worse odds at final review, or final one-sided 95% bootstrap upper bound <=0. Otherwise close unconfirmed if promotion criteria are not all met.",
+  "confirmation": "100 settled nonvoid bets; >=25 bets in each of >=2 seasons; positive stressed gain and positive gain without largest win; one-sided weekly bootstrap 95% lower bound >0; closing quotes available on >=80% of bets and positive mean entry/closing odds -1. Approximate inference, not a guarantee.",
+  "integrity": "One fixture only; all accepted/rejected decisions logged before kickoff; quote observed <= decision, decision < kickoff; latest feature availability <= decision; real named bookmaker, executable price (not an average); frozen model hashes; unchanged filter; immutable originals.",
+  "excluded": "All pre-26-October tickets, retrospective simulations, English bets and old filter versions remain outside this new confirmation cohort.",
+  "source_registration_sha256": "d480585459c64ca974b8570de9657ee25fcab974eb827ad79960b8543e65b408"
+}

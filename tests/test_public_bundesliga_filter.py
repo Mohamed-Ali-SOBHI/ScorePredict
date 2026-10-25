@@ -8,13 +8,14 @@ from inference.upcoming_portfolio_strategy import dedupe_recommended_bets
 
 class PublicBundesligaFilterTests(unittest.TestCase):
     def test_stressed_ev_edge_and_odds_boundaries(self):
-        boundary = 1.15 / (4 * .98)
+        boundary = 1.10 / 4
         self.assertFalse(qualifies(boundary - 1e-9, 4, .20))
         self.assertTrue(qualifies(boundary + 1e-9, 4, .20))
         self.assertFalse(qualifies(.30, 4, .261))
         self.assertTrue(qualifies(.30, 4, .259))
         self.assertTrue(qualifies(.60, 2.2, .20))
-        for args in [(.60, 2.19, .20), (.30, 10, .20), (.28, 4, .20),
+        self.assertTrue(qualifies(.28, 4, .20))
+        for args in [(.60, 2.19, .20), (.30, 10, .20), (.27, 4, .20),
                      (float('nan'), 4, .20), (.30, float('inf'), .20),
                      (.30, 4, None), (1.1, 4, .2), (.30, 4, -.1)]:
             self.assertFalse(qualifies(*args))
@@ -47,7 +48,7 @@ class PublicBundesligaFilterTests(unittest.TestCase):
         result=apply_publication_policy(source)
         self.assertEqual(result['activity'],[old])
         self.assertEqual(result['summary']['liveProfitUnits'],-1)
-        self.assertEqual(result['meta']['publicStrategies'][0]['evThreshold'],.15)
-        self.assertEqual(result['meta']['publicStrategies'][0]['priceHaircut'],.02)
+        self.assertEqual(result['meta']['publicStrategies'][0]['evThreshold'],.10)
+        self.assertEqual(result['meta']['publicStrategies'][0]['priceHaircut'],0.)
         self.assertTrue(result['meta']['publicStrategies'][0]['historyIncludesPreviousFilters'])
         self.assertEqual(source,saved)

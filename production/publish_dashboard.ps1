@@ -41,6 +41,8 @@ try {
     if ($privateEnabled) {
         & $PythonExe -m inference.private_observation pull
         if ($LASTEXITCODE -ne 0) { throw "La lecture du suivi prive Italie/Angleterre a echoue." }
+        & $PythonExe -m inference.bundesliga_observation pull
+        if ($LASTEXITCODE -ne 0) { throw "La lecture du suivi prive Bundesliga a echoue." }
     }
 
     $runnerArgs = @(
@@ -62,6 +64,8 @@ try {
     if ($privateEnabled) {
         & $PythonExe -m inference.private_observation evaluate-push
         if ($LASTEXITCODE -ne 0) { throw "La sauvegarde du suivi prive Italie/Angleterre a echoue." }
+        & $PythonExe -m inference.bundesliga_observation settle-push
+        if ($LASTEXITCODE -ne 0) { throw "La sauvegarde du suivi prive Bundesliga a echoue." }
     }
 
     & $PythonExe .\inference\evaluate_live_portfolio.py `

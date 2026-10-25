@@ -16,7 +16,7 @@ from inference.english_away_public import STRATEGY as ENGLISH_STRATEGY, ACTIVATE
 from inference.bundesliga_draw_public import (VERSION as DRAW_FILTER_VERSION,
     ACTIVATED_AT as DRAW_FILTER_ACTIVATED_AT, EV_THRESHOLD, PRICE_HAIRCUT, EDGE_MIN)
 
-VERSION = 'bundesliga_recalibrated_epl_away_preserved_history_2026_10_25'
+VERSION = 'bundesliga_original_restored_epl_away_preserved_history_2026_10_25'
 ACTIVATED_AT = '2026-10-18T12:09:15+00:00'
 PRIVATE_PORTFOLIO = 'observation_italy_epl_2026_10_18'
 PRIVATE_FREEZE_DATE = '2026-10-18'
@@ -25,6 +25,10 @@ PRIVATE_LEAGUES = frozenset({'Serie_A','EPL'})
 
 
 def public_row(row):
+    # Never expose private observations, even if accidentally passed to a renderer.
+    strategy = row.get('strategy', row.get('strategy_names', row.get('strategy_name', '')))
+    if str(strategy).startswith('private_bundesliga_recalibrated_') or str(row.get('portfolio_name','')).startswith('private_bundesliga_recalibrated_'):
+        return False
     outcome=row.get('outcome',row.get('selected_outcome'))
     if outcome is None:
         outcome='draw' if row.get('outcomeLabel') in {'Match nul','Nul'} else ''

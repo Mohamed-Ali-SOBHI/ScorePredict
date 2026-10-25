@@ -109,6 +109,17 @@ jobs:
           if-no-files-found: error
           retention-days: 90
 
+      - name: Chiffrer le suivi prive Bundesliga recalibre
+        run: node production/private_observation_crypto.cjs encrypt --input inference/output/bundesliga_observation/report.json --public-key production/observation_recipient.pem --output inference/output/bundesliga_observation/report.encrypted.json
+
+      - name: Conserver uniquement le suivi Bundesliga chiffre
+        uses: actions/upload-artifact@v5
+        with:
+          name: private-bundesliga-recalibrated-encrypted
+          path: inference/output/bundesliga_observation/report.encrypted.json
+          if-no-files-found: error
+          retention-days: 90
+
       - name: Evaluer les challengers en mode fantome
         id: shadows
         continue-on-error: true

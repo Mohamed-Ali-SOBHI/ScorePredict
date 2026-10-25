@@ -1,24 +1,58 @@
 # ScorePredict Web
 
-## Filtre Bundesliga activé le 25 octobre 2026
+## Ancien filtre Bundesliga rétabli le 25 octobre 2026
 
 La publication applique `inference.bundesliga_draw_public` après le score des
 modèles scellés et avant le dédoublonnage et l'inscription dans le journal :
-`min(p_multiclass_draw, p_binary_draw) * cote * 0.98 - 1 > 0.15`,
+`min(p_multiclass_draw, p_binary_draw) * cote - 1 > 0.10`,
 avec un écart au marché normalisé d'au moins `0.04`. Les cotes restent dans
 `[2.2, 10[` et le nul ne doit pas être favori du marché. Le filtre ne peut que
 retirer des recommandations produites par les règles originales.
 
 Les poids, le manifeste de septembre, les expériences scellées, le portefeuille
 et les clés des tickets restent inchangés. Le nom de stratégie des nouvelles
-décisions porte le suffixe `__filter_bundesliga_draw_recalibrated_2026_10_25`.
+décisions porte le suffixe `__filter_bundesliga_draw_original_restored_2026_10_25`.
 Les anciens tickets restent visibles et réglés avec leur choix et leur cote
 d'origine, même s'ils ne passeraient plus le filtre. Aucune simulation n'est
 ajoutée au bilan public. La stratégie anglaise reste inchangée.
 
-La règle a été choisie sur les validations 2024/25 et 2025/26 du protocole commun.
-Sa performance n'est pas considérée comme confirmée. La date de la règle et ses
-paramètres sont exposés dans `meta.publicStrategies` du snapshot public.
+La règle recalibrée (EV > 15 % après cotes −2 %, écart ≥ 4 points) est copiée
+octet pour octet dans `inference/bundesliga_draw_recalibrated.py`, avec les
+modèles et critères d'arrêt de l'audit conservés dans
+`inference/bundesliga_observation_registration.json`. Sa performance n'est pas
+considérée comme confirmée. Les paris déjà publiés sous ce filtre restent
+dans l'historique public, avec leurs choix, dates et cotes d'origine.
+
+### Observation privée du filtre recalibré
+
+`inference.bundesliga_observation` enregistre les premières décisions avant
+match dans un portefeuille Supabase séparé, `private_bundesliga_recalibrated_2026_10_26`.
+Les filtres publics excluent explicitement cet identifiant. Aucun résultat
+rétrospectif n'est ajouté : les nouvelles captures commencent le 26 octobre
+2026 à 00:00 UTC. Les workflows quotidiens collectent ; le moniteur de résultats
+règle les observations. Les rapports sont exclusivement des artefacts chiffrés
+`private-bundesliga-recalibrated-encrypted`, jamais des fichiers Pages.
+
+Les mêmes règles sont conservées : 1 unité virtuelle par match accepté, budget
+de perte de 10 unités depuis zéro (sans remise à zéro), réserve des mises en
+attente, diagnostic à 50 paris, arrêt des nouvelles admissions à 100 paris,
+décision finale après leur règlement ou au 26 octobre 2028. L'arrêt du candidat
+privé ne suspend pas la stratégie publique originale. Un échec d'intégrité
+refuse la confirmation plutôt que reconstruire les données après les matchs.
+
+Le flux de cotes public existant ne garantit pas un bookmaker exécutable ni
+tous les horodatages requis. Ces captures restent des observations privées
+avec le motif `price_or_feature_provenance_unverified` ; elles ne sont pas
+admises au bilan de confirmation. Le contrôleur vérifie réellement la
+provenance avant toute admission, sans inventer d'horodatage ou de bookmaker.
+Le champ Supabase `recommended=true` signifie uniquement « conserver cette
+observation » dans ce portefeuille privé ; `probability_note.decision.selected`
+est l'admission effective, y compris les abstentions à conserver.
+
+Commandes : `python -m inference.bundesliga_observation pull`, puis `report`
+ou `settle-push`. Utiliser la clé privée locale existante avec
+`production/private_observation_crypto.cjs decrypt` pour consulter l'artefact.
+Les empreintes de modèle et de règles sont contrôlées à chaque exécution.
 
 Cette couche sert les exports existants sans réentraîner le modèle à chaque visite. C'est le découplage important pour la production : le pipeline calcule et valide, puis le site lit un snapshot immuable.
 

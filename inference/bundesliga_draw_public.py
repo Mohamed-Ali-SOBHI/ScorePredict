@@ -4,10 +4,10 @@ Apply before deduplication and journaling. Never apply this filter to old ticket
 """
 import math
 
-VERSION = 'bundesliga_draw_recalibrated_2026_10_25'
-ACTIVATED_AT = '2026-10-25T11:10:28+00:00'
-EV_THRESHOLD = .15
-PRICE_HAIRCUT = .02
+VERSION = 'bundesliga_draw_original_restored_2026_10_25'
+ACTIVATED_AT = '2026-10-25T12:32:34+00:00'
+EV_THRESHOLD = .10
+PRICE_HAIRCUT = .0
 EDGE_MIN = .04
 
 
