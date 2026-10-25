@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f4f6f1">
-  <meta name="description" content="ScorePredict conserve chaque décision football avant match, y compris les jours où aucun pari n'est retenu.">
+  <meta name="description" content="Quatre stratégies football en Bundesliga et Premier League. Paris publiés avant match, une unité par rencontre et résultats vérifiés sans doublons.">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'">
   <title>ScorePredict — Le match d’abord</title>
   <link rel="icon" href="./assets/brand/scorepredict-mark.svg" type="image/svg+xml">
@@ -40,7 +40,7 @@
             <p class="hero-quote">Tu dois savoir quand ne pas jouer</p>
             <footer class="hero-source">— Kenny Rogers, <cite>The Gambler</cite></footer>
           </blockquote>
-          <p class="hero-tagline reveal-delay-1" data-reveal>Nuls en Bundesliga et victoires à domicile ou à l’extérieur en Premier League. Nos modèles comparent leurs estimations aux cotes et ne retiennent que les matchs qui passent les filtres</p>
+          <p class="hero-tagline reveal-delay-1" data-reveal>Quatre stratégies en Bundesliga et Premier League. Des choix publiés avant le match, une seule mise par rencontre et un bilan fondé sur les résultats confirmés</p>
         </div>
 
         <div class="hero-object-wrap" id="hero-object-wrap" aria-label="Carrousel de grandes rivalités du football">
@@ -85,7 +85,7 @@
             <p class="kicker">Comment ça marche</p>
             <h2 class="process-title-quote" id="process-title">Chaque parieur sait que le secret pour survivre<br><span>c’est de savoir quoi jeter et quoi garder</span></h2>
           </div>
-          <p>Quatre stratégies, un seul journal : deux approches pour les nuls Bundesliga, les victoires à l’extérieur et les victoires à domicile en Premier League. Une seule mise par match, sans doublons</p>
+          <p>Deux stratégies cherchent les nuls en Bundesliga : le consensus d’origine et XGBoost. En Premier League, une stratégie vise les victoires à l’extérieur, l’autre les victoires à domicile. Leurs paris sont réunis dans un seul journal</p>
         </div>
 
         <ol class="process-list" aria-label="Les trois étapes du système">
@@ -94,7 +94,7 @@
             <div>
               <p class="process-label">Analyser</p>
               <h3>Le football avant les chiffres</h3>
-              <p>Forme récente, occasions créées, repos ou cotes du marché : chaque modèle utilise les informations prévues par sa stratégie, connues avant le match</p>
+              <p>Selon la stratégie, le modèle étudie la forme des équipes, les occasions créées et le repos, ou les cotes du marché. Il utilise uniquement des informations connues avant le match</p>
             </div>
           </li>
           <li data-reveal>
@@ -102,7 +102,7 @@
             <div>
               <p class="process-label">Sélectionner</p>
               <h3>Un écart qui mérite l’attention</h3>
-              <p>Chaque stratégie compare son estimation à la cote et applique ses propres seuils. Un match n’est publié que s’il respecte tous ses critères</p>
+              <p>Chaque stratégie compare son estimation à la cote et applique ses filtres. Si aucun match ne les passe, aucun pari n’est proposé. Si plusieurs stratégies retiennent la même rencontre, un seul choix est publié</p>
             </div>
           </li>
           <li data-reveal>
@@ -110,15 +110,15 @@
             <div>
               <p class="process-label">Suivre</p>
               <h3>Chaque choix jusqu’au score final</h3>
-              <p>La décision et la cote sont conservées. Le bilan compte 1 unité par pari, sans doublons. Après le match, le résultat rejoint le journal</p>
+              <p>Le choix et sa cote sont conservés dès la publication. Chaque pari compte pour 1 unité. Le gain ou la perte rejoint le bilan une fois le résultat vérifié</p>
             </div>
           </li>
         </ol>
 
         <details class="method-detail">
           <summary>Comment le filtre est-il réglé ?</summary>
-          <p>Les nuls Bundesliga d’origine et les victoires anglaises à l’extérieur restent prioritaires. Deux stratégies les complètent : Bundesliga XGBoost pour les nuls, et un modèle fondé sur les cotes pour les victoires anglaises à domicile. Si plusieurs stratégies retiennent le même match, un seul pari est publié</p>
-          <p>Chaque stratégie garde ses propres filtres. Le bilan public des deux ajouts commence à leur mise en ligne ; les simulations passées n’y sont pas ajoutées. Les paris déjà publiés conservent leur choix et leur cote d’origine. Les résultats futurs restent à confirmer, sans garantie de profit</p>
+          <p>Les filtres sont propres à chaque stratégie et ont été évalués sur des matchs passés. Les nuls Bundesliga d’origine et les victoires anglaises à l’extérieur restent prioritaires ; Bundesliga XGBoost et l’Angleterre à domicile ajoutent seulement les rencontres qui ne sont pas déjà retenues. Un pari publié conserve son choix, même si un calcul ultérieur change d’avis</p>
+          <p>Bundesliga XGBoost et l’Angleterre à domicile ont rejoint le site le 25 octobre 2026. Leur bilan public commence à cette date. Les gains simulés et les résultats obtenus en observation privée ne sont pas ajoutés aux gains publiés. Les performances passées ne garantissent pas les résultats futurs</p>
         </details>
 
       </div>
@@ -134,7 +134,7 @@
         <ol class="sealed-list" data-reveal>
           <li><span>01</span><div><strong>Le choix est publié</strong><p>Le match, le pronostic, la cote et l'heure sont inscrits avant le coup d'envoi</p></div></li>
           <li><span>02</span><div><strong>Le match est suivi</strong><p>Son statut évolue sans modifier la décision prise au départ</p></div></li>
-          <li><span>03</span><div><strong>Le score est confirmé</strong><p>Après le temps additionnel et le coup de sifflet final, le vrai résultat est récupéré</p></div></li>
+          <li><span>03</span><div><strong>Le score est confirmé</strong><p>Le résultat final est vérifié. Si une donnée reste incertaine, le pari attend sa confirmation</p></div></li>
           <li><span>04</span><div><strong>Le bilan est mis à jour</strong><p>Gagné ou perdu : le verdict rejoint le journal et le rendement est recalculé</p></div></li>
         </ol>
       </div>
