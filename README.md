@@ -2,8 +2,8 @@
 
 **Simulation uniquement. La stratégie de production reste inchangée.**
 
-Dernier passage : 2026-10-25T21:10:27.387716+00:00 — **review_required**.
-Décisions figées avant match : 72. Résultats confirmés : 70.
+Dernier passage : 2026-10-26T01:42:59.379487+00:00 — **review_required**.
+Décisions figées avant match : 72. Résultats confirmés : 71.
 
 Exécution sur GitHub après chaque pipeline de prévisions réussi et à 00:35, 06:35, 12:35 et 18:35 UTC chaque jour. Les horaires planifiés peuvent subir un retard GitHub.
 
@@ -11,8 +11,8 @@ Exécution sur GitHub après chaque pipeline de prévisions réussi et à 00:35,
 |---|---:|---:|---:|---:|---:|---:|---:|
 | Production observée à la capture | 4 | 0 | 0.00 | 3.52 | 88.00 % | 1.00 | 0.00 |
 | Référence + Bundesliga à demi-mise | 8 | 0 | 0.00 | 3.39 | 56.58 % | 0.50 | -0.12 |
-| Référence + union des six, mise 1 | 35 | 1 | 1.00 | 3.66 | 10.46 % | 7.00 | 0.14 |
-| Référence + union des six, mise 0,5 | 35 | 1 | 0.50 | 3.59 | 18.41 % | 3.50 | 0.07 |
+| Référence + union des six, mise 1 | 36 | 0 | 0.00 | 4.33 | 12.03 % | 7.00 | 0.81 |
+| Référence + union des six, mise 0,5 | 36 | 0 | 0.00 | 3.93 | 19.62 % | 3.50 | 0.41 |
 | Ligue 1 · domicile Poisson seule | 5 | 0 | 0.00 | 1.05 | 21.00 % | 1.00 | 1.05 |
 | Référence + Ligue 1 · domicile Poisson | 9 | 0 | 0.00 | 4.57 | 50.78 % | 1.00 | 1.05 |
 | Serie A · nul Poisson seule | 0 | 0 | 0.00 | 0.00 | — | 0.00 | 0.00 |
@@ -23,8 +23,8 @@ Exécution sur GitHub après chaque pipeline de prévisions réussi et à 00:35,
 | Référence + Bundesliga · nul XGBoost | 8 | 0 | 0.00 | 3.27 | 40.87 % | 1.00 | -0.25 |
 | Premier League · extérieur logistique seule | 6 | 0 | 0.00 | -2.75 | -45.83 % | 5.00 | -2.75 |
 | Référence + Premier League · extérieur logistique | 9 | 0 | 0.00 | -1.48 | -16.44 % | 5.00 | -5.00 |
-| Serie A · extérieur outcome_control seule | 17 | 1 | 1.00 | 2.59 | 15.24 % | 3.11 | 2.59 |
-| Référence + Serie A · extérieur outcome_control | 21 | 1 | 1.00 | 6.11 | 29.10 % | 1.86 | 2.59 |
+| Serie A · extérieur outcome_control seule | 18 | 0 | 0.00 | 3.26 | 18.11 % | 2.44 | 3.26 |
+| Référence + Serie A · extérieur outcome_control | 22 | 0 | 0.00 | 6.78 | 30.82 % | 1.55 | 3.26 |
 
 La référence correspond aux recommandations de production observées lors de la première capture admissible, sur les mêmes matchs que les challengers. Elle ne reproduit donc pas tous les paris historiques de production.
 
@@ -36,6 +36,6 @@ Le gain et le rendement concernent les paris réglés. La baisse maximale est ca
 
 [Exécutions GitHub](https://github.com/Mohamed-Ali-SOBHI/ScorePredict/actions/workflows/paper-simulation.yml) · [Protocole](registration.json) · [Comparaison complète](comparison.csv) · [Diagnostics](last_run.json) · [Journal des preuves](evidence.json)
 
-Journal : 293 événements, empreinte `7aa90d23c990a9926dcec059ef9b64232a982a65295e3f0701e1c8c5f0255bae`.
+Journal : 296 événements, empreinte `a7eebdb688ef58b27acdc51f8c8ba849e1d0efb46bb230d887cc57e1626a5b06`.
 
 Le journal et les captures sont conservés dans cette branche entre les exécutions. Une sauvegarde supplémentaire est jointe aux exécutions Actions pendant 90 jours. Un journal manquant ou altéré bloque le suivi.
