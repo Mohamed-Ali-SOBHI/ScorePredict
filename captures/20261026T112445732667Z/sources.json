@@ -1,0 +1,50 @@
+{
+  "fixtures": {
+    "url": "https://www.football-data.co.uk/fixtures.csv",
+    "retrieved_at_utc": "2026-10-26T11:24:49.516679+00:00",
+    "sha256": "f87691adc9a3d562d0d141f5fe3d44165cc6e7713191a091b0c6a29593878793",
+    "file": "fixtures.csv.gz",
+    "http_date": "Mon, 26 Oct 2026 11:24:49 GMT",
+    "last_modified": "Fri, 23 Oct 2026 13:46:58 GMT"
+  },
+  "Bundesliga": {
+    "url": "https://understat.com/getLeagueData/Bundesliga/2026",
+    "retrieved_at_utc": "2026-10-26T11:24:49.511386+00:00",
+    "sha256": "29da3c1370fe3258f5a2947ddb36d05ef7a5b439b6bcebd1bbfbc6df61f71710",
+    "file": "Bundesliga.json.gz",
+    "http_date": "Mon, 26 Oct 2026 11:24:49 GMT",
+    "last_modified": null
+  },
+  "EPL": {
+    "url": "https://understat.com/getLeagueData/EPL/2026",
+    "retrieved_at_utc": "2026-10-26T11:24:49.511008+00:00",
+    "sha256": "b17cf7f287742eeed7022d33acb752ac13e173a00cd98580f9ef3c160f16f74b",
+    "file": "EPL.json.gz",
+    "http_date": "Mon, 26 Oct 2026 11:24:49 GMT",
+    "last_modified": null
+  },
+  "Ligue_1": {
+    "url": "https://understat.com/getLeagueData/Ligue_1/2026",
+    "retrieved_at_utc": "2026-10-26T11:24:49.548955+00:00",
+    "sha256": "5f708d86c74f0d065aa1ec8a25bbaa3695d8be5668f09ffff161320e2f005de3",
+    "file": "Ligue_1.json.gz",
+    "http_date": "Mon, 26 Oct 2026 11:24:49 GMT",
+    "last_modified": null
+  },
+  "Serie_A": {
+    "url": "https://understat.com/getLeagueData/Serie_A/2026",
+    "retrieved_at_utc": "2026-10-26T11:24:49.511625+00:00",
+    "sha256": "51d410893ebd11907a8f70525552ef9b112d84d98f726d0b3ad9cfd973744444",
+    "file": "Serie_A.json.gz",
+    "http_date": "Mon, 26 Oct 2026 11:24:49 GMT",
+    "last_modified": null
+  },
+  "La_liga": {
+    "url": "https://understat.com/getLeagueData/La_liga/2026",
+    "retrieved_at_utc": "2026-10-26T11:24:50.611735+00:00",
+    "sha256": "4b9dac82ca701a0be458ce855189bb850919dc8f9ec99429b96c2d22ebbcd3c7",
+    "file": "La_liga.json.gz",
+    "http_date": "Mon, 26 Oct 2026 11:24:50 GMT",
+    "last_modified": null
+  }
+}
