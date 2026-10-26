@@ -469,8 +469,8 @@
     "outcome": "home",
     "source": "local_price_only|EPL|home|0.02|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "lost",
+    "profit": -1.0,
     "selected_members": [
       "local_price_only|EPL|home|0.02|all"
     ]
@@ -488,8 +488,8 @@
     "outcome": "home",
     "source": "local_price_only|Ligue_1|home|0.02|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "won",
+    "profit": 0.8,
     "selected_members": [
       "local_price_only|Ligue_1|home|0.02|all"
     ]
@@ -950,8 +950,8 @@
     "outcome": "home",
     "source": "local_price_only|EPL|home|0.02|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "lost",
+    "profit": -1.0,
     "selected_members": [
       "local_price_only|EPL|home|0.02|all"
     ]
@@ -969,8 +969,8 @@
     "outcome": "home",
     "source": "local_price_only|Ligue_1|home|0.02|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "won",
+    "profit": 0.8,
     "selected_members": [
       "local_price_only|Ligue_1|home|0.02|all"
     ]
@@ -988,8 +988,8 @@
     "outcome": "draw",
     "source": "local_sport_only|La_liga|draw|0.05|balanced_market",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "won",
+    "profit": 2.3,
     "selected_members": [
       "local_sport_only|La_liga|draw|0.05|balanced_market"
     ]
