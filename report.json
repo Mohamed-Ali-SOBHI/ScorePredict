@@ -1,12 +1,12 @@
 {
   "status": {
-    "run_id": "20261026T014255215925Z",
-    "started_at_utc": "2026-10-26T01:42:55.215925+00:00",
-    "finished_at_utc": "2026-10-26T01:42:59.379487+00:00",
+    "run_id": "20261026T051229369558Z",
+    "started_at_utc": "2026-10-26T05:12:29.369558+00:00",
+    "finished_at_utc": "2026-10-26T05:12:33.593199+00:00",
     "state": "review_required",
-    "production_snapshot_age_hours": 0.012605409444444445,
+    "production_snapshot_age_hours": 3.505442549722222,
     "new_forecasts": 0,
-    "new_settlements": 1,
+    "new_settlements": 0,
     "eligible_new_candidates": 0,
     "rejected_rows": 38,
     "settlement_issues": [
@@ -17,7 +17,7 @@
       }
     ],
     "production_run_id": 40255002231,
-    "github_run_id": "40255509441",
+    "github_run_id": "40272912814",
     "github_run_attempt": "1",
     "production_changed": false
   },
