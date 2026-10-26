@@ -21982,6 +21982,46 @@
       },
       "previous_hash": "20ed9cc766a07582ef533439ed77c827c68e335e7a890e450d80d14d968fb4a9",
       "event_hash": "e14dee3a82602fb01f493f9c0a05a0b9c11d58011714e1134a96290c0933129f"
+    },
+    {
+      "seq": 206,
+      "kind": "run",
+      "identity": "settlement:understat:30868",
+      "payload": {
+        "fixture_id": "understat:30868",
+        "forecast_sha256": "f8dc0bd00501ca8fa070f9f13fe1d10494d65b068cb457aa433c2b689206d5e2",
+        "recorded_at_utc": "2026-10-26T22:53:27.709511+00:00",
+        "source_settlement": {
+          "away_goals": 0,
+          "forecast_sha256": "6521bb36b5c9fdfd9cb7c82acfcca2cbcc56d81276c99c5cdb527c933ac28788",
+          "home_goals": 2,
+          "outcome": "home",
+          "result_seen_at_utc": "2026-10-26T22:53:08.957070+00:00",
+          "source_snapshot_sha256": "682d4c5b33fa53b368ef969f08bb7a0cd84af02622418c4f41a7d5002069d281",
+          "source_url": "https://understat.com/getLeagueData/La_liga/2026"
+        },
+        "type": "settlement"
+      },
+      "previous_hash": "e14dee3a82602fb01f493f9c0a05a0b9c11d58011714e1134a96290c0933129f",
+      "event_hash": "7d63c31a7d998908f78b2fc8b76ec629cd9dc72c61612969de8ef296b5ae5d0b"
+    },
+    {
+      "seq": 207,
+      "kind": "run",
+      "identity": "collection:20261026T225327486557Z",
+      "payload": {
+        "finished_at_utc": "2026-10-26T22:53:27.717195+00:00",
+        "github_run_id": "40415696565",
+        "new_forecasts": 0,
+        "new_settlements": 1,
+        "run_id": "20261026T225327486557Z",
+        "source15_events_sha256": "23352e31de3aff31113590f6b315e1b10e5b5426186e471aac256fec174d57a4",
+        "source15_finished_at_utc": "2026-10-26T22:53:09.152627+00:00",
+        "state": "collected",
+        "type": "collection"
+      },
+      "previous_hash": "7d63c31a7d998908f78b2fc8b76ec629cd9dc72c61612969de8ef296b5ae5d0b",
+      "event_hash": "a0b4d96bb233377d5818760231f7f3f6849fafa41f645b3e88870050199bfe34"
     }
   ]
 }
