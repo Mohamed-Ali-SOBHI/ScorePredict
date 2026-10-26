@@ -49,13 +49,14 @@ jobs:
         run: |
           python -m unittest discover -s paper_simulation -p 'test_*.py'
           python -m unittest tests.test_paper_settlement_runtime
+          python -m unittest tests.test_paper_calendar_quarantine
       - name: Verifier la continuite du journal
         id: verify
         run: python paper_simulation/cloud_state.py verify
       - name: Enregistrer les predictions puis constater les resultats
         id: collect
         continue-on-error: true
-        run: python -m production.paper_settlement_runtime --experiment paper_simulation
+        run: python -m production.paper_settlement_runtime_v2 --experiment paper_simulation
       - name: Sceller le journal et produire le rapport
         id: seal
         if: always() && steps.verify.outcome == 'success'

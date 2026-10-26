@@ -1,0 +1,7 @@
+{
+  "version": "paper_calendar_quarantine_v2_2026_10_26",
+  "registered_at_utc": "2026-10-26T11:18:42+00:00",
+  "parent_manifest_sha256": "63bfdf191868c23f13fcf9f823200cff317df534f0d3b19f7e42f94197d2757c",
+  "runtime_sha256": "33bd7ef4361efee42084afc18f5418cad6632c78a3172f19fb60cb1c5cd7ca7c",
+  "scope": "Preserve v1 and all sealed journals/models/rules. Reject schedule conflicts before capture. Quarantine unresolved timestamps without settlement; make them nonblocking only for hash-verified forecasts with explicitly zero allocated bets, zero selected decisions and no reference. Integrity errors and engaged bets remain blocking. Record abstention warnings in an immutable audit run and workflow annotations."
+}
