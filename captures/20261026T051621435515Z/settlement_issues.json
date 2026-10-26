@@ -1,0 +1,7 @@
+[
+  {
+    "fixture_id": "understat:32010",
+    "reason": "settlement_timezone_unresolved",
+    "detail": "Archived timestamp cannot establish its timezone"
+  }
+]
