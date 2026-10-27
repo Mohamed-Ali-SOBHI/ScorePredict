@@ -1,16 +1,16 @@
 {
   "registered_at_utc": "2026-10-17T22:36:40.340148+00:00",
   "status": {
-    "run_id": "20261027T181859819265Z",
+    "run_id": "20261027T213321646847Z",
     "state": "collected",
-    "finished_at_utc": "2026-10-27T18:19:00.006495+00:00",
-    "new_forecasts": 0,
+    "finished_at_utc": "2026-10-27T21:33:21.999170+00:00",
+    "new_forecasts": 5,
     "new_settlements": 0,
-    "source15_finished_at_utc": "2026-10-27T18:18:32.727282+00:00",
-    "source15_events_sha256": "92ac493a26d2558bc2b195d0c1059c79c1b3a5a53e74da656a666016d7908894",
-    "github_run_id": "40558491328"
+    "source15_finished_at_utc": "2026-10-27T21:32:58.284181+00:00",
+    "source15_events_sha256": "6033104b2b1173f521d41bb4bad5a7588a267ae427e6de8ee2ed48794243f7d7",
+    "github_run_id": "40587509082"
   },
-  "forecasts": 73,
+  "forecasts": 78,
   "settled_fixtures": 69,
   "portfolios": [
     {
@@ -30,10 +30,10 @@
     {
       "portfolio": "bundesliga_plus9",
       "label": "Nuls Bundesliga + 9 stratégies",
-      "committed_bets": 25,
+      "committed_bets": 26,
       "settled_bets": 23,
-      "pending_bets": 2,
-      "pending_stake": 2.0,
+      "pending_bets": 3,
+      "pending_stake": 3.0,
       "settled_stake": 23.0,
       "wins": 7,
       "profit": -0.40000000000000013,
@@ -44,10 +44,10 @@
     {
       "portfolio": "bundesliga_plus15",
       "label": "Nuls Bundesliga + 15 stratégies, même période",
-      "committed_bets": 28,
+      "committed_bets": 29,
       "settled_bets": 26,
-      "pending_bets": 2,
-      "pending_stake": 2.0,
+      "pending_bets": 3,
+      "pending_stake": 3.0,
       "settled_stake": 26.0,
       "wins": 6,
       "profit": -8.35,
@@ -60,7 +60,7 @@
     "profit_9_minus_15": 7.949999999999999,
     "settled_stake_9_minus_15": -3.0,
     "roi_9_minus_15": 0.30376254180602,
-    "same_outcome": 23,
+    "same_outcome": 24,
     "different_outcome": 2,
     "nine_only": 0,
     "fifteen_only": 3
@@ -68,10 +68,10 @@
   "fifteen_lifetime_separate": {
     "portfolio": "bundesliga_plus15",
     "label": "Nuls Bundesliga + 15 ajouts (union sans doublon)",
-    "committed_bets": 28,
+    "committed_bets": 29,
     "settled_bets": 26,
-    "pending_bets": 2,
-    "pending_stake": 2.0,
+    "pending_bets": 3,
+    "pending_stake": 3.0,
     "settled_stake": 26.0,
     "wins": 6,
     "profit": -8.35,

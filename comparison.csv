@@ -1,4 +1,4 @@
 ﻿portfolio,label,committed_bets,settled_bets,pending_bets,pending_stake,settled_stake,wins,profit,roi,max_daily_drawdown,additional_profit
 reference,Nuls Bundesliga seuls,3,3,0,0,3.0,1,0.75,0.25,1.0,0
-bundesliga_plus9,Nuls Bundesliga + 9 stratégies,25,23,2,2.0,23.0,7,-0.40000000000000013,-0.017391304347826094,6.4,-1.1500000000000001
-bundesliga_plus15,"Nuls Bundesliga + 15 stratégies, même période",28,26,2,2.0,26.0,6,-8.35,-0.3211538461538461,9.25,-9.1
+bundesliga_plus9,Nuls Bundesliga + 9 stratégies,26,23,3,3.0,23.0,7,-0.40000000000000013,-0.017391304347826094,6.4,-1.1500000000000001
+bundesliga_plus15,"Nuls Bundesliga + 15 stratégies, même période",29,26,3,3.0,26.0,6,-8.35,-0.3211538461538461,9.25,-9.1

@@ -533,6 +533,25 @@
     ]
   },
   {
+    "portfolio": "bundesliga_plus9",
+    "fixture_id": "understat:31644",
+    "league": "Serie_A",
+    "home_team": "Genoa",
+    "away_team": "Juventus",
+    "kickoff_utc": "2026-10-28T19:45:00+00:00",
+    "enrolled_at_utc": "2026-10-27T21:33:21.964736+00:00",
+    "source_recorded_at_utc": "2026-10-27T21:32:54.531250+00:00",
+    "odds": 1.67,
+    "outcome": "away",
+    "source": "local_sport_only|Serie_A|away|0.05|all",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "local_sport_only|Serie_A|away|0.05|all"
+    ]
+  },
+  {
     "portfolio": "bundesliga_plus15",
     "fixture_id": "understat:31246",
     "league": "EPL",
@@ -1061,6 +1080,25 @@
     "enrolled_at_utc": "2026-10-27T12:41:05.659122+00:00",
     "source_recorded_at_utc": "2026-10-27T12:40:42.568708+00:00",
     "odds": 1.75,
+    "outcome": "away",
+    "source": "local_sport_only|Serie_A|away|0.05|all",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "local_sport_only|Serie_A|away|0.05|all"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus15",
+    "fixture_id": "understat:31644",
+    "league": "Serie_A",
+    "home_team": "Genoa",
+    "away_team": "Juventus",
+    "kickoff_utc": "2026-10-28T19:45:00+00:00",
+    "enrolled_at_utc": "2026-10-27T21:33:21.964736+00:00",
+    "source_recorded_at_utc": "2026-10-27T21:32:54.531250+00:00",
+    "odds": 1.67,
     "outcome": "away",
     "source": "local_sport_only|Serie_A|away|0.05|all",
     "stake": 1.0,
