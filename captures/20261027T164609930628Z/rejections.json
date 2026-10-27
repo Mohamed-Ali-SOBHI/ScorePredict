@@ -1,0 +1,51 @@
+[
+  {
+    "league": "Serie_A",
+    "home": "Milan",
+    "away": "Bologna",
+    "provider_day": "2026-10-28",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Parma",
+    "away": "Udinese",
+    "provider_day": "2026-10-28",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Venezia",
+    "away": "Inter",
+    "provider_day": "2026-10-28",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Genoa",
+    "away": "Juventus",
+    "provider_day": "2026-10-28",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Monza",
+    "away": "Napoli",
+    "provider_day": "2026-10-28",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Frosinone",
+    "away": "Lecce",
+    "provider_day": "2026-10-29",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Fiorentina",
+    "away": "Atalanta",
+    "provider_day": "2026-10-29",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  }
+]
