@@ -1,21 +1,21 @@
 {
   "registration_sha256": "e0aef3ecaa03d082774a84d42b76c6692f03f356a5b2f143751c4b9086949498",
-  "events_sha256": "284a6ac9294117bcb300727c02a508cc436c6d6e477cd16ba5b6f597d344e983",
-  "event_count": 222,
-  "source_event_count": 304,
-  "source_events_sha256": "6033104b2b1173f521d41bb4bad5a7588a267ae427e6de8ee2ed48794243f7d7",
-  "sealed_at_utc": "2026-10-27T21:33:22.082195+00:00",
-  "github_run_id": "40587509082",
+  "events_sha256": "ea85cff4874f31c792a141eed28c249de5bf25af0c8ffd1257fe3c1e64193f6b",
+  "event_count": 226,
+  "source_event_count": 309,
+  "source_events_sha256": "bd9300aa0de7290296105de72c965fc435006eec8a4774184478f396347fec1d",
+  "sealed_at_utc": "2026-10-27T22:36:58.751360+00:00",
+  "github_run_id": "40595976249",
   "files": {
     ".gitattributes": "8b9c3028d6467ff3be7c793141927841d70f47f52d0590677438f488ca154992",
-    "README.md": "612cd8e0d25b924c01bdd1f6258d52659a741afba526a27d5901f9a3f3e1696e",
-    "comparison.csv": "8734f3f1837431f9fdd2ee1f4060f68ebbc249b00a512fda45e786f419b0eefb",
-    "evidence.json": "176490b93bb7fcacf9b1bfe383714afb00c919268a5f6e3214b8bb545e0939f8",
-    "journal.sqlite3": "bc712fb2342c9da3ed1aa9e7ce934d37c4bea817aec896f3f3a1a793f137fca2",
-    "rapport.html": "11ff0651233d9f2ca6e8d930b0ad26cf01acdef731c2358e6e8b820beaf712dc",
+    "README.md": "e353aaa043513f123d1d585771a8aa3cfbe566e0af94895e88594f1cfd44805f",
+    "comparison.csv": "e05b5880c911b9385d377c0aef26fa13da2a4a8c5f5f3377da237eb8a9e88907",
+    "evidence.json": "bdebdaea2e8ffbc9dbd457bdaac25ba7129ad85edec8aea37a0b1cb14adc13fe",
+    "journal.sqlite3": "a7e08676933ceb9738f812840bbf10c83c3785a782fe5bb89a6c474d3956ffd9",
+    "rapport.html": "bda5c442c5a012cb79c11bcd237d0e49e68f87e34a71e338d5899c1db2436c41",
     "registration.json": "4149a34a98297b2edd6c827eb592bafb79e3df7d2c7f4070e038b939535f767d",
-    "report.json": "93e60d4ce6242d1773ad3c92862e194134f3c6fc5e206580ac3bf042d6ca440b",
-    "tickets.csv": "d0dfe952000a8792e317b39a743787c04203ea1119f99b43af574211fc00dcb4",
-    "tickets.json": "fa9c637427a3679e0c16433dfb972385d6b42007c3c19ed6e9dc8a625c161adb"
+    "report.json": "ba2316eb1cc927ab4d05933b8fbb443738a938a54dcac959ceae054a02638ece",
+    "tickets.csv": "deed673fdd01509f133c334ae12d16995fcc30262a582c45fafe7faa51fd6679",
+    "tickets.json": "7bf5a4769bfd73778cd99d0e39669d13cb7a8e06cd70ce0d4f198e5e25ae7b9b"
   }
 }

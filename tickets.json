@@ -507,8 +507,8 @@
     "outcome": "away",
     "source": "local_sport_only|Serie_A|away|0.05|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "won",
+    "profit": 1.0499999999999998,
     "selected_members": [
       "local_sport_only|Serie_A|away|0.05|all"
     ]
@@ -526,8 +526,8 @@
     "outcome": "away",
     "source": "local_sport_only|Serie_A|away|0.05|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "won",
+    "profit": 0.75,
     "selected_members": [
       "local_sport_only|Serie_A|away|0.05|all"
     ]
@@ -1064,8 +1064,8 @@
     "outcome": "away",
     "source": "local_sport_only|Serie_A|away|0.05|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "won",
+    "profit": 1.0499999999999998,
     "selected_members": [
       "local_sport_only|Serie_A|away|0.05|all"
     ]
@@ -1083,8 +1083,8 @@
     "outcome": "away",
     "source": "local_sport_only|Serie_A|away|0.05|all",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "won",
+    "profit": 0.75,
     "selected_members": [
       "local_sport_only|Serie_A|away|0.05|all"
     ]
