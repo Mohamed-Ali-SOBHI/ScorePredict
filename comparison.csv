@@ -1,17 +1,17 @@
 ﻿portfolio,label,committed_bets,settled_bets,pending_bets,pending_stake,settled_stake,wins,profit,roi,max_daily_drawdown,additional_profit,additional_settled_bets,profit_difference_vs_reference,drawdown_difference_vs_reference
 reference,Production observée à la capture,4,4,0,0,4.0,2,3.5199999999999996,0.8799999999999999,1.0,0,0,0.0,0.0
 reference_bundesliga_half,Référence + Bundesliga à demi-mise,8,8,0,0,6.0,3,3.3949999999999996,0.5658333333333333,0.5,-0.125,4,-0.125,-0.5
-reference_six_full,"Référence + union des six, mise 1",43,36,7,7.0,36.0,13,4.330000000000001,0.1202777777777778,7.0,0.8100000000000005,32,0.8100000000000014,6.0
-reference_six_half,"Référence + union des six, mise 0,5",43,36,7,3.5,20.0,13,3.9250000000000003,0.19625,3.5,0.40500000000000025,32,0.4050000000000007,2.5
+reference_six_full,"Référence + union des six, mise 1",43,38,5,5.0,38.0,14,4.080000000000001,0.1073684210526316,7.0,0.5600000000000005,34,0.5600000000000014,6.0
+reference_six_half,"Référence + union des six, mise 0,5",43,38,5,2.5,21.0,14,3.8000000000000003,0.18095238095238098,3.5,0.28000000000000025,34,0.2800000000000007,2.5
 alone_l1_home_poisson,Ligue 1 · domicile Poisson seule,5,5,0,0,5.0,2,1.0500000000000003,0.21000000000000005,1.0,1.0500000000000003,5,-2.4699999999999993,0.0
 reference_l1_home_poisson,Référence + Ligue 1 · domicile Poisson,9,9,0,0,9.0,4,4.57,0.5077777777777778,1.0,1.0500000000000003,5,1.0500000000000007,0.0
-alone_seriea_draw_poisson,Serie A · nul Poisson seule,1,0,1,1.0,0,0,0,,0,0,0,-3.5199999999999996,-1.0
-reference_seriea_draw_poisson,Référence + Serie A · nul Poisson,5,4,1,1.0,4.0,2,3.5199999999999996,0.8799999999999999,1.0,0,0,0.0,0.0
-alone_seriea_draw_logit,Serie A · nul logistique seule,4,3,1,1.0,3.0,1,1.2000000000000002,0.4000000000000001,2.0,1.2000000000000002,3,-2.3199999999999994,1.0
-reference_seriea_draw_logit,Référence + Serie A · nul logistique,8,7,1,1.0,7.0,3,4.72,0.6742857142857143,2.0,1.2000000000000002,3,1.2000000000000002,1.0
+alone_seriea_draw_poisson,Serie A · nul Poisson seule,1,1,0,0,1.0,0,-1.0,-1.0,1.0,-1.0,1,-4.52,0.0
+reference_seriea_draw_poisson,Référence + Serie A · nul Poisson,5,5,0,0,5.0,2,2.5199999999999996,0.5039999999999999,1.0,-1.0,1,-1.0,0.0
+alone_seriea_draw_logit,Serie A · nul logistique seule,4,4,0,0,4.0,1,0.20000000000000018,0.050000000000000044,2.0,0.20000000000000018,4,-3.3199999999999994,1.0
+reference_seriea_draw_logit,Référence + Serie A · nul logistique,8,8,0,0,8.0,3,3.7199999999999998,0.46499999999999997,2.0,0.20000000000000018,4,0.20000000000000018,1.0
 alone_bundesliga_draw_xgb,Bundesliga · nul XGBoost seule,7,7,0,0,7.0,2,0.9500000000000002,0.13571428571428573,1.0,0.9500000000000002,7,-2.5699999999999994,0.0
 reference_bundesliga_draw_xgb,Référence + Bundesliga · nul XGBoost,8,8,0,0,8.0,3,3.2699999999999996,0.40874999999999995,1.0,-0.25,4,-0.25,0.0
 alone_epl_away_logit,Premier League · extérieur logistique seule,6,6,0,0,6.0,1,-2.75,-0.4583333333333333,5.0,-2.75,6,-6.27,4.0
 reference_epl_away_logit,Référence + Premier League · extérieur logistique,9,9,0,0,9.0,2,-1.4800000000000004,-0.1644444444444445,5.0,-5.0,5,-5.0,4.0
-alone_seriea_away_control,Serie A · extérieur outcome_control seule,24,18,6,6.0,18.0,8,3.2600000000000002,0.1811111111111111,2.44,3.2600000000000002,18,-0.25999999999999934,1.44
-reference_seriea_away_control,Référence + Serie A · extérieur outcome_control,28,22,6,6.0,22.0,10,6.779999999999999,0.30818181818181817,1.5499999999999998,3.2600000000000002,18,3.26,0.5499999999999998
+alone_seriea_away_control,Serie A · extérieur outcome_control seule,24,19,5,5.0,19.0,9,4.01,0.21105263157894735,2.44,4.01,19,0.4900000000000002,1.44
+reference_seriea_away_control,Référence + Serie A · extérieur outcome_control,28,23,5,5.0,23.0,11,7.529999999999999,0.32739130434782604,1.5499999999999998,4.01,19,4.01,0.5499999999999998
