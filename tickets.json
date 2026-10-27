@@ -480,5 +480,22 @@
     ],
     "status": "pending",
     "profit": null
+  },
+  {
+    "fixture_id": "understat:31644",
+    "league": "Serie_A",
+    "home_team": "Genoa",
+    "away_team": "Juventus",
+    "kickoff_utc": "2026-10-28T19:45:00+00:00",
+    "recorded_at_utc": "2026-10-27T21:32:54.531250+00:00",
+    "outcome": "away",
+    "odds": 1.67,
+    "stake": 1.0,
+    "source": "local_sport_only|Serie_A|away|0.05|all",
+    "selected_members": [
+      "local_sport_only|Serie_A|away|0.05|all"
+    ],
+    "status": "pending",
+    "profit": null
   }
 ]
