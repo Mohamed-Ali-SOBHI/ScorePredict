@@ -461,8 +461,8 @@
     "selected_members": [
       "local_sport_only|Serie_A|away|0.05|all"
     ],
-    "status": "pending",
-    "profit": null
+    "status": "won",
+    "profit": 1.0499999999999998
   },
   {
     "fixture_id": "understat:31648",
@@ -478,8 +478,8 @@
     "selected_members": [
       "local_sport_only|Serie_A|away|0.05|all"
     ],
-    "status": "pending",
-    "profit": null
+    "status": "won",
+    "profit": 0.75
   },
   {
     "fixture_id": "understat:31644",
