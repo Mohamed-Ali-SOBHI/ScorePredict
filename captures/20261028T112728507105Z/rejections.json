@@ -1,0 +1,37 @@
+[
+  {
+    "league": "Serie_A",
+    "home": "Sassuolo",
+    "away": "Lazio",
+    "provider_day": "2026-10-27",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Roma",
+    "away": "Cagliari",
+    "provider_day": "2026-10-27",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Torino",
+    "away": "Como",
+    "provider_day": "2026-10-27",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Frosinone",
+    "away": "Lecce",
+    "provider_day": "2026-10-29",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Fiorentina",
+    "away": "Atalanta",
+    "provider_day": "2026-10-29",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  }
+]
