@@ -1,6 +1,6 @@
 ﻿portfolio,label,committed_bets,settled_bets,pending_bets,pending_stake,settled_stake,wins,profit,roi,max_daily_drawdown,additional_profit,additional_settled_bets,profit_difference_vs_reference,drawdown_difference_vs_reference
 reference,Nuls Bundesliga seuls,3,3,0,0,3.0,1,0.75,0.25,1.0,0,0,0.0,0.0
-bundesliga_plus15,Nuls Bundesliga + 15 ajouts (union sans doublon),29,28,1,1.0,28.0,8,-6.55,-0.23392857142857143,9.25,-7.300000000000001,25,-7.3,8.25
+bundesliga_plus15,Nuls Bundesliga + 15 ajouts (union sans doublon),31,28,3,3.0,28.0,8,-6.55,-0.23392857142857143,9.25,-7.300000000000001,25,-7.3,8.25
 alone_residual_sport_recency|Ligue_1|draw|0.05|all,Ligue 1 · nul · residual_sport_recency · EV>5% · all seule,1,1,0,0,1.0,0,-1.0,-1.0,1.0,-1.0,1,-1.75,0.0
 reference_residual_sport_recency|Ligue_1|draw|0.05|all,Bundesliga + Ligue 1 · nul · residual_sport_recency · EV>5% · all,4,4,0,0,4.0,1,-0.25,-0.0625,2.0,-1.0,1,-1.0,1.0
 alone_local_sport_only|EPL|draw|0.10|all,Premier League · nul · local_sport_only · EV>10% · all seule,5,5,0,0,5.0,1,-1.2000000000000002,-0.24000000000000005,2.0,-1.2000000000000002,5,-1.9500000000000002,1.0
@@ -19,12 +19,12 @@ alone_local_sport_only|La_liga|draw|0.05|balanced_market,Liga · nul · local_sp
 reference_local_sport_only|La_liga|draw|0.05|balanced_market,Bundesliga + Liga · nul · local_sport_only · EV>5% · balanced_market,5,5,0,0,5.0,2,2.05,0.41,1.0,1.2999999999999998,2,1.2999999999999998,0.0
 alone_local_sport_only|Serie_A|away|0.05|all,Serie A · extérieur · local_sport_only · EV>5% · all seule,4,3,1,1.0,3.0,2,0.7999999999999998,0.2666666666666666,1.0,0.7999999999999998,3,0.04999999999999982,0.0
 reference_local_sport_only|Serie_A|away|0.05|all,Bundesliga + Serie A · extérieur · local_sport_only · EV>5% · all,7,6,1,1.0,6.0,3,1.5499999999999998,0.2583333333333333,2.0,0.7999999999999998,3,0.7999999999999998,1.0
-alone_residual_sport_recency|Serie_A|away|0.02|all,Serie A · extérieur · residual_sport_recency · EV>2% · all seule,1,1,0,0,1.0,0,-1.0,-1.0,1.0,-1.0,1,-1.75,0.0
-reference_residual_sport_recency|Serie_A|away|0.02|all,Bundesliga + Serie A · extérieur · residual_sport_recency · EV>2% · all,4,4,0,0,4.0,1,-0.25,-0.0625,1.0,-1.0,1,-1.0,0.0
+alone_residual_sport_recency|Serie_A|away|0.02|all,Serie A · extérieur · residual_sport_recency · EV>2% · all seule,2,1,1,1.0,1.0,0,-1.0,-1.0,1.0,-1.0,1,-1.75,0.0
+reference_residual_sport_recency|Serie_A|away|0.02|all,Bundesliga + Serie A · extérieur · residual_sport_recency · EV>2% · all,5,4,1,1.0,4.0,1,-0.25,-0.0625,1.0,-1.0,1,-1.0,0.0
 alone_local_sport_only|Serie_A|draw|0.10|low_goal_parity,Serie A · nul · local_sport_only · EV>10% · low_goal_parity seule,0,0,0,0,0,0,0,,0,0,0,-0.75,-1.0
 reference_local_sport_only|Serie_A|draw|0.10|low_goal_parity,Bundesliga + Serie A · nul · local_sport_only · EV>10% · low_goal_parity,3,3,0,0,3.0,1,0.75,0.25,1.0,0,0,0.0,0.0
-alone_native_mean|Serie_A|draw|0.02|balanced_market,Serie A · nul · native_mean · EV>2% · balanced_market seule,0,0,0,0,0,0,0,,0,0,0,-0.75,-1.0
-reference_native_mean|Serie_A|draw|0.02|balanced_market,Bundesliga + Serie A · nul · native_mean · EV>2% · balanced_market,3,3,0,0,3.0,1,0.75,0.25,1.0,0,0,0.0,0.0
+alone_native_mean|Serie_A|draw|0.02|balanced_market,Serie A · nul · native_mean · EV>2% · balanced_market seule,1,0,1,1.0,0,0,0,,0,0,0,-0.75,-1.0
+reference_native_mean|Serie_A|draw|0.02|balanced_market,Bundesliga + Serie A · nul · native_mean · EV>2% · balanced_market,4,3,1,1.0,3.0,1,0.75,0.25,1.0,0,0,0.0,0.0
 alone_local_price_only|Ligue_1|home|0.02|all,Ligue 1 · domicile · local_price_only · EV>2% · all seule,4,4,0,0,4.0,1,-2.2,-0.55,2.2,-2.2,4,-2.95,1.2000000000000002
 reference_local_price_only|Ligue_1|home|0.02|all,Bundesliga + Ligue 1 · domicile · local_price_only · EV>2% · all,7,7,0,0,7.0,2,-1.45,-0.20714285714285713,3.0,-2.2,4,-2.2,2.0
 alone_native_mean|Ligue_1|draw|0.05|all,Ligue 1 · nul · native_mean · EV>5% · all seule,1,1,0,0,1.0,0,-1.0,-1.0,1.0,-1.0,1,-1.75,0.0

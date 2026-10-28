@@ -497,5 +497,39 @@
     ],
     "status": "pending",
     "profit": null
+  },
+  {
+    "fixture_id": "understat:31643",
+    "league": "Serie_A",
+    "home_team": "Frosinone",
+    "away_team": "Lecce",
+    "kickoff_utc": "2026-10-29T17:30:00+00:00",
+    "recorded_at_utc": "2026-10-28T21:57:10.481952+00:00",
+    "outcome": "away",
+    "odds": 5.0,
+    "stake": 1.0,
+    "source": "residual_sport_recency|Serie_A|away|0.02|all",
+    "selected_members": [
+      "residual_sport_recency|Serie_A|away|0.02|all"
+    ],
+    "status": "pending",
+    "profit": null
+  },
+  {
+    "fixture_id": "understat:31642",
+    "league": "Serie_A",
+    "home_team": "Fiorentina",
+    "away_team": "Atalanta",
+    "kickoff_utc": "2026-10-29T19:45:00+00:00",
+    "recorded_at_utc": "2026-10-28T21:57:13.787403+00:00",
+    "outcome": "draw",
+    "odds": 3.6,
+    "stake": 1.0,
+    "source": "native_mean|Serie_A|draw|0.02|balanced_market",
+    "selected_members": [
+      "native_mean|Serie_A|draw|0.02|balanced_market"
+    ],
+    "status": "pending",
+    "profit": null
   }
 ]
