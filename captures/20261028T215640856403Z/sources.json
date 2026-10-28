@@ -1,0 +1,42 @@
+{
+  "fixtures": {
+    "url": "https://www.football-data.co.uk/fixtures.csv",
+    "retrieved_at_utc": "2026-10-28T21:56:44.116877+00:00",
+    "sha256": "21014e23d4d2b331597e453d00c953c35b25c782a148466a0ed2717e3db3c715",
+    "file": "fixtures.csv.gz",
+    "http_date": "Wed, 28 Oct 2026 21:56:44 GMT",
+    "last_modified": "Tue, 27 Oct 2026 12:24:47 GMT"
+  },
+  "Bundesliga": {
+    "url": "https://understat.com/getLeagueData/Bundesliga/2026",
+    "retrieved_at_utc": "2026-10-28T21:56:44.130663+00:00",
+    "sha256": "29da3c1370fe3258f5a2947ddb36d05ef7a5b439b6bcebd1bbfbc6df61f71710",
+    "file": "Bundesliga.json.gz",
+    "http_date": "Wed, 28 Oct 2026 21:56:43 GMT",
+    "last_modified": null
+  },
+  "EPL": {
+    "url": "https://understat.com/getLeagueData/EPL/2026",
+    "retrieved_at_utc": "2026-10-28T21:56:44.111189+00:00",
+    "sha256": "b17cf7f287742eeed7022d33acb752ac13e173a00cd98580f9ef3c160f16f74b",
+    "file": "EPL.json.gz",
+    "http_date": "Wed, 28 Oct 2026 21:56:43 GMT",
+    "last_modified": null
+  },
+  "Ligue_1": {
+    "url": "https://understat.com/getLeagueData/Ligue_1/2026",
+    "retrieved_at_utc": "2026-10-28T21:56:44.098479+00:00",
+    "sha256": "e619811e8e5aed5e5aa5d66c22fb5d43a45f02b0bd5719bbaba26f723f40711d",
+    "file": "Ligue_1.json.gz",
+    "http_date": "Wed, 28 Oct 2026 21:56:43 GMT",
+    "last_modified": null
+  },
+  "Serie_A": {
+    "url": "https://understat.com/getLeagueData/Serie_A/2026",
+    "retrieved_at_utc": "2026-10-28T21:56:44.174419+00:00",
+    "sha256": "2d00d4b8b1a17c82d25eb5391ca17fc3c7a0ac04acc1ac3a3f229dc46a28b0bd",
+    "file": "Serie_A.json.gz",
+    "http_date": "Wed, 28 Oct 2026 21:56:43 GMT",
+    "last_modified": null
+  }
+}
