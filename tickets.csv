@@ -27,6 +27,6 @@ understat:32009,Ligue_1,Rennes,Strasbourg,2026-10-25T16:15:00+00:00,2026-10-24T1
 understat:30863,La_liga,Celta Vigo,Real Betis,2026-10-25T15:15:00+00:00,2026-10-24T19:03:05.277463+00:00,draw,3.3,1.0,local_sport_only|La_liga|draw|0.05|balanced_market,local_sport_only|La_liga|draw|0.05|balanced_market,won,2.3
 understat:31647,Serie_A,Sassuolo,Lazio,2026-10-27T17:30:00+00:00,2026-10-27T12:40:32.909790+00:00,away,2.05,1.0,local_sport_only|Serie_A|away|0.05|all,local_sport_only|Serie_A|away|0.05|all,won,1.0499999999999998
 understat:31648,Serie_A,Torino,Como,2026-10-27T19:45:00+00:00,2026-10-27T12:40:42.568708+00:00,away,1.75,1.0,local_sport_only|Serie_A|away|0.05|all,local_sport_only|Serie_A|away|0.05|all,won,0.75
-understat:31644,Serie_A,Genoa,Juventus,2026-10-28T19:45:00+00:00,2026-10-27T21:32:54.531250+00:00,away,1.67,1.0,local_sport_only|Serie_A|away|0.05|all,local_sport_only|Serie_A|away|0.05|all,pending,
+understat:31644,Serie_A,Genoa,Juventus,2026-10-28T19:45:00+00:00,2026-10-27T21:32:54.531250+00:00,away,1.67,1.0,local_sport_only|Serie_A|away|0.05|all,local_sport_only|Serie_A|away|0.05|all,lost,-1.0
 understat:31643,Serie_A,Frosinone,Lecce,2026-10-29T17:30:00+00:00,2026-10-28T21:57:10.481952+00:00,away,5.0,1.0,residual_sport_recency|Serie_A|away|0.02|all,residual_sport_recency|Serie_A|away|0.02|all,pending,
 understat:31642,Serie_A,Fiorentina,Atalanta,2026-10-29T19:45:00+00:00,2026-10-28T21:57:13.787403+00:00,draw,3.6,1.0,native_mean|Serie_A|draw|0.02|balanced_market,native_mean|Serie_A|draw|0.02|balanced_market,pending,
