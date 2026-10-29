@@ -26088,6 +26088,68 @@
       },
       "previous_hash": "e954f944123c8088964574f6fb91c778242edc088f348d9d24beaa4bc2f80c1f",
       "event_hash": "864500c09a687f0b6a7226294af97519c938c3eb1f6ac3ceaef8b8f535b2aa3c"
+    },
+    {
+      "seq": 246,
+      "kind": "run",
+      "identity": "settlement:understat:31643",
+      "payload": {
+        "fixture_id": "understat:31643",
+        "forecast_sha256": "e12edae9ffe142cd9052dd8dc78b585f5653d953a76b4f9c8026a29f83b29f5e",
+        "recorded_at_utc": "2026-10-29T22:04:30.070923+00:00",
+        "source_settlement": {
+          "away_goals": 1,
+          "forecast_sha256": "f162282ddca95a3c978b5520fed5d4b20dc5fcc6804b4e64e81c1cf6b44bb3a7",
+          "home_goals": 5,
+          "outcome": "home",
+          "result_seen_at_utc": "2026-10-29T22:04:10.380519+00:00",
+          "source_snapshot_sha256": "e7322bc96ca4f523494c0455f86348d91559b6718b6a2d6c172105a2adc76ec8",
+          "source_url": "https://understat.com/getLeagueData/Serie_A/2026"
+        },
+        "type": "settlement"
+      },
+      "previous_hash": "864500c09a687f0b6a7226294af97519c938c3eb1f6ac3ceaef8b8f535b2aa3c",
+      "event_hash": "97f622709b0f35cb8a28c3e1e8ac7ef920519538b8d0eecc79971ca30ac9247b"
+    },
+    {
+      "seq": 247,
+      "kind": "run",
+      "identity": "settlement:understat:31642",
+      "payload": {
+        "fixture_id": "understat:31642",
+        "forecast_sha256": "7b18d503e035ddddb944f433bfdb3ed76fd38ea6a7247d0128a8699c3e4f8e98",
+        "recorded_at_utc": "2026-10-29T22:04:30.084284+00:00",
+        "source_settlement": {
+          "away_goals": 2,
+          "forecast_sha256": "8ae935f6afb721c93accb03be23fbe1849d67b3aaa276dc93dda222578f23e79",
+          "home_goals": 2,
+          "outcome": "draw",
+          "result_seen_at_utc": "2026-10-29T22:04:10.380519+00:00",
+          "source_snapshot_sha256": "e7322bc96ca4f523494c0455f86348d91559b6718b6a2d6c172105a2adc76ec8",
+          "source_url": "https://understat.com/getLeagueData/Serie_A/2026"
+        },
+        "type": "settlement"
+      },
+      "previous_hash": "97f622709b0f35cb8a28c3e1e8ac7ef920519538b8d0eecc79971ca30ac9247b",
+      "event_hash": "c8aa2175588f3f93bdf4d77030205f148c479c3d0e316f2674eb8f924a5d0ac9"
+    },
+    {
+      "seq": 248,
+      "kind": "run",
+      "identity": "collection:20261029T220429677380Z",
+      "payload": {
+        "finished_at_utc": "2026-10-29T22:04:30.094890+00:00",
+        "github_run_id": "40962763396",
+        "new_forecasts": 0,
+        "new_settlements": 2,
+        "run_id": "20261029T220429677380Z",
+        "source15_events_sha256": "2d5b058e9b9b78c262a2aacf9d1f8b0b00a1f662391cb26b60063e7f579b59d5",
+        "source15_finished_at_utc": "2026-10-29T22:04:11.722803+00:00",
+        "state": "collected",
+        "type": "collection"
+      },
+      "previous_hash": "c8aa2175588f3f93bdf4d77030205f148c479c3d0e316f2674eb8f924a5d0ac9",
+      "event_hash": "b6a308d04f74d5bb83b77ee93e26e4ff4e42877a0dd63f33dd83a8e4040d0a77"
     }
   ]
 }
