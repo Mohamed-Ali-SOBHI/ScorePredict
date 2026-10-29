@@ -2,15 +2,15 @@
 
 **Simulation uniquement. La stratégie de production reste inchangée.**
 
-Dernier passage : 2026-10-29T17:33:24.474513+00:00 — **collected**.
-Décisions figées avant match : 80. Résultats confirmés : 77.
+Dernier passage : 2026-10-29T22:04:11.722803+00:00 — **collected**.
+Décisions figées avant match : 80. Résultats confirmés : 79.
 
 Exécution sur GitHub après chaque pipeline de prévisions réussi et à 00:40, 06:40, 12:40 et 18:40 UTC chaque jour. Les horaires planifiés peuvent subir un retard GitHub.
 
 | Portefeuille | Paris réglés | En attente | Mise en attente | Gain net (u) | ROI | Baisse max (u) | Gain des ajouts (u) |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | Nuls Bundesliga seuls | 3 | 0 | 0.00 | 0.75 | 25.00 % | 1.00 | 0.00 |
-| Nuls Bundesliga + 15 ajouts (union sans doublon) | 29 | 2 | 2.00 | -7.55 | -26.03 % | 9.25 | -8.30 |
+| Nuls Bundesliga + 15 ajouts (union sans doublon) | 31 | 0 | 0.00 | -5.95 | -19.19 % | 9.25 | -6.70 |
 | Ligue 1 · nul · residual_sport_recency · EV>5% · all seule | 1 | 0 | 0.00 | -1.00 | -100.00 % | 1.00 | -1.00 |
 | Bundesliga + Ligue 1 · nul · residual_sport_recency · EV>5% · all | 4 | 0 | 0.00 | -0.25 | -6.25 % | 2.00 | -1.00 |
 | Premier League · nul · local_sport_only · EV>10% · all seule | 5 | 0 | 0.00 | -1.20 | -24.00 % | 2.00 | -1.20 |
@@ -29,12 +29,12 @@ Exécution sur GitHub après chaque pipeline de prévisions réussi et à 00:40,
 | Bundesliga + Liga · nul · local_sport_only · EV>5% · balanced_market | 5 | 0 | 0.00 | 2.05 | 41.00 % | 1.00 | 1.30 |
 | Serie A · extérieur · local_sport_only · EV>5% · all seule | 4 | 0 | 0.00 | -0.20 | -5.00 % | 1.00 | -0.20 |
 | Bundesliga + Serie A · extérieur · local_sport_only · EV>5% · all | 7 | 0 | 0.00 | 0.55 | 7.86 % | 2.00 | -0.20 |
-| Serie A · extérieur · residual_sport_recency · EV>2% · all seule | 1 | 1 | 1.00 | -1.00 | -100.00 % | 1.00 | -1.00 |
-| Bundesliga + Serie A · extérieur · residual_sport_recency · EV>2% · all | 4 | 1 | 1.00 | -0.25 | -6.25 % | 1.00 | -1.00 |
+| Serie A · extérieur · residual_sport_recency · EV>2% · all seule | 2 | 0 | 0.00 | -2.00 | -100.00 % | 2.00 | -2.00 |
+| Bundesliga + Serie A · extérieur · residual_sport_recency · EV>2% · all | 5 | 0 | 0.00 | -1.25 | -25.00 % | 2.00 | -2.00 |
 | Serie A · nul · local_sport_only · EV>10% · low_goal_parity seule | 0 | 0 | 0.00 | 0.00 | — | 0.00 | 0.00 |
 | Bundesliga + Serie A · nul · local_sport_only · EV>10% · low_goal_parity | 3 | 0 | 0.00 | 0.75 | 25.00 % | 1.00 | 0.00 |
-| Serie A · nul · native_mean · EV>2% · balanced_market seule | 0 | 1 | 1.00 | 0.00 | — | 0.00 | 0.00 |
-| Bundesliga + Serie A · nul · native_mean · EV>2% · balanced_market | 3 | 1 | 1.00 | 0.75 | 25.00 % | 1.00 | 0.00 |
+| Serie A · nul · native_mean · EV>2% · balanced_market seule | 1 | 0 | 0.00 | 2.60 | 260.00 % | 0.00 | 2.60 |
+| Bundesliga + Serie A · nul · native_mean · EV>2% · balanced_market | 4 | 0 | 0.00 | 3.35 | 83.75 % | 1.00 | 2.60 |
 | Ligue 1 · domicile · local_price_only · EV>2% · all seule | 4 | 0 | 0.00 | -2.20 | -55.00 % | 2.20 | -2.20 |
 | Bundesliga + Ligue 1 · domicile · local_price_only · EV>2% · all | 7 | 0 | 0.00 | -1.45 | -20.71 % | 3.00 | -2.20 |
 | Ligue 1 · nul · native_mean · EV>5% · all seule | 1 | 0 | 0.00 | -1.00 | -100.00 % | 1.00 | -1.00 |
@@ -52,6 +52,6 @@ Le gain et le rendement concernent les paris réglés. La baisse maximale est ca
 
 [Exécutions GitHub](https://github.com/Mohamed-Ali-SOBHI/ScorePredict/actions/workflows/paper-positive15.yml) · [Protocole](registration.json) · [Comparaison complète](comparison.csv) · [Paris uniques, cotes et stratégies](tickets.json) · [Diagnostics](last_run.json) · [Journal des preuves](evidence.json)
 
-Journal : 340 événements, empreinte `95d5cd6dc25271fdff9b4a8887a35025be6da01c80289cf2d8197ba698bb4cb9`.
+Journal : 344 événements, empreinte `2d5b058e9b9b78c262a2aacf9d1f8b0b00a1f662391cb26b60063e7f579b59d5`.
 
 Le journal et les captures sont conservés dans cette branche entre les exécutions. Une sauvegarde supplémentaire est jointe aux exécutions Actions pendant 90 jours. Un journal manquant ou altéré bloque le suivi.

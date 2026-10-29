@@ -512,8 +512,8 @@
     "selected_members": [
       "residual_sport_recency|Serie_A|away|0.02|all"
     ],
-    "status": "pending",
-    "profit": null
+    "status": "lost",
+    "profit": -1.0
   },
   {
     "fixture_id": "understat:31642",
@@ -529,7 +529,7 @@
     "selected_members": [
       "native_mean|Serie_A|draw|0.02|balanced_market"
     ],
-    "status": "pending",
-    "profit": null
+    "status": "won",
+    "profit": 2.6
   }
 ]
