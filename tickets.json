@@ -57,6 +57,63 @@
     ]
   },
   {
+    "portfolio": "reference",
+    "fixture_id": "understat:32303",
+    "league": "Bundesliga",
+    "home_team": "Augsburg",
+    "away_team": "Freiburg",
+    "kickoff_utc": "2026-10-31T14:30:00+00:00",
+    "enrolled_at_utc": "2026-10-30T17:11:57.594499+00:00",
+    "source_recorded_at_utc": "2026-10-30T17:10:25.957163+00:00",
+    "odds": 3.8,
+    "outcome": "draw",
+    "source": "reference",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "Bundesliga_anchor"
+    ]
+  },
+  {
+    "portfolio": "reference",
+    "fixture_id": "understat:32310",
+    "league": "Bundesliga",
+    "home_team": "Bayer Leverkusen",
+    "away_team": "VfB Stuttgart",
+    "kickoff_utc": "2026-10-31T14:30:00+00:00",
+    "enrolled_at_utc": "2026-10-30T17:11:57.599029+00:00",
+    "source_recorded_at_utc": "2026-10-30T17:10:30.858355+00:00",
+    "odds": 4.33,
+    "outcome": "draw",
+    "source": "reference",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "Bundesliga_anchor"
+    ]
+  },
+  {
+    "portfolio": "reference",
+    "fixture_id": "understat:32306",
+    "league": "Bundesliga",
+    "home_team": "Werder Bremen",
+    "away_team": "Hoffenheim",
+    "kickoff_utc": "2026-10-31T14:30:00+00:00",
+    "enrolled_at_utc": "2026-10-30T17:11:57.610378+00:00",
+    "source_recorded_at_utc": "2026-10-30T17:10:45.508944+00:00",
+    "odds": 3.8,
+    "outcome": "draw",
+    "source": "reference",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "Bundesliga_anchor"
+    ]
+  },
+  {
     "portfolio": "bundesliga_plus9",
     "fixture_id": "understat:31246",
     "league": "EPL",
@@ -568,6 +625,159 @@
     "profit": -1.0,
     "selected_members": [
       "residual_sport_recency|Serie_A|away|0.02|all"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus9",
+    "fixture_id": "understat:32303",
+    "league": "Bundesliga",
+    "home_team": "Augsburg",
+    "away_team": "Freiburg",
+    "kickoff_utc": "2026-10-31T14:30:00+00:00",
+    "enrolled_at_utc": "2026-10-30T17:11:57.594499+00:00",
+    "source_recorded_at_utc": "2026-10-30T17:10:25.957163+00:00",
+    "odds": 3.8,
+    "outcome": "draw",
+    "source": "reference",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "Bundesliga_anchor"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus9",
+    "fixture_id": "understat:32310",
+    "league": "Bundesliga",
+    "home_team": "Bayer Leverkusen",
+    "away_team": "VfB Stuttgart",
+    "kickoff_utc": "2026-10-31T14:30:00+00:00",
+    "enrolled_at_utc": "2026-10-30T17:11:57.599029+00:00",
+    "source_recorded_at_utc": "2026-10-30T17:10:30.858355+00:00",
+    "odds": 4.33,
+    "outcome": "draw",
+    "source": "reference",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "Bundesliga_anchor",
+      "residual_price|Bundesliga|draw|0.02|all"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus9",
+    "fixture_id": "understat:32306",
+    "league": "Bundesliga",
+    "home_team": "Werder Bremen",
+    "away_team": "Hoffenheim",
+    "kickoff_utc": "2026-10-31T14:30:00+00:00",
+    "enrolled_at_utc": "2026-10-30T17:11:57.610378+00:00",
+    "source_recorded_at_utc": "2026-10-30T17:10:45.508944+00:00",
+    "odds": 3.8,
+    "outcome": "draw",
+    "source": "reference",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "Bundesliga_anchor"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus9",
+    "fixture_id": "understat:31260",
+    "league": "EPL",
+    "home_team": "Chelsea",
+    "away_team": "Manchester United",
+    "kickoff_utc": "2026-10-31T12:30:00+00:00",
+    "enrolled_at_utc": "2026-10-30T17:11:57.613487+00:00",
+    "source_recorded_at_utc": "2026-10-30T17:10:50.876646+00:00",
+    "odds": 4.1,
+    "outcome": "away",
+    "source": "local_price_only|EPL|away|0.05|all",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "local_price_only|EPL|away|0.05|all"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus9",
+    "fixture_id": "understat:31265",
+    "league": "EPL",
+    "home_team": "Brentford",
+    "away_team": "Nottingham Forest",
+    "kickoff_utc": "2026-10-31T15:00:00+00:00",
+    "enrolled_at_utc": "2026-10-30T17:11:57.619326+00:00",
+    "source_recorded_at_utc": "2026-10-30T17:11:01.517601+00:00",
+    "odds": 3.5,
+    "outcome": "away",
+    "source": "local_price_only|EPL|away|0.05|all",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "local_price_only|EPL|away|0.05|all"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus9",
+    "fixture_id": "understat:31261",
+    "league": "EPL",
+    "home_team": "Coventry",
+    "away_team": "Sunderland",
+    "kickoff_utc": "2026-10-31T15:00:00+00:00",
+    "enrolled_at_utc": "2026-10-30T17:11:57.622452+00:00",
+    "source_recorded_at_utc": "2026-10-30T17:11:06.790557+00:00",
+    "odds": 3.4,
+    "outcome": "draw",
+    "source": "local_price_only|EPL|draw|0.05|all",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "local_price_only|EPL|draw|0.05|all"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus9",
+    "fixture_id": "understat:31262",
+    "league": "EPL",
+    "home_team": "Hull",
+    "away_team": "Ipswich",
+    "kickoff_utc": "2026-10-31T15:00:00+00:00",
+    "enrolled_at_utc": "2026-10-30T17:11:57.625427+00:00",
+    "source_recorded_at_utc": "2026-10-30T17:11:12.051701+00:00",
+    "odds": 3.4,
+    "outcome": "draw",
+    "source": "local_price_only|EPL|draw|0.05|all",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "local_price_only|EPL|draw|0.05|all"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus9",
+    "fixture_id": "understat:31263",
+    "league": "EPL",
+    "home_team": "Manchester City",
+    "away_team": "Brighton",
+    "kickoff_utc": "2026-10-31T15:00:00+00:00",
+    "enrolled_at_utc": "2026-10-30T17:11:57.628297+00:00",
+    "source_recorded_at_utc": "2026-10-30T17:11:17.381081+00:00",
+    "odds": 4.5,
+    "outcome": "draw",
+    "source": "local_price_only|EPL|draw|0.05|all",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "local_price_only|EPL|draw|0.05|all"
     ]
   },
   {
@@ -1163,6 +1373,160 @@
     "profit": 2.6,
     "selected_members": [
       "native_mean|Serie_A|draw|0.02|balanced_market"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus15",
+    "fixture_id": "understat:32303",
+    "league": "Bundesliga",
+    "home_team": "Augsburg",
+    "away_team": "Freiburg",
+    "kickoff_utc": "2026-10-31T14:30:00+00:00",
+    "enrolled_at_utc": "2026-10-30T17:11:57.594499+00:00",
+    "source_recorded_at_utc": "2026-10-30T17:10:25.957163+00:00",
+    "odds": 3.8,
+    "outcome": "draw",
+    "source": "reference",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "Bundesliga_anchor"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus15",
+    "fixture_id": "understat:32310",
+    "league": "Bundesliga",
+    "home_team": "Bayer Leverkusen",
+    "away_team": "VfB Stuttgart",
+    "kickoff_utc": "2026-10-31T14:30:00+00:00",
+    "enrolled_at_utc": "2026-10-30T17:11:57.599029+00:00",
+    "source_recorded_at_utc": "2026-10-30T17:10:30.858355+00:00",
+    "odds": 4.33,
+    "outcome": "draw",
+    "source": "reference",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "Bundesliga_anchor",
+      "residual_price|Bundesliga|draw|0.02|all"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus15",
+    "fixture_id": "understat:32306",
+    "league": "Bundesliga",
+    "home_team": "Werder Bremen",
+    "away_team": "Hoffenheim",
+    "kickoff_utc": "2026-10-31T14:30:00+00:00",
+    "enrolled_at_utc": "2026-10-30T17:11:57.610378+00:00",
+    "source_recorded_at_utc": "2026-10-30T17:10:45.508944+00:00",
+    "odds": 3.8,
+    "outcome": "draw",
+    "source": "reference",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "Bundesliga_anchor"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus15",
+    "fixture_id": "understat:31260",
+    "league": "EPL",
+    "home_team": "Chelsea",
+    "away_team": "Manchester United",
+    "kickoff_utc": "2026-10-31T12:30:00+00:00",
+    "enrolled_at_utc": "2026-10-30T17:11:57.613487+00:00",
+    "source_recorded_at_utc": "2026-10-30T17:10:50.876646+00:00",
+    "odds": 3.8,
+    "outcome": "draw",
+    "source": "local_sport_only|EPL|draw|0.10|all",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "local_sport_only|EPL|draw|0.10|all",
+      "local_price_only|EPL|away|0.05|all"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus15",
+    "fixture_id": "understat:31265",
+    "league": "EPL",
+    "home_team": "Brentford",
+    "away_team": "Nottingham Forest",
+    "kickoff_utc": "2026-10-31T15:00:00+00:00",
+    "enrolled_at_utc": "2026-10-30T17:11:57.619326+00:00",
+    "source_recorded_at_utc": "2026-10-30T17:11:01.517601+00:00",
+    "odds": 3.5,
+    "outcome": "away",
+    "source": "local_price_only|EPL|away|0.05|all",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "local_price_only|EPL|away|0.05|all"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus15",
+    "fixture_id": "understat:31261",
+    "league": "EPL",
+    "home_team": "Coventry",
+    "away_team": "Sunderland",
+    "kickoff_utc": "2026-10-31T15:00:00+00:00",
+    "enrolled_at_utc": "2026-10-30T17:11:57.622452+00:00",
+    "source_recorded_at_utc": "2026-10-30T17:11:06.790557+00:00",
+    "odds": 3.4,
+    "outcome": "draw",
+    "source": "local_price_only|EPL|draw|0.05|all",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "local_price_only|EPL|draw|0.05|all"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus15",
+    "fixture_id": "understat:31262",
+    "league": "EPL",
+    "home_team": "Hull",
+    "away_team": "Ipswich",
+    "kickoff_utc": "2026-10-31T15:00:00+00:00",
+    "enrolled_at_utc": "2026-10-30T17:11:57.625427+00:00",
+    "source_recorded_at_utc": "2026-10-30T17:11:12.051701+00:00",
+    "odds": 3.4,
+    "outcome": "draw",
+    "source": "local_price_only|EPL|draw|0.05|all",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "local_price_only|EPL|draw|0.05|all"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus15",
+    "fixture_id": "understat:31263",
+    "league": "EPL",
+    "home_team": "Manchester City",
+    "away_team": "Brighton",
+    "kickoff_utc": "2026-10-31T15:00:00+00:00",
+    "enrolled_at_utc": "2026-10-30T17:11:57.628297+00:00",
+    "source_recorded_at_utc": "2026-10-30T17:11:17.381081+00:00",
+    "odds": 4.5,
+    "outcome": "draw",
+    "source": "local_price_only|EPL|draw|0.05|all",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "local_price_only|EPL|draw|0.05|all"
     ]
   }
 ]
