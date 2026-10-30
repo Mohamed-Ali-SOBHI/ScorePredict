@@ -2,29 +2,29 @@
 
 **Simulation uniquement. La stratégie de production reste inchangée.**
 
-Dernier passage : 2026-10-30T17:10:13.352401+00:00 — **collected**.
-Décisions figées avant match : 97. Résultats confirmés : 81.
+Dernier passage : 2026-10-30T21:48:14.684139+00:00 — **collected**.
+Décisions figées avant match : 101. Résultats confirmés : 81.
 
 Exécution sur GitHub après chaque pipeline de prévisions réussi et à 00:35, 06:35, 12:35 et 18:35 UTC chaque jour. Les horaires planifiés peuvent subir un retard GitHub.
 
 | Portefeuille | Paris réglés | En attente | Mise en attente | Gain net (u) | ROI | Baisse max (u) | Gain des ajouts (u) |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Production observée à la capture | 4 | 4 | 4.00 | 3.52 | 88.00 % | 1.00 | 0.00 |
-| Référence + Bundesliga à demi-mise | 8 | 4 | 4.00 | 3.39 | 56.58 % | 0.50 | -0.12 |
-| Référence + union des six, mise 1 | 45 | 8 | 8.00 | 5.94 | 13.20 % | 7.00 | 2.42 |
-| Référence + union des six, mise 0,5 | 45 | 8 | 6.00 | 4.73 | 19.31 % | 3.50 | 1.21 |
+| Production observée à la capture | 4 | 6 | 6.00 | 3.52 | 88.00 % | 1.00 | 0.00 |
+| Référence + Bundesliga à demi-mise | 8 | 6 | 6.00 | 3.39 | 56.58 % | 0.50 | -0.12 |
+| Référence + union des six, mise 1 | 45 | 10 | 10.00 | 5.94 | 13.20 % | 7.00 | 2.42 |
+| Référence + union des six, mise 0,5 | 45 | 10 | 8.00 | 4.73 | 19.31 % | 3.50 | 1.21 |
 | Ligue 1 · domicile Poisson seule | 5 | 1 | 1.00 | 1.05 | 21.00 % | 1.00 | 1.05 |
-| Référence + Ligue 1 · domicile Poisson | 9 | 5 | 5.00 | 4.57 | 50.78 % | 1.00 | 1.05 |
+| Référence + Ligue 1 · domicile Poisson | 9 | 7 | 7.00 | 4.57 | 50.78 % | 1.00 | 1.05 |
 | Serie A · nul Poisson seule | 1 | 0 | 0.00 | -1.00 | -100.00 % | 1.00 | -1.00 |
-| Référence + Serie A · nul Poisson | 5 | 4 | 4.00 | 2.52 | 50.40 % | 1.00 | -1.00 |
+| Référence + Serie A · nul Poisson | 5 | 6 | 6.00 | 2.52 | 50.40 % | 1.00 | -1.00 |
 | Serie A · nul logistique seule | 5 | 1 | 1.00 | -0.80 | -16.00 % | 2.00 | -0.80 |
-| Référence + Serie A · nul logistique | 9 | 5 | 5.00 | 2.72 | 30.22 % | 2.00 | -0.80 |
+| Référence + Serie A · nul logistique | 9 | 7 | 7.00 | 2.72 | 30.22 % | 2.00 | -0.80 |
 | Bundesliga · nul XGBoost seule | 7 | 3 | 3.00 | 0.95 | 13.57 % | 1.00 | 0.95 |
-| Référence + Bundesliga · nul XGBoost | 8 | 4 | 4.00 | 3.27 | 40.87 % | 1.00 | -0.25 |
-| Premier League · extérieur logistique seule | 6 | 2 | 2.00 | -2.75 | -45.83 % | 5.00 | -2.75 |
-| Référence + Premier League · extérieur logistique | 9 | 5 | 5.00 | -1.48 | -16.44 % | 5.00 | -5.00 |
+| Référence + Bundesliga · nul XGBoost | 8 | 6 | 6.00 | 3.27 | 40.87 % | 1.00 | -0.25 |
+| Premier League · extérieur logistique seule | 6 | 3 | 3.00 | -2.75 | -45.83 % | 5.00 | -2.75 |
+| Référence + Premier League · extérieur logistique | 9 | 7 | 7.00 | -1.48 | -16.44 % | 5.00 | -5.00 |
 | Serie A · extérieur outcome_control seule | 26 | 1 | 1.00 | 5.87 | 22.58 % | 2.44 | 5.87 |
-| Référence + Serie A · extérieur outcome_control | 30 | 5 | 5.00 | 9.39 | 31.30 % | 2.00 | 5.87 |
+| Référence + Serie A · extérieur outcome_control | 30 | 7 | 7.00 | 9.39 | 31.30 % | 2.00 | 5.87 |
 
 La référence correspond aux recommandations de production observées lors de la première capture admissible, sur les mêmes matchs que les challengers. Elle ne reproduit donc pas tous les paris historiques de production.
 
@@ -36,6 +36,6 @@ Le gain et le rendement concernent les paris réglés. La baisse maximale est ca
 
 [Exécutions GitHub](https://github.com/Mohamed-Ali-SOBHI/ScorePredict/actions/workflows/paper-simulation.yml) · [Protocole](registration.json) · [Comparaison complète](comparison.csv) · [Diagnostics](last_run.json) · [Journal des preuves](evidence.json)
 
-Journal : 397 événements, empreinte `fcdce43fb1d2ea8e65f057cad164fea2ddb86609ef9dfdf7ccc9638392897645`.
+Journal : 403 événements, empreinte `f0681eddedf919202189848499d907e6aa63583fbaaf7270a7faa11ad73b115b`.
 
 Le journal et les captures sont conservés dans cette branche entre les exécutions. Une sauvegarde supplémentaire est jointe aux exécutions Actions pendant 90 jours. Un journal manquant ou altéré bloque le suivi.
