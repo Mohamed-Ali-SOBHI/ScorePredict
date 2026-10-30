@@ -38,3 +38,6 @@ understat:31265,EPL,Brentford,Nottingham Forest,2026-10-31T15:00:00+00:00,2026-1
 understat:31261,EPL,Coventry,Sunderland,2026-10-31T15:00:00+00:00,2026-10-30T17:11:06.790557+00:00,draw,3.4,1.0,local_price_only|EPL|draw|0.05|all,local_price_only|EPL|draw|0.05|all,pending,
 understat:31262,EPL,Hull,Ipswich,2026-10-31T15:00:00+00:00,2026-10-30T17:11:12.051701+00:00,draw,3.4,1.0,local_price_only|EPL|draw|0.05|all,local_price_only|EPL|draw|0.05|all,pending,
 understat:31263,EPL,Manchester City,Brighton,2026-10-31T15:00:00+00:00,2026-10-30T17:11:17.381081+00:00,draw,4.5,1.0,local_price_only|EPL|draw|0.05|all,local_price_only|EPL|draw|0.05|all,pending,
+understat:31266,EPL,Tottenham,Crystal Palace,2026-10-31T17:30:00+00:00,2026-10-30T21:48:44.583331+00:00,away,5.5,1.0,local_price_only|EPL|away|0.05|all,local_price_only|EPL|away|0.05|all,pending,
+understat:31267,EPL,Aston Villa,Fulham,2026-10-31T20:00:00+00:00,2026-10-30T21:48:47.846156+00:00,draw,3.75,1.0,local_sport_only|EPL|draw|0.10|all,local_sport_only|EPL|draw|0.10|all ; local_price_only|EPL|home|0.02|all,pending,
+understat:31650,Serie_A,AC Milan,Inter,2026-10-31T19:45:00+00:00,2026-10-30T21:48:51.379538+00:00,away,1.95,1.0,local_sport_only|Serie_A|away|0.05|all,local_sport_only|Serie_A|away|0.05|all,pending,

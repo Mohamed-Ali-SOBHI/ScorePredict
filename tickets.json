@@ -669,5 +669,57 @@
     ],
     "status": "pending",
     "profit": null
+  },
+  {
+    "fixture_id": "understat:31266",
+    "league": "EPL",
+    "home_team": "Tottenham",
+    "away_team": "Crystal Palace",
+    "kickoff_utc": "2026-10-31T17:30:00+00:00",
+    "recorded_at_utc": "2026-10-30T21:48:44.583331+00:00",
+    "outcome": "away",
+    "odds": 5.5,
+    "stake": 1.0,
+    "source": "local_price_only|EPL|away|0.05|all",
+    "selected_members": [
+      "local_price_only|EPL|away|0.05|all"
+    ],
+    "status": "pending",
+    "profit": null
+  },
+  {
+    "fixture_id": "understat:31267",
+    "league": "EPL",
+    "home_team": "Aston Villa",
+    "away_team": "Fulham",
+    "kickoff_utc": "2026-10-31T20:00:00+00:00",
+    "recorded_at_utc": "2026-10-30T21:48:47.846156+00:00",
+    "outcome": "draw",
+    "odds": 3.75,
+    "stake": 1.0,
+    "source": "local_sport_only|EPL|draw|0.10|all",
+    "selected_members": [
+      "local_sport_only|EPL|draw|0.10|all",
+      "local_price_only|EPL|home|0.02|all"
+    ],
+    "status": "pending",
+    "profit": null
+  },
+  {
+    "fixture_id": "understat:31650",
+    "league": "Serie_A",
+    "home_team": "AC Milan",
+    "away_team": "Inter",
+    "kickoff_utc": "2026-10-31T19:45:00+00:00",
+    "recorded_at_utc": "2026-10-30T21:48:51.379538+00:00",
+    "outcome": "away",
+    "odds": 1.95,
+    "stake": 1.0,
+    "source": "local_sport_only|Serie_A|away|0.05|all",
+    "selected_members": [
+      "local_sport_only|Serie_A|away|0.05|all"
+    ],
+    "status": "pending",
+    "profit": null
   }
 ]
