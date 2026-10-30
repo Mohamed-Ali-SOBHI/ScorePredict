@@ -30,3 +30,11 @@ understat:31648,Serie_A,Torino,Como,2026-10-27T19:45:00+00:00,2026-10-27T12:40:4
 understat:31644,Serie_A,Genoa,Juventus,2026-10-28T19:45:00+00:00,2026-10-27T21:32:54.531250+00:00,away,1.67,1.0,local_sport_only|Serie_A|away|0.05|all,local_sport_only|Serie_A|away|0.05|all,lost,-1.0
 understat:31643,Serie_A,Frosinone,Lecce,2026-10-29T17:30:00+00:00,2026-10-28T21:57:10.481952+00:00,away,5.0,1.0,residual_sport_recency|Serie_A|away|0.02|all,residual_sport_recency|Serie_A|away|0.02|all,lost,-1.0
 understat:31642,Serie_A,Fiorentina,Atalanta,2026-10-29T19:45:00+00:00,2026-10-28T21:57:13.787403+00:00,draw,3.6,1.0,native_mean|Serie_A|draw|0.02|balanced_market,native_mean|Serie_A|draw|0.02|balanced_market,won,2.6
+understat:32303,Bundesliga,Augsburg,Freiburg,2026-10-31T14:30:00+00:00,2026-10-30T17:10:25.957163+00:00,draw,3.8,1.0,reference,Bundesliga_anchor,pending,
+understat:32310,Bundesliga,Bayer Leverkusen,VfB Stuttgart,2026-10-31T14:30:00+00:00,2026-10-30T17:10:30.858355+00:00,draw,4.33,1.0,reference,Bundesliga_anchor ; residual_price|Bundesliga|draw|0.02|all,pending,
+understat:32306,Bundesliga,Werder Bremen,Hoffenheim,2026-10-31T14:30:00+00:00,2026-10-30T17:10:45.508944+00:00,draw,3.8,1.0,reference,Bundesliga_anchor,pending,
+understat:31260,EPL,Chelsea,Manchester United,2026-10-31T12:30:00+00:00,2026-10-30T17:10:50.876646+00:00,draw,3.8,1.0,local_sport_only|EPL|draw|0.10|all,local_sport_only|EPL|draw|0.10|all ; local_price_only|EPL|away|0.05|all,pending,
+understat:31265,EPL,Brentford,Nottingham Forest,2026-10-31T15:00:00+00:00,2026-10-30T17:11:01.517601+00:00,away,3.5,1.0,local_price_only|EPL|away|0.05|all,local_price_only|EPL|away|0.05|all,pending,
+understat:31261,EPL,Coventry,Sunderland,2026-10-31T15:00:00+00:00,2026-10-30T17:11:06.790557+00:00,draw,3.4,1.0,local_price_only|EPL|draw|0.05|all,local_price_only|EPL|draw|0.05|all,pending,
+understat:31262,EPL,Hull,Ipswich,2026-10-31T15:00:00+00:00,2026-10-30T17:11:12.051701+00:00,draw,3.4,1.0,local_price_only|EPL|draw|0.05|all,local_price_only|EPL|draw|0.05|all,pending,
+understat:31263,EPL,Manchester City,Brighton,2026-10-31T15:00:00+00:00,2026-10-30T17:11:17.381081+00:00,draw,4.5,1.0,local_price_only|EPL|draw|0.05|all,local_price_only|EPL|draw|0.05|all,pending,
