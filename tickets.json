@@ -781,6 +781,63 @@
     ]
   },
   {
+    "portfolio": "bundesliga_plus9",
+    "fixture_id": "understat:31266",
+    "league": "EPL",
+    "home_team": "Tottenham",
+    "away_team": "Crystal Palace",
+    "kickoff_utc": "2026-10-31T17:30:00+00:00",
+    "enrolled_at_utc": "2026-10-30T21:49:19.085117+00:00",
+    "source_recorded_at_utc": "2026-10-30T21:48:44.583331+00:00",
+    "odds": 5.5,
+    "outcome": "away",
+    "source": "local_price_only|EPL|away|0.05|all",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "local_price_only|EPL|away|0.05|all"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus9",
+    "fixture_id": "understat:31267",
+    "league": "EPL",
+    "home_team": "Aston Villa",
+    "away_team": "Fulham",
+    "kickoff_utc": "2026-10-31T20:00:00+00:00",
+    "enrolled_at_utc": "2026-10-30T21:49:19.088082+00:00",
+    "source_recorded_at_utc": "2026-10-30T21:48:47.846156+00:00",
+    "odds": 1.91,
+    "outcome": "home",
+    "source": "local_price_only|EPL|home|0.02|all",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "local_price_only|EPL|home|0.02|all"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus9",
+    "fixture_id": "understat:31650",
+    "league": "Serie_A",
+    "home_team": "AC Milan",
+    "away_team": "Inter",
+    "kickoff_utc": "2026-10-31T19:45:00+00:00",
+    "enrolled_at_utc": "2026-10-30T21:49:19.091008+00:00",
+    "source_recorded_at_utc": "2026-10-30T21:48:51.379538+00:00",
+    "odds": 1.95,
+    "outcome": "away",
+    "source": "local_sport_only|Serie_A|away|0.05|all",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "local_sport_only|Serie_A|away|0.05|all"
+    ]
+  },
+  {
     "portfolio": "bundesliga_plus15",
     "fixture_id": "understat:31246",
     "league": "EPL",
@@ -1527,6 +1584,64 @@
     "profit": null,
     "selected_members": [
       "local_price_only|EPL|draw|0.05|all"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus15",
+    "fixture_id": "understat:31266",
+    "league": "EPL",
+    "home_team": "Tottenham",
+    "away_team": "Crystal Palace",
+    "kickoff_utc": "2026-10-31T17:30:00+00:00",
+    "enrolled_at_utc": "2026-10-30T21:49:19.085117+00:00",
+    "source_recorded_at_utc": "2026-10-30T21:48:44.583331+00:00",
+    "odds": 5.5,
+    "outcome": "away",
+    "source": "local_price_only|EPL|away|0.05|all",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "local_price_only|EPL|away|0.05|all"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus15",
+    "fixture_id": "understat:31267",
+    "league": "EPL",
+    "home_team": "Aston Villa",
+    "away_team": "Fulham",
+    "kickoff_utc": "2026-10-31T20:00:00+00:00",
+    "enrolled_at_utc": "2026-10-30T21:49:19.088082+00:00",
+    "source_recorded_at_utc": "2026-10-30T21:48:47.846156+00:00",
+    "odds": 3.75,
+    "outcome": "draw",
+    "source": "local_sport_only|EPL|draw|0.10|all",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "local_sport_only|EPL|draw|0.10|all",
+      "local_price_only|EPL|home|0.02|all"
+    ]
+  },
+  {
+    "portfolio": "bundesliga_plus15",
+    "fixture_id": "understat:31650",
+    "league": "Serie_A",
+    "home_team": "AC Milan",
+    "away_team": "Inter",
+    "kickoff_utc": "2026-10-31T19:45:00+00:00",
+    "enrolled_at_utc": "2026-10-30T21:49:19.091008+00:00",
+    "source_recorded_at_utc": "2026-10-30T21:48:51.379538+00:00",
+    "odds": 1.95,
+    "outcome": "away",
+    "source": "local_sport_only|Serie_A|away|0.05|all",
+    "stake": 1.0,
+    "status": "pending",
+    "profit": null,
+    "selected_members": [
+      "local_sport_only|Serie_A|away|0.05|all"
     ]
   }
 ]
