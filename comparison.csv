@@ -1,10 +1,10 @@
 ﻿portfolio,label,committed_bets,settled_bets,pending_bets,pending_stake,settled_stake,wins,profit,roi,max_daily_drawdown,additional_profit,additional_settled_bets,profit_difference_vs_reference,drawdown_difference_vs_reference
 reference,Production observée à la capture,4,4,0,0,4.0,2,3.5199999999999996,0.8799999999999999,1.0,0,0,0.0,0.0
 reference_bundesliga_half,Référence + Bundesliga à demi-mise,8,8,0,0,6.0,3,3.3949999999999996,0.5658333333333333,0.5,-0.125,4,-0.125,-0.5
-reference_six_full,"Référence + union des six, mise 1",45,45,0,0,45.0,17,5.940000000000001,0.13200000000000003,7.0,2.420000000000001,41,2.4200000000000017,6.0
-reference_six_half,"Référence + union des six, mise 0,5",45,45,0,0,24.5,17,4.73,0.19306122448979593,3.5,1.2100000000000004,41,1.2100000000000009,2.5
-alone_l1_home_poisson,Ligue 1 · domicile Poisson seule,5,5,0,0,5.0,2,1.0500000000000003,0.21000000000000005,1.0,1.0500000000000003,5,-2.4699999999999993,0.0
-reference_l1_home_poisson,Référence + Ligue 1 · domicile Poisson,9,9,0,0,9.0,4,4.57,0.5077777777777778,1.0,1.0500000000000003,5,1.0500000000000007,0.0
+reference_six_full,"Référence + union des six, mise 1",46,45,1,1.0,45.0,17,5.940000000000001,0.13200000000000003,7.0,2.420000000000001,41,2.4200000000000017,6.0
+reference_six_half,"Référence + union des six, mise 0,5",46,45,1,0.5,24.5,17,4.73,0.19306122448979593,3.5,1.2100000000000004,41,1.2100000000000009,2.5
+alone_l1_home_poisson,Ligue 1 · domicile Poisson seule,6,5,1,1.0,5.0,2,1.0500000000000003,0.21000000000000005,1.0,1.0500000000000003,5,-2.4699999999999993,0.0
+reference_l1_home_poisson,Référence + Ligue 1 · domicile Poisson,10,9,1,1.0,9.0,4,4.57,0.5077777777777778,1.0,1.0500000000000003,5,1.0500000000000007,0.0
 alone_seriea_draw_poisson,Serie A · nul Poisson seule,1,1,0,0,1.0,0,-1.0,-1.0,1.0,-1.0,1,-4.52,0.0
 reference_seriea_draw_poisson,Référence + Serie A · nul Poisson,5,5,0,0,5.0,2,2.5199999999999996,0.5039999999999999,1.0,-1.0,1,-1.0,0.0
 alone_seriea_draw_logit,Serie A · nul logistique seule,5,5,0,0,5.0,1,-0.7999999999999998,-0.15999999999999998,2.0,-0.7999999999999998,5,-4.319999999999999,1.0

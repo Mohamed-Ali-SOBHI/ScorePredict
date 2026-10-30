@@ -1,0 +1,252 @@
+[
+  {
+    "league": "Bundesliga",
+    "home": "Augsburg",
+    "away": "Freiburg",
+    "provider_day": "2026-10-31",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Bundesliga",
+    "home": "Leverkusen",
+    "away": "Stuttgart",
+    "provider_day": "2026-10-31",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Bundesliga",
+    "home": "M'gladbach",
+    "away": "Paderborn",
+    "provider_day": "2026-10-31",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Bundesliga",
+    "home": "Schalke 04",
+    "away": "RB Leipzig",
+    "provider_day": "2026-10-31",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Bundesliga",
+    "home": "Werder Bremen",
+    "away": "Hoffenheim",
+    "provider_day": "2026-10-31",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Bundesliga",
+    "home": "Bayern Munich",
+    "away": "Dortmund",
+    "provider_day": "2026-10-31",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Bundesliga",
+    "home": "Union Berlin",
+    "away": "FC Koln",
+    "provider_day": "2026-11-01",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Bundesliga",
+    "home": "Ein Frankfurt",
+    "away": "Hamburg",
+    "provider_day": "2026-11-01",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "EPL",
+    "home": "Chelsea",
+    "away": "Man United",
+    "provider_day": "2026-10-31",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "EPL",
+    "home": "Bournemouth",
+    "away": "Leeds",
+    "provider_day": "2026-10-31",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "EPL",
+    "home": "Brentford",
+    "away": "Nott'm Forest",
+    "provider_day": "2026-10-31",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "EPL",
+    "home": "Coventry",
+    "away": "Sunderland",
+    "provider_day": "2026-10-31",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "EPL",
+    "home": "Hull",
+    "away": "Ipswich",
+    "provider_day": "2026-10-31",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "EPL",
+    "home": "Man City",
+    "away": "Brighton",
+    "provider_day": "2026-10-31",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "EPL",
+    "home": "Tottenham",
+    "away": "Crystal Palace",
+    "provider_day": "2026-10-31",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "EPL",
+    "home": "Aston Villa",
+    "away": "Fulham",
+    "provider_day": "2026-10-31",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "EPL",
+    "home": "Liverpool",
+    "away": "Arsenal",
+    "provider_day": "2026-11-01",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "EPL",
+    "home": "Newcastle",
+    "away": "Everton",
+    "provider_day": "2026-11-02",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Ligue_1",
+    "home": "Le Havre",
+    "away": "Paris SG",
+    "provider_day": "2026-10-30",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Ligue_1",
+    "home": "Troyes",
+    "away": "Le Mans",
+    "provider_day": "2026-10-31",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Ligue_1",
+    "home": "Strasbourg",
+    "away": "Auxerre",
+    "provider_day": "2026-11-01",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Ligue_1",
+    "home": "Lyon",
+    "away": "Angers",
+    "provider_day": "2026-11-01",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Ligue_1",
+    "home": "Paris FC",
+    "away": "Monaco",
+    "provider_day": "2026-11-01",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Ligue_1",
+    "home": "Marseille",
+    "away": "Toulouse",
+    "provider_day": "2026-11-01",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Ligue_1",
+    "home": "Lorient",
+    "away": "Brest",
+    "provider_day": "2026-11-02",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Bologna",
+    "away": "Monza",
+    "provider_day": "2026-10-31",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Udinese",
+    "away": "Roma",
+    "provider_day": "2026-10-31",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Milan",
+    "away": "Inter",
+    "provider_day": "2026-10-31",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Como",
+    "away": "Venezia",
+    "provider_day": "2026-11-01",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Frosinone",
+    "away": "Torino",
+    "provider_day": "2026-11-01",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Lazio",
+    "away": "Cagliari",
+    "provider_day": "2026-11-01",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Lecce",
+    "away": "Genoa",
+    "provider_day": "2026-11-01",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Juventus",
+    "away": "Napoli",
+    "provider_day": "2026-11-01",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Sassuolo",
+    "away": "Fiorentina",
+    "provider_day": "2026-11-02",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "league": "Serie_A",
+    "home": "Atalanta",
+    "away": "Parma",
+    "provider_day": "2026-11-02",
+    "reason": "canonical_schedule_missing_or_ambiguous"
+  },
+  {
+    "fixture_id": "understat:32017",
+    "reason": "schedule_conflict_before_capture",
+    "detail": "Archived timestamp cannot establish its timezone"
+  }
+]
