@@ -2,8 +2,8 @@
 
 **Simulation uniquement. La stratégie de production reste inchangée.**
 
-Dernier passage : 2026-10-30T21:48:14.684139+00:00 — **collected**.
-Décisions figées avant match : 101. Résultats confirmés : 81.
+Dernier passage : 2026-10-30T22:37:03.902210+00:00 — **collected**.
+Décisions figées avant match : 101. Résultats confirmés : 83.
 
 Exécution sur GitHub après chaque pipeline de prévisions réussi et à 00:35, 06:35, 12:35 et 18:35 UTC chaque jour. Les horaires planifiés peuvent subir un retard GitHub.
 
@@ -11,10 +11,10 @@ Exécution sur GitHub après chaque pipeline de prévisions réussi et à 00:35,
 |---|---:|---:|---:|---:|---:|---:|---:|
 | Production observée à la capture | 4 | 6 | 6.00 | 3.52 | 88.00 % | 1.00 | 0.00 |
 | Référence + Bundesliga à demi-mise | 8 | 6 | 6.00 | 3.39 | 56.58 % | 0.50 | -0.12 |
-| Référence + union des six, mise 1 | 45 | 10 | 10.00 | 5.94 | 13.20 % | 7.00 | 2.42 |
-| Référence + union des six, mise 0,5 | 45 | 10 | 8.00 | 4.73 | 19.31 % | 3.50 | 1.21 |
-| Ligue 1 · domicile Poisson seule | 5 | 1 | 1.00 | 1.05 | 21.00 % | 1.00 | 1.05 |
-| Référence + Ligue 1 · domicile Poisson | 9 | 7 | 7.00 | 4.57 | 50.78 % | 1.00 | 1.05 |
+| Référence + union des six, mise 1 | 46 | 9 | 9.00 | 7.69 | 16.72 % | 7.00 | 4.17 |
+| Référence + union des six, mise 0,5 | 46 | 9 | 7.50 | 5.61 | 22.42 % | 3.50 | 2.09 |
+| Ligue 1 · domicile Poisson seule | 6 | 0 | 0.00 | 2.80 | 46.67 % | 1.00 | 2.80 |
+| Référence + Ligue 1 · domicile Poisson | 10 | 6 | 6.00 | 6.32 | 63.20 % | 1.00 | 2.80 |
 | Serie A · nul Poisson seule | 1 | 0 | 0.00 | -1.00 | -100.00 % | 1.00 | -1.00 |
 | Référence + Serie A · nul Poisson | 5 | 6 | 6.00 | 2.52 | 50.40 % | 1.00 | -1.00 |
 | Serie A · nul logistique seule | 5 | 1 | 1.00 | -0.80 | -16.00 % | 2.00 | -0.80 |
@@ -36,6 +36,6 @@ Le gain et le rendement concernent les paris réglés. La baisse maximale est ca
 
 [Exécutions GitHub](https://github.com/Mohamed-Ali-SOBHI/ScorePredict/actions/workflows/paper-simulation.yml) · [Protocole](registration.json) · [Comparaison complète](comparison.csv) · [Diagnostics](last_run.json) · [Journal des preuves](evidence.json)
 
-Journal : 403 événements, empreinte `f0681eddedf919202189848499d907e6aa63583fbaaf7270a7faa11ad73b115b`.
+Journal : 407 événements, empreinte `165cfc13f6788404875be555f6421981b25468949f52b401261cbf41fdd60378`.
 
 Le journal et les captures sont conservés dans cette branche entre les exécutions. Une sauvegarde supplémentaire est jointe aux exécutions Actions pendant 90 jours. Un journal manquant ou altéré bloque le suivi.
