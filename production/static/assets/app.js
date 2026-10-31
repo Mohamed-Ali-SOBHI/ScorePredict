@@ -178,7 +178,7 @@ function compactMatchMarkup(match) {
   return `<details class="pick-row" data-pick-key="${escapeHtml(key)}">
     <summary class="pick-summary">
       <time class="pick-time" datetime="${escapeHtml(match.date)}"><strong>${escapeHtml(clock)}</strong><span>${escapeHtml(day)}</span></time>
-      <span class="pick-match"><span class="pick-league">${escapeHtml(league)}</span><strong>${escapeHtml(match.homeTeam)} <span class="versus">vs</span> ${escapeHtml(match.awayTeam)}</strong></span>
+      <span class="pick-match"><span class="pick-league">${escapeHtml(league)}</span><span class="pick-teams"><strong>${escapeHtml(match.homeTeam)}</strong><span class="versus">vs</span><strong>${escapeHtml(match.awayTeam)}</strong></span></span>
       <span class="prediction-choice"><small>Choix</small><strong>${escapeHtml(match.outcomeLabel)}</strong></span>
       <span class="pick-odds"><small>Cote</small><strong>${odds === null ? "—" : decimal.format(odds)}</strong></span>
       <span class="pick-status ${tone}">${score ? `<strong>${escapeHtml(score)}</strong>` : ""}<span>${escapeHtml(status)}</span></span>
