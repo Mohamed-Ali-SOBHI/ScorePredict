@@ -40,7 +40,7 @@
 .pick-details dd { margin: 7px 0 0; font-size: 13px; font-weight: 600; line-height: 1.5; }
 .pick-summary .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .picks-loading { padding: 28px 12px; color: var(--muted); }
-.journal-dashboard .no-pick { min-height: 0; padding: 28px; border-radius: 0; box-shadow: none; background: none; border: 1px solid var(--line); color: var(--ink); }
+.journal-dashboard .prediction.no-pick { width: 100%; min-height: 0; padding: 24px 0; border-radius: 0; box-shadow: none; background: none; border: 0; border-block: 1px solid var(--line); color: var(--ink); }
 .journal-dashboard .no-pick .prediction-head, .journal-dashboard .no-pick .prediction-pitch { display: none; }
 .journal-dashboard .no-pick-state { min-height: 0; align-items: start; text-align: left; padding: 0; }
 .journal-dashboard .no-pick-kicker, .journal-dashboard .no-pick-copy { color: var(--muted); }
