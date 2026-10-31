@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="./assets/explorer.css?v=9">
   <link rel="stylesheet" href="./assets/dashboard-table.css?v=1">
   <link rel="stylesheet" href="./assets/navigation.css?v=6">
-  <link rel="stylesheet" href="./assets/dashboard-compact.css?v=3">
+  <link rel="stylesheet" href="./assets/dashboard-compact.css?v=4">
 </head>
 <body class="journal-dashboard">
   <a class="skip-link" href="#contenu">Aller au contenu</a>
@@ -42,16 +42,16 @@
       <div class="page-shell">
         <header class="workspace-title" data-reveal>
           <h1 id="hero-title">Paris retenus</h1>
-          <p class="window-caption" data-reveal>4 stratégies · Nuls Bundesliga · Premier League : domicile et extérieur · 1 unité par pari</p>
         </header>
 
 
         <div class="load-error" id="load-error" role="status" hidden>Les données du jour sont momentanément indisponibles. La dernière vue ne peut pas être confirmée</div>
 
         <div class="picks-toolbar">
-          <p><strong id="pick-count" aria-live="polite">Chargement…</strong><span>À venir dans les 24 h · suivi des matchs commencés</span></p>
+          <p><strong id="pick-count" aria-live="polite">Chargement…</strong></p>
           <nav aria-label="Sections du tableau de bord"><a href="#suivi">Historique</a><a href="#historique">Bilan de saison <span aria-hidden="true">↓</span></a></nav>
         </div>
+        <div class="strategy-filters" id="strategy-filters" role="group" aria-label="Filtrer les matchs et le bilan par stratégie"></div>
         <div class="today-grid" id="today-grid">
           <div class="decision-stage">
             <div class="pick-list" id="pick-list" aria-live="polite">
@@ -78,7 +78,7 @@
         <header class="section-heading" data-reveal>
           <div>
             <h2 id="tracking-title">Suivi réel</h2>
-            <p id="tracking-scope">Paris publiés des stratégies affichées · choix et cotes d’origine conservés</p>
+            <p id="tracking-scope">Toutes les stratégies</p>
           </div>
         </header>
 
@@ -115,8 +115,8 @@
       <div class="page-shell">
         <header class="section-heading" data-reveal>
           <div>
-            <h2 id="history-title">Le bilan de cette saison</h2>
-            <p id="season-scope">Uniquement les paris réellement publiés et leurs résultats confirmés</p>
+            <h2 id="history-title">Bilan de saison</h2>
+            <p id="season-scope">1 unité par pari</p>
           </div>
         </header>
 
@@ -146,7 +146,6 @@
         <div class="chart-panel" data-reveal>
           <div class="chart-heading compact">
             <h3>Évolution du résultat</h3>
-            <p>Gain ou perte cumulés en mises identiques, après chaque pari terminé</p>
           </div>
           <div class="chart-wrap" id="cumulative-chart-wrap">
             <svg id="cumulative-chart" class="data-chart" viewBox="0 0 960 360"></svg>
@@ -158,14 +157,13 @@
           <div class="chart-panel">
             <div class="chart-heading compact">
               <h3>Par mois</h3>
-              <p>Vert : gain · Rouge : perte</p>
             </div>
             <div class="period-chart" id="period-chart"></div>
           </div>
           <div class="chart-panel">
             <div class="chart-heading compact">
               <h3>Gain par stratégie</h3>
-              <p>Depuis la mise en ligne de chaque stratégie · 1 unité par pari terminé · simulations exclues</p>
+              <p>Paris publiés uniquement</p>
             </div>
             <div class="strategy-list" id="strategy-list"></div>
           </div>
@@ -199,7 +197,7 @@
           <div>
             <p class="kicker">Jeu responsable</p>
             <h2 id="responsible-title">Les pronostics restent des estimations</h2>
-            <p>Aucun résultat n'est garanti. Les chiffres servent à comparer les matchs, pas à promettre des gains</p>
+            <p>Aucun gain garanti.</p>
           </div>
           <a class="button button-light" href="#aujourdhui">Voir le journal</a>
         </div>
@@ -218,6 +216,7 @@
     </div>
   </footer>
 
-  <script type="module" src="./assets/app.js?v=compact-cards-20261031-60"></script>
+  <script src="./assets/team-crests.js?v=1"></script>
+  <script type="module" src="./assets/app.js?v=crest-cards-20261031-61"></script>
 </body>
 </html>

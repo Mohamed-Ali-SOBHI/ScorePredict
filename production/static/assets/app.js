@@ -1,3 +1,5 @@
+const TEAM_CRESTS = window.ScorePredictCrests || {};
+
 document.documentElement.classList.add("js");
 
 const $ = (selector, root = document) => root.querySelector(selector);
@@ -156,6 +158,61 @@ async function fetchDashboard() {
   return data;
 }
 
+function crestMarkup(team, featured = false) {
+  const file = TEAM_CRESTS[team];
+  // Keep the team name visible even when no crest is available.
+  return file ? `<img class="team-crest" src="./assets/crests/${escapeHtml(file)}" width="64" height="64" alt="" decoding="async" loading="${featured ? "eager" : "lazy"}">` : "";
+}
+
+function matchesStrategy(row, rule) {
+  const outcome = row.outcome || ({"Match nul":"draw", "Victoire extérieure":"away_win", "Victoire domicile":"home_win", "Victoire à domicile":"home_win"})[row.outcomeLabel];
+  return row.league === rule.league && outcome === rule.outcome
+    && (!rule.id || row.strategy === rule.id)
+    && !(rule.excludeStrategyIds || []).includes(row.strategy);
+}
+
+function strategyKey(rule) {
+  return rule.id || `${rule.league}:${rule.outcome}`;
+}
+
+function filterStrategyData(data, key) {
+  const rule = (data.meta?.publicStrategies || []).find(item => strategyKey(item) === key);
+  if (!rule) return data;
+  const predictions = (data.predictions || []).filter(row => matchesStrategy(row, rule));
+  return {...data, meta:{...data.meta, publicStrategies:[rule]},
+    predictions, activity:(data.activity || []).filter(row => matchesStrategy(row, rule)),
+    summary:{...data.summary, upcomingBets:predictions.length}};
+}
+
+function featuredMatches(rows, now = Date.now()) {
+  const sorted = [...rows].sort((a,b) => new Date(a.date)-new Date(b.date));
+  const next = sorted.find(row => !terminalResult(row) && new Date(row.date).getTime() > now);
+  return (next ? [next, ...sorted.filter(row => row !== next)] : sorted)
+    .map(row => ({...row, featured:row === next}));
+}
+
+let selectedStrategy = "all";
+function renderStrategyFilters(data) {
+  const holder = $("#strategy-filters");
+  if (!holder) return;
+  const rules = data.meta?.publicStrategies || [];
+  if (selectedStrategy !== "all" && !rules.some(rule => strategyKey(rule) === selectedStrategy)) selectedStrategy = "all";
+  const labels = {
+    "Bundesliga:draw":"Bundesliga · nuls",
+    "public_bundesliga_xgb_2026_10_25":"Bundesliga · XGBoost",
+    "epl_away_logit_strict_2026_10_18":"Angleterre · extérieur",
+    "public_epl_home_price_2026_10_25":"Angleterre · domicile",
+  };
+  const choices = [{key:"all",label:"Toutes"}, ...rules.map(rule => ({key:strategyKey(rule),label:labels[strategyKey(rule)] || rule.label}))];
+  const markup = choices.map(item => `<button type="button" data-strategy-filter="${escapeHtml(item.key)}" aria-pressed="${item.key === selectedStrategy}">${escapeHtml(item.label)}</button>`).join("");
+  if (holder.dataset.markup !== markup) {
+    const focused = document.activeElement?.dataset.strategyFilter;
+    holder.innerHTML = markup;
+    holder.dataset.markup = markup;
+    if (focused) [...holder.querySelectorAll("button")].find(button => button.dataset.strategyFilter === focused)?.focus({preventScroll:true});
+  }
+}
+
 function predictionMarkup(prediction) {
   return compactMatchMarkup(prediction);
 }
@@ -175,10 +232,11 @@ function compactMatchMarkup(match) {
   const clock = new Intl.DateTimeFormat("fr-FR", {hour:"2-digit", minute:"2-digit", timeZone:MATCH_TIMEZONE}).format(new Date(match.date));
   const day = new Intl.DateTimeFormat("fr-FR", {day:"numeric", month:"short", timeZone:MATCH_TIMEZONE}).format(new Date(match.date));
   const tone = match.status === "won" ? "won" : match.status === "lost" ? "lost" : "";
-  return `<details class="pick-row" data-pick-key="${escapeHtml(key)}">
+  return `<details class="pick-row${match.featured ? " pick-featured" : ""}" data-pick-key="${escapeHtml(key)}">
     <summary class="pick-summary">
+      ${match.featured ? '<span class="next-match-label">Prochain match</span>' : ""}
       <time class="pick-time" datetime="${escapeHtml(match.date)}"><strong>${escapeHtml(clock)}</strong><span>${escapeHtml(day)}</span></time>
-      <span class="pick-match"><span class="pick-league">${escapeHtml(league)}</span><span class="pick-teams"><strong>${escapeHtml(match.homeTeam)}</strong><span class="versus">vs</span><strong>${escapeHtml(match.awayTeam)}</strong></span></span>
+      <span class="pick-match"><span class="pick-league">${escapeHtml(league)}</span><span class="pick-teams"><span class="pick-team">${crestMarkup(match.homeTeam, match.featured)}<strong>${escapeHtml(match.homeTeam)}</strong></span><span class="versus">vs</span><span class="pick-team">${crestMarkup(match.awayTeam, match.featured)}<strong>${escapeHtml(match.awayTeam)}</strong></span></span></span>
       <span class="prediction-choice"><small>Choix</small><strong>${escapeHtml(match.outcomeLabel)}</strong></span>
       <span class="pick-odds"><small>Cote</small><strong>${odds === null ? "—" : decimal.format(odds)}</strong></span>
       <span class="pick-status ${tone}">${score ? `<strong>${escapeHtml(score)}</strong>` : ""}<span>${escapeHtml(status)}</span></span>
@@ -206,10 +264,9 @@ function resetNoPickCopy(data) {
 
 function renderPredictions(data) {
   try {
-    const predictions = data.predictions.map(prediction => {
+    const predictions = featuredMatches(data.predictions).map(prediction => {
       const strategy = (data.meta?.publicStrategies || []).find(rule =>
-        (rule.id ? prediction.strategy === rule.id : prediction.league === rule.league && prediction.outcome === rule.outcome)
-        && !(rule.excludeStrategyIds || []).includes(prediction.strategy));
+        matchesStrategy(prediction, rule));
       return {...prediction, publicStrategyLabel: strategy?.label};
     });
     setText("#pick-count", `${integer.format(predictions.length)} ${predictions.length === 1 ? "match" : "matchs"}`);
@@ -218,6 +275,10 @@ function renderPredictions(data) {
     holder.hidden = !hasPredictions;
     $("#no-pick").hidden = hasPredictions;
     resetNoPickCopy(data);
+    if (!hasPredictions && selectedStrategy !== "all") {
+      setText(".no-pick-label", "Aucun match pour cette stratégie");
+      setText(".no-pick-copy", "Essaie une autre stratégie ou affiche toutes les sélections.");
+    }
     const awaitingResult = (data.activity || []).some(row => row.recommended === true && row.historicalOnly !== true && !terminalResult(row) && new Date(row.date).getTime() <= Date.now());
     if (!hasPredictions && awaitingResult) {
       setText(".no-pick-kicker", "Le suivi continue");
@@ -722,10 +783,11 @@ function renderPerformance(data) {
 
 function renderDashboard(data) {
   try {
-    data = currentSeasonData(data);
+    renderStrategyFilters(data);
+    data = currentSeasonData(filterStrategyData(data, selectedStrategy));
     const seasonLabel = `${data.meta.currentSeason}/${String(data.meta.currentSeason+1).slice(-2)}`;
-    setText('#season-scope', `Saison ${seasonLabel} · uniquement les paris réellement publiés et leurs résultats confirmés`);
-    setText('#tracking-scope', `Saison ${seasonLabel} · paris publiés des stratégies actuellement affichées`);
+    setText('#season-scope', `Saison ${seasonLabel} · 1 unité par pari`);
+    setText('#tracking-scope', selectedStrategy === "all" ? "Toutes les stratégies" : data.meta.publicStrategies[0].label);
     const ready = data.meta.status === "ready";
     const fresh = publicationIsFresh(data.meta.generatedAt);
     const futurePredictions = matchCards(data);
@@ -776,6 +838,17 @@ function renderLoadError() {
 }
 
 let latestDashboard = null;
+$("#strategy-filters")?.addEventListener("click", event => {
+  const button = event.target.closest("button[data-strategy-filter]");
+  if (!button || !latestDashboard) return;
+  selectedStrategy = button.dataset.strategyFilter;
+  historyLimit = 8;
+  renderDashboard(latestDashboard);
+});
+// A missing or failed asset must never hide the match or show a broken image.
+$("#pick-list")?.addEventListener("error", event => {
+  if (event.target.matches(".team-crest")) event.target.hidden = true;
+}, true);
 async function loadDashboard() {
   try {
     const data = await fetchDashboard();

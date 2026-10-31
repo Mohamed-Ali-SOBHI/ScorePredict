@@ -10,12 +10,12 @@
 .picks-toolbar a { display: inline-flex; align-items: center; min-height: 44px; color: var(--forest); font-size: 12px; font-weight: 650; }
 .picks-toolbar a:hover { text-decoration: underline; text-underline-offset: 5px; }
 .journal-dashboard .today-grid { display: block; margin-top: 0; }
-.journal-dashboard .pick-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; align-items: start; }
+.journal-dashboard .pick-list { display: flex; flex-wrap: wrap; gap: 22px; align-items: flex-start; }
 .journal-dashboard .has-many .pick-list { gap: 22px; }
 .journal-dashboard [hidden] { display: none !important; }
-.pick-row { min-width: 0; color: white; border: 1px solid #32634b; border-radius: 22px; background: linear-gradient(145deg, #0d5b38, #0b4a2c 35%, #052719); box-shadow: 3px 4px 0 #032b1a, 0 10px 22px rgba(5,39,25,.08); overflow: hidden; transition: transform .18s ease; }
+.pick-row { flex: 1 1 calc((100% - 44px) / 3); min-width: 240px; color: white; border: 1px solid #32634b; border-radius: 22px; background: linear-gradient(145deg, #0d5b38, #0b4a2c 35%, #052719); box-shadow: 3px 4px 0 #032b1a, 0 10px 22px rgba(5,39,25,.08); overflow: hidden; transition: transform .18s ease; }
 .pick-row:hover { transform: translateY(-2px); }
-.pick-summary { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "time league" "teams teams" "choice odds" "status expand"; grid-template-rows: auto minmax(112px, 1fr) auto auto; min-height: 294px; align-items: center; gap: 15px 12px; padding: 20px 22px 14px; list-style: none; cursor: pointer; }
+.pick-summary { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "time league" "teams teams" "choice odds" "status expand"; grid-template-rows: auto minmax(112px, 1fr) auto auto; min-height: 318px; align-items: center; gap: 15px 12px; padding: 20px 22px 14px; list-style: none; cursor: pointer; }
 .pick-summary::before { content: ""; position: absolute; inset: 65px 20px 100px; border: 1px solid rgba(255,255,255,.07); border-radius: 4px; pointer-events: none; background: linear-gradient(90deg, transparent 49.8%, rgba(255,255,255,.06) 49.8%, rgba(255,255,255,.06) 50.2%, transparent 50.2%); }
 .pick-summary::-webkit-details-marker { display: none; }
 .pick-summary:focus-visible { outline: 2px solid #a8d65b; outline-offset: -5px; border-radius: 22px; }
@@ -24,8 +24,10 @@
 .pick-time span { color: #bed2c5; font-size: 10px; }
 .pick-match { display: contents; }
 .pick-league { grid-area: league; text-align: right; color: #bed2c5; font-size: 10px; }
-.pick-teams { position: relative; grid-area: teams; display: flex; flex-direction: column; gap: 8px; text-align: center; padding-block: 8px; }
-.pick-teams strong { font-size: clamp(19px, 1.8vw, 24px); line-height: 1.15; font-weight: 700; letter-spacing: -.035em; overflow-wrap: anywhere; }
+.pick-teams { position: relative; grid-area: teams; display: grid; grid-template-columns: minmax(0, 1fr) 16px minmax(0, 1fr); gap: 8px; align-items: center; text-align: center; padding-block: 8px; }
+.pick-team { display: flex; flex-direction: column; align-items: center; gap: 12px; min-width: 0; }
+.team-crest { width: 56px; height: 56px; object-fit: contain; padding: 5px; border-radius: 50%; background: #f4f6f1; filter: drop-shadow(0 4px 7px rgba(0,0,0,.18)); }
+.pick-teams strong { font-size: 18px; line-height: 1.15; font-weight: 700; letter-spacing: -.035em; overflow-wrap: anywhere; }
 .pick-teams .versus { color: #9bb7a7; font-size: 10px; font-weight: 500; }
 .journal-dashboard .pick-summary .prediction-choice { grid-area: choice; display: flex; flex-direction: column; gap: 5px; margin: 0; }
 .journal-dashboard .pick-summary .prediction-choice small, .pick-odds small { font-size: 10px; font-weight: 500; color: #bed2c5; }
@@ -62,18 +64,42 @@
 .journal-dashboard .chart-panel { border: 0; border-radius: 0; box-shadow: none; background: none; padding: 0; margin-top: 30px; }
 .journal-dashboard .history-grid { gap: 40px; margin-top: 28px; padding-top: 28px; border-top: 1px solid var(--line); }
 .journal-dashboard .history-grid .chart-panel { margin: 0; }
+.strategy-filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; }
+.strategy-filters button { min-height: 40px; padding: 9px 15px; border: 1px solid var(--line); border-radius: 99px; background: transparent; color: var(--muted); font: inherit; font-size: 12px; font-weight: 650; cursor: pointer; transition: background-color .18s, color .18s; }
+.strategy-filters button:hover { color: var(--forest); border-color: var(--forest); }
+.strategy-filters button[aria-pressed="true"] { color: white; border-color: var(--forest); background: var(--forest); }
+.pick-featured { flex-basis: calc((100% - 22px) / 2); border-color: #719650; background: radial-gradient(ellipse at 50% 30%, #186944, transparent 70%), linear-gradient(145deg, #0d5b38, #052719); }
+.pick-featured ~ .pick-row:nth-child(-n+3) { flex-basis: calc((100% - 66px) / 4); }
+.pick-featured .pick-summary { grid-template-areas: "next league" "time time" "teams teams" "choice odds" "status expand"; grid-template-rows: auto auto minmax(112px, 1fr) auto auto; min-height: 352px; gap: 10px 12px; }
+.pick-featured .pick-teams strong { font-size: 24px; }
+.pick-featured .team-crest { width: 74px; height: 74px; }
+.pick-featured .pick-time { justify-content: center; }
+.pick-featured .pick-summary::before { inset: 78px 22px 100px; }
+.next-match-label { grid-area: next; color: #d3eba4; font-size: 10px; font-weight: 750; text-transform: uppercase; letter-spacing: .1em; }
+.pick-row:not(.pick-featured) .pick-summary { min-height: 352px; }
+.pick-row { container-type: inline-size; }
+@container (max-width: 280px) {
+  .pick-teams { display: flex; flex-direction: column; gap: 9px; }
+  .pick-team { flex-direction: row; gap: 10px; width: 100%; text-align: left; }
+  .pick-team strong { font-size: 16px; overflow-wrap: normal; }
+  .team-crest { width: 38px; height: 38px; flex-shrink: 0; padding: 3px; }
+}
 @media (max-width: 1000px) {
-  .journal-dashboard .pick-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .journal-dashboard .pick-list .pick-row { flex-basis: calc((100% - 22px) / 2); }
+  .journal-dashboard .pick-list .pick-featured { flex-basis: 100%; }
   .picks-toolbar p { align-items: start; flex-direction: column; gap: 5px; }
   .journal-dashboard .history-kpis div { padding-inline: 12px; }
 }
 @media (max-width: 760px) {
+  .strategy-filters { flex-wrap: nowrap; overflow-x: auto; padding: 2px 2px 10px; scrollbar-width: thin; }
+  .strategy-filters button { flex-shrink: 0; }
   .journal-dashboard .today-section { padding-block: 26px 28px; }
   .picks-toolbar { margin-top: 20px; align-items: start; gap: 8px; flex-direction: column; padding-bottom: 8px; }
   .picks-toolbar nav { gap: 24px; }
-  .journal-dashboard .pick-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .journal-dashboard .pick-list .pick-row { flex-basis: calc((100% - 22px) / 2); }
+  .journal-dashboard .pick-list .pick-featured { flex-basis: 100%; }
   .pick-summary { min-height: 280px; padding: 18px; }
-  .pick-teams strong { font-size: 21px; }
+  .pick-teams strong { font-size: 18px; }
   .journal-dashboard .live-section, .journal-dashboard .history-section { padding-block: 30px; }
   .journal-dashboard .history-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 0; }
   .journal-dashboard .history-kpis div { min-height: 60px; padding-inline: 0 16px; gap: 12px; }
@@ -84,11 +110,15 @@
   .journal-dashboard .history-grid { grid-template-columns: 1fr; gap: 32px; }
 }
 @media (max-width: 600px) {
-  .journal-dashboard .pick-list { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .journal-dashboard .pick-list { gap: 18px; }
+  .journal-dashboard .pick-list .pick-row { flex-basis: 100%; min-width: 0; }
   .journal-dashboard .has-many .pick-list { gap: 18px; }
+  .pick-featured .pick-teams strong { font-size: 22px; }
+  .pick-featured .team-crest { width: 64px; height: 64px; }
+  .pick-row:not(.pick-featured) .pick-summary { min-height: 285px; }
   .pick-summary { min-height: 270px; grid-template-rows: auto minmax(90px, 1fr) auto auto; gap: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .pick-row { transition: none; }
+  .pick-row, .strategy-filters button { transition: none; }
   .pick-row:hover { transform: none; }
 }
