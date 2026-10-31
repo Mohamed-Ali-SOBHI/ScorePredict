@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="./assets/journal.css?v=8">
   <link rel="stylesheet" href="./assets/explorer.css?v=10">
   <link rel="stylesheet" href="./assets/navigation.css?v=6">
+  <link rel="stylesheet" href="./assets/explorer-cards.css?v=1">
 </head>
 <body class="journal-dashboard">
   <a class="skip-link" href="#contenu">Aller au contenu</a>
@@ -21,15 +22,18 @@
     </nav>
   </div></header>
   <main id="contenu" class="page-shell explorer">
-    <header class="workspace-title"><p class="section-label">Analyse complète</p><h1>Tous les matchs</h1><p>Les probabilités du modèle et les données récentes de chaque équipe, avant le filtre des paris</p></header>
-    <div class="explorer-tools"><div class="league-filter" id="leagueFilters" role="group" aria-label="Filtrer par championnat"><button class="league-filter-button is-active" type="button" data-league="" aria-pressed="true">Tous</button></div></div>
+    <header class="workspace-title"><div><p class="section-label">Les prochaines 24 heures</p><h1>Tous les matchs</h1><p>Probabilités du modèle · Avant sélection des paris</p></div><a class="explorer-dashboard-link" href="./dashboard.html">Paris retenus <span aria-hidden="true">↗</span></a></header>
+    <div class="explorer-tools">
+      <div class="league-filter" id="leagueFilters" role="group" aria-label="Filtrer par championnat"><button class="league-filter-button is-active" type="button" data-league="" aria-pressed="true">Tous</button></div>
+      <label class="match-search"><span class="sr-only">Rechercher une équipe</span><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="matchSearch" type="search" placeholder="Rechercher une équipe" autocomplete="off"></label>
+    </div>
+    <div class="explorer-context"><p id="matchCount" role="status" aria-live="polite"></p><p>1 domicile <span>·</span> N nul <span>·</span> 2 extérieur</p></div>
     <section id="matches" aria-label="Analyses des rencontres"></section>
     <footer class="explorer-footer">
-      <p>Les buts attendus (xG) mesurent la qualité des occasions créées lors des matchs précédents</p>
       <a class="button" href="./dashboard.html">Voir les paris retenus</a>
     </footer>
   </main>
   <script src="./assets/team-crests.js?v=2" defer></script>
-  <script src="./assets/explorer.js?v=11" defer></script>
+  <script src="./assets/explorer.js?v=12" defer></script>
 </body>
 </html>

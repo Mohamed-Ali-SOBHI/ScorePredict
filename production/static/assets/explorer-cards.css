@@ -1,0 +1,80 @@
+/* Match explorer only: compact club cards, chronological groups and quiet controls. */
+.explorer { padding-block: 38px 64px; background: none; }
+.explorer .workspace-title { display: flex; flex-direction: row; align-items: end; justify-content: space-between; max-width: none; margin-bottom: 28px; gap: 24px; }
+.explorer .workspace-title h1 { font-size: clamp(34px, 4.5vw, 52px); letter-spacing: -.055em; line-height: 1.1; }
+.explorer .workspace-title .section-label { font-size: 11px; margin-bottom: 12px; }
+.explorer .workspace-title p:last-child { margin: 12px 0 0; font-size: 12px; color: var(--muted); }
+.explorer-dashboard-link { display: flex; align-items: center; gap: 18px; min-height: 44px; color: var(--forest); font-size: 13px; font-weight: 650; white-space: nowrap; }
+.explorer-dashboard-link:hover { text-decoration: underline; text-underline-offset: 5px; }
+.explorer .explorer-tools { margin: 0; padding-block: 18px; gap: 16px; justify-content: space-between; flex-wrap: wrap; border-block: 1px solid var(--line); overflow: visible; }
+.explorer .league-filter { gap: 6px; width: auto; }
+.explorer .league-filter-button { box-shadow: none; min-height: 42px; font-size: 11px; padding-inline: 13px; }
+.match-search { display: flex; align-items: center; gap: 10px; min-width: 220px; padding: 0 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; color: var(--muted); }
+.match-search svg { flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.6; }
+.match-search input { width: 100%; min-width: 0; min-height: 42px; border: 0; background: transparent; font: inherit; font-size: 12px; color: var(--ink); outline: none; }
+.match-search:focus-within { outline: 2px solid var(--forest); outline-offset: 2px; }
+.match-search input:focus-visible { outline: none; box-shadow: none; }
+.explorer-context { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 18px; }
+.explorer-context p { margin: 0; font-size: 11px; color: var(--muted); }
+.explorer-context #matchCount { color: var(--ink); font-weight: 650; }
+.explorer-context span { padding-inline: 5px; }
+.explorer #matches { margin-top: 28px; }
+.explorer .match-day { padding: 0; border: 0; }
+.match-day + .match-day { margin-top: 38px; }
+.match-day h2 { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; color: var(--ink); font-size: 16px; font-weight: 650; }
+.match-day h2::first-letter { text-transform: uppercase; }
+.match-day h2 > span { font-size: 11px; font-weight: 500; color: var(--muted); }
+.analysis-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; align-items: start; }
+.analysis-card { min-width: 0; overflow: hidden; border: 1px solid #32634b; border-radius: 20px; background: linear-gradient(145deg, #0d5b38, #0b4a2c 35%, #052719); color: white; box-shadow: 2px 3px 0 #032b1a, 0 8px 18px #0527190a; transition: transform .18s ease; }
+.analysis-card:hover { transform: translateY(-2px); }
+.analysis-main { padding: 18px 20px 16px; }
+.analysis-meta { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: #bed2c5; font-size: 10px; }
+.analysis-meta time { color: white; font-size: 13px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.analysis-teams { display: grid; grid-template-columns: minmax(0,1fr) 18px minmax(0,1fr); gap: 8px; align-items: center; min-height: 138px; margin: 10px 0 12px; text-align: center; }
+.analysis-team { display: flex; align-items: center; flex-direction: column; gap: 10px; min-width: 0; }
+.analysis-team > span { font-size: 16px; font-weight: 650; line-height: 1.2; letter-spacing: -.025em; overflow-wrap: anywhere; }
+.analysis-team .club-crest { width: 48px; height: 48px; padding: 4px; background: #f4f6f1; }
+.analysis-teams .versus { color: #bed2c5; font-size: 10px; font-weight: 500; }
+.analysis-probabilities { display: grid; grid-template-columns: repeat(3,1fr); padding-top: 14px; border-top: 1px solid #ffffff20; }
+.analysis-probability { display: flex; align-items: baseline; justify-content: center; gap: 8px; border-right: 1px solid #ffffff20; font-variant-numeric: tabular-nums; }
+.analysis-probability:last-child { border: 0; }
+.analysis-probability > span { color: #bed2c5; font-size: 11px; }
+.analysis-probability strong { font-size: 21px; font-weight: 650; color: #e7f2dc; }
+.analysis-probability small { font-size: 11px; font-weight: 500; }
+.analysis-details > summary { display: flex; justify-content: space-between; align-items: center; min-height: 46px; padding: 10px 20px; list-style: none; border-top: 1px solid #ffffff20; color: #bed2c5; font-size: 11px; cursor: pointer; transition: background-color .18s; }
+.analysis-details > summary::-webkit-details-marker { display: none; }
+.analysis-details > summary:hover { background: #ffffff08; color: white; }
+.analysis-details > summary:focus-visible { outline: 2px solid var(--lime); outline-offset: -4px; }
+.analysis-expand { color: #d3eba4; font-size: 20px; transition: transform .18s; }
+.analysis-details[open] .analysis-expand { transform: rotate(45deg); }
+.analysis-details .detail-panel { border: 0; border-radius: 0; background: #f7faf6; }
+.analysis-details .detail-heading { padding: 14px; }
+.analysis-details .detail-heading strong { font-size: 12px; }
+.analysis-details .team-comparison th, .analysis-details .team-comparison td { padding: 10px 8px; font-size: 11px; }
+.analysis-details .team-comparison thead th { font-size: 10px; }
+.analysis-details .detail-note { padding: 14px; font-size: 10px; line-height: 1.5; }
+.analysis-details .form-token { width: 15px; height: 15px; font-size: 7px; }
+.explorer .explorer-footer { justify-content: center; padding-top: 38px; }
+@media (max-width: 1050px) {
+  .analysis-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .explorer .league-filter { flex: 1 1 100%; }
+  .match-search { flex: 1; }
+}
+@media (max-width: 600px) {
+  .explorer { padding-top: 28px; }
+  .explorer .workspace-title { margin-bottom: 22px; }
+  .explorer-dashboard-link { display: none; }
+  .explorer .workspace-title h1 { font-size: 36px; }
+  .explorer .workspace-title p:last-child { font-size: 11px; }
+  .explorer .explorer-tools { gap: 10px; padding-block: 12px; }
+  .explorer .league-filter { flex-wrap: nowrap; overflow-x: auto; padding-block: 3px 8px; }
+  .explorer-context { align-items: start; flex-direction: column; gap: 8px; }
+  .analysis-grid { grid-template-columns: minmax(0,1fr); gap: 18px; }
+  .analysis-teams { min-height: 120px; }
+  .analysis-team > span { font-size: 17px; }
+  .match-day h2 { font-size: 15px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .analysis-card, .analysis-details > summary, .analysis-expand { transition: none; }
+  .analysis-card:hover { transform: none; }
+}
