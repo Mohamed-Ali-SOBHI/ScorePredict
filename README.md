@@ -2,25 +2,25 @@
 
 **Simulation uniquement. La stratégie de production reste inchangée.**
 
-Dernier passage : 2026-10-31T13:03:11.924570+00:00 — **collected**.
-Décisions figées avant match : 104. Résultats confirmés : 82.
+Dernier passage : 2026-10-31T16:13:53.090904+00:00 — **collected**.
+Décisions figées avant match : 111. Résultats confirmés : 84.
 
 Exécution sur GitHub après chaque pipeline de prévisions réussi et à 00:40, 06:40, 12:40 et 18:40 UTC chaque jour. Les horaires planifiés peuvent subir un retard GitHub.
 
 | Portefeuille | Paris réglés | En attente | Mise en attente | Gain net (u) | ROI | Baisse max (u) | Gain des ajouts (u) |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | Nuls Bundesliga seuls | 3 | 3 | 3.00 | 0.75 | 25.00 % | 1.00 | 0.00 |
-| Nuls Bundesliga + 15 ajouts (union sans doublon) | 31 | 11 | 11.00 | -5.95 | -19.19 % | 9.25 | -6.70 |
+| Nuls Bundesliga + 15 ajouts (union sans doublon) | 32 | 11 | 11.00 | -6.95 | -21.72 % | 9.25 | -7.70 |
 | Ligue 1 · nul · residual_sport_recency · EV>5% · all seule | 1 | 0 | 0.00 | -1.00 | -100.00 % | 1.00 | -1.00 |
 | Bundesliga + Ligue 1 · nul · residual_sport_recency · EV>5% · all | 4 | 3 | 3.00 | -0.25 | -6.25 % | 2.00 | -1.00 |
-| Premier League · nul · local_sport_only · EV>10% · all seule | 5 | 2 | 2.00 | -1.20 | -24.00 % | 2.00 | -1.20 |
-| Bundesliga + Premier League · nul · local_sport_only · EV>10% · all | 8 | 5 | 5.00 | -0.45 | -5.63 % | 1.25 | -1.20 |
+| Premier League · nul · local_sport_only · EV>10% · all seule | 6 | 1 | 1.00 | -2.20 | -36.67 % | 2.20 | -2.20 |
+| Bundesliga + Premier League · nul · local_sport_only · EV>10% · all | 9 | 4 | 4.00 | -1.45 | -16.11 % | 1.45 | -2.20 |
 | Premier League · domicile · local_price_only · EV>2% · all seule | 4 | 1 | 1.00 | 1.00 | 25.00 % | 1.00 | 1.00 |
 | Bundesliga + Premier League · domicile · local_price_only · EV>2% · all | 7 | 4 | 4.00 | 1.75 | 25.00 % | 2.00 | 1.00 |
 | Ligue 1 · domicile · native_mean · EV>5% · all seule | 0 | 0 | 0.00 | 0.00 | — | 0.00 | 0.00 |
 | Bundesliga + Ligue 1 · domicile · native_mean · EV>5% · all | 3 | 3 | 3.00 | 0.75 | 25.00 % | 1.00 | 0.00 |
-| Premier League · extérieur · local_price_only · EV>5% · all seule | 4 | 3 | 3.00 | 0.85 | 21.25 % | 1.40 | 0.85 |
-| Bundesliga + Premier League · extérieur · local_price_only · EV>5% · all | 7 | 6 | 6.00 | 1.60 | 22.86 % | 2.40 | 0.85 |
+| Premier League · extérieur · local_price_only · EV>5% · all seule | 5 | 2 | 2.00 | -0.15 | -3.00 % | 1.40 | -0.15 |
+| Bundesliga + Premier League · extérieur · local_price_only · EV>5% · all | 8 | 5 | 5.00 | 0.60 | 7.50 % | 2.40 | -0.15 |
 | Premier League · nul · local_price_only · EV>5% · all seule | 6 | 3 | 3.00 | 1.20 | 20.00 % | 2.00 | 1.20 |
 | Bundesliga + Premier League · nul · local_price_only · EV>5% · all | 9 | 6 | 6.00 | 1.95 | 21.67 % | 1.00 | 1.20 |
 | Bundesliga · nul · residual_price · EV>2% · all seule | 0 | 1 | 1.00 | 0.00 | — | 0.00 | 0.00 |
@@ -33,8 +33,8 @@ Exécution sur GitHub après chaque pipeline de prévisions réussi et à 00:40,
 | Bundesliga + Serie A · extérieur · residual_sport_recency · EV>2% · all | 5 | 3 | 3.00 | -1.25 | -25.00 % | 2.00 | -2.00 |
 | Serie A · nul · local_sport_only · EV>10% · low_goal_parity seule | 0 | 0 | 0.00 | 0.00 | — | 0.00 | 0.00 |
 | Bundesliga + Serie A · nul · local_sport_only · EV>10% · low_goal_parity | 3 | 3 | 3.00 | 0.75 | 25.00 % | 1.00 | 0.00 |
-| Serie A · nul · native_mean · EV>2% · balanced_market seule | 1 | 0 | 0.00 | 2.60 | 260.00 % | 0.00 | 2.60 |
-| Bundesliga + Serie A · nul · native_mean · EV>2% · balanced_market | 4 | 3 | 3.00 | 3.35 | 83.75 % | 1.00 | 2.60 |
+| Serie A · nul · native_mean · EV>2% · balanced_market seule | 1 | 1 | 1.00 | 2.60 | 260.00 % | 0.00 | 2.60 |
+| Bundesliga + Serie A · nul · native_mean · EV>2% · balanced_market | 4 | 4 | 4.00 | 3.35 | 83.75 % | 1.00 | 2.60 |
 | Ligue 1 · domicile · local_price_only · EV>2% · all seule | 4 | 0 | 0.00 | -2.20 | -55.00 % | 2.20 | -2.20 |
 | Bundesliga + Ligue 1 · domicile · local_price_only · EV>2% · all | 7 | 3 | 3.00 | -1.45 | -20.71 % | 3.00 | -2.20 |
 | Ligue 1 · nul · native_mean · EV>5% · all seule | 1 | 0 | 0.00 | -1.00 | -100.00 % | 1.00 | -1.00 |
@@ -52,6 +52,6 @@ Le gain et le rendement concernent les paris réglés. La baisse maximale est ca
 
 [Exécutions GitHub](https://github.com/Mohamed-Ali-SOBHI/ScorePredict/actions/workflows/paper-positive15.yml) · [Protocole](registration.json) · [Comparaison complète](comparison.csv) · [Paris uniques, cotes et stratégies](tickets.json) · [Diagnostics](last_run.json) · [Journal des preuves](evidence.json)
 
-Journal : 395 événements, empreinte `8268c4fd226c904b33f538b8a1112c3403b2b794e6f51d23e050bfaad367f7cf`.
+Journal : 406 événements, empreinte `ff657f3dceff90bb41e9e2e9acfc41fa5a5d4b39514fa1f2820a7a85803d6dd8`.
 
 Le journal et les captures sont conservés dans cette branche entre les exécutions. Une sauvegarde supplémentaire est jointe aux exécutions Actions pendant 90 jours. Un journal manquant ou altéré bloque le suivi.

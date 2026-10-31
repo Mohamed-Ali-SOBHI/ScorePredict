@@ -599,8 +599,8 @@
       "local_sport_only|EPL|draw|0.10|all",
       "local_price_only|EPL|away|0.05|all"
     ],
-    "status": "pending",
-    "profit": null
+    "status": "lost",
+    "profit": -1.0
   },
   {
     "fixture_id": "understat:31265",
@@ -718,6 +718,23 @@
     "source": "local_sport_only|Serie_A|away|0.05|all",
     "selected_members": [
       "local_sport_only|Serie_A|away|0.05|all"
+    ],
+    "status": "pending",
+    "profit": null
+  },
+  {
+    "fixture_id": "understat:31654",
+    "league": "Serie_A",
+    "home_team": "Frosinone",
+    "away_team": "Torino",
+    "kickoff_utc": "2026-11-01T14:00:00+00:00",
+    "recorded_at_utc": "2026-10-31T16:13:38.157481+00:00",
+    "outcome": "draw",
+    "odds": 3.8,
+    "stake": 1.0,
+    "source": "native_mean|Serie_A|draw|0.02|balanced_market",
+    "selected_members": [
+      "native_mean|Serie_A|draw|0.02|balanced_market"
     ],
     "status": "pending",
     "profit": null
