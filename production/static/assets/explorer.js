@@ -10,6 +10,7 @@ const clubCrest = team => {
 const number = value => value == null || Number.isNaN(Number(value))
   ? '—'
   : new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 2 }).format(value);
+const dateFormat = new Intl.DateTimeFormat('fr-FR', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Paris' });
 let matches = [];
 let activeLeague = '';
 let searchQuery = '';
@@ -31,12 +32,12 @@ function formTokens(value) {
   }).join('');
 }
 
-function probabilityMarkup(value, label) {
-  const valid = value != null && Number.isFinite(Number(value)) && Number(value) >= 0 && Number(value) <= 1;
-  const percentage = valid ? Number(value) * 100 : null;
-  return '<span class="analysis-probability"><span>' + label + '</span><strong>'
-    + (valid ? percentage.toFixed(0) + '<small> %</small>' : '—')
-    + '</strong></span>';
+function probabilityCell(value, label) {
+  if (value == null || !Number.isFinite(Number(value)) || Number(value) < 0 || Number(value) > 1) return '<td class="probability-cell" data-label="' + label + '"><strong>—</strong></td>';
+  const percentage = Number(value) * 100;
+  return '<td class="probability-cell" data-label="' + label + '"><strong>' + percentage.toFixed(0)
+    + ' %</strong><span class="mini-probability" aria-hidden="true"><i style="width:'
+    + percentage.toFixed(2) + '%"></i></span></td>';
 }
 
 function detailTable(home, away) {
@@ -61,21 +62,27 @@ function detailTable(home, away) {
     + ' · ' + escape(away ? away.name : '') + ' ' + awayDate + '</p></div>';
 }
 
-function matchCard(match) {
+function matchRows(match, index) {
   const home = match.teams && match.teams[0] ? match.teams[0] : null;
   const away = match.teams && match.teams[1] ? match.teams[1] : null;
-  const time = new Intl.DateTimeFormat('fr-FR', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Paris' }).format(new Date(match.date));
-  const probabilities = match.probabilities || [];
-  return '<article class="analysis-card" aria-label="' + escape(match.homeTeam + ' vs ' + match.awayTeam) + '">'
-    + '<div class="analysis-main"><div class="analysis-meta"><span>' + escape(match.leagueLabel)
-    + '</span><time datetime="' + escape(match.date) + '">' + time + '</time></div>'
-    + '<h3 class="analysis-teams"><span class="analysis-team">' + clubCrest(match.homeTeam) + '<span>' + escape(match.homeTeam)
-    + '</span></span><span class="versus">vs</span><span class="analysis-team">' + clubCrest(match.awayTeam) + '<span>'
-    + escape(match.awayTeam) + '</span></span></h3>'
-    + '<div class="analysis-probabilities" aria-label="Probabilités du modèle">'
-    + probabilityMarkup(probabilities[0], '1') + probabilityMarkup(probabilities[1], 'N') + probabilityMarkup(probabilities[2], '2')
-    + '</div></div><details class="analysis-details"><summary>Statistiques des équipes<span class="analysis-expand" aria-hidden="true">+</span></summary>'
-    + detailTable(home, away) + '</details></article>';
+  const matchDate = dateFormat.format(new Date(match.date));
+  const detailId = 'match-detail-' + index;
+  const row = '<tr class="match-row" style="--row-delay:' + Math.min(index, 8) * 45 + 'ms">'
+    + '<td class="league-cell"><span>' + escape(match.leagueLabel) + '</span></td>'
+    + '<th class="encounter-cell" scope="row"><span class="mobile-meta">' + escape(match.leagueLabel) + ' · ' + escape(matchDate) + '</span>'
+    + '<span class="encounter-name encounter-clubs"><span class="encounter-team">' + clubCrest(match.homeTeam) + '<span>' + escape(match.homeTeam)
+    + '</span></span><span class="encounter-team">' + clubCrest(match.awayTeam) + '<span><span class="versus">vs</span> ' + escape(match.awayTeam) + '</span></span></span></th>'
+    + '<td class="date-cell"><time datetime="' + escape(match.date) + '">' + escape(matchDate) + '</time></td>'
+    + probabilityCell(match.probabilities ? match.probabilities[0] : null, '1')
+    + probabilityCell(match.probabilities ? match.probabilities[1] : null, 'N')
+    + probabilityCell(match.probabilities ? match.probabilities[2] : null, '2')
+    + '<td class="form-cell"><div><span>1</span><span class="form-strip">' + formTokens(teamStat(home, 'form'))
+    + '</span></div><div><span>2</span><span class="form-strip">' + formTokens(teamStat(away, 'form')) + '</span></div></td>'
+    + '<td class="action-cell"><button class="detail-toggle" type="button" aria-expanded="false" aria-controls="'
+    + detailId + '" data-detail="' + detailId + '"><span aria-hidden="true">+</span><span class="sr-only">Comparer '
+    + escape(match.homeTeam) + ' et ' + escape(match.awayTeam) + '</span></button></td></tr>';
+  const detail = '<tr class="detail-row" id="' + detailId + '" hidden><td colspan="8">' + detailTable(home, away) + '</td></tr>';
+  return row + detail;
 }
 
 function showLoading() {
@@ -103,9 +110,16 @@ function render() {
     days.get(day).push(match);
   });
   const dayFormat = new Intl.DateTimeFormat('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'Europe/Paris' });
+  let rowIndex = 0;
   matchesElement.innerHTML = [...days.values()].map(dayMatches => '<section class="match-day"><h2>'
-    + escape(dayFormat.format(new Date(dayMatches[0].date))) + '<span>' + dayMatches.length + '</span></h2><div class="analysis-grid">'
-    + dayMatches.map(matchCard).join('') + '</div></section>').join('');
+    + escape(dayFormat.format(new Date(dayMatches[0].date))) + '<span>' + dayMatches.length + '</span></h2>'
+    + '<div class="match-table-wrap"><table class="match-table"><thead><tr>'
+    + '<th scope="col">Championnat</th><th scope="col">Rencontre</th><th scope="col">Heure</th>'
+    + '<th scope="col" title="Victoire à domicile">1</th><th scope="col" title="Match nul">N</th>'
+    + '<th scope="col" title="Victoire à l’extérieur">2</th><th scope="col">Forme</th>'
+    + '<th scope="col"><span class="sr-only">Statistiques</span></th></tr></thead><tbody>'
+    + dayMatches.map(match => matchRows(match, rowIndex++)).join('') + '</tbody></table></div></section>').join('');
+
 }
 
 function parisDay(value) {
@@ -166,7 +180,16 @@ document.addEventListener('click', event => {
     render();
     return;
   }
- });
+  const button = event.target.closest('.detail-toggle');
+  if (!button) return;
+  const detail = document.getElementById(button.dataset.detail);
+  if (!detail) return;
+  const willOpen = detail.hidden;
+  detail.hidden = !willOpen;
+  button.setAttribute('aria-expanded', String(willOpen));
+  const icon = button.querySelector('[aria-hidden="true"]');
+  if (icon) icon.textContent = willOpen ? '×' : '+';
+});
 
 document.getElementById('matchSearch').addEventListener('input', event => {
   searchQuery = event.target.value.trim();
