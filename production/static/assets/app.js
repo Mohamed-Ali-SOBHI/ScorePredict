@@ -156,60 +156,40 @@ async function fetchDashboard() {
   return data;
 }
 
-const LEAGUE_COUNTRIES = Object.freeze({
-  EPL: "Angleterre",
-  Bundesliga: "Allemagne",
-  Serie_A: "Italie",
-  Ligue_1: "France",
-  La_liga: "Espagne",
-});
-
 function predictionMarkup(prediction) {
-  if (prediction.started) return followedMatchMarkup(prediction);
-  const league = prediction.leagueLabel || prediction.league || "Championnat";
-  const country = LEAGUE_COUNTRIES[prediction.league] || league;
-  const modelIndex = numberOrNull(prediction.modelProbability) ?? 0;
-  const modelIndexWidth = Math.max(0, Math.min(100, modelIndex * 100));
-  return `
-    <article class="prediction object" aria-label="${escapeHtml(`${prediction.homeTeam} contre ${prediction.awayTeam}, ${prediction.outcomeLabel}`)}">
-      <div class="object-depth" aria-hidden="true"></div>
-      <div class="object-face">
-      <div class="object-header">
-        <span class="rivalry-label">${escapeHtml(league)}</span>
-        <time datetime="${escapeHtml(prediction.date)}">${escapeHtml(formatDate(prediction.date, true))}</time>
-      </div>
-      <div class="pitch-geometry" aria-hidden="true"><i></i></div>
-      <div class="object-core">
-        <p>${escapeHtml(country)}</p>
-        <h2><span>${escapeHtml(prediction.homeTeam)}</span><small>vs</small><span>${escapeHtml(prediction.awayTeam)}</span></h2>
-        <div class="prediction-choice">
-          <strong>${escapeHtml(prediction.outcomeLabel)}</strong>
-        </div>
-      </div>
-      <div class="prediction-confidence" aria-label="Indice du modèle pour ${escapeHtml(prediction.outcomeLabel.toLowerCase())} : ${escapeHtml(percent.format(modelIndex))}">
-        <div><span>Indice du modèle</span><b>${escapeHtml(percent.format(modelIndex))}</b></div>
-        <i aria-hidden="true"><span style="width: ${modelIndexWidth.toFixed(1)}%"></span></i>
-      </div>
-      <div class="object-bet-footer">
-        <div><span>Cote</span><b>${decimal.format(prediction.odds)}</b></div>
-        <div><span>Mise de référence</span><b>1 unité</b></div>
-      </div>
-      </div>
-    </article>`;
+  return compactMatchMarkup(prediction);
 }
 
 function followedMatchMarkup(match) {
-  const confirmed = terminalResult(match);
-  const score = confirmed && match.status !== 'void' && match.actualScore ? match.actualScore : '—';
-  const label = resultLabel(match.status, match.date);
+  return compactMatchMarkup(match);
+}
+
+function compactMatchMarkup(match) {
+  const league = match.leagueLabel || match.league || "Championnat";
   const odds = numberOrNull(match.odds);
-  return `<article class="prediction prediction-followed" aria-label="${escapeHtml(`${match.homeTeam} contre ${match.awayTeam}, ${label}`)}">
-    <div class="prediction-head"><span>${escapeHtml(match.leagueLabel || match.league)}</span><time datetime="${escapeHtml(match.date)}">${escapeHtml(formatDate(match.date,true))}</time></div>
-    <div class="prediction-pitch" aria-hidden="true"><i></i></div>
-    <div class="teams"><p>Football</p><h2>${escapeHtml(match.homeTeam)}</h2><span>vs</span><h2>${escapeHtml(match.awayTeam)}</h2></div>
-    ${confirmed ? `<div class="match-verdict" role="status"><strong>${escapeHtml(score)}</strong><span>${escapeHtml(label)}</span></div>` : ''}
-    <div class="prediction-footer"><div><b>${escapeHtml(match.outcomeLabel)}</b></div><div><span>Cote publiée</span><b>${odds === null ? '—' : decimal.format(odds)}</b></div></div>
-  </article>`;
+  const probability = numberOrNull(match.modelProbability);
+  const confirmed = terminalResult(match);
+  const status = match.started || confirmed ? resultLabel(match.status, match.date) : "À venir";
+  const score = confirmed && match.status !== "void" && match.actualScore ? match.actualScore : "";
+  const key = match.id || [match.league, match.date, match.homeTeam, match.awayTeam].join("|");
+  const clock = new Intl.DateTimeFormat("fr-FR", {hour:"2-digit", minute:"2-digit", timeZone:MATCH_TIMEZONE}).format(new Date(match.date));
+  const day = new Intl.DateTimeFormat("fr-FR", {day:"numeric", month:"short", timeZone:MATCH_TIMEZONE}).format(new Date(match.date));
+  const tone = match.status === "won" ? "won" : match.status === "lost" ? "lost" : "";
+  return `<details class="pick-row" data-pick-key="${escapeHtml(key)}">
+    <summary class="pick-summary">
+      <time class="pick-time" datetime="${escapeHtml(match.date)}"><strong>${escapeHtml(clock)}</strong><span>${escapeHtml(day)}</span></time>
+      <span class="pick-match"><span class="pick-league">${escapeHtml(league)}</span><strong>${escapeHtml(match.homeTeam)} <span class="versus">vs</span> ${escapeHtml(match.awayTeam)}</strong></span>
+      <span class="prediction-choice"><small>Choix</small><strong>${escapeHtml(match.outcomeLabel)}</strong></span>
+      <span class="pick-odds"><small>Cote</small><strong>${odds === null ? "—" : decimal.format(odds)}</strong></span>
+      <span class="pick-status ${tone}">${score ? `<strong>${escapeHtml(score)}</strong>` : ""}<span>${escapeHtml(status)}</span></span>
+      <span class="pick-expand" aria-hidden="true">+</span><span class="sr-only">Détails du pari</span>
+    </summary>
+    <dl class="pick-details">
+      <div><dt>Stratégie</dt><dd>${escapeHtml(match.publicStrategyLabel || "Stratégie publiée")}</dd></div>
+      <div><dt>Indice du modèle</dt><dd>${probability === null ? "—" : percent.format(probability)}</dd></div>
+      <div><dt>Mise de référence</dt><dd>1 unité</dd></div>
+    </dl>
+  </details>`;
 }
 
 function resetNoPickCopy(data) {
@@ -226,7 +206,13 @@ function resetNoPickCopy(data) {
 
 function renderPredictions(data) {
   try {
-    const predictions = data.predictions;
+    const predictions = data.predictions.map(prediction => {
+      const strategy = (data.meta?.publicStrategies || []).find(rule =>
+        (rule.id ? prediction.strategy === rule.id : prediction.league === rule.league && prediction.outcome === rule.outcome)
+        && !(rule.excludeStrategyIds || []).includes(prediction.strategy));
+      return {...prediction, publicStrategyLabel: strategy?.label};
+    });
+    setText("#pick-count", `${integer.format(predictions.length)} ${predictions.length === 1 ? "match" : "matchs"}`);
     const holder = $("#pick-list");
     const hasPredictions = predictions.length > 0;
     holder.hidden = !hasPredictions;
@@ -240,7 +226,13 @@ function renderPredictions(data) {
     }
     const markup = predictions.map((prediction) => predictionMarkup(prediction)).join("");
     if (holder.dataset.markup !== markup) {
+      const openKeys = new Set([...holder.querySelectorAll("details[open]")].map(row => row.dataset.pickKey));
+      const focusedKey = document.activeElement?.closest(".pick-row")?.dataset.pickKey;
       holder.innerHTML = markup;
+      holder.querySelectorAll(".pick-row").forEach(row => {
+        row.open = openKeys.has(row.dataset.pickKey);
+        if (row.dataset.pickKey === focusedKey) row.querySelector("summary")?.focus();
+      });
       holder.dataset.markup = markup;
     }
     $(".today-grid")?.classList.toggle("has-many", predictions.length > 1);
@@ -774,6 +766,7 @@ function renderLoadError() {
     $("#pick-list").hidden = true;
     $("#no-pick").hidden = false;
     $("#no-pick")?.classList.add("error-state");
+    setText("#pick-count", "Données indisponibles");
     setText(".no-pick-kicker", "Données non confirmées");
     setText(".no-pick-label", "Les choix publiés sont indisponibles");
     setText(".no-pick-copy", "Aucun ancien choix n'est présenté comme actuel et une nouvelle tentative aura lieu automatiquement");

@@ -97,6 +97,8 @@ assert.doesNotMatch(upcomingCard, /Choix publié|estimate-explanation|Comprendre
 assert.match(upcomingCard, /Match nul/);
 assert.match(upcomingCard, /Indice du modèle/);
 assert.doesNotMatch(evaluate('followedMatchMarkup({...choice,status:"pending"})'), /Choix publié/);
+assert.doesNotMatch(evaluate('followedMatchMarkup({...choice,started:true,status:"pending",actualScore:"9 - 9"})'), /9 - 9/);
+assert.match(evaluate('predictionMarkup({...choice,modelProbability:null})'), /Indice du modèle<\/dt><dd>—<\/dd>/);
 console.log('Dashboard client: 36 assertions passed.');
 evaluate(`
   const seasonFixture={meta:{currentSeason:2025},summary:{liveReturn:100},performance:{metrics:{betCount:530,roi:.9}},predictions:[],activity:[

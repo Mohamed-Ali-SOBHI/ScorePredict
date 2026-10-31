@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="./assets/explorer.css?v=9">
   <link rel="stylesheet" href="./assets/dashboard-table.css?v=1">
   <link rel="stylesheet" href="./assets/navigation.css?v=6">
-  <link rel="stylesheet" href="./assets/match-card.css?v=1">
+  <link rel="stylesheet" href="./assets/dashboard-compact.css?v=1">
 </head>
 <body class="journal-dashboard">
   <a class="skip-link" href="#contenu">Aller au contenu</a>
@@ -48,14 +48,14 @@
 
         <div class="load-error" id="load-error" role="status" hidden>Les données du jour sont momentanément indisponibles. La dernière vue ne peut pas être confirmée</div>
 
+        <div class="picks-toolbar">
+          <p><strong id="pick-count" aria-live="polite">Chargement…</strong><span>À venir dans les 24 h · suivi des matchs commencés</span></p>
+          <nav aria-label="Sections du tableau de bord"><a href="#suivi">Historique</a><a href="#historique">Bilan de saison <span aria-hidden="true">↓</span></a></nav>
+        </div>
         <div class="today-grid" id="today-grid">
           <div class="decision-stage">
             <div class="pick-list" id="pick-list" aria-live="polite">
-              <article class="prediction prediction-loading" aria-label="Chargement du choix">
-                <div class="prediction-head"><span class="prediction-league"><i aria-hidden="true"></i>Analyse en cours</span><time>—</time></div>
-                <div class="prediction-pitch" aria-hidden="true"><i></i></div>
-                <div class="teams"><p>Football</p><h2>Lecture des matchs…</h2></div>
-              </article>
+              <p class="picks-loading">Lecture des matchs…</p>
             </div>
 
             <article class="prediction no-pick" id="no-pick" aria-live="polite" hidden>
@@ -218,6 +218,6 @@
     </div>
   </footer>
 
-  <script type="module" src="./assets/app.js?v=four-strategies-20261025-58"></script>
+  <script type="module" src="./assets/app.js?v=compact-dashboard-20261031-59"></script>
 </body>
 </html>
