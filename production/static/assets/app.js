@@ -158,10 +158,10 @@ async function fetchDashboard() {
   return data;
 }
 
-function crestMarkup(team, featured = false) {
-  const file = TEAM_CRESTS[team];
+function crestMarkup(team, featured = false, compact = false) {
+  const file = Object.hasOwn(TEAM_CRESTS, team) ? TEAM_CRESTS[team] : null;
   // Keep the team name visible even when no crest is available.
-  return file ? `<img class="team-crest" src="./assets/crests/${escapeHtml(file)}" width="64" height="64" alt="" decoding="async" loading="${featured ? "eager" : "lazy"}">` : "";
+  return file ? `<img class="${compact ? "club-crest" : "team-crest"}" src="./assets/crests/${escapeHtml(file)}" width="${compact ? 24 : 64}" height="${compact ? 24 : 64}" alt="" decoding="async" loading="${featured ? "eager" : "lazy"}">` : "";
 }
 
 function matchesStrategy(row, rule) {
@@ -328,7 +328,7 @@ function resultMarkup(row, index = 0) {
   const detailId = `history-detail-${index}`;
   return `<tr class="result-row">
     <td class="league-cell"><span>${escapeHtml(league)}</span></td>
-    <th class="encounter-cell" scope="row"><span class="mobile-meta">${escapeHtml(league)} · ${escapeHtml(formatDate(row.date, true))}</span><span class="encounter-name">${escapeHtml(row.homeTeam)} <span class="versus">vs</span> ${escapeHtml(row.awayTeam)}</span><span class="mobile-choice">${escapeHtml(choice)}${row.historicalOnly ? ' · ancien pari publié' : ''}</span></th>
+    <th class="encounter-cell" scope="row"><span class="mobile-meta">${escapeHtml(league)} · ${escapeHtml(formatDate(row.date, true))}</span><span class="encounter-name encounter-clubs"><span class="encounter-team">${crestMarkup(row.homeTeam, false, true)}<span>${escapeHtml(row.homeTeam)}</span></span><span class="encounter-team">${crestMarkup(row.awayTeam, false, true)}<span><span class="versus">vs</span> ${escapeHtml(row.awayTeam)}</span></span></span><span class="mobile-choice">${escapeHtml(choice)}${row.historicalOnly ? ' · ancien pari publié' : ''}</span></th>
     <td class="date-cell"><time datetime="${escapeHtml(row.date || "")}">${escapeHtml(formatDate(row.date, true))}</time></td>
     <td class="choice-cell">${escapeHtml(choice)}${row.historicalOnly ? '<br><small>Ancien pari publié</small>' : ''}</td>
     <td class="odds-cell">${odds === null ? "—" : decimal.format(odds)}</td>
@@ -846,8 +846,8 @@ $("#strategy-filters")?.addEventListener("click", event => {
   renderDashboard(latestDashboard);
 });
 // A missing or failed asset must never hide the match or show a broken image.
-$("#pick-list")?.addEventListener("error", event => {
-  if (event.target.matches(".team-crest")) event.target.hidden = true;
+document.addEventListener("error", event => {
+  if (event.target.matches(".team-crest, .club-crest")) event.target.hidden = true;
 }, true);
 async function loadDashboard() {
   try {

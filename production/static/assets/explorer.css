@@ -395,3 +395,16 @@
   .league-filter-button,
   .explorer .button { transition: none; }
 }
+
+/* Shared compact club identity in the explorer and published betting history. */
+.match-table .encounter-clubs { display: grid; gap: 6px; font-size: 18px; }
+.encounter-team { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.encounter-team > span { min-width: 0; overflow-wrap: anywhere; }
+.match-table .encounter-team, .match-table .encounter-team > span { color: var(--ink); font-size: inherit; }
+.club-crest { display: block; width: 24px; height: 24px; flex-shrink: 0; object-fit: contain; padding: 2px; border-radius: 50%; background: #fff; }
+.club-crest[hidden] { display: none; }
+@media (max-width: 760px) {
+  .match-table .encounter-clubs { gap: 5px; font-size: 14px; line-height: 1.35; }
+  .encounter-team { gap: 6px; }
+  .club-crest { width: 20px; height: 20px; }
+}

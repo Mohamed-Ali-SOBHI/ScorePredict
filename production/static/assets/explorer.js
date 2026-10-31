@@ -1,6 +1,12 @@
 const escape = value => String(value ?? '').replace(/[&<>"']/g, character => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
 }[character]));
+const clubCrest = team => {
+  const crests = window.ScorePredictCrests || {};
+  const file = Object.hasOwn(crests, team) ? crests[team] : null;
+  return file ? '<img class="club-crest" src="./assets/crests/' + escape(file)
+    + '" width="24" height="24" alt="" loading="lazy" decoding="async">' : '';
+};
 const number = value => value == null || Number.isNaN(Number(value))
   ? '—'
   : new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 2 }).format(value);
@@ -63,7 +69,8 @@ function matchRows(match, index) {
   const row = '<tr class="match-row" style="--row-delay:' + Math.min(index, 8) * 45 + 'ms">'
     + '<td class="league-cell"><span>' + escape(match.leagueLabel) + '</span></td>'
     + '<th class="encounter-cell" scope="row"><span class="mobile-meta">' + escape(match.leagueLabel) + ' · ' + escape(matchDate) + '</span>'
-    + '<span class="encounter-name">' + escape(match.homeTeam) + ' <span class="versus">vs</span> ' + escape(match.awayTeam) + '</span></th>'
+    + '<span class="encounter-name encounter-clubs"><span class="encounter-team">' + clubCrest(match.homeTeam) + '<span>' + escape(match.homeTeam)
+    + '</span></span><span class="encounter-team">' + clubCrest(match.awayTeam) + '<span><span class="versus">vs</span> ' + escape(match.awayTeam) + '</span></span></span></th>'
     + '<td class="date-cell"><time datetime="' + escape(match.date) + '">' + escape(matchDate) + '</time></td>'
     + probabilityCell(match.probabilities ? match.probabilities[0] : 0, '1')
     + probabilityCell(match.probabilities ? match.probabilities[1] : 0, 'N')
@@ -168,4 +175,7 @@ document.addEventListener('click', event => {
   if (icon) icon.textContent = willOpen ? '×' : '+';
 });
 
+document.addEventListener('error', event => {
+  if (event.target.matches('.club-crest')) event.target.hidden = true;
+}, true);
 load();
