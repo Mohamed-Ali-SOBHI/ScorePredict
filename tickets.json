@@ -753,8 +753,8 @@
     "selected_members": [
       "local_price_only|Ligue_1|draw|0.05|low_goal_parity"
     ],
-    "status": "pending",
-    "profit": null
+    "status": "lost",
+    "profit": -1.0
   },
   {
     "fixture_id": "understat:32016",
@@ -772,8 +772,8 @@
       "local_price_only|Ligue_1|home|0.02|all",
       "native_mean|Ligue_1|draw|0.05|all"
     ],
-    "status": "pending",
-    "profit": null
+    "status": "lost",
+    "profit": -1.0
   },
   {
     "fixture_id": "understat:31657",
@@ -789,8 +789,8 @@
     "selected_members": [
       "native_mean|Serie_A|draw|0.02|balanced_market"
     ],
-    "status": "pending",
-    "profit": null
+    "status": "lost",
+    "profit": -1.0
   },
   {
     "fixture_id": "understat:31655",
@@ -807,8 +807,8 @@
       "local_sport_only|Serie_A|away|0.05|all",
       "native_mean|Serie_A|draw|0.02|balanced_market"
     ],
-    "status": "pending",
-    "profit": null
+    "status": "lost",
+    "profit": -1.0
   },
   {
     "fixture_id": "understat:30873",
@@ -823,6 +823,59 @@
     "source": "local_sport_only|La_liga|draw|0.05|balanced_market",
     "selected_members": [
       "local_sport_only|La_liga|draw|0.05|balanced_market"
+    ],
+    "status": "lost",
+    "profit": -1.0
+  },
+  {
+    "fixture_id": "understat:31269",
+    "league": "EPL",
+    "home_team": "Newcastle United",
+    "away_team": "Everton",
+    "kickoff_utc": "2026-11-02T20:00:00+00:00",
+    "recorded_at_utc": "2026-11-01T22:24:03.177815+00:00",
+    "outcome": "home",
+    "odds": 2.3,
+    "stake": 1.0,
+    "source": "local_price_only|EPL|home|0.02|all",
+    "selected_members": [
+      "local_price_only|EPL|home|0.02|all"
+    ],
+    "status": "pending",
+    "profit": null
+  },
+  {
+    "fixture_id": "understat:32014",
+    "league": "Ligue_1",
+    "home_team": "Lorient",
+    "away_team": "Brest",
+    "kickoff_utc": "2026-11-02T19:45:00+00:00",
+    "recorded_at_utc": "2026-11-01T22:24:05.391124+00:00",
+    "outcome": "home",
+    "odds": 2.45,
+    "stake": 1.0,
+    "source": "local_price_only|Ligue_1|home|0.02|all",
+    "selected_members": [
+      "local_price_only|Ligue_1|home|0.02|all"
+    ],
+    "status": "pending",
+    "profit": null
+  },
+  {
+    "fixture_id": "understat:31658",
+    "league": "Serie_A",
+    "home_team": "Sassuolo",
+    "away_team": "Fiorentina",
+    "kickoff_utc": "2026-11-02T17:30:00+00:00",
+    "recorded_at_utc": "2026-11-01T22:24:08.149333+00:00",
+    "outcome": "away",
+    "odds": 2.35,
+    "stake": 1.0,
+    "source": "residual_sport_recency|Serie_A|away|0.02|all",
+    "selected_members": [
+      "residual_sport_recency|Serie_A|away|0.02|all",
+      "local_sport_only|Serie_A|draw|0.10|low_goal_parity",
+      "native_mean|Serie_A|draw|0.02|balanced_market"
     ],
     "status": "pending",
     "profit": null
