@@ -1715,8 +1715,8 @@
     "outcome": "draw",
     "source": "native_mean|Serie_A|draw|0.02|balanced_market",
     "stake": 1.0,
-    "status": "pending",
-    "profit": null,
+    "status": "lost",
+    "profit": -1.0,
     "selected_members": [
       "native_mean|Serie_A|draw|0.02|balanced_market"
     ]
