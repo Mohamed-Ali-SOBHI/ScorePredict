@@ -92734,6 +92734,1255 @@
       },
       "previous_hash": "191eb77776b209d302534e785c89a2812eee0464facf016ab66ea928b2998a6e",
       "event_hash": "c41289b78f43177231a7ffd874d5ab72ae97a022c5207246a6d5da619d51284e"
+    },
+    {
+      "seq": 445,
+      "kind": "run",
+      "identity": "paper_calendar_quarantine_v2_2026_10_26:20261101T171507848550Z",
+      "payload": {
+        "amendment_sha256": "be3ec47ae7601fa3af51e99577bddbf390c1c8fd6c814e77fd920a9b18d1503d",
+        "corrections": [
+          {
+            "fixture_id": "understat:32287",
+            "initial_datetime": "2026-10-18 13:30:00",
+            "observed_datetime": "2026-10-18 13:30:00",
+            "prematch_source_sha256": "56ca10e2f434e241f516fa0c9b3ec9970794bd35ab03979fee6a366ab9ddf4ee",
+            "resolved_utc": "2026-10-18T13:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T13:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32289",
+            "initial_datetime": "2026-10-18 15:30:00",
+            "observed_datetime": "2026-10-18 15:30:00",
+            "prematch_source_sha256": "56ca10e2f434e241f516fa0c9b3ec9970794bd35ab03979fee6a366ab9ddf4ee",
+            "resolved_utc": "2026-10-18T15:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T15:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31246",
+            "initial_datetime": "2026-10-18 13:00:00",
+            "observed_datetime": "2026-10-18 13:00:00",
+            "prematch_source_sha256": "e65a59b5274d00efad8fc072d3ed97e2d7a297bdb8112796b66fef975b7f3138",
+            "resolved_utc": "2026-10-18T13:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T13:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31245",
+            "initial_datetime": "2026-10-18 13:00:00",
+            "observed_datetime": "2026-10-18 13:00:00",
+            "prematch_source_sha256": "e65a59b5274d00efad8fc072d3ed97e2d7a297bdb8112796b66fef975b7f3138",
+            "resolved_utc": "2026-10-18T13:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T13:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31247",
+            "initial_datetime": "2026-10-18 13:00:00",
+            "observed_datetime": "2026-10-18 13:00:00",
+            "prematch_source_sha256": "e65a59b5274d00efad8fc072d3ed97e2d7a297bdb8112796b66fef975b7f3138",
+            "resolved_utc": "2026-10-18T13:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T13:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31248",
+            "initial_datetime": "2026-10-18 15:30:00",
+            "observed_datetime": "2026-10-18 15:30:00",
+            "prematch_source_sha256": "e65a59b5274d00efad8fc072d3ed97e2d7a297bdb8112796b66fef975b7f3138",
+            "resolved_utc": "2026-10-18T15:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T15:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31994",
+            "initial_datetime": "2026-10-18 13:00:00",
+            "observed_datetime": "2026-10-18 13:00:00",
+            "prematch_source_sha256": "a43e2746014a2354bba3e8344bbdbb478a6936bf3617a457842eac34e1eb318d",
+            "resolved_utc": "2026-10-18T13:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T13:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31995",
+            "initial_datetime": "2026-10-18 15:15:00",
+            "observed_datetime": "2026-10-18 15:15:00",
+            "prematch_source_sha256": "a43e2746014a2354bba3e8344bbdbb478a6936bf3617a457842eac34e1eb318d",
+            "resolved_utc": "2026-10-18T15:15:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T15:15:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31998",
+            "initial_datetime": "2026-10-18 15:15:00",
+            "observed_datetime": "2026-10-18 15:15:00",
+            "prematch_source_sha256": "a43e2746014a2354bba3e8344bbdbb478a6936bf3617a457842eac34e1eb318d",
+            "resolved_utc": "2026-10-18T13:15:00+00:00",
+            "timezone": "Europe/Paris",
+            "verified_kickoff_utc": "2026-10-18T13:15:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32000",
+            "initial_datetime": "2026-10-18 15:15:00",
+            "observed_datetime": "2026-10-18 15:15:00",
+            "prematch_source_sha256": "a43e2746014a2354bba3e8344bbdbb478a6936bf3617a457842eac34e1eb318d",
+            "resolved_utc": "2026-10-18T15:15:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T15:15:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31999",
+            "initial_datetime": "2026-10-18 18:45:00",
+            "observed_datetime": "2026-10-18 18:45:00",
+            "prematch_source_sha256": "a43e2746014a2354bba3e8344bbdbb478a6936bf3617a457842eac34e1eb318d",
+            "resolved_utc": "2026-10-18T18:45:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T18:45:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31628",
+            "initial_datetime": "2026-10-18 10:30:00",
+            "observed_datetime": "2026-10-18 10:30:00",
+            "prematch_source_sha256": "d62c0a63895bf5be2c2d04da5e9a6a70556a12740555919951b32370915bbe54",
+            "resolved_utc": "2026-10-18T10:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T10:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31623",
+            "initial_datetime": "2026-10-18 13:00:00",
+            "observed_datetime": "2026-10-18 13:00:00",
+            "prematch_source_sha256": "d62c0a63895bf5be2c2d04da5e9a6a70556a12740555919951b32370915bbe54",
+            "resolved_utc": "2026-10-18T13:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T13:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31620",
+            "initial_datetime": "2026-10-18 16:00:00",
+            "observed_datetime": "2026-10-18 16:00:00",
+            "prematch_source_sha256": "d62c0a63895bf5be2c2d04da5e9a6a70556a12740555919951b32370915bbe54",
+            "resolved_utc": "2026-10-18T16:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T16:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31625",
+            "initial_datetime": "2026-10-18 18:45:00",
+            "observed_datetime": "2026-10-18 18:45:00",
+            "prematch_source_sha256": "d62c0a63895bf5be2c2d04da5e9a6a70556a12740555919951b32370915bbe54",
+            "resolved_utc": "2026-10-18T18:45:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T18:45:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:30856",
+            "initial_datetime": "2026-10-18 12:00:00",
+            "observed_datetime": "2026-10-18 12:00:00",
+            "prematch_source_sha256": "83d1654cbddba37a2a431d174f57d69a8df37c7c59c4d09914312c8ad915f10f",
+            "resolved_utc": "2026-10-18T12:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T12:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:30851",
+            "initial_datetime": "2026-10-18 14:15:00",
+            "observed_datetime": "2026-10-18 14:15:00",
+            "prematch_source_sha256": "83d1654cbddba37a2a431d174f57d69a8df37c7c59c4d09914312c8ad915f10f",
+            "resolved_utc": "2026-10-18T14:15:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T14:15:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:30855",
+            "initial_datetime": "2026-10-18 16:30:00",
+            "observed_datetime": "2026-10-18 16:30:00",
+            "prematch_source_sha256": "83d1654cbddba37a2a431d174f57d69a8df37c7c59c4d09914312c8ad915f10f",
+            "resolved_utc": "2026-10-18T16:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T16:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:30857",
+            "initial_datetime": "2026-10-18 19:00:00",
+            "observed_datetime": "2026-10-18 19:00:00",
+            "prematch_source_sha256": "83d1654cbddba37a2a431d174f57d69a8df37c7c59c4d09914312c8ad915f10f",
+            "resolved_utc": "2026-10-18T19:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-18T19:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31626",
+            "initial_datetime": "2026-10-19 16:30:00",
+            "observed_datetime": "2026-10-19 16:30:00",
+            "prematch_source_sha256": "468dd93539c2fd12ae92798581263fa22fe5c78cbe79458aaf74cc352481d17e",
+            "resolved_utc": "2026-10-19T16:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-19T16:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31627",
+            "initial_datetime": "2026-10-19 18:45:00",
+            "observed_datetime": "2026-10-19 18:45:00",
+            "prematch_source_sha256": "468dd93539c2fd12ae92798581263fa22fe5c78cbe79458aaf74cc352481d17e",
+            "resolved_utc": "2026-10-19T18:45:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-19T18:45:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31249",
+            "initial_datetime": "2026-10-19 19:00:00",
+            "observed_datetime": "2026-10-19 19:00:00",
+            "prematch_source_sha256": "ed09be8e64ca8920d08ddfb637b093a6ef805e76441876f4bd0c2ae9024a7802",
+            "resolved_utc": "2026-10-19T19:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-19T19:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:30854",
+            "initial_datetime": "2026-10-19 19:00:00",
+            "observed_datetime": "2026-10-19 19:00:00",
+            "prematch_source_sha256": "d370c5cf7f316a2066545364fc1a139a7f22842ce0bedc877935e4f1d16d15f7",
+            "resolved_utc": "2026-10-19T19:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-19T19:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:30827",
+            "initial_datetime": "2026-10-21 18:00:00",
+            "observed_datetime": "2026-10-21 18:00:00",
+            "prematch_source_sha256": "8f05fa0ad42ecbf485224a0e2494ca8e4b954023c14939a98dcd48ce7332be91",
+            "resolved_utc": "2026-10-21T18:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-21T18:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32302",
+            "initial_datetime": "2026-10-23 18:30:00",
+            "observed_datetime": "2026-10-23 18:30:00",
+            "prematch_source_sha256": "8bcad5db9253b127b4c95d4e968c091a0563808ec61f445c0a62595f36efd4e5",
+            "resolved_utc": "2026-10-23T18:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-23T18:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32295",
+            "initial_datetime": "2026-10-24 13:30:00",
+            "observed_datetime": "2026-10-24 13:30:00",
+            "prematch_source_sha256": "8bcad5db9253b127b4c95d4e968c091a0563808ec61f445c0a62595f36efd4e5",
+            "resolved_utc": "2026-10-24T13:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-24T13:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32297",
+            "initial_datetime": "2026-10-24 13:30:00",
+            "observed_datetime": "2026-10-24 13:30:00",
+            "prematch_source_sha256": "8bcad5db9253b127b4c95d4e968c091a0563808ec61f445c0a62595f36efd4e5",
+            "resolved_utc": "2026-10-24T13:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-24T13:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32300",
+            "initial_datetime": "2026-10-24 13:30:00",
+            "observed_datetime": "2026-10-24 13:30:00",
+            "prematch_source_sha256": "8bcad5db9253b127b4c95d4e968c091a0563808ec61f445c0a62595f36efd4e5",
+            "resolved_utc": "2026-10-24T13:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-24T13:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32301",
+            "initial_datetime": "2026-10-24 13:30:00",
+            "observed_datetime": "2026-10-24 13:30:00",
+            "prematch_source_sha256": "8bcad5db9253b127b4c95d4e968c091a0563808ec61f445c0a62595f36efd4e5",
+            "resolved_utc": "2026-10-24T13:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-24T13:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32764",
+            "initial_datetime": "2026-10-24 13:30:00",
+            "observed_datetime": "2026-10-24 13:30:00",
+            "prematch_source_sha256": "8bcad5db9253b127b4c95d4e968c091a0563808ec61f445c0a62595f36efd4e5",
+            "resolved_utc": "2026-10-24T13:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-24T13:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31250",
+            "initial_datetime": "2026-10-23 19:00:00",
+            "observed_datetime": "2026-10-23 19:00:00",
+            "prematch_source_sha256": "d377d7c8a81894005565289881dd8265fdb356d70922e7f78c7a395beeb4a3d4",
+            "resolved_utc": "2026-10-23T19:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-23T19:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31251",
+            "initial_datetime": "2026-10-24 11:30:00",
+            "observed_datetime": "2026-10-24 11:30:00",
+            "prematch_source_sha256": "d377d7c8a81894005565289881dd8265fdb356d70922e7f78c7a395beeb4a3d4",
+            "resolved_utc": "2026-10-24T11:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-24T11:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31254",
+            "initial_datetime": "2026-10-24 14:00:00",
+            "observed_datetime": "2026-10-24 14:00:00",
+            "prematch_source_sha256": "d377d7c8a81894005565289881dd8265fdb356d70922e7f78c7a395beeb4a3d4",
+            "resolved_utc": "2026-10-24T14:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-24T14:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31253",
+            "initial_datetime": "2026-10-24 14:00:00",
+            "observed_datetime": "2026-10-24 14:00:00",
+            "prematch_source_sha256": "d377d7c8a81894005565289881dd8265fdb356d70922e7f78c7a395beeb4a3d4",
+            "resolved_utc": "2026-10-24T14:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-24T14:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32005",
+            "initial_datetime": "2026-10-23 18:45:00",
+            "observed_datetime": "2026-10-23 18:45:00",
+            "prematch_source_sha256": "08663cc0af9f74ef572ba88b70e698b3a087c2f096219301baac2ac5d648ec8d",
+            "resolved_utc": "2026-10-23T18:45:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-23T18:45:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31638",
+            "initial_datetime": "2026-10-23 18:45:00",
+            "observed_datetime": "2026-10-23 18:45:00",
+            "prematch_source_sha256": "24da622febf5660b5bda2b7d4bfef1062c30fff9629483649fc64a68cfa7b570",
+            "resolved_utc": "2026-10-23T18:45:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-23T18:45:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31631",
+            "initial_datetime": "2026-10-24 13:00:00",
+            "observed_datetime": "2026-10-24 13:00:00",
+            "prematch_source_sha256": "24da622febf5660b5bda2b7d4bfef1062c30fff9629483649fc64a68cfa7b570",
+            "resolved_utc": "2026-10-24T13:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-24T13:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31632",
+            "initial_datetime": "2026-10-24 13:00:00",
+            "observed_datetime": "2026-10-24 13:00:00",
+            "prematch_source_sha256": "24da622febf5660b5bda2b7d4bfef1062c30fff9629483649fc64a68cfa7b570",
+            "resolved_utc": "2026-10-24T13:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-24T13:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:30860",
+            "initial_datetime": "2026-10-23 19:00:00",
+            "observed_datetime": "2026-10-23 19:00:00",
+            "prematch_source_sha256": "8f05fa0ad42ecbf485224a0e2494ca8e4b954023c14939a98dcd48ce7332be91",
+            "resolved_utc": "2026-10-23T19:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-23T19:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:30866",
+            "initial_datetime": "2026-10-24 12:00:00",
+            "observed_datetime": "2026-10-24 12:00:00",
+            "prematch_source_sha256": "8f05fa0ad42ecbf485224a0e2494ca8e4b954023c14939a98dcd48ce7332be91",
+            "resolved_utc": "2026-10-24T12:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-24T12:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:30865",
+            "initial_datetime": "2026-10-24 14:15:00",
+            "observed_datetime": "2026-10-24 14:15:00",
+            "prematch_source_sha256": "8f05fa0ad42ecbf485224a0e2494ca8e4b954023c14939a98dcd48ce7332be91",
+            "resolved_utc": "2026-10-24T14:15:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-24T14:15:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32296",
+            "initial_datetime": "2026-10-24 16:30:00",
+            "observed_datetime": "2026-10-24 16:30:00",
+            "prematch_source_sha256": "8bcad5db9253b127b4c95d4e968c091a0563808ec61f445c0a62595f36efd4e5",
+            "resolved_utc": "2026-10-24T16:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-24T16:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31255",
+            "initial_datetime": "2026-10-24 16:30:00",
+            "observed_datetime": "2026-10-24 16:30:00",
+            "prematch_source_sha256": "d377d7c8a81894005565289881dd8265fdb356d70922e7f78c7a395beeb4a3d4",
+            "resolved_utc": "2026-10-24T16:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-24T16:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32006",
+            "initial_datetime": "2026-10-24 18:45:00",
+            "observed_datetime": "2026-10-24 18:45:00",
+            "prematch_source_sha256": "08663cc0af9f74ef572ba88b70e698b3a087c2f096219301baac2ac5d648ec8d",
+            "resolved_utc": "2026-10-24T18:45:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-24T18:45:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31637",
+            "initial_datetime": "2026-10-24 16:00:00",
+            "observed_datetime": "2026-10-24 16:00:00",
+            "prematch_source_sha256": "24da622febf5660b5bda2b7d4bfef1062c30fff9629483649fc64a68cfa7b570",
+            "resolved_utc": "2026-10-24T16:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-24T16:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31635",
+            "initial_datetime": "2026-10-24 18:45:00",
+            "observed_datetime": "2026-10-24 18:45:00",
+            "prematch_source_sha256": "24da622febf5660b5bda2b7d4bfef1062c30fff9629483649fc64a68cfa7b570",
+            "resolved_utc": "2026-10-24T18:45:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-24T18:45:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:30869",
+            "initial_datetime": "2026-10-24 16:30:00",
+            "observed_datetime": "2026-10-24 16:30:00",
+            "prematch_source_sha256": "8f05fa0ad42ecbf485224a0e2494ca8e4b954023c14939a98dcd48ce7332be91",
+            "resolved_utc": "2026-10-24T16:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-24T16:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:30862",
+            "initial_datetime": "2026-10-24 19:00:00",
+            "observed_datetime": "2026-10-24 19:00:00",
+            "prematch_source_sha256": "8f05fa0ad42ecbf485224a0e2494ca8e4b954023c14939a98dcd48ce7332be91",
+            "resolved_utc": "2026-10-24T19:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-24T19:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31257",
+            "initial_datetime": "2026-10-25 14:00:00",
+            "observed_datetime": "2026-10-25 14:00:00",
+            "prematch_source_sha256": "da16d26da24dd1e8d98adcb762887af105f99f68d1f093456ebc2d8700a00b9e",
+            "resolved_utc": "2026-10-25T14:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-25T14:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31258",
+            "initial_datetime": "2026-10-25 14:00:00",
+            "observed_datetime": "2026-10-25 14:00:00",
+            "prematch_source_sha256": "da16d26da24dd1e8d98adcb762887af105f99f68d1f093456ebc2d8700a00b9e",
+            "resolved_utc": "2026-10-25T14:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-25T14:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31252",
+            "initial_datetime": "2026-10-25 14:00:00",
+            "observed_datetime": "2026-10-25 14:00:00",
+            "prematch_source_sha256": "da16d26da24dd1e8d98adcb762887af105f99f68d1f093456ebc2d8700a00b9e",
+            "resolved_utc": "2026-10-25T14:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-25T14:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31256",
+            "initial_datetime": "2026-10-25 14:00:00",
+            "observed_datetime": "2026-10-25 14:00:00",
+            "prematch_source_sha256": "da16d26da24dd1e8d98adcb762887af105f99f68d1f093456ebc2d8700a00b9e",
+            "resolved_utc": "2026-10-25T14:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-25T14:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32008",
+            "initial_datetime": "2026-10-25 14:00:00",
+            "observed_datetime": "2026-10-25 14:00:00",
+            "prematch_source_sha256": "2b8e7421e189dd3cb96b85031a38eca4f5d3b932492ef25e478b6763f6907214",
+            "resolved_utc": "2026-10-25T14:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-25T14:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31634",
+            "initial_datetime": "2026-10-25 11:30:00",
+            "observed_datetime": "2026-10-25 11:30:00",
+            "prematch_source_sha256": "c2c733e876a52557f030e119f1cde83bf4320be2b283863f65ba4c8bb877ad5b",
+            "resolved_utc": "2026-10-25T11:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-25T11:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31630",
+            "initial_datetime": "2026-10-25 14:00:00",
+            "observed_datetime": "2026-10-25 14:00:00",
+            "prematch_source_sha256": "c2c733e876a52557f030e119f1cde83bf4320be2b283863f65ba4c8bb877ad5b",
+            "resolved_utc": "2026-10-25T14:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-25T14:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31633",
+            "initial_datetime": "2026-10-25 14:00:00",
+            "observed_datetime": "2026-10-25 14:00:00",
+            "prematch_source_sha256": "c2c733e876a52557f030e119f1cde83bf4320be2b283863f65ba4c8bb877ad5b",
+            "resolved_utc": "2026-10-25T14:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-25T14:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:30861",
+            "initial_datetime": "2026-10-25 13:00:00",
+            "observed_datetime": "2026-10-25 13:00:00",
+            "prematch_source_sha256": "b9ad17e47d0dfff335b6fe91b61b755d64b1ec30540bb3adb4f2b82a15a8bacc",
+            "resolved_utc": "2026-10-25T13:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-25T13:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32299",
+            "initial_datetime": "2026-10-25 14:30:00",
+            "observed_datetime": "2026-10-25 14:30:00",
+            "prematch_source_sha256": "b111cb48abcd94ac5454a3e56f25e73ce8fe60e2c4ab33e3404cb6f4fa5f311f",
+            "resolved_utc": "2026-10-25T14:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-25T14:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32298",
+            "initial_datetime": "2026-10-25 16:30:00",
+            "observed_datetime": "2026-10-25 16:30:00",
+            "prematch_source_sha256": "b111cb48abcd94ac5454a3e56f25e73ce8fe60e2c4ab33e3404cb6f4fa5f311f",
+            "resolved_utc": "2026-10-25T16:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-25T16:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31259",
+            "initial_datetime": "2026-10-25 16:30:00",
+            "observed_datetime": "2026-10-25 16:30:00",
+            "prematch_source_sha256": "ad30b0f8b581722b68dae484ad3557b0869a418b575569d83d34529d57bec3a4",
+            "resolved_utc": "2026-10-25T16:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-25T16:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32003",
+            "initial_datetime": "2026-10-25 16:15:00",
+            "observed_datetime": "2026-10-25 16:15:00",
+            "prematch_source_sha256": "2b8e7421e189dd3cb96b85031a38eca4f5d3b932492ef25e478b6763f6907214",
+            "resolved_utc": "2026-10-25T16:15:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-25T16:15:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32007",
+            "initial_datetime": "2026-10-25 16:15:00",
+            "observed_datetime": "2026-10-25 16:15:00",
+            "prematch_source_sha256": "2b8e7421e189dd3cb96b85031a38eca4f5d3b932492ef25e478b6763f6907214",
+            "resolved_utc": "2026-10-25T16:15:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-25T16:15:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32009",
+            "initial_datetime": "2026-10-25 16:15:00",
+            "observed_datetime": "2026-10-25 16:15:00",
+            "prematch_source_sha256": "2b8e7421e189dd3cb96b85031a38eca4f5d3b932492ef25e478b6763f6907214",
+            "resolved_utc": "2026-10-25T16:15:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-25T16:15:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31636",
+            "initial_datetime": "2026-10-25 17:00:00",
+            "observed_datetime": "2026-10-25 17:00:00",
+            "prematch_source_sha256": "601a8045d5fdb4035f12ba992e237d0052522030b91c7a29dab56c0f62bc397f",
+            "resolved_utc": "2026-10-25T17:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-25T17:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:30863",
+            "initial_datetime": "2026-10-25 15:15:00",
+            "observed_datetime": "2026-10-25 15:15:00",
+            "prematch_source_sha256": "87c262f0df86a9811e7be1e8b43209ff5453e28be8b66293254c623fd974cb05",
+            "resolved_utc": "2026-10-25T15:15:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-25T15:15:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:30867",
+            "initial_datetime": "2026-10-25 17:30:00",
+            "observed_datetime": "2026-10-25 17:30:00",
+            "prematch_source_sha256": "87c262f0df86a9811e7be1e8b43209ff5453e28be8b66293254c623fd974cb05",
+            "resolved_utc": "2026-10-25T17:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-25T17:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31639",
+            "initial_datetime": "2026-10-25 19:45:00",
+            "observed_datetime": "2026-10-25 19:45:00",
+            "prematch_source_sha256": "182cb691c31cd65194e0c3f8e4d254230cdfe3734e48d043128bc5204811bf8f",
+            "resolved_utc": "2026-10-25T19:45:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-25T19:45:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:30864",
+            "initial_datetime": "2026-10-25 20:00:00",
+            "observed_datetime": "2026-10-25 20:00:00",
+            "prematch_source_sha256": "854b5effdef7626d8a3df3b367242c358c08a0bfcdc874a1874b89b0c7a49ec6",
+            "resolved_utc": "2026-10-25T20:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-25T20:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:30868",
+            "initial_datetime": "2026-10-26 20:00:00",
+            "observed_datetime": "2026-10-26 20:00:00",
+            "prematch_source_sha256": "4b9dac82ca701a0be458ce855189bb850919dc8f9ec99429b96c2d22ebbcd3c7",
+            "resolved_utc": "2026-10-26T20:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-26T20:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31647",
+            "initial_datetime": "2026-10-27 17:30:00",
+            "observed_datetime": "2026-10-27 17:30:00",
+            "prematch_source_sha256": "51d410893ebd11907a8f70525552ef9b112d84d98f726d0b3ad9cfd973744444",
+            "resolved_utc": "2026-10-27T17:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-27T17:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31641",
+            "initial_datetime": "2026-10-27 19:45:00",
+            "observed_datetime": "2026-10-27 19:45:00",
+            "prematch_source_sha256": "51d410893ebd11907a8f70525552ef9b112d84d98f726d0b3ad9cfd973744444",
+            "resolved_utc": "2026-10-27T19:45:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-27T19:45:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31648",
+            "initial_datetime": "2026-10-27 19:45:00",
+            "observed_datetime": "2026-10-27 19:45:00",
+            "prematch_source_sha256": "51d410893ebd11907a8f70525552ef9b112d84d98f726d0b3ad9cfd973744444",
+            "resolved_utc": "2026-10-27T19:45:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-27T19:45:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31640",
+            "initial_datetime": "2026-10-28 17:30:00",
+            "observed_datetime": "2026-10-28 17:30:00",
+            "prematch_source_sha256": "51d410893ebd11907a8f70525552ef9b112d84d98f726d0b3ad9cfd973744444",
+            "resolved_utc": "2026-10-28T17:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-28T17:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31646",
+            "initial_datetime": "2026-10-28 17:30:00",
+            "observed_datetime": "2026-10-28 17:30:00",
+            "prematch_source_sha256": "51d410893ebd11907a8f70525552ef9b112d84d98f726d0b3ad9cfd973744444",
+            "resolved_utc": "2026-10-28T17:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-28T17:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31649",
+            "initial_datetime": "2026-10-28 17:30:00",
+            "observed_datetime": "2026-10-28 17:30:00",
+            "prematch_source_sha256": "51d410893ebd11907a8f70525552ef9b112d84d98f726d0b3ad9cfd973744444",
+            "resolved_utc": "2026-10-28T17:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-28T17:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31644",
+            "initial_datetime": "2026-10-28 19:45:00",
+            "observed_datetime": "2026-10-28 19:45:00",
+            "prematch_source_sha256": "51d410893ebd11907a8f70525552ef9b112d84d98f726d0b3ad9cfd973744444",
+            "resolved_utc": "2026-10-28T19:45:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-28T19:45:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31645",
+            "initial_datetime": "2026-10-28 19:45:00",
+            "observed_datetime": "2026-10-28 19:45:00",
+            "prematch_source_sha256": "51d410893ebd11907a8f70525552ef9b112d84d98f726d0b3ad9cfd973744444",
+            "resolved_utc": "2026-10-28T19:45:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-28T19:45:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31643",
+            "initial_datetime": "2026-10-29 17:30:00",
+            "observed_datetime": "2026-10-29 17:30:00",
+            "prematch_source_sha256": "2d00d4b8b1a17c82d25eb5391ca17fc3c7a0ac04acc1ac3a3f229dc46a28b0bd",
+            "resolved_utc": "2026-10-29T17:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-29T17:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31642",
+            "initial_datetime": "2026-10-29 19:45:00",
+            "observed_datetime": "2026-10-29 19:45:00",
+            "prematch_source_sha256": "2d00d4b8b1a17c82d25eb5391ca17fc3c7a0ac04acc1ac3a3f229dc46a28b0bd",
+            "resolved_utc": "2026-10-29T19:45:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-29T19:45:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32765",
+            "initial_datetime": "2026-10-30 19:30:00",
+            "observed_datetime": "2026-10-30 19:30:00",
+            "prematch_source_sha256": "29da3c1370fe3258f5a2947ddb36d05ef7a5b439b6bcebd1bbfbc6df61f71710",
+            "resolved_utc": "2026-10-30T19:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-30T19:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32013",
+            "initial_datetime": "2026-10-30 20:05:00",
+            "observed_datetime": "2026-10-30 20:05:00",
+            "prematch_source_sha256": "e619811e8e5aed5e5aa5d66c22fb5d43a45f02b0bd5719bbaba26f723f40711d",
+            "resolved_utc": "2026-10-30T20:05:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-30T20:05:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:30879",
+            "initial_datetime": "2026-10-30 20:00:00",
+            "observed_datetime": "2026-10-30 20:00:00",
+            "prematch_source_sha256": "682d4c5b33fa53b368ef969f08bb7a0cd84af02622418c4f41a7d5002069d281",
+            "resolved_utc": "2026-10-30T20:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-30T20:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32303",
+            "initial_datetime": "2026-10-31 14:30:00",
+            "observed_datetime": "2026-10-31 14:30:00",
+            "prematch_source_sha256": "fee24f6151e41da38d231eeea41a9789712b64e0b53eb108dbead6c2b8f96f37",
+            "resolved_utc": "2026-10-31T14:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-31T14:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32310",
+            "initial_datetime": "2026-10-31 14:30:00",
+            "observed_datetime": "2026-10-31 14:30:00",
+            "prematch_source_sha256": "fee24f6151e41da38d231eeea41a9789712b64e0b53eb108dbead6c2b8f96f37",
+            "resolved_utc": "2026-10-31T14:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-31T14:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32307",
+            "initial_datetime": "2026-10-31 14:30:00",
+            "observed_datetime": "2026-10-31 14:30:00",
+            "prematch_source_sha256": "fee24f6151e41da38d231eeea41a9789712b64e0b53eb108dbead6c2b8f96f37",
+            "resolved_utc": "2026-10-31T14:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-31T14:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32304",
+            "initial_datetime": "2026-10-31 14:30:00",
+            "observed_datetime": "2026-10-31 14:30:00",
+            "prematch_source_sha256": "fee24f6151e41da38d231eeea41a9789712b64e0b53eb108dbead6c2b8f96f37",
+            "resolved_utc": "2026-10-31T14:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-31T14:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32306",
+            "initial_datetime": "2026-10-31 14:30:00",
+            "observed_datetime": "2026-10-31 14:30:00",
+            "prematch_source_sha256": "fee24f6151e41da38d231eeea41a9789712b64e0b53eb108dbead6c2b8f96f37",
+            "resolved_utc": "2026-10-31T14:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-31T14:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31260",
+            "initial_datetime": "2026-10-31 12:30:00",
+            "observed_datetime": "2026-10-31 12:30:00",
+            "prematch_source_sha256": "e207bf150754abce64b81f07cf1c2aa6a24ec426d4dd40bd7371577034c7fa84",
+            "resolved_utc": "2026-10-31T12:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-31T12:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31264",
+            "initial_datetime": "2026-10-31 15:00:00",
+            "observed_datetime": "2026-10-31 15:00:00",
+            "prematch_source_sha256": "e207bf150754abce64b81f07cf1c2aa6a24ec426d4dd40bd7371577034c7fa84",
+            "resolved_utc": "2026-10-31T15:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-31T15:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31265",
+            "initial_datetime": "2026-10-31 15:00:00",
+            "observed_datetime": "2026-10-31 15:00:00",
+            "prematch_source_sha256": "e207bf150754abce64b81f07cf1c2aa6a24ec426d4dd40bd7371577034c7fa84",
+            "resolved_utc": "2026-10-31T15:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-31T15:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31261",
+            "initial_datetime": "2026-10-31 15:00:00",
+            "observed_datetime": "2026-10-31 15:00:00",
+            "prematch_source_sha256": "e207bf150754abce64b81f07cf1c2aa6a24ec426d4dd40bd7371577034c7fa84",
+            "resolved_utc": "2026-10-31T15:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-31T15:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31262",
+            "initial_datetime": "2026-10-31 15:00:00",
+            "observed_datetime": "2026-10-31 15:00:00",
+            "prematch_source_sha256": "e207bf150754abce64b81f07cf1c2aa6a24ec426d4dd40bd7371577034c7fa84",
+            "resolved_utc": "2026-10-31T15:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-31T15:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31263",
+            "initial_datetime": "2026-10-31 15:00:00",
+            "observed_datetime": "2026-10-31 15:00:00",
+            "prematch_source_sha256": "e207bf150754abce64b81f07cf1c2aa6a24ec426d4dd40bd7371577034c7fa84",
+            "resolved_utc": "2026-10-31T15:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-31T15:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31652",
+            "initial_datetime": "2026-10-31 14:00:00",
+            "observed_datetime": "2026-10-31 14:00:00",
+            "prematch_source_sha256": "af17bcc502d0a87b7562f21bacc8ea90c818536334e8caaaa349ed18fdf8a507",
+            "resolved_utc": "2026-10-31T14:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-31T14:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31659",
+            "initial_datetime": "2026-10-31 17:00:00",
+            "observed_datetime": "2026-10-31 17:00:00",
+            "prematch_source_sha256": "af17bcc502d0a87b7562f21bacc8ea90c818536334e8caaaa349ed18fdf8a507",
+            "resolved_utc": "2026-10-31T17:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-31T17:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:30876",
+            "initial_datetime": "2026-10-31 13:00:00",
+            "observed_datetime": "2026-10-31 13:00:00",
+            "prematch_source_sha256": "26102ae2c2006bbc91c467edd56aff6d98dc4d5b8cc4c585ba2929575f237db5",
+            "resolved_utc": "2026-10-31T13:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-31T13:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:30878",
+            "initial_datetime": "2026-10-31 15:15:00",
+            "observed_datetime": "2026-10-31 15:15:00",
+            "prematch_source_sha256": "26102ae2c2006bbc91c467edd56aff6d98dc4d5b8cc4c585ba2929575f237db5",
+            "resolved_utc": "2026-10-31T15:15:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-31T15:15:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32309",
+            "initial_datetime": "2026-10-31 17:30:00",
+            "observed_datetime": "2026-10-31 17:30:00",
+            "prematch_source_sha256": "fee24f6151e41da38d231eeea41a9789712b64e0b53eb108dbead6c2b8f96f37",
+            "resolved_utc": "2026-10-31T17:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-31T17:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31266",
+            "initial_datetime": "2026-10-31 17:30:00",
+            "observed_datetime": "2026-10-31 17:30:00",
+            "prematch_source_sha256": "e207bf150754abce64b81f07cf1c2aa6a24ec426d4dd40bd7371577034c7fa84",
+            "resolved_utc": "2026-10-31T17:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-31T17:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31267",
+            "initial_datetime": "2026-10-31 20:00:00",
+            "observed_datetime": "2026-10-31 20:00:00",
+            "prematch_source_sha256": "e207bf150754abce64b81f07cf1c2aa6a24ec426d4dd40bd7371577034c7fa84",
+            "resolved_utc": "2026-10-31T20:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-31T20:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31650",
+            "initial_datetime": "2026-10-31 19:45:00",
+            "observed_datetime": "2026-10-31 19:45:00",
+            "prematch_source_sha256": "af17bcc502d0a87b7562f21bacc8ea90c818536334e8caaaa349ed18fdf8a507",
+            "resolved_utc": "2026-10-31T19:45:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-31T19:45:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:30871",
+            "initial_datetime": "2026-10-31 17:30:00",
+            "observed_datetime": "2026-10-31 17:30:00",
+            "prematch_source_sha256": "26102ae2c2006bbc91c467edd56aff6d98dc4d5b8cc4c585ba2929575f237db5",
+            "resolved_utc": "2026-10-31T17:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-31T17:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:30874",
+            "initial_datetime": "2026-10-31 20:00:00",
+            "observed_datetime": "2026-10-31 20:00:00",
+            "prematch_source_sha256": "26102ae2c2006bbc91c467edd56aff6d98dc4d5b8cc4c585ba2929575f237db5",
+            "resolved_utc": "2026-10-31T20:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-10-31T20:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32305",
+            "initial_datetime": "2026-11-01 14:30:00",
+            "observed_datetime": "2026-11-01 14:30:00",
+            "prematch_source_sha256": "0fd93804f0f701013fb0adff8d654f3813e40718fd76cec20f161cdc97a06cc3",
+            "resolved_utc": "2026-11-01T14:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-11-01T14:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:32019",
+            "initial_datetime": "2026-11-01 14:00:00",
+            "observed_datetime": "2026-11-01 14:00:00",
+            "prematch_source_sha256": "d3be91efd188bb3a58214af92de8515e558def484a7ac4ce3e2c4f3f0bd6dd44",
+            "resolved_utc": "2026-11-01T14:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-11-01T14:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31653",
+            "initial_datetime": "2026-11-01 11:30:00",
+            "observed_datetime": "2026-11-01 11:30:00",
+            "prematch_source_sha256": "af17bcc502d0a87b7562f21bacc8ea90c818536334e8caaaa349ed18fdf8a507",
+            "resolved_utc": "2026-11-01T11:30:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-11-01T11:30:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31654",
+            "initial_datetime": "2026-11-01 14:00:00",
+            "observed_datetime": "2026-11-01 14:00:00",
+            "prematch_source_sha256": "af17bcc502d0a87b7562f21bacc8ea90c818536334e8caaaa349ed18fdf8a507",
+            "resolved_utc": "2026-11-01T14:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-11-01T14:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:31656",
+            "initial_datetime": "2026-11-01 14:00:00",
+            "observed_datetime": "2026-11-01 14:00:00",
+            "prematch_source_sha256": "af17bcc502d0a87b7562f21bacc8ea90c818536334e8caaaa349ed18fdf8a507",
+            "resolved_utc": "2026-11-01T14:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-11-01T14:00:00+00:00",
+            "within_original_30min_tolerance": true
+          },
+          {
+            "fixture_id": "understat:30875",
+            "initial_datetime": "2026-11-01 13:00:00",
+            "observed_datetime": "2026-11-01 13:00:00",
+            "prematch_source_sha256": "5ef1ec7acefa5b159cc3afd236431dea180db2de29025a6df1f128cce524efec",
+            "resolved_utc": "2026-11-01T13:00:00+00:00",
+            "timezone": "UTC",
+            "verified_kickoff_utc": "2026-11-01T13:00:00+00:00",
+            "within_original_30min_tolerance": true
+          }
+        ],
+        "github_run_id": "41330410821",
+        "nonblocking_abstentions": [
+          {
+            "action": "quarantined_without_settlement",
+            "committed_bets": 0,
+            "fixture_id": "understat:32010",
+            "observed_datetime": "2026-10-24 15:15:00",
+            "reason": "Archived timestamp cannot establish its timezone",
+            "selected_decisions": 0,
+            "verified_kickoff_utc": "2026-10-25T16:15:00+00:00"
+          }
+        ],
+        "runtime_sha256": "33bd7ef4361efee42084afc18f5418cad6632c78a3172f19fb60cb1c5cd7ca7c",
+        "source_snapshot_sha256": {
+          "Bundesliga": "c7d540dde9f094022141a8e60a56154c81d54544e633bccbe8b2834f13276305",
+          "EPL": "9fa95f628871d3e0066e43abbb7048f134d367ac7e20c0a3cd904f049c1127f6",
+          "La_liga": "009c6609f236a267e5193782f013721f4c4190730b52fd9cdaf1fa484d562d75",
+          "Ligue_1": "20b6e931841f6c8064b23f45ce78adfddbfeadefbf82d8d97af37146658a3fd1",
+          "Serie_A": "106f27c226dd5716c587472d602cfb18a19a9c9600fb51f6ab1c25cdfffb9b7e",
+          "fixtures": "67f00823ec6c447984f3d40a943e8e89c623d78700d7b5476d56d1e11a2ab75e"
+        },
+        "unresolved": [
+          {
+            "fixture_id": "understat:32010",
+            "reason": "Archived timestamp cannot establish its timezone"
+          }
+        ],
+        "version": "paper_calendar_quarantine_v2_2026_10_26"
+      },
+      "previous_hash": "c41289b78f43177231a7ffd874d5ab72ae97a022c5207246a6d5da619d51284e",
+      "event_hash": "ad607b40d99b8e2060c1d0722e23853e8cddfab01fa7fe1834c3a8cdeda24f92"
+    },
+    {
+      "seq": 446,
+      "kind": "settlement",
+      "identity": "understat:32305",
+      "payload": {
+        "away_goals": 1,
+        "forecast_sha256": "82ceff14a07ae43f4d5106d4e2b7cb3fb619c3e216181f2da4f17c3bc599065f",
+        "home_goals": 1,
+        "outcome": "draw",
+        "result_seen_at_utc": "2026-11-01T17:15:11.072873+00:00",
+        "source_snapshot_sha256": "c7d540dde9f094022141a8e60a56154c81d54544e633bccbe8b2834f13276305",
+        "source_url": "https://understat.com/getLeagueData/Bundesliga/2026"
+      },
+      "previous_hash": "ad607b40d99b8e2060c1d0722e23853e8cddfab01fa7fe1834c3a8cdeda24f92",
+      "event_hash": "bc5064e7217c96f2e083953c70828e2757ca9f4606e899c4af3ad7f5e35c685c"
+    },
+    {
+      "seq": 447,
+      "kind": "settlement",
+      "identity": "understat:32019",
+      "payload": {
+        "away_goals": 1,
+        "forecast_sha256": "2dd322d630a60d959e948f1cc9da111c622c9ac231e4f693d9b656496b6855e9",
+        "home_goals": 5,
+        "outcome": "home",
+        "result_seen_at_utc": "2026-11-01T17:15:11.078985+00:00",
+        "source_snapshot_sha256": "20b6e931841f6c8064b23f45ce78adfddbfeadefbf82d8d97af37146658a3fd1",
+        "source_url": "https://understat.com/getLeagueData/Ligue_1/2026"
+      },
+      "previous_hash": "bc5064e7217c96f2e083953c70828e2757ca9f4606e899c4af3ad7f5e35c685c",
+      "event_hash": "8fa8e68e768c3f84b5243aef9fa84bc095bddb2a00d0bdce1dd43104abb7d433"
+    },
+    {
+      "seq": 448,
+      "kind": "settlement",
+      "identity": "understat:31653",
+      "payload": {
+        "away_goals": 0,
+        "forecast_sha256": "b2225f0ad8f4d966c056fba34ee6a018b0bce1bf464bdc442d782b10104f8e45",
+        "home_goals": 1,
+        "outcome": "home",
+        "result_seen_at_utc": "2026-11-01T17:15:10.989072+00:00",
+        "source_snapshot_sha256": "106f27c226dd5716c587472d602cfb18a19a9c9600fb51f6ab1c25cdfffb9b7e",
+        "source_url": "https://understat.com/getLeagueData/Serie_A/2026"
+      },
+      "previous_hash": "8fa8e68e768c3f84b5243aef9fa84bc095bddb2a00d0bdce1dd43104abb7d433",
+      "event_hash": "a97dfb218118a913e865f6e115c54a964080fb82745a1ff00bca62238a1ed074"
+    },
+    {
+      "seq": 449,
+      "kind": "settlement",
+      "identity": "understat:31654",
+      "payload": {
+        "away_goals": 0,
+        "forecast_sha256": "60c6af1f8276d71f0623ea129fec39682c46c5abd3af7f6140faaa0d65d275db",
+        "home_goals": 2,
+        "outcome": "home",
+        "result_seen_at_utc": "2026-11-01T17:15:10.989072+00:00",
+        "source_snapshot_sha256": "106f27c226dd5716c587472d602cfb18a19a9c9600fb51f6ab1c25cdfffb9b7e",
+        "source_url": "https://understat.com/getLeagueData/Serie_A/2026"
+      },
+      "previous_hash": "a97dfb218118a913e865f6e115c54a964080fb82745a1ff00bca62238a1ed074",
+      "event_hash": "e350ca703c747353874608bd0a66e53704c1d346b87edca9e4afcd2195dca56b"
+    },
+    {
+      "seq": 450,
+      "kind": "settlement",
+      "identity": "understat:31656",
+      "payload": {
+        "away_goals": 1,
+        "forecast_sha256": "ac507171e6fe087cf32ae3e503875ab4ad414ef42281741edb430149d02e898b",
+        "home_goals": 2,
+        "outcome": "home",
+        "result_seen_at_utc": "2026-11-01T17:15:10.989072+00:00",
+        "source_snapshot_sha256": "106f27c226dd5716c587472d602cfb18a19a9c9600fb51f6ab1c25cdfffb9b7e",
+        "source_url": "https://understat.com/getLeagueData/Serie_A/2026"
+      },
+      "previous_hash": "e350ca703c747353874608bd0a66e53704c1d346b87edca9e4afcd2195dca56b",
+      "event_hash": "881222309cfcec0e9d0fe2bc2f1061b09c1d9fff818e84c3cb3382bfbaa8bf56"
+    },
+    {
+      "seq": 451,
+      "kind": "settlement",
+      "identity": "understat:30875",
+      "payload": {
+        "away_goals": 1,
+        "forecast_sha256": "ab6d3434708af8bc86831842e48b974a7d986af160b22a792ee3747a9ae8d404",
+        "home_goals": 3,
+        "outcome": "home",
+        "result_seen_at_utc": "2026-11-01T17:15:12.142106+00:00",
+        "source_snapshot_sha256": "009c6609f236a267e5193782f013721f4c4190730b52fd9cdaf1fa484d562d75",
+        "source_url": "https://understat.com/getLeagueData/La_liga/2026"
+      },
+      "previous_hash": "881222309cfcec0e9d0fe2bc2f1061b09c1d9fff818e84c3cb3382bfbaa8bf56",
+      "event_hash": "b4d968ce933488e9b9e21d773cbc3c9c19e7fcc16709c5338977f4f05fd0d2cb"
+    },
+    {
+      "seq": 452,
+      "kind": "run",
+      "identity": "20261101T171507848550Z",
+      "payload": {
+        "eligible_new_candidates": 0,
+        "finished_at_utc": "2026-11-01T17:15:12.632676+00:00",
+        "github_run_attempt": "1",
+        "github_run_id": "41330410821",
+        "new_forecasts": 0,
+        "new_settlements": 6,
+        "production_changed": false,
+        "production_run_id": 41329811955,
+        "production_snapshot_age_hours": 0.02100907111111111,
+        "rejected_rows": 44,
+        "run_id": "20261101T171507848550Z",
+        "settlement_issues": [],
+        "started_at_utc": "2026-11-01T17:15:07.848550+00:00",
+        "state": "collected"
+      },
+      "previous_hash": "b4d968ce933488e9b9e21d773cbc3c9c19e7fcc16709c5338977f4f05fd0d2cb",
+      "event_hash": "e2a87fa21465e6ff11d7d7bdeec6f1e4d824b61d1f43aa153351437ccc90092a"
     }
   ]
 }

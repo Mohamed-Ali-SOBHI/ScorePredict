@@ -736,8 +736,8 @@
     "selected_members": [
       "native_mean|Serie_A|draw|0.02|balanced_market"
     ],
-    "status": "pending",
-    "profit": null
+    "status": "lost",
+    "profit": -1.0
   },
   {
     "fixture_id": "understat:32018",
