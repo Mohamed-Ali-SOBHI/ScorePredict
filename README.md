@@ -3,16 +3,16 @@
 **Simulation à 1 unité par pari. Aucun pari déjà réglé n’est importé.**
 
 Inscription de la comparaison : 2026-10-17T22:36:40.340148+00:00
-Dernier passage : 2026-11-01T18:07:16.545316+00:00 — collected
-Matchs inscrits avant le coup d’envoi : 120. Résultats confirmés : 110.
+Dernier passage : 2026-11-01T22:24:31.250450+00:00 — collected
+Matchs inscrits avant le coup d’envoi : 125. Résultats confirmés : 119.
 
 | Portefeuille | Réglés | En attente | Mises réglées | Gain net (u) | Rendement | Baisse max (u) |
 |---|---:|---:|---:|---:|---:|---:|
 | Nuls Bundesliga seuls | 6 | 0 | 6.00 | -2.25 | -37.50 % | 3.00 |
-| Nuls Bundesliga + 9 stratégies | 38 | 3 | 38.00 | -8.20 | -21.58 % | 9.60 |
-| Nuls Bundesliga + 15 stratégies, même période | 43 | 5 | 43.00 | -10.80 | -25.12 % | 10.80 |
+| Nuls Bundesliga + 9 stratégies | 41 | 3 | 41.00 | -11.20 | -27.32 % | 12.60 |
+| Nuls Bundesliga + 15 stratégies, même période | 48 | 3 | 48.00 | -15.80 | -32.92 % | 15.80 |
 
-Différence de gain des 9 moins les 15 : 2.60 u.
+Différence de gain des 9 moins les 15 : 4.60 u.
 
 Les trois lignes utilisent les mêmes matchs inscrits, prévisions figées et cotes. Chaque portefeuille conserve au maximum une issue et une unité par match : Bundesliga est prioritaire, puis l’ordre initial des stratégies retenues. Un pari commun aux deux portefeuilles est une comparaison, pas une double mise réelle. Les lignes ne doivent pas être additionnées.
 
