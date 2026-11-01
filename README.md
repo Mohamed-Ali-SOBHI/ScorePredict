@@ -2,21 +2,21 @@
 
 **Simulation uniquement. La stratégie de production reste inchangée.**
 
-Dernier passage : 2026-10-31T21:52:14.060463+00:00 — **collected**.
-Décisions figées avant match : 120. Résultats confirmés : 100.
+Dernier passage : 2026-11-01T02:37:52.998096+00:00 — **collected**.
+Décisions figées avant match : 120. Résultats confirmés : 103.
 
 Exécution sur GitHub après chaque pipeline de prévisions réussi et à 00:40, 06:40, 12:40 et 18:40 UTC chaque jour. Les horaires planifiés peuvent subir un retard GitHub.
 
 | Portefeuille | Paris réglés | En attente | Mise en attente | Gain net (u) | ROI | Baisse max (u) | Gain des ajouts (u) |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | Nuls Bundesliga seuls | 6 | 0 | 0.00 | -2.25 | -37.50 % | 3.00 | 0.00 |
-| Nuls Bundesliga + 15 ajouts (union sans doublon) | 40 | 8 | 8.00 | -11.55 | -28.87 % | 11.55 | -9.30 |
+| Nuls Bundesliga + 15 ajouts (union sans doublon) | 42 | 6 | 6.00 | -9.80 | -23.33 % | 9.80 | -7.55 |
 | Ligue 1 · nul · residual_sport_recency · EV>5% · all seule | 1 | 1 | 1.00 | -1.00 | -100.00 % | 1.00 | -1.00 |
 | Bundesliga + Ligue 1 · nul · residual_sport_recency · EV>5% · all | 7 | 1 | 1.00 | -3.25 | -46.43 % | 3.25 | -1.00 |
-| Premier League · nul · local_sport_only · EV>10% · all seule | 6 | 1 | 1.00 | -2.20 | -36.67 % | 2.20 | -2.20 |
-| Bundesliga + Premier League · nul · local_sport_only · EV>10% · all | 12 | 1 | 1.00 | -4.45 | -37.08 % | 4.45 | -2.20 |
-| Premier League · domicile · local_price_only · EV>2% · all seule | 4 | 1 | 1.00 | 1.00 | 25.00 % | 1.00 | 1.00 |
-| Bundesliga + Premier League · domicile · local_price_only · EV>2% · all | 10 | 1 | 1.00 | -1.25 | -12.50 % | 4.00 | 1.00 |
+| Premier League · nul · local_sport_only · EV>10% · all seule | 7 | 0 | 0.00 | 0.55 | 7.86 % | 2.00 | 0.55 |
+| Bundesliga + Premier League · nul · local_sport_only · EV>10% · all | 13 | 0 | 0.00 | -1.70 | -13.08 % | 1.70 | 0.55 |
+| Premier League · domicile · local_price_only · EV>2% · all seule | 5 | 0 | 0.00 | 0.00 | 0.00 % | 2.00 | 0.00 |
+| Bundesliga + Premier League · domicile · local_price_only · EV>2% · all | 11 | 0 | 0.00 | -2.25 | -20.45 % | 5.00 | 0.00 |
 | Ligue 1 · domicile · native_mean · EV>5% · all seule | 0 | 0 | 0.00 | 0.00 | — | 0.00 | 0.00 |
 | Bundesliga + Ligue 1 · domicile · native_mean · EV>5% · all | 6 | 0 | 0.00 | -2.25 | -37.50 % | 3.00 | 0.00 |
 | Premier League · extérieur · local_price_only · EV>5% · all seule | 7 | 0 | 0.00 | -2.15 | -30.71 % | 3.00 | -2.15 |
@@ -27,8 +27,8 @@ Exécution sur GitHub après chaque pipeline de prévisions réussi et à 00:40,
 | Bundesliga + Bundesliga · nul · residual_price · EV>2% · all | 6 | 0 | 0.00 | -2.25 | -37.50 % | 3.00 | 0.00 |
 | Liga · nul · local_sport_only · EV>5% · balanced_market seule | 2 | 1 | 1.00 | 1.30 | 65.00 % | 1.00 | 1.30 |
 | Bundesliga + Liga · nul · local_sport_only · EV>5% · balanced_market | 8 | 1 | 1.00 | -0.95 | -11.88 % | 3.00 | 1.30 |
-| Serie A · extérieur · local_sport_only · EV>5% · all seule | 4 | 2 | 2.00 | -0.20 | -5.00 % | 1.00 | -0.20 |
-| Bundesliga + Serie A · extérieur · local_sport_only · EV>5% · all | 10 | 2 | 2.00 | -2.45 | -24.50 % | 4.00 | -0.20 |
+| Serie A · extérieur · local_sport_only · EV>5% · all seule | 5 | 1 | 1.00 | -1.20 | -24.00 % | 2.00 | -1.20 |
+| Bundesliga + Serie A · extérieur · local_sport_only · EV>5% · all | 11 | 1 | 1.00 | -3.45 | -31.36 % | 5.00 | -1.20 |
 | Serie A · extérieur · residual_sport_recency · EV>2% · all seule | 2 | 0 | 0.00 | -2.00 | -100.00 % | 2.00 | -2.00 |
 | Bundesliga + Serie A · extérieur · residual_sport_recency · EV>2% · all | 8 | 0 | 0.00 | -4.25 | -53.12 % | 5.00 | -2.00 |
 | Serie A · nul · local_sport_only · EV>10% · low_goal_parity seule | 0 | 0 | 0.00 | 0.00 | — | 0.00 | 0.00 |
@@ -52,6 +52,6 @@ Le gain et le rendement concernent les paris réglés. La baisse maximale est ca
 
 [Exécutions GitHub](https://github.com/Mohamed-Ali-SOBHI/ScorePredict/actions/workflows/paper-positive15.yml) · [Protocole](registration.json) · [Comparaison complète](comparison.csv) · [Paris uniques, cotes et stratégies](tickets.json) · [Diagnostics](last_run.json) · [Journal des preuves](evidence.json)
 
-Journal : 435 événements, empreinte `2a55d8f2e98460669ca492807b113d01c1b351831087e7039fcd1775e23d2240`.
+Journal : 440 événements, empreinte `48d9538826084e1960f1529a2193c3b082e9dcc8332ec954a15dcd58aecb0aaf`.
 
 Le journal et les captures sont conservés dans cette branche entre les exécutions. Une sauvegarde supplémentaire est jointe aux exécutions Actions pendant 90 jours. Un journal manquant ou altéré bloque le suivi.
