@@ -11,7 +11,7 @@ import sys
 from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / 'paper_simulation'))
+sys.path[:0] = [str(ROOT / 'paper_simulation'), str(ROOT)]
 from run_paper import check_registration, identify_candidates
 from paper_models import Models, current_history, frame_for_fixture
 
@@ -33,9 +33,10 @@ def main():
     output = Path(args.output)
     capture = output.parent / datetime.now(timezone.utc).strftime('capture-%Y%m%dT%H%M%S%fZ')
     capture.mkdir(parents=True)
+    from data_pipeline.http_retry import get
     def fetch(job):
         name, url = job
-        response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0 (ScorePredict)',
+        response = get(url, headers={'User-Agent': 'Mozilla/5.0 (ScorePredict)',
                                                'X-Requested-With': 'XMLHttpRequest'}, timeout=40)
         response.raise_for_status()
         content = response.content

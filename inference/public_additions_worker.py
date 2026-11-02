@@ -21,8 +21,9 @@ def main():
         if module.__version__ != registration['runtime'][module.__name__]:
             raise ValueError('Frozen addition runtime changed: '+module.__name__)
     output=Path(args.output);capture=output.parent/datetime.now(timezone.utc).strftime('capture-%Y%m%dT%H%M%S%fZ');capture.mkdir(parents=True)
+    from data_pipeline.http_retry import get
     def fetch(job):
-        name,url=job;r=requests.get(url,headers={'User-Agent':'Mozilla/5.0 (ScorePredict)','X-Requested-With':'XMLHttpRequest'},timeout=40);r.raise_for_status()
+        name,url=job;r=get(url,headers={'User-Agent':'Mozilla/5.0 (ScorePredict)','X-Requested-With':'XMLHttpRequest'},timeout=40);r.raise_for_status()
         (capture/(name+'.gz')).write_bytes(gzip.compress(r.content,mtime=0))
         value=list(csv.DictReader(io.StringIO(r.content.decode('utf-8-sig')))) if name=='fixtures' else r.json()
         return name,value,dict(url=url,retrieved_at_utc=datetime.now(timezone.utc).isoformat(),sha256=hashlib.sha256(r.content).hexdigest())

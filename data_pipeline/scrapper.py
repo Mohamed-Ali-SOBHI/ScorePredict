@@ -168,7 +168,8 @@ def get_league_data(league, season, base_url="https://understat.com", source_sna
         "Referer": f"{base_url}/league/{league}/{season}",
     }
     if requests is not None:
-        response = requests.get(url, headers=headers, timeout=30)
+        from data_pipeline.http_retry import get
+        response = get(url, headers=headers, timeout=30)
         response.raise_for_status()
         payload = response.json()
     else:

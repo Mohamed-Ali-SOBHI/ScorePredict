@@ -1,0 +1,8 @@
+{
+  "version": "paper_source_retries_v3_2026_11_02",
+  "registered_at_utc": "2026-11-02T08:07:26.781804+00:00",
+  "runtime_sha256": "86756d82dd2cb57b2e5211a1c4f35bfbba66e835bc05b5613bc0b205d335c464",
+  "http_helper_sha256": "8885accbef49a1cf22a9dfde0701d149eaad3e41daf3ccefa11432e31b9b1042",
+  "parent_manifest_sha256": "be3ec47ae7601fa3af51e99577bddbf390c1c8fd6c814e77fd920a9b18d1503d",
+  "scope": "Read-only live GET retries for public Understat and football-data sources: four attempts, 3/10/30 second backoff for connection/timeouts and 408/429/500/502/503/504. No certificate bypass, cached fallback, inferred results, changed decisions or duplicate collector runs. Exhausted or permanent failures remain blocking. v1/v2 amendments, frozen collectors, models, thresholds and journals unchanged."
+}
