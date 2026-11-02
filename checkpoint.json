@@ -2,13 +2,13 @@
   "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
   "events_sha256": "71717ebe1deb58a746f3ae788762ec521187e97ab506e4eff74cacf3c9cb8170",
   "event_count": 478,
-  "github_run_id": "41356308861",
+  "github_run_id": "41401559872",
   "github_run_attempt": "1",
-  "sealed_at_utc": "2026-11-01T22:17:36.409484+00:00",
+  "sealed_at_utc": "2026-11-02T06:42:56.046633+00:00",
   "files": {
     ".gitattributes": "8b9c3028d6467ff3be7c793141927841d70f47f52d0590677438f488ca154992",
     ".gitignore": "a9019aaf3507372ae852ecdaaa303c6427079d6e0ae92facea3e93f4b0a1b257",
-    "README.md": "f8eb4c0133d4eb86b07e669e259e309a22be79a2375e471c5dd3cf59f93477bb",
+    "README.md": "e43b7318b8bdae8315ff3ab10fa149c2174bdc23a5addb588695da9d50c390ad",
     "captures/20261015T080850116034Z/Bundesliga.json.gz": "cf094b890960259c92c6981e92196b0b968da231695a81e8ceeb4e93b6538e21",
     "captures/20261015T080850116034Z/EPL.json.gz": "fd9bbedb9749f3d597de6ca5c7d6c757df9301b934bbd0442fd8c16ed7e37550",
     "captures/20261015T080850116034Z/Ligue_1.json.gz": "482dff0cb569b89b62d48f0fbb2506112c7d866797e1d2731bbc1ac9d10101f3",
@@ -1692,10 +1692,11 @@
     "captures/20261101T221717369838Z/settlement_issues.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
     "captures/20261101T221717369838Z/settlement_runtime.json": "db7922bddc90e2af161b302fc89f54e29c176f38d65932aa8cd486d2ec8cb779",
     "captures/20261101T221717369838Z/sources.json": "687d0ed0173829e8987b69ca12fa0a0ef961167c2a21f6de65c73eaf716703a3",
+    "captures/20261102T064242885058Z/fixtures.csv.gz": "38b7ffb990a31ab16ab1e8a70c5f5a51a5d4d35c0a3c31f0a7cb6f971770b8fe",
     "comparison.csv": "a9670e4208473840b6c0035540c82ca2ee71856be48d95f9d17af297825dab75",
     "evidence.json": "7d6dea75ece9b30aaafa4e2e99cefd71a96c0af14f8b5334c31f1fb4b2c80d62",
     "journal.sqlite3": "d12ecb5167ee6f30903468e5fe2d4d713b2db43272be95b7529f366c1c7f7dbc",
-    "last_error.json": "b9b4a51c98b1515b5f726b9ae01b9f45704f13c3a249301fe779c5e1c26fe26c",
+    "last_error.json": "ed1508f5c2e1de6d300fec283e1a3671c1267305f55a29c1f5c06651b790ec95",
     "last_run.json": "0a0ef4b1ce3644dc509afe44ae604ad46225c2d4e49dfa7d05ea4a605e7ceaf0",
     "migration/local_captures/20261015T074415287743Z/Bundesliga.json.gz": "dc5cafaf37e121bd18db1460b36ff988d279861b18a4752a7f9f3a994d1afe02",
     "migration/local_captures/20261015T074415287743Z/EPL.json.gz": "78c314467166bbf4643b188f996dd9bc713e8646363880f77e446bc3acc8dca4",
@@ -1712,8 +1713,8 @@
     "migration/local_registration.json": "fe91b1a40ce4870c6dcc2bc98760630c0e52bcc213ea9ccad14d74d981b62bcd",
     "migration/registration_initial_setup_before_first_capture.json": "b52345c5f660c7015e88cecbe6a01ce5492d7c773fc55dcf08112eed819f6a38",
     "migration/setup_revision.json": "a2f0010dde363f56a6d3dcd8a9726fa2750ee7c8f6dbe0a7596517bfcd022b27",
-    "rapport.html": "3c71f60cdcd7b9d31e2098067a029a3747caa501e974f2a4ed043ee40e018d51",
+    "rapport.html": "1c3070b1d5ae7ea89632cc44f0996ad5ace995c7363bfe1c5cb4da7b7b2aad9b",
     "registration.json": "aa224025cf9ec82c2696b3e5150c64a2c6e4f198f83f0841a7a22736ca8636b3",
-    "report.json": "31fadb1a4d99dc850a61069b987ec64017e49326b8d08fdeb04b0b22def1a754"
+    "report.json": "ca71ed05477db4cc8cc297a4c3c837dcd85a81c7e06ddb74067f93c4a7c38697"
   }
 }
