@@ -1,8 +1,8 @@
 {
   "status": {
     "state": "collection_failed",
-    "finished_at_utc": "2026-11-02T08:11:38.485768+00:00",
-    "github_run_id": "41410983108",
+    "finished_at_utc": "2026-11-02T21:57:32.266431+00:00",
+    "github_run_id": "41532414379",
     "production_changed": false
   },
   "registered_at_utc": "2026-10-15T08:06:51.175031+00:00",
