@@ -92,16 +92,27 @@ jobs:
           node --check production/static/assets/landing.js
           if ($LASTEXITCODE -ne 0) { throw "La syntaxe de la landing page est invalide." }
 
+      - name: Verifier la disponibilite Understat
+        id: sources
+        run: python -m production.understat_fallback probe
+
+      - name: Depannage temporaire sans statistiques Understat
+        if: steps.sources.outputs.mode == 'price_only'
+        run: python -m production.understat_fallback publish
+
       - name: Calculer les prochaines 24 heures avec des cotes actualisees
+        if: steps.sources.outputs.mode == 'normal'
         shell: pwsh
         run: |
           $pythonExe = (Get-Command python).Source
           ./production/publish_dashboard.ps1 -PythonExe $pythonExe
 
       - name: Chiffrer le suivi personnel Italie et Angleterre
+        if: steps.sources.outputs.mode == 'normal'
         run: node production/private_observation_crypto.cjs encrypt --input inference/output/private_observation/report.json --public-key production/observation_recipient.pem --output inference/output/private_observation/private-observation.encrypted.json
 
       - name: Conserver uniquement le suivi personnel chiffre
+        if: steps.sources.outputs.mode == 'normal'
         uses: actions/upload-artifact@v5
         with:
           name: private-italy-epl-encrypted
@@ -110,9 +121,11 @@ jobs:
           retention-days: 90
 
       - name: Chiffrer le suivi prive Bundesliga recalibre
+        if: steps.sources.outputs.mode == 'normal'
         run: node production/private_observation_crypto.cjs encrypt --input inference/output/bundesliga_observation/report.json --public-key production/observation_recipient.pem --output inference/output/bundesliga_observation/report.encrypted.json
 
       - name: Conserver uniquement le suivi Bundesliga chiffre
+        if: steps.sources.outputs.mode == 'normal'
         uses: actions/upload-artifact@v5
         with:
           name: private-bundesliga-recalibrated-encrypted
@@ -121,6 +134,7 @@ jobs:
           retention-days: 90
 
       - name: Evaluer les challengers en mode fantome
+        if: steps.sources.outputs.mode == 'normal'
         id: shadows
         continue-on-error: true
         shell: pwsh
@@ -133,6 +147,7 @@ jobs:
             -Strict
 
       - name: Refuser une publication incomplete
+        if: steps.sources.outputs.mode == 'normal'
         shell: pwsh
         run: |
           python -m inference.validate_publication_kickoffs `
@@ -149,6 +164,10 @@ jobs:
           python -m inference.publication_policy --check
           if ($LASTEXITCODE -ne 0) { throw "Une strategie privee serait publiee." }
 
+
+      - name: Verifier le perimetre du depannage
+        if: steps.sources.outputs.mode == 'price_only'
+        run: python -m inference.publication_policy --check
 
       - name: Preparer GitHub Pages
         uses: actions/configure-pages@v6
@@ -178,6 +197,7 @@ jobs:
             inference/output/upcoming_input_audit.json
             inference/output/english_public/**
             inference/output/public_additions/**
+            inference/output/understat_fallback/**
           if-no-files-found: warn
           retention-days: 90
 

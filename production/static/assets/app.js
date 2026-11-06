@@ -783,6 +783,11 @@ function renderPerformance(data) {
 
 function renderDashboard(data) {
   try {
+    const serviceNotice = document.getElementById('service-notice');
+    if (serviceNotice) {
+      serviceNotice.textContent = data.meta.serviceNotice || '';
+      serviceNotice.hidden = !data.meta.serviceNotice;
+    }
     renderStrategyFilters(data);
     data = currentSeasonData(filterStrategyData(data, selectedStrategy));
     const seasonLabel = `${data.meta.currentSeason}/${String(data.meta.currentSeason+1).slice(-2)}`;

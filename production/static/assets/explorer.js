@@ -134,6 +134,11 @@ async function load() {
     const response = await fetch('./data/explorer.json?t=' + Date.now(), { cache: 'no-store' });
     if (!response.ok) throw new Error('Chargement impossible');
     const data = await response.json();
+    const serviceNotice = document.getElementById('service-notice');
+    if (serviceNotice) {
+      serviceNotice.textContent = data.meta?.serviceNotice || '';
+      serviceNotice.hidden = !data.meta?.serviceNotice;
+    }
     const age = Date.now() - new Date(data.meta ? data.meta.latestPredictionAt : 0).getTime();
     const now = Date.now();
     const end = now + 86400000;

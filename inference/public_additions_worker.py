@@ -2,7 +2,7 @@
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
-import argparse,csv,gzip,hashlib,io,json,sys
+import argparse,csv,gzip,hashlib,io,json,sys,importlib.util
 ROOT = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(ROOT/'paper_positive15'), str(ROOT)]
 from run_paper import check_registration, identify_candidates
@@ -16,31 +16,50 @@ def main():
     import requests,sklearn,xgboost
     from threadpoolctl import threadpool_limits
     parser=argparse.ArgumentParser();parser.add_argument('--catalog',required=True);parser.add_argument('--output',required=True)
+    parser.add_argument('--price-only',action='store_true',help='Temporary EPL home-only mode; no Understat inputs')
     args=parser.parse_args();registration=check_registration()
     for module in [np,pd,sklearn,xgboost]:
         if module.__version__ != registration['runtime'][module.__name__]:
             raise ValueError('Frozen addition runtime changed: '+module.__name__)
     output=Path(args.output);capture=output.parent/datetime.now(timezone.utc).strftime('capture-%Y%m%dT%H%M%S%fZ');capture.mkdir(parents=True)
-    from data_pipeline.http_retry import get
+    # The frozen adapter owns a different data_pipeline package. Load only the
+    # live transport helper by path, without replacing frozen feature modules.
+    retry_spec=importlib.util.spec_from_file_location('live_http_retry',ROOT/'data_pipeline/http_retry.py')
+    retry=importlib.util.module_from_spec(retry_spec);retry_spec.loader.exec_module(retry)
+    get=retry.get
     def fetch(job):
         name,url=job;r=get(url,headers={'User-Agent':'Mozilla/5.0 (ScorePredict)','X-Requested-With':'XMLHttpRequest'},timeout=40);r.raise_for_status()
         (capture/(name+'.gz')).write_bytes(gzip.compress(r.content,mtime=0))
         value=list(csv.DictReader(io.StringIO(r.content.decode('utf-8-sig')))) if name=='fixtures' else r.json()
         return name,value,dict(url=url,retrieved_at_utc=datetime.now(timezone.utc).isoformat(),sha256=hashlib.sha256(r.content).hexdigest())
     jobs=[('fixtures','https://www.football-data.co.uk/fixtures.csv')]+[(league,f'https://understat.com/getLeagueData/{league}/2026') for league in ['Bundesliga','EPL']]
+    if args.price_only:jobs=jobs[:1]
     with ThreadPoolExecutor(max_workers=3) as pool:items=list(pool.map(fetch,jobs))
     sources={name:value for name,value,_ in items};metadata={name:meta for name,_,meta in items}
     sources['fixtures']=[r for r in sources['fixtures'] if r.get('Div') in {'D1','E0'}]
-    candidates,rejected=identify_candidates(sources,Path(args.catalog));rows=[];audits=[]
+    if args.price_only:
+        from inference.price_only_inputs import identify_price_candidates,price_frame
+        candidates,rejected=identify_price_candidates(sources['fixtures'],Path(args.catalog),pd.Timestamp.now(tz='UTC'))
+    else:
+        candidates,rejected=identify_candidates(sources,Path(args.catalog))
+    rows=[];audits=[]
     if candidates:
-        raw=six.current_history({league:sources[league] for league in ['Bundesliga','EPL']});models=Models()
+        raw=None if args.price_only else six.current_history({league:sources[league] for league in ['Bundesliga','EPL']})
+        models=Models()
         for fixture in candidates:
             now=pd.Timestamp.now(tz='UTC')
             if now<pd.Timestamp(ACTIVATED_AT):raise ValueError('Additions not yet activated')
             if now-pd.Timestamp(metadata['fixtures']['retrieved_at_utc'])>pd.Timedelta(minutes=30):raise ValueError('Addition quote capture expired')
-            frame,audit=six.frame_for_fixture(raw,fixture,fixture['quotes'],now)
+            if args.price_only:
+                frame=price_frame(fixture['quotes']['B365'])
+                audit=dict(mode='price_only_understat_outage',sports_required=False)
+            else:
+                frame,audit=six.frame_for_fixture(raw,fixture,fixture['quotes'],now)
             identity,spec=next((k,v) for k,v in STRATEGIES.items() if v['league']==fixture['league'])
             with threadpool_limits(limits=2):probs,vectors=models.score(frame,[spec['model']])
+            if args.price_only and (spec['model']!='local_price_only' or
+                                   not all(c.startswith('market_') for c in vectors[spec['model']])):
+                raise ValueError('Temporary mode cannot score a sporting model')
             away,draw,home=map(float,probs[spec['model']][0]);o='draw' if spec['outcome']=='draw' else 'home'
             probability={'away':away,'draw':draw,'home':home}[o];quotes=fixture['quotes']['B365'];odds=quotes[o]
             market=(1/odds)/sum(1/v for v in quotes.values());selected=qualifies(probability,odds)

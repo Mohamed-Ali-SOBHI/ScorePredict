@@ -7,6 +7,7 @@ import gzip
 import hashlib
 import io
 import json
+import importlib.util
 import sys
 from datetime import datetime, timezone
 
@@ -33,7 +34,11 @@ def main():
     output = Path(args.output)
     capture = output.parent / datetime.now(timezone.utc).strftime('capture-%Y%m%dT%H%M%S%fZ')
     capture.mkdir(parents=True)
-    from data_pipeline.http_retry import get
+    # Preserve the frozen data_pipeline package used for sporting features.
+    retry_spec = importlib.util.spec_from_file_location('live_http_retry', ROOT / 'data_pipeline/http_retry.py')
+    retry = importlib.util.module_from_spec(retry_spec)
+    retry_spec.loader.exec_module(retry)
+    get = retry.get
     def fetch(job):
         name, url = job
         response = get(url, headers={'User-Agent': 'Mozilla/5.0 (ScorePredict)',

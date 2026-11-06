@@ -298,3 +298,30 @@ sur les mêmes lignes que le journal visible. Le client exclut aussi les lignes
 `historicalOnly` d’un ancien snapshot en cache. La mémoire Supabase n’est ni
 supprimée ni réécrite ; une copie du snapshot avant changement est conservée
 hors site dans `../suivi_prive_9/archives/public-before-scope-2026-10-19.json`.
+# Dépannage Understat — 6 novembre 2026
+
+Le workflow quotidien teste les cinq flux Understat avant le calcul. Une panne
+de connexion, un délai dépassé, un HTTP transitoire ou la page de maintenance
+Understat « We will come back soon » active le mode temporaire
+`production.understat_fallback`. Un certificat invalide, un HTTP permanent ou
+un contenu inattendu reste une erreur, sans contourner les contrôles.
+
+Ce mode ne calcule que `public_epl_home_price_2026_10_25`, avec ses trois modèles
+figés et ses filtres inchangés. Ses douze entrées proviennent du triplet Bet365
+Football-Data déjà utilisé. Le calendrier JSON-LD Sportytrader doit être unique
+et son horaire doit correspondre à celui de Football-Data (heure britannique).
+La fenêtre reste de 24 heures à 5 minutes avant le match. Les probabilités sont
+identiques pour les mêmes cotes ; les contrôles d'éligibilité du calendrier
+diffèrent temporairement puisqu'Understat n'est plus disponible.
+
+Les autres modèles sportifs ne publient aucune nouvelle décision. Les journaux
+privés figés sont inchangés. Le journal Supabase est relu avant déduplication ;
+les choix, cotes et résultats déjà publiés sont conservés. Le moniteur de résultats
+continue indépendamment. L'ancienne date des analyses sportives reste intacte ;
+un court message indique le mode temporaire sur le dashboard et l'explorateur.
+
+Le retour de tous les flux ramène automatiquement le workflow sur le circuit
+normal, qui doit ensuite réussir ses contrôles de fraîcheur et de qualité.
+Les preuves du dépannage sont conservées dans l'artefact quotidien sous
+`inference/output/understat_fallback/`. Aucun remplacement de xG, entraînement
+ou abonnement à une nouvelle source n'est introduit.
