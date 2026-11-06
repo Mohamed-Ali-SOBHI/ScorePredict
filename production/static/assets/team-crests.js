@@ -22,6 +22,7 @@ window.ScorePredictCrests = Object.freeze({
   "Manchester City": "382.png",
   "Manchester United": "360.png",
   "Newcastle United": "361.png",
+  "Newcastle": "361.png",
   "Nottingham Forest": "393.png",
   "Sunderland": "366.png",
   "Tottenham Hotspur": "367.png",
