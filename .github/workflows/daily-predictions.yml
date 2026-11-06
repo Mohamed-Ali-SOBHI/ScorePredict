@@ -2,6 +2,11 @@ name: Previsions quotidiennes et site
 
 on:
   workflow_dispatch:
+    inputs:
+      recover_bundesliga:
+        description: 'Verifier et utiliser la capture Bundesliga du 1 novembre pour cette execution uniquement'
+        type: boolean
+        default: false
   schedule:
     # Populate the new day's 24-hour window before the morning visit.
     # Additional passes reduce reliance on any one delayed GitHub trigger.
@@ -98,7 +103,16 @@ jobs:
 
       - name: Depannage temporaire sans statistiques Understat
         if: steps.sources.outputs.mode == 'price_only'
-        run: python -m production.understat_fallback publish
+        env:
+          RECOVER_BUNDESLIGA: ${{ inputs.recover_bundesliga }}
+        shell: pwsh
+        run: |
+          if ($env:RECOVER_BUNDESLIGA -eq 'true') {
+            python -m production.understat_fallback publish --recover-bundesliga
+          } else {
+            python -m production.understat_fallback publish
+          }
+          if ($LASTEXITCODE -ne 0) { throw "Le depannage a echoue." }
 
       - name: Calculer les prochaines 24 heures avec des cotes actualisees
         if: steps.sources.outputs.mode == 'normal'

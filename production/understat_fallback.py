@@ -79,7 +79,7 @@ def write(path, value):
     temp.replace(path)
 
 
-def publish():
+def publish(recover_bundesliga=False):
     from inference.supabase_prediction_store import configuration, pull, push
     if not all(configuration()):
         raise ValueError('Permanent ledger credentials required; refusing a local-only publication')
@@ -101,7 +101,8 @@ def publish():
         raise ValueError('Published history exists but permanent ledger is empty')
     write(OUT / 'previous_dashboard.json', published['dashboard'])
     catalog = OUT / 'fixtures.csv'
-    run('-m', 'inference.fetch_sportytrader_portfolio_odds', '--next-24-hours', '--leagues', 'EPL', '--output', catalog)
+    run('-m', 'inference.fetch_sportytrader_portfolio_odds', '--next-24-hours', '--leagues',
+        'Bundesliga,EPL' if recover_bundesliga else 'EPL', '--output', catalog)
     scored_path = OUT / 'scored.csv'
     run(ROOT / 'inference/public_additions_worker.py', '--catalog', catalog, '--output', scored_path, '--price-only')
     scored = pd.read_csv(scored_path)
@@ -113,12 +114,27 @@ def publish():
         # Re-check after collection/model execution so no late decision is recorded.
         now = datetime.now(timezone.utc)
         scored = scored[pd.to_datetime(scored.kickoff_utc, utc=True) >= pd.Timestamp(now) + pd.Timedelta(minutes=5)]
+    if recover_bundesliga:
+        recovered_path = OUT / 'recovered_bundesliga.csv'
+        run('-m', 'production.recover_bundesliga', '--catalog', catalog, '--output', recovered_path)
+        recovered = pd.read_csv(recovered_path)
+        if not recovered.empty:
+            recovered['recommended_bet'] = recovered.recommended_bet.fillna('')
+            recovered['date'] = pd.to_datetime(recovered.kickoff_utc, utc=True).dt.tz_convert('Europe/Paris')
+            scored = pd.concat([scored, recovered], ignore_index=True)
+    if not scored.empty:
+        scored = scored[pd.to_datetime(scored.kickoff_utc, utc=True) >= pd.Timestamp.now(tz='UTC') + pd.Timedelta(minutes=5)]
     bets = select_public_bets(scored, existing, DEFAULT_PORTFOLIO_NAME)
     bets = fixed_unit_stakes(bets, 2.5)  # Existing 50 EUR * .05 unit, not a stake increase.
     incoming = build_tracking_rows(bets, portfolio_name=DEFAULT_PORTFOLIO_NAME)
     append_tracking_rows(incoming, ledger_path)
     ledger = pd.read_csv(ledger_path)
     dashboard = merge_snapshot(published['dashboard'], ledger, datetime.now(timezone.utc))
+    if recover_bundesliga:
+        dashboard['meta']['predictionMode'] = 'verified_bundesliga_archive_and_epl_price'
+        dashboard['meta']['serviceNotice'] = ('Bundesliga recalculée avec les statistiques sauvegardées et vérifiées. '
+                                             'Angleterre extérieur reste en pause.')
+        dashboard['meta']['bundesligaRecovery'] = json.loads((OUT / 'recovery_audit.json').read_text(encoding='utf8'))
     # Validate only new candidates; older pending tickets retain their publication.
     if not incoming.empty:
         from inference.validate_publication_kickoffs import validate_publication_kickoffs
@@ -139,17 +155,18 @@ def publish():
     explorer['meta']['predictionMode'] = 'price_only_understat_outage'
     # Preserve its old timestamp: no stale sporting probability is presented as new.
     write(ROOT / 'production/static/data/explorer.json', explorer)
-    write(OUT / 'report.json', dict(mode='price_only', newBets=len(new_keys), scoredFixtures=len(scored),
+    write(OUT / 'report.json', dict(mode=dashboard['meta']['predictionMode'], newBets=len(new_keys), scoredFixtures=len(scored),
                                   historyRows=len(ledger), checkedAt=datetime.now(timezone.utc).isoformat()))
-    print({'temporary_mode': 'price_only', 'new_bets': len(new_keys), 'scored': len(scored)}, flush=True)
+    print({'temporary_mode': dashboard['meta']['predictionMode'], 'new_bets': len(new_keys), 'scored': len(scored)}, flush=True)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('action', choices=['probe', 'publish'])
+    parser.add_argument('--recover-bundesliga', action='store_true', help='Explicit recovery with archive completeness checks')
     args = parser.parse_args()
     if args.action == 'publish':
-        publish()
+        publish(args.recover_bundesliga)
         return
     now = datetime.now(timezone.utc)
     health = availability(now.year if now.month >= 7 else now.year - 1)

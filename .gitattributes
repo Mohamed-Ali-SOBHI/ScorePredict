@@ -19,3 +19,4 @@ data_pipeline/http_retry.py -text whitespace=cr-at-eol
 inference/bundesliga_draw_recalibrated.py -text whitespace=cr-at-eol
 inference/bundesliga_observation_rules.py -text whitespace=cr-at-eol
 inference/bundesliga_observation_registration.json -text whitespace=cr-at-eol
+production/recovery/bundesliga-2026-11-01.json -text

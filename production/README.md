@@ -325,3 +325,19 @@ normal, qui doit ensuite réussir ses contrôles de fraîcheur et de qualité.
 Les preuves du dépannage sont conservées dans l'artefact quotidien sous
 `inference/output/understat_fallback/`. Aucun remplacement de xG, entraînement
 ou abonnement à une nouvelle source n'est introduit.
+
+### Relance manuelle Bundesliga vérifiée
+
+L'option manuelle `recover_bundesliga=true` du workflow quotidien permet une
+exécution ponctuelle avec la capture originale du run `41351587088` (1 novembre).
+Son empreinte est vérifiée, ainsi que chaque statistique requise, les 18 clubs,
+les paires domicile/extérieur et la concordance de tous les résultats avec le
+CSV de saison Football-Data fraîchement téléchargé. Tout nouveau résultat
+absent, score différent ou match ancien encore indiqué en attente bloque la
+relance. L'option est désactivée par défaut, y compris pour les passages planifiés.
+
+La relance recalcule les deux modèles Bundesliga existants, avec des cotes et
+horaires fraîchement collectés par le circuit habituel. Elle conserve la date
+réelle de la capture Understat, déduplique avec le journal permanent et ne change
+aucun modèle, filtre ou protocole d'observation. L'Angleterre extérieure reste
+suspendue tant que son historique sportif est incomplet.
