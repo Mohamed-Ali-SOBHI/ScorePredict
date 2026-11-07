@@ -341,3 +341,26 @@ horaires fraîchement collectés par le circuit habituel. Elle conserve la date
 réelle de la capture Understat, déduplique avec le journal permanent et ne change
 aucun modèle, filtre ou protocole d'observation. L'Angleterre extérieure reste
 suspendue tant que son historique sportif est incomplet.
+
+### Revue manuelle par rencontre — 7 novembre
+
+`manual_review=true` effectue une revue ponctuelle de Bundesliga et d'Angleterre,
+désactivée pour les passages planifiés. Les captures Understat restent inchangées.
+Football-Data confirme les anciens scores ; les calendriers ESPN sont relus jour
+par jour depuis la capture pour détecter les rencontres plus récentes, même si
+le CSV périodique n'est pas encore actualisé. Les données sources et leurs
+empreintes sont conservées dans l'artefact de la revue.
+
+Une rencontre est exclue si une statistique manquante touche l'une de ses équipes
+avant la coupure du modèle. Le contrôle propage aussi l'incertitude des notes Elo
+aux adversaires rencontrés ensuite. Les autres variables actuelles des modèles
+sont calculées par équipe ; les variables de saison précédente restent figées.
+La coupure reste celle du modèle : historique disponible pour les nuls actuels,
+J−3 avec deux heures de disponibilité des résultats pour XGBoost et Angleterre
+extérieur. Aucun score indépendant n'est ajouté à l'historique sportif, aucune
+valeur xG/PPDA n'est remplacée ou estimée. Seules les rencontres dont les entrées
+ne dépendent d'aucune ligne manquante peuvent être recalculées.
+
+La revue conserve les filtres, les mises unitaires et les paris déjà publiés.
+`all_reviewed_predictions.csv` conserve aussi les abstentions. Les contrôles par
+rencontre, exclusions et horodatages figurent dans les audits du même artefact.

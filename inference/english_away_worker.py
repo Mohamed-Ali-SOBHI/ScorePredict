@@ -25,6 +25,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--catalog', required=True)
     parser.add_argument('--output', required=True)
+    parser.add_argument('--manual-scope', type=Path)
     args = parser.parse_args()
     registration = check_registration()
     import sklearn, xgboost
@@ -49,13 +50,28 @@ def main():
         value = list(csv.DictReader(io.StringIO(content.decode('utf-8-sig')))) if name == 'fixtures' else response.json()
         return name, value, {'url': url, 'retrieved_at_utc': datetime.now(timezone.utc).isoformat(),
                              'sha256': hashlib.sha256(content).hexdigest()}
+    jobs = [('fixtures', 'https://www.football-data.co.uk/fixtures.csv')]
+    if not args.manual_scope: jobs.append(('EPL', 'https://understat.com/getLeagueData/EPL/2026'))
     with ThreadPoolExecutor(max_workers=2) as pool:
-        fetched = list(pool.map(fetch, [('fixtures', 'https://www.football-data.co.uk/fixtures.csv'),
-            ('EPL', 'https://understat.com/getLeagueData/EPL/2026')]))
+        fetched = list(pool.map(fetch, jobs))
     sources = {name: value for name, value, _ in fetched}
     metadata = {name: meta for name, _, meta in fetched}
+    if args.manual_scope:
+        from production.manual_match_coverage import read_scope, archived, eligible
+        scope = read_scope(args.manual_scope, 'EPL')
+        sources['EPL'] = archived('EPL')
+        metadata['EPL'] = dict(original_captured_at=scope['capturedAt'], sha256=scope['archiveSha256'],
+                               coverage_checked_at=scope['checkedAt'], mode='manual_per_fixture_archive')
     sources['fixtures'] = [r for r in sources['fixtures'] if r.get('Div') == 'E0']
     candidates, rejected = identify_candidates(sources, Path(args.catalog))
+    if args.manual_scope:
+        accepted = []
+        for fixture in candidates:
+            check = eligible(scope, fixture['home_team'], fixture['away_team'],
+                             pd.Timestamp(fixture['kickoff_utc']) - pd.Timedelta(hours=72))
+            if check['eligible']: accepted.append(fixture)
+            else: rejected.append(dict(fixture=fixture, coverage=check))
+        candidates = accepted
     rows = []; audits = []
     if candidates:
         raw = current_history({'EPL': sources['EPL']})

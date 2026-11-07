@@ -52,7 +52,7 @@ def read_archive():
     return json.loads(ARCHIVE.read_text(encoding='utf8'))
 
 
-def score(catalog, output):
+def score(catalog, output, scoped=False):
     import pandas as pd
     import requests
     from data_pipeline.scrapper import normalize_understat_teams, extract_stats_from_data, update_stats_with_opponents
@@ -69,7 +69,13 @@ def score(catalog, output):
     (output.parent / 'current_D1.csv').write_bytes(response.content)
     results = list(csv.DictReader(io.StringIO(response.content.decode('utf-8-sig'))))
     now = datetime.now(timezone.utc)
-    count = verify_coverage(payload, results, now)
+    scope = None
+    if scoped:
+        from production.manual_match_coverage import prepare, read_scope, eligible
+        scope = read_scope(prepare('Bundesliga', output.parent), 'Bundesliga')
+        count = sum(g['isResult'] is True for g in payload['dates'])
+    else:
+        count = verify_coverage(payload, results, now)
     data = {'Bundesliga 2026': normalize_understat_teams(payload)}
     stats = update_stats_with_opponents(extract_stats_from_data(data), data)
     fresh = pd.DataFrame([r for rows in stats.values() for r in rows])
@@ -90,6 +96,12 @@ def score(catalog, output):
     fixtures = fixtures[(kickoff >= pd.Timestamp(now) + pd.Timedelta(minutes=5)) &
                         (kickoff <= pd.Timestamp(now) + pd.Timedelta(hours=24))]
     fixtures['date'] = pd.to_datetime(fixtures.kickoff_utc, utc=True).dt.tz_convert('Europe/Paris').dt.tz_localize(None)
+    assessments = []
+    if scope:
+        for row in fixtures.to_dict('records'):
+            assessments.append(dict(fixture_id=row['fixture_id'], home=row['home_team'], away=row['away_team'],
+                                    **eligible(scope, row['home_team'], row['away_team'], now, availability_hours=0)))
+        fixtures = fixtures.loc[[a['eligible'] for a in assessments]]
     fixtures = prepare_fixture_frame(fixtures).reset_index(drop=True)
     strategies = PORTFOLIO_PRESETS[DEFAULT_PORTFOLIO_NAME]
     bundles, _ = load_release_models(strategies, train_max_season=2024)
@@ -107,12 +119,13 @@ def score(catalog, output):
                   originalCapturedAt=payload['captured_at'], completenessCheckedAt=now.isoformat(),
                   resultsSource=url, resultsSha256=hashlib.sha256(response.content).hexdigest(),
                   completedMatches=count, sportingFieldsAudit=integrity,
-                  scoredFixtures=len(fixtures), mode='explicit_verified_archive')
+                  scoredFixtures=len(fixtures), mode='per_fixture_verified_archive' if scoped else 'explicit_verified_archive',
+                  fixtureAssessments=assessments)
     (output.parent / 'recovery_audit.json').write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf8')
     xgb_path = output.with_name('recovered_xgb.csv')
     env = os.environ.copy(); env['PYTHONPATH'] = os.pathsep.join(str(p) for p in sys.path if p)
     subprocess.run([sys.executable, str(Path(__file__)), '--xgb-only', '--catalog', str(catalog.resolve()),
-                    '--output', str(xgb_path.resolve())], cwd=ROOT, env=env, check=True, timeout=300)
+                    '--output', str(xgb_path.resolve())] + (['--scoped'] if scoped else []), cwd=ROOT, env=env, check=True, timeout=300)
     xgb = pd.read_csv(xgb_path)
     if not xgb.empty:
         xgb['date'] = pd.to_datetime(xgb.kickoff_utc, utc=True).dt.tz_convert('Europe/Paris').dt.tz_localize(None)
@@ -122,7 +135,7 @@ def score(catalog, output):
            'selected_before_deduplication': int(scored.recommended_bet.fillna('').ne('').sum()) if not scored.empty else 0})
 
 
-def score_xgb(catalog, output):
+def score_xgb(catalog, output, scoped=False):
     # Same isolated frozen adapter/import order as public_additions_worker.
     sys.path[:0] = [str(ROOT / 'paper_positive15'), str(ROOT)]
     from run_paper import check_registration, identify_candidates
@@ -140,6 +153,16 @@ def score_xgb(catalog, output):
     (output.parent / 'current_fixtures.csv').write_bytes(response.content)
     quotes = list(csv.DictReader(io.StringIO(response.content.decode('utf-8-sig'))))
     candidates, rejected = identify_candidates({'Bundesliga': payload, 'fixtures': [q for q in quotes if q.get('Div') == 'D1']}, catalog)
+    if scoped:
+        from production.manual_match_coverage import read_scope, eligible
+        scope = read_scope(output.parent / 'Bundesliga-scope.json', 'Bundesliga')
+        accepted = []
+        for fixture in candidates:
+            check = eligible(scope, fixture['home_team'], fixture['away_team'],
+                             pd.Timestamp(fixture['kickoff_utc']) - pd.Timedelta(hours=72))
+            if check['eligible']: accepted.append(fixture)
+            else: rejected.append(dict(fixture=fixture, coverage=check))
+        candidates = accepted
     models = Models(); rows = []; audits = []
     if candidates:
         raw = six.current_history({'Bundesliga': payload})
@@ -170,5 +193,6 @@ if __name__ == '__main__':
     parser.add_argument('--catalog', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--xgb-only', action='store_true')
+    parser.add_argument('--scoped', action='store_true')
     args = parser.parse_args()
-    (score_xgb if args.xgb_only else score)(args.catalog, args.output)
+    (score_xgb if args.xgb_only else score)(args.catalog, args.output, args.scoped)
