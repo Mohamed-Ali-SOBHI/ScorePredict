@@ -1,8 +1,8 @@
 {
-  "at_utc": "2026-11-13T13:09:14.682019+00:00",
+  "at_utc": "2026-11-13T18:34:15.272283+00:00",
   "error": "Missing/ambiguous evidence file: sportytrader_upcoming_portfolio_odds.csv",
   "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/ScorePredict/ScorePredict/paper_simulation/run_paper.py\", line 187, in main\n    run,catalog,baseline_file,artifacthashes=production_snapshot(registration)\n                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/ScorePredict/ScorePredict/paper_simulation/run_paper.py\", line 54, in production_snapshot\n    return run,find('sportytrader_upcoming_portfolio_odds.csv'),find('live_portfolio_bet_log.csv'),hashes\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/ScorePredict/ScorePredict/paper_simulation/run_paper.py\", line 50, in find\n    if len(paths)!=1:raise ValueError('Missing/ambiguous evidence file: '+name)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: Missing/ambiguous evidence file: sportytrader_upcoming_portfolio_odds.csv\n",
-  "github_run_id": "43431083729",
+  "github_run_id": "43483792170",
   "github_run_attempt": "1",
   "production_changed": false
 }
