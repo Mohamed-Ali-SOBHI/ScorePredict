@@ -2,7 +2,7 @@
 
 **Simulation uniquement. La stratégie de production reste inchangée.**
 
-Dernier passage : 2026-11-14T22:45:08.806818+00:00 — **collection_failed**.
+Dernier passage : 2026-11-15T03:03:06.094646+00:00 — **collection_failed**.
 Décisions figées avant match : 125. Résultats confirmés : 119.
 
 Exécution sur GitHub après chaque pipeline de prévisions réussi et à 00:40, 06:40, 12:40 et 18:40 UTC chaque jour. Les horaires planifiés peuvent subir un retard GitHub.
