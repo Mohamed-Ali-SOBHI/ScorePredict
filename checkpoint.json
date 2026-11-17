@@ -2,13 +2,13 @@
   "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
   "events_sha256": "71717ebe1deb58a746f3ae788762ec521187e97ab506e4eff74cacf3c9cb8170",
   "event_count": 478,
-  "github_run_id": "44022812742",
+  "github_run_id": "44046321687",
   "github_run_attempt": "1",
-  "sealed_at_utc": "2026-11-17T05:16:03.516706+00:00",
+  "sealed_at_utc": "2026-11-17T08:24:08.108814+00:00",
   "files": {
     ".gitattributes": "8b9c3028d6467ff3be7c793141927841d70f47f52d0590677438f488ca154992",
     ".gitignore": "a9019aaf3507372ae852ecdaaa303c6427079d6e0ae92facea3e93f4b0a1b257",
-    "README.md": "cd0c99b1ddffc8265a33f8cc37bfdb631a9db0ebba113e87e71a1b6d5d3b4974",
+    "README.md": "4bc4a285e7835bffe05fab726ea6658b87c783c31117c1b002f7e7cd1744ef4b",
     "captures/20261015T080850116034Z/Bundesliga.json.gz": "cf094b890960259c92c6981e92196b0b968da231695a81e8ceeb4e93b6538e21",
     "captures/20261015T080850116034Z/EPL.json.gz": "fd9bbedb9749f3d597de6ca5c7d6c757df9301b934bbd0442fd8c16ed7e37550",
     "captures/20261015T080850116034Z/Ligue_1.json.gz": "482dff0cb569b89b62d48f0fbb2506112c7d866797e1d2731bbc1ac9d10101f3",
@@ -1725,7 +1725,7 @@
     "comparison.csv": "a9670e4208473840b6c0035540c82ca2ee71856be48d95f9d17af297825dab75",
     "evidence.json": "7d6dea75ece9b30aaafa4e2e99cefd71a96c0af14f8b5334c31f1fb4b2c80d62",
     "journal.sqlite3": "d12ecb5167ee6f30903468e5fe2d4d713b2db43272be95b7529f366c1c7f7dbc",
-    "last_error.json": "1572e09ce2bf695adbf7db1d7a4973427f3c5e03014ceca012317dfe78037b2a",
+    "last_error.json": "c034a66940b2dade9e1f2b95b4b57903bd9171d89f3f85dc5066060dd890e220",
     "last_run.json": "0a0ef4b1ce3644dc509afe44ae604ad46225c2d4e49dfa7d05ea4a605e7ceaf0",
     "migration/local_captures/20261015T074415287743Z/Bundesliga.json.gz": "dc5cafaf37e121bd18db1460b36ff988d279861b18a4752a7f9f3a994d1afe02",
     "migration/local_captures/20261015T074415287743Z/EPL.json.gz": "78c314467166bbf4643b188f996dd9bc713e8646363880f77e446bc3acc8dca4",
@@ -1742,8 +1742,8 @@
     "migration/local_registration.json": "fe91b1a40ce4870c6dcc2bc98760630c0e52bcc213ea9ccad14d74d981b62bcd",
     "migration/registration_initial_setup_before_first_capture.json": "b52345c5f660c7015e88cecbe6a01ce5492d7c773fc55dcf08112eed819f6a38",
     "migration/setup_revision.json": "a2f0010dde363f56a6d3dcd8a9726fa2750ee7c8f6dbe0a7596517bfcd022b27",
-    "rapport.html": "5b7149b5d2caf73d48169f5401e96703497d7b5afe3d9544e38a930afb657d2b",
+    "rapport.html": "e65912e8f4f31ee95aacec336eecca4da5f4992d3d22cc78f097e9183fc2eca4",
     "registration.json": "aa224025cf9ec82c2696b3e5150c64a2c6e4f198f83f0841a7a22736ca8636b3",
-    "report.json": "2dec2b2315c0da9701938dcc1706038a832ad1c9b56c454be5b20dce28320cce"
+    "report.json": "0f20cf44d6ebf70cfbea54897fdfda6b30957e41a45165d604ea924dad88051d"
   }
 }
