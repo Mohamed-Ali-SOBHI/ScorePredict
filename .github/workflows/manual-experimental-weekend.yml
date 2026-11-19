@@ -1,0 +1,55 @@
+name: Publication exceptionnelle des quatre selections
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: scorepredict-pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 25
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-pipeline.txt
+      - name: Installer les dependances
+        run: python -m pip install -r requirements-pipeline.txt
+      - name: Verifier la selection et le dedoublonnage
+        run: python -m unittest discover -s tests -p test_manual_experimental_20261119.py
+      - name: Ajouter les selections confirmees
+        run: python -m production.manual_experimental_20261119
+      - name: Verifier le perimetre public
+        run: python -m inference.publication_policy --check
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: production/static
+      - name: Conserver les preuves
+        uses: actions/upload-artifact@v5
+        with:
+          name: publication-experimentale-${{ github.run_id }}
+          path: inference/output/understat_fallback/experimental-weekend-report.json
+          retention-days: 90
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v5
+        id: deployment

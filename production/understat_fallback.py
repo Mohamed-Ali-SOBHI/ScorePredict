@@ -22,6 +22,8 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'inference/output/understat_fallback'
 NOTICE = ('Understat indisponible : nouveaux paris limités à Angleterre domicile. '
           'Les autres stratégies sont en pause ; les paris publiés restent suivis.')
+EXPERIMENT_NOTICE = ('Sélections exceptionnelles : xG Sportmonks ; pressing Bundesliga indisponible. '
+                     'Cotes Bet365 indicatives, relevées via un comparateur.')
 
 
 def availability(season, request=requests.get):
@@ -58,7 +60,10 @@ def merge_snapshot(snapshot, ledger, now):
         raise ValueError('Unexpected deployed portfolio')
     result = update_public_snapshot(snapshot, ledger, portfolio_name=DEFAULT_PORTFOLIO_NAME, generated_at=now)
     result['meta']['predictionMode'] = 'price_only_understat_outage'
-    result['meta']['serviceNotice'] = NOTICE
+    notes = ledger.get('probability_note', pd.Series('', index=ledger.index)).fillna('').astype(str)
+    statuses = ledger.get('result_status', pd.Series('pending', index=ledger.index)).fillna('pending').astype(str)
+    experimental_pending = notes.str.contains('experimental_sportmonks_20261119', regex=False) & ~statuses.isin(['won', 'lost', 'void'])
+    result['meta']['serviceNotice'] = EXPERIMENT_NOTICE if experimental_pending.any() else NOTICE
     result['meta']['fallbackCheckedAt'] = now.isoformat()
     # Do not relabel the previous complete model run / sporting audit as fresh.
     result.setdefault('quality', {})['sportsAvailable'] = False

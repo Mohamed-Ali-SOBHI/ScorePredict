@@ -1,0 +1,22 @@
+{
+  "preparedAtUtc": "2026-11-19T18:39:00+00:00",
+  "fixtureDate": "2026-11-21",
+  "quoteSource": "https://www.wbookie.com/en/odds?date=2026-11-21",
+  "quoteSnapshotUtc": "2026-11-19T17:27:27+00:00",
+  "quoteUpdatedUtc": "2026-11-19T17:01:00+00:00",
+  "quoteSha256": "60d7539443ea3eb2255a319b5a835adfaaf947e3bd2edcad95868c24d2db3820",
+  "verificationSources": [
+    "https://www.goldedge.net/odds/football/germany/bundesliga/eintracht-frankfurt-tsg-hoffenheim-1h75xmj",
+    "https://www.goldedge.net/odds/football/germany/bundesliga/sv-07-elversberg-freiburg-n7s7k9e",
+    "https://www.goldedge.net/odds/football/england/premier-league/chelsea-leeds-united-1yvohff",
+    "https://www.goldedge.net/odds/football/england/premier-league/tottenham-ipswich-town-zimzl3d"
+  ],
+  "sportsSource": "https://www.xgtables.io/data/",
+  "sportsMethod": "xG for 20 recent matches from Sportmonks joined to archived Understat history; all PPDA/deep features masked for Bundesliga; England away does not use them. Experimental, not original model inputs.",
+  "picks": [
+    {"fixture_id":"sportytrader:8596027","league":"Bundesliga","home":"Eintracht Frankfurt","away":"Hoffenheim","kickoff":"2026-11-21T14:30:00+00:00","odds":[2.3,4.0,2.7],"outcome":"draw","probability":0.277403146,"strategy":"public_bundesliga_xgb_2026_10_25"},
+    {"fixture_id":"sportytrader:8596033","league":"Bundesliga","home":"Elversberg","away":"Freiburg","kickoff":"2026-11-21T14:30:00+00:00","odds":[3.6,3.75,1.95],"outcome":"draw","probability":0.3141902685,"strategy":"public_bundesliga_xgb_2026_10_25"},
+    {"fixture_id":"sportytrader:8558916","league":"EPL","home":"Chelsea","away":"Leeds","kickoff":"2026-11-21T15:00:00+00:00","odds":[1.85,3.8,3.9],"outcome":"away_win","probability":0.3053076798,"strategy":"epl_away_logit_strict_2026_10_18"},
+    {"fixture_id":"sportytrader:8558922","league":"EPL","home":"Tottenham","away":"Ipswich","kickoff":"2026-11-21T15:00:00+00:00","odds":[1.5,4.5,6.0],"outcome":"away_win","probability":0.2076203282,"strategy":"epl_away_logit_strict_2026_10_18"}
+  ]
+}
