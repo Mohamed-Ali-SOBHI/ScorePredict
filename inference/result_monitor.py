@@ -323,7 +323,8 @@ def update_public_snapshot(
         item["profitUnits"] = _number(row.get("realized_profit_units"))
         item.update(outcome=row.get('selected_outcome', ''), strategy=row.get('strategy_names', ''),
                     recordedAt=row.get('prediction_generated_at_utc', ''),
-                    modelProbability=_number(row.get('predicted_probability')))
+                    modelProbability=_number(row.get('predicted_probability')),
+                    earlyPublished=str(row.get('probability_note') or '').startswith('manual_weekend_wbookie_20261119'))
         if status in TERMINAL_RESULT_STATUSES and pd.notna(row.get("actual_home_score")):
             item["actualScore"] = f"{int(float(row['actual_home_score']))} - {int(float(row['actual_away_score']))}"
 
@@ -355,6 +356,7 @@ def update_public_snapshot(
                 ),
                 "recommended": True,
                 "profitUnits": _number(row.get("realized_profit_units")),
+                "earlyPublished": str(row.get("probability_note") or "").startswith("manual_weekend_wbookie_20261119"),
             }
         )
 
@@ -406,10 +408,13 @@ def update_public_snapshot(
             "recommended": True,
             "isCurrentRecommendation": False,
             "adviceLabel": "Pari déjà publié",
+            "earlyPublished": str(row.get("probability_note") or "").startswith("manual_weekend_wbookie_20261119"),
         }
     output["predictions"] = sorted(
         (prediction for prediction in predictions_by_match.values()
-         if in_prediction_window(prediction.get("date"), generated_at)
+         if (in_prediction_window(prediction.get("date"), generated_at)
+             or (prediction.get("earlyPublished") is True
+                 and paris_datetime(prediction.get("date")) < generated_at_paris + pd.Timedelta(days=5)))
          and paris_datetime(prediction.get("date")) > generated_at_paris),
         key=lambda prediction: str(prediction.get("date", "")),
     )

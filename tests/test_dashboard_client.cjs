@@ -27,6 +27,8 @@ vm.runInContext(`
   ${section('function currentSeasonData(', 'function renderPerformance(')}
 `, context);
 const evaluate = code => vm.runInContext(code, context);
+assert.equal(evaluate(`futurePublishedPredictions({predictions:[{date:'2026-11-21T15:00:00Z',earlyPublished:true}]}, Date.parse('2026-11-19T15:00:00Z')).length`), 1);
+assert.equal(evaluate(`futurePublishedPredictions({predictions:[{date:'2026-11-21T15:00:00Z'}]}, Date.parse('2026-11-19T15:00:00Z')).length`), 0);
 assert.equal(evaluate(`inPublicWindow('2026-10-25T22:29:59Z', Date.parse('2026-10-24T22:30:00Z'))`), true);
 assert.equal(evaluate(`inPublicWindow('2026-10-25T22:30:00Z', Date.parse('2026-10-24T22:30:00Z'))`), false);
 assert.equal(evaluate(`inPublicWindow('2026-03-29T23:29:59Z', Date.parse('2026-03-28T23:30:00Z'))`), true);

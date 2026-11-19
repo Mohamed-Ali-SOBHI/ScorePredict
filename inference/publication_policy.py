@@ -106,7 +106,8 @@ def apply_publication_policy(payload):
     def future(row):
         try:
             stamp=datetime.fromisoformat(row['date'].replace('Z','+00:00'))
-            return stamp.tzinfo is not None and now<=stamp<now+timedelta(days=1)
+            days=5 if row.get('earlyPublished') is True else 1
+            return stamp.tzinfo is not None and now<=stamp<now+timedelta(days=days)
         except (KeyError,ValueError,TypeError):
             return False
     pending=sum(not r.get('historicalOnly') and r.get('status') not in {'won','lost','void'} and future(r) for r in activity)

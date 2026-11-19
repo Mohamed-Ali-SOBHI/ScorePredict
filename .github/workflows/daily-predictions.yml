@@ -3,6 +3,10 @@ name: Previsions quotidiennes et site
 on:
   workflow_dispatch:
     inputs:
+      manual_weekend:
+        description: 'Ajout exceptionnel des deux selections anglaises vérifiées du 21 novembre'
+        type: boolean
+        default: false
       manual_review:
         description: 'Recalcul manuel des matchs dont toutes les dependances sportives sont verifiees'
         type: boolean
@@ -105,8 +109,12 @@ jobs:
         id: sources
         run: python -m production.understat_fallback probe
 
+      - name: Ajouter les selections du week-end verifiees
+        if: ${{ inputs.manual_weekend == true && steps.sources.outputs.mode == 'price_only' }}
+        run: python -m production.manual_weekend_20261119
+
       - name: Depannage temporaire sans statistiques Understat
-        if: steps.sources.outputs.mode == 'price_only'
+        if: ${{ steps.sources.outputs.mode == 'price_only' && inputs.manual_weekend != true }}
         env:
           RECOVER_BUNDESLIGA: ${{ inputs.recover_bundesliga }}
           MANUAL_REVIEW: ${{ inputs.manual_review }}

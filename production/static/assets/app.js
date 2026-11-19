@@ -32,7 +32,7 @@ function publicationIsFresh(value) {
 function futurePublishedPredictions(data, now = Date.now()) {
   return data.predictions.filter((prediction) => {
     const kickoff = new Date(prediction.date).getTime();
-    return prediction.historicalOnly !== true && Number.isFinite(kickoff) && kickoff > now && inPublicWindow(prediction.date, now);
+    return prediction.historicalOnly !== true && Number.isFinite(kickoff) && kickoff > now && (inPublicWindow(prediction.date, now) || (prediction.earlyPublished === true && kickoff < now + 5 * 86400000));
   });
 }
 
