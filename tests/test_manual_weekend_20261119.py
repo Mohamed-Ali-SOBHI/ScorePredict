@@ -1,7 +1,7 @@
 import unittest
 from datetime import datetime,timedelta,timezone
 import pandas as pd
-from production.manual_weekend_20261119 import collect,prepare
+from production.manual_weekend_20261119 import collect,collect_receipt,prepare
 from inference.live_tracking import build_tracking_rows
 from inference.result_monitor import update_public_snapshot
 from inference.portfolio_presets import DEFAULT_PORTFOLIO_NAME
@@ -19,6 +19,11 @@ class ManualWeekend(unittest.TestCase):
         q,_=collect(HTML,NOW);self.assertEqual(q['Aston Villa','Sunderland']['home'],1.80)
         with self.assertRaises(ValueError):collect(HTML,NOW+timedelta(hours=1))
         with self.assertRaises(ValueError):collect(HTML.replace(b'Bet365',b'Other'),NOW)
+        receipt=dict(source='https://www.wbookie.com/en/odds?date=2026-11-21',book='Bet365',sourceUpdateUtc='2026-11-19T15:02:00+00:00',retrievedUtc='2026-11-19T15:05:00+00:00',sourceSha256='a'*64,quotes=[
+            dict(home='Aston Villa',away='Sunderland',home_odds=1.8,draw_odds=3.75,away_odds=4.33),
+            dict(home='Bournemouth',away='Nottingham Forest',home_odds=1.91,draw_odds=3.6,away_odds=4.0)])
+        self.assertEqual(q,collect_receipt(receipt,NOW)[0])
+        with self.assertRaises(ValueError):collect_receipt(receipt,NOW+timedelta(hours=1))
     def test_model_dedupe_and_early_display(self):
         bets,_=prepare(HTML,self.scoreboard(),NOW,pd.DataFrame());self.assertEqual(len(bets),2)
         old=build_tracking_rows(bets.iloc[[0]],portfolio_name=DEFAULT_PORTFOLIO_NAME)

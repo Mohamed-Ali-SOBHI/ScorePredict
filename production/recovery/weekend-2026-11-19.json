@@ -1,0 +1,11 @@
+{
+  "source": "https://www.wbookie.com/en/odds?date=2026-11-21",
+  "book": "Bet365",
+  "sourceUpdateUtc": "2026-11-19T15:02:00+00:00",
+  "retrievedUtc": "2026-11-19T15:34:08+00:00",
+  "sourceSha256": "e07a5eef7f34319f9d391e82c3d456282edacc1f30267ada863b9063305966e9",
+  "quotes": [
+    {"home": "Aston Villa", "away": "Sunderland", "home_odds": 1.80, "draw_odds": 3.75, "away_odds": 4.33},
+    {"home": "Bournemouth", "away": "Nottingham Forest", "home_odds": 1.91, "draw_odds": 3.60, "away_odds": 4.00}
+  ]
+}

@@ -48,8 +48,24 @@ def collect(body,now):
         out[(home,away)]=dict(zip(('home','draw','away'),q))
     return out,captured
 
-def prepare(body,scoreboard,now,existing):
-    quotes,captured=collect(body,now);check_registration();model=Models();rows=[]
+def collect_receipt(receipt,now):
+    if receipt.get('source')!=URL or receipt.get('book')!='Bet365':raise ValueError('Unexpected receipt source')
+    captured=datetime.fromisoformat(receipt['sourceUpdateUtc'])
+    retrieved=datetime.fromisoformat(receipt['retrievedUtc'])
+    if now.date().isoformat()!='2026-11-19' or not timedelta(0)<=now-captured<=timedelta(minutes=45) or not captured<=retrieved<=now:
+        raise ValueError('Receipt stale or future-dated')
+    if not re.fullmatch('[0-9a-f]{64}',receipt.get('sourceSha256','')):raise ValueError('Missing source digest')
+    quotes={}
+    for r in receipt['quotes']:
+        identity=(r['home'],r['away']);q={k:float(r[k]) for k in ('home_odds','draw_odds','away_odds')}
+        if identity not in TARGETS or identity in quotes or min(q.values())<=1:raise ValueError('Invalid receipt fixture or quote')
+        quotes[identity]=dict(home=q['home_odds'],draw=q['draw_odds'],away=q['away_odds'])
+    if set(quotes)!=set(TARGETS):raise ValueError('Incomplete receipt')
+    return quotes,captured
+
+def prepare(body,scoreboard,now,existing,receipt=None):
+    quotes,captured=collect_receipt(receipt,now) if receipt is not None else collect(body,now)
+    check_registration();model=Models();rows=[]
     for (home,away),identity in TARGETS.items():
         matches=scoreboard[(scoreboard.home_team_norm==team_name(home))&(scoreboard.away_team_norm==team_name(away))]
         if len(matches)!=1:raise ValueError('Independent fixture ambiguous: '+home)
@@ -77,8 +93,8 @@ def main():
     response=requests.get('https://mohamed-ali-sobhi.github.io/ScorePredict/data/dashboard.json',params={'manual':now.isoformat()},timeout=40);response.raise_for_status();dashboard=response.json()
     response=requests.get('https://mohamed-ali-sobhi.github.io/ScorePredict/data/explorer.json',params={'manual':now.isoformat()},timeout=40);response.raise_for_status();explorer=response.json()
     if dashboard.get('activity') and existing.empty:raise ValueError('Published history missing from permanent store')
-    feed=requests.get(URL,headers={'User-Agent':'Mozilla/5.0'},timeout=30);feed.raise_for_status()
-    with threadpool_limits(limits=2):bets,captured=prepare(feed.content,fetch_scoreboard('EPL','2026-11-21'),now,existing)
+    receipt=json.loads((ROOT/'production/recovery/weekend-2026-11-19.json').read_text(encoding='utf8'))
+    with threadpool_limits(limits=2):bets,captured=prepare(None,fetch_scoreboard('EPL','2026-11-21'),now,existing,receipt=receipt)
     incoming=build_tracking_rows(bets,portfolio_name=DEFAULT_PORTFOLIO_NAME)
     combined=canonicalize_tracking_rows(pd.concat([existing,incoming],ignore_index=True)) if not incoming.empty else existing
     snapshot=merge_snapshot(dashboard,combined,now)
@@ -92,7 +108,6 @@ def main():
         res=requests.post(f'{url}/rest/v1/prediction_history',headers=request_headers(key,upsert=True),params={'on_conflict':'snapshot_key'},json=payload,timeout=30);res.raise_for_status()
     write(ROOT/'production/static/data/dashboard.json',snapshot)
     write(ROOT/'production/static/data/explorer.json',explorer)
-    archive=out/'manual-weekend-source.html.gz';archive.write_bytes(gzip.compress(feed.content,mtime=0))
-    write(out/'manual-weekend-report.json',dict(source=URL,sourceUpdateUtc=captured.isoformat(),retrievedAt=now.isoformat(),sha256=hashlib.sha256(feed.content).hexdigest(),selected=sorted(expected),newBets=len(incoming),unit=1))
+    write(out/'manual-weekend-report.json',dict(source=URL,sourceUpdateUtc=captured.isoformat(),retrievedAt=receipt['retrievedUtc'],sha256=receipt['sourceSha256'],selected=sorted(expected),newBets=len(incoming),unit=1))
     print('Manual weekend selections:',sorted(expected))
 if __name__=='__main__':main()
