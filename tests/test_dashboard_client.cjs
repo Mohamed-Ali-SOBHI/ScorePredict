@@ -18,7 +18,7 @@ vm.runInContext(`
   const decimalOne=new Intl.NumberFormat('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1});
   const percent=new Intl.NumberFormat('fr-FR',{style:'percent',maximumFractionDigits:0});
   ${section('function setText(', 'function publicationIsFresh(')}
-  ${section('function futurePublishedPredictions(', 'function validText(')}
+  ${section('function futurePublishedPredictions(', 'function formatDate(')}
   ${section('function formatDate(', 'function formatFullDate(')}
   ${section('function escapeHtml(', 'function predictionMarkup(')}
   ${section('function predictionMarkup(', 'function resetNoPickCopy(')}
@@ -27,13 +27,27 @@ vm.runInContext(`
   ${section('function currentSeasonData(', 'function renderPerformance(')}
 `, context);
 const evaluate = code => vm.runInContext(code, context);
+evaluate(`
+  const weekend = Array.from({length:6}, (_, i) => ({
+    id:String(i), homeTeam:'Home ' + i, awayTeam:'Away ' + i, odds:4, stakeEur:2.5,
+    modelProbability:.28, date:new Date(Date.now()+36*3600000).toISOString(),
+    outcomeLabel:'Match nul', recommended:true, earlyPublished:true, status:'pending'
+  }));
+  const published = {meta:{}, summary:{upcomingBets:6, scoredFixtures:5}, predictions:weekend, activity:weekend};
+  renderTracking(published);
+`);
+assert.equal(evaluate('isValidPayload(published)'),true);
+assert.equal(evaluate('isValidPayload({...published,predictions:weekend.slice(1)})'),false);
+assert.equal(evaluate('futurePublishedPredictions(published).length'),6);
+assert.equal(node('#tracking-pending').textContent,'6');
+assert.equal((node('#result-list').innerHTML.match(/class="result-row"/g)||[]).length,6);
 assert.equal(evaluate(`futurePublishedPredictions({predictions:[{date:'2026-11-21T15:00:00Z',earlyPublished:true}]}, Date.parse('2026-11-19T15:00:00Z')).length`), 1);
 assert.equal(evaluate(`futurePublishedPredictions({predictions:[{date:'2026-11-21T15:00:00Z'}]}, Date.parse('2026-11-19T15:00:00Z')).length`), 0);
-assert.equal(evaluate(`inPublicWindow('2026-10-25T22:29:59Z', Date.parse('2026-10-24T22:30:00Z'))`), true);
-assert.equal(evaluate(`inPublicWindow('2026-10-25T22:30:00Z', Date.parse('2026-10-24T22:30:00Z'))`), false);
-assert.equal(evaluate(`inPublicWindow('2026-03-29T23:29:59Z', Date.parse('2026-03-28T23:30:00Z'))`), true);
-assert.equal(evaluate(`inPublicWindow('2026-03-29T23:30:00Z', Date.parse('2026-03-28T23:30:00Z'))`), false);
-assert.equal(evaluate(`inPublicWindow('invalid')`), false);
+assert.equal(evaluate(`visibleUpcoming({date:'2026-10-25T22:29:59Z'}, Date.parse('2026-10-24T22:30:00Z'))`), true);
+assert.equal(evaluate(`visibleUpcoming({date:'2026-10-25T22:30:00Z'}, Date.parse('2026-10-24T22:30:00Z'))`), false);
+assert.equal(evaluate(`visibleUpcoming({date:'2026-03-29T23:29:59Z'}, Date.parse('2026-03-28T23:30:00Z'))`), true);
+assert.equal(evaluate(`visibleUpcoming({date:'2026-03-29T23:30:00Z'}, Date.parse('2026-03-28T23:30:00Z'))`), false);
+assert.equal(evaluate(`visibleUpcoming({date:'invalid'})`), false);
 evaluate(`
   const base=Date.now()+3600000;
   const activity=[0,5,6,6,6].map((days,i)=>({id:String(i),date:new Date(base+days*86400000).toISOString(),recommended:true,status:'pending',homeTeam:'Home',awayTeam:'Away',outcomeLabel:'Match nul'}));

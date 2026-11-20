@@ -30,10 +30,13 @@ function publicationIsFresh(value) {
 }
 
 function futurePublishedPredictions(data, now = Date.now()) {
-  return data.predictions.filter((prediction) => {
-    const kickoff = new Date(prediction.date).getTime();
-    return prediction.historicalOnly !== true && Number.isFinite(kickoff) && kickoff > now && (inPublicWindow(prediction.date, now) || (prediction.earlyPublished === true && kickoff < now + 5 * 86400000));
-  });
+  return data.predictions.filter(row => visibleUpcoming(row, now));
+}
+
+function visibleUpcoming(row, now = Date.now()) {
+  const kickoff = new Date(row.date).getTime();
+  const days = row.earlyPublished === true ? 5 : 1;
+  return row.historicalOnly !== true && kickoff > now && kickoff < now + days * 86400000;
 }
 
 function parisDay(value) {
@@ -53,12 +56,6 @@ function matchCards(data, now = Date.now()) {
   }
   return [...cards.values()].filter(row => !terminalResult(row) || parisDay(row.date) === parisDay(now))
     .sort((a,b) => new Date(a.date)-new Date(b.date));
-}
-
-function inPublicWindow(value, now = Date.now()) {
-  if (!Number.isFinite(new Date(value).getTime())) return false;
-  const kickoff = new Date(value).getTime();
-  return kickoff >= now && kickoff < now + 86400000;
 }
 
 function validText(value) {
@@ -129,7 +126,7 @@ function isValidPayload(data) {
   const upcoming = numberOrNull(data.summary.upcomingBets);
   const examined = numberOrNull(data.summary.scoredFixtures);
   return Number.isInteger(upcoming) && upcoming >= 0
-    && Number.isInteger(examined) && examined >= upcoming
+    && Number.isInteger(examined) && examined >= 0
     && data.predictions.length === upcoming
     && data.predictions.every(isValidPrediction);
 }
@@ -393,7 +390,8 @@ function renderTracking(data) {
     const tracking = data.tracking || {};
     const performanceLive = data.performance?.live || {};
     const allRows = (Array.isArray(data.activity) ? data.activity : []).filter(row => row?.recommended === true && row.historicalOnly !== true);
-    const pending = allRows.filter(row => row.historicalOnly !== true && !terminalResult(row) && inPublicWindow(row.date)).length;
+    const now = Date.now();
+    const pending = allRows.filter(row => !terminalResult(row) && visibleUpcoming(row, now)).length;
     const verified = numberOrNull(tracking.verified) ?? numberOrNull(performanceLive.settledBets) ?? 0;
     const won = numberOrNull(tracking.won) ?? 0;
     const lost = numberOrNull(tracking.lost) ?? 0;
@@ -420,7 +418,7 @@ function renderTracking(data) {
       setText("#live-return", "—");
       setText("#live-return-copy", "Pas encore assez de résultats pour calculer le rendement réel");
     }
-    historyRows = allRows.filter(row => new Date(row.date).getTime() <= Date.now() || inPublicWindow(row.date))
+    historyRows = allRows.filter(row => new Date(row.date).getTime() <= now || visibleUpcoming(row, now))
       .sort((a, b) => new Date(b.date) - new Date(a.date));
     renderHistory();
   } catch (e) {
