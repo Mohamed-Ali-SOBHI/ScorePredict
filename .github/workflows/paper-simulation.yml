@@ -51,13 +51,14 @@ jobs:
           python -m unittest tests.test_paper_settlement_runtime
           python -m unittest tests.test_paper_calendar_quarantine
           python -m unittest tests.test_http_retry
+          python -m unittest tests.test_paper_observation_run
       - name: Verifier la continuite du journal
         id: verify
         run: python paper_simulation/cloud_state.py verify
       - name: Enregistrer les predictions puis constater les resultats
         id: collect
         continue-on-error: true
-        run: python -m production.paper_source_runtime_v3 --experiment paper_simulation
+        run: python -m production.paper_observation_run --experiment paper_simulation
       - name: Sceller le journal et produire le rapport
         id: seal
         if: always() && steps.verify.outcome == 'success'
@@ -91,4 +92,4 @@ jobs:
           fi
       - name: Signaler toute collecte incomplete
         if: always() && steps.verify.outcome == 'success'
-        run: python paper_simulation/cloud_state.py health
+        run: python -m production.paper_observation_run --experiment paper_simulation --health

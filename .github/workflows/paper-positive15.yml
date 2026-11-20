@@ -19,6 +19,8 @@ permissions:
 
 jobs:
   observe:
+    outputs:
+      paused: ${{ steps.collect.outputs.paused }}
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -51,13 +53,14 @@ jobs:
           python -m unittest tests.test_paper_settlement_runtime
           python -m unittest tests.test_paper_calendar_quarantine
           python -m unittest tests.test_http_retry
+          python -m unittest tests.test_paper_observation_run
       - name: Verifier la continuite du journal
         id: verify
         run: python paper_positive15/cloud_state.py verify
       - name: Enregistrer les choix avant match et regler les resultats
         id: collect
         continue-on-error: true
-        run: python -m production.paper_source_runtime_v3 --experiment paper_positive15
+        run: python -m production.paper_observation_run --experiment paper_positive15
       - name: Sceller le journal et produire le rapport
         id: seal
         if: always() && steps.verify.outcome == 'success'
@@ -90,11 +93,12 @@ jobs:
           fi
       - name: Verifier la collecte
         if: always() && steps.verify.outcome == 'success'
-        run: python paper_positive15/cloud_state.py health
+        run: python -m production.paper_observation_run --experiment paper_positive15 --health
 
   compare9:
     name: Comparer les neuf aux quinze sur les memes previsions
     needs: observe
+    if: needs.observe.result == 'success' && needs.observe.outputs.paused != 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
