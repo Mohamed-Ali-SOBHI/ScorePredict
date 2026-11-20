@@ -1,16 +1,18 @@
 {
-  "run_id": "20261101T222356792749Z",
-  "started_at_utc": "2026-11-01T22:23:56.792749+00:00",
-  "finished_at_utc": "2026-11-01T22:24:13.049241+00:00",
-  "state": "collected",
-  "production_snapshot_age_hours": 0.9364025619444445,
-  "new_forecasts": 5,
-  "new_settlements": 9,
-  "eligible_new_candidates": 5,
-  "rejected_rows": 43,
-  "settlement_issues": [],
-  "production_run_id": 41351587088,
-  "github_run_id": "41356864295",
-  "github_run_attempt": "1",
-  "production_changed": false
+  "state": "paused_understat_unavailable",
+  "production_run_id": "44672985087",
+  "sources": {
+    "Bundesliga": "understat_maintenance_page",
+    "EPL": "understat_maintenance_page",
+    "Serie_A": "understat_maintenance_page",
+    "Ligue_1": "understat_maintenance_page",
+    "La_liga": "understat_maintenance_page"
+  },
+  "availability_checked_at_utc": "2026-11-20T04:15:15.004486+00:00",
+  "finished_at_utc": "2026-11-20T08:33:23.663883+00:00",
+  "new_forecasts": 0,
+  "new_settlements": 0,
+  "production_changed": false,
+  "github_run_id": "44703324930",
+  "github_run_attempt": "1"
 }
