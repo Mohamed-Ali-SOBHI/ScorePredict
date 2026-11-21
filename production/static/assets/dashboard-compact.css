@@ -64,10 +64,6 @@
 .journal-dashboard .chart-panel { border: 0; border-radius: 0; box-shadow: none; background: none; padding: 0; margin-top: 30px; }
 .journal-dashboard .history-grid { gap: 40px; margin-top: 28px; padding-top: 28px; border-top: 1px solid var(--line); }
 .journal-dashboard .history-grid .chart-panel { margin: 0; }
-.strategy-filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; }
-.strategy-filters button { min-height: 40px; padding: 9px 15px; border: 1px solid var(--line); border-radius: 99px; background: transparent; color: var(--muted); font: inherit; font-size: 12px; font-weight: 650; cursor: pointer; transition: background-color .18s, color .18s; }
-.strategy-filters button:hover { color: var(--forest); border-color: var(--forest); }
-.strategy-filters button[aria-pressed="true"] { color: white; border-color: var(--forest); background: var(--forest); }
 .pick-featured { flex-basis: calc((100% - 22px) / 2); border-color: #719650; background: radial-gradient(ellipse at 50% 30%, #186944, transparent 70%), linear-gradient(145deg, #0d5b38, #052719); }
 .pick-featured ~ .pick-row:nth-child(-n+3) { flex-basis: calc((100% - 66px) / 4); }
 .pick-featured .pick-summary { grid-template-areas: "next league" "time time" "teams teams" "choice odds" "status expand"; grid-template-rows: auto auto minmax(112px, 1fr) auto auto; min-height: 352px; gap: 10px 12px; }
@@ -91,8 +87,6 @@
   .journal-dashboard .history-kpis div { padding-inline: 12px; }
 }
 @media (max-width: 760px) {
-  .strategy-filters { flex-wrap: nowrap; overflow-x: auto; padding: 2px 2px 10px; scrollbar-width: thin; }
-  .strategy-filters button { flex-shrink: 0; }
   .journal-dashboard .today-section { padding-block: 26px 28px; }
   .picks-toolbar { margin-top: 20px; align-items: start; gap: 8px; flex-direction: column; padding-bottom: 8px; }
   .picks-toolbar nav { gap: 24px; }
@@ -119,6 +113,6 @@
   .pick-summary { min-height: 270px; grid-template-rows: auto minmax(90px, 1fr) auto auto; gap: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .pick-row, .strategy-filters button { transition: none; }
+  .pick-row { transition: none; }
   .pick-row:hover { transform: none; }
 }

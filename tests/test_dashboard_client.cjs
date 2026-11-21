@@ -222,23 +222,6 @@ assert.equal(evaluate('promotedResult.performance.strategies[2].profit'),2);
 assert.equal(evaluate('promotedResult.performance.strategies.reduce((s,r)=>s+r.profit,0)'),4);
 assert.equal(evaluate('promotedResult.performance.metrics.profit'),4);
 
-// Strategy filters scope both predictions and settled results without mutating the ledger.
-evaluate(`
-  const filterFixture={...promotedData,predictions:promotedData.activity.map(r=>({...r,status:'pending'}))};
-  const filterBefore=JSON.stringify(filterFixture);
-  const originalOnly=filterStrategyData(filterFixture,'Bundesliga:draw');
-  const xgbOnly=filterStrategyData(filterFixture,'public_bundesliga_xgb_2026_10_25');
-  const filteredMetrics=currentSeasonData(xgbOnly,Date.parse('2026-10-30T12:00:00Z')).performance.metrics;
-`);
-assert.equal(evaluate('originalOnly.predictions.length'),1);
-assert.equal(evaluate('originalOnly.activity[0].id'),'original');
-assert.equal(evaluate('xgbOnly.predictions[0].id'),'xgb');
-assert.equal(evaluate('filteredMetrics.profit'),-1);
-assert.equal(evaluate('filteredMetrics.betCount'),1);
-assert.equal(evaluate('filteredMetrics.roi'),-1);
-assert.equal(evaluate('JSON.stringify(filterFixture)===filterBefore'),true);
-assert.equal(evaluate('filterStrategyData(filterFixture,"all")===filterFixture'),true);
-
 // The feature is chronological, never a settled or already-started match.
 evaluate(`
   const featureNow=Date.parse('2026-10-31T10:00:00Z');
@@ -256,4 +239,4 @@ assert.equal(evaluate('new Set(highlighted.map(r=>r.id)).size'),4);
 assert.equal(evaluate('featuredMatches(featureFixture,featureNow+86400000).some(r=>r.featured)'),false);
 assert.equal(evaluate('crestMarkup("Unknown team")'),'');
 assert.doesNotMatch(evaluate('predictionMarkup({...choice,homeTeam:"<script>bad</script>"})'),/<script>/);
-console.log('Strategy filters and chronological feature: verified.');
+console.log('Chronological feature: verified.');
