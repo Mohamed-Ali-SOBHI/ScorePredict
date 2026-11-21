@@ -2,13 +2,13 @@
   "registration_sha256": "1a15b1fe63f81f550eeb7e5bf073f3b827378abd25549ffb2affdd94d58ac57e",
   "events_sha256": "71717ebe1deb58a746f3ae788762ec521187e97ab506e4eff74cacf3c9cb8170",
   "event_count": 478,
-  "github_run_id": "44835978101",
+  "github_run_id": "44865277462",
   "github_run_attempt": "1",
-  "sealed_at_utc": "2026-11-20T23:20:43.075128+00:00",
+  "sealed_at_utc": "2026-11-21T04:17:07.787863+00:00",
   "files": {
     ".gitattributes": "8b9c3028d6467ff3be7c793141927841d70f47f52d0590677438f488ca154992",
     ".gitignore": "a9019aaf3507372ae852ecdaaa303c6427079d6e0ae92facea3e93f4b0a1b257",
-    "README.md": "8b4e582bf52c579795511222b4dbc3faf5743f6640a490f59616a69b8546ea1c",
+    "README.md": "db33b89cd600eb4444f331b4e01820a33901664f7c1f5eb9817556f81125d27f",
     "captures/20261015T080850116034Z/Bundesliga.json.gz": "cf094b890960259c92c6981e92196b0b968da231695a81e8ceeb4e93b6538e21",
     "captures/20261015T080850116034Z/EPL.json.gz": "fd9bbedb9749f3d597de6ca5c7d6c757df9301b934bbd0442fd8c16ed7e37550",
     "captures/20261015T080850116034Z/Ligue_1.json.gz": "482dff0cb569b89b62d48f0fbb2506112c7d866797e1d2731bbc1ac9d10101f3",
@@ -1726,7 +1726,7 @@
     "evidence.json": "7d6dea75ece9b30aaafa4e2e99cefd71a96c0af14f8b5334c31f1fb4b2c80d62",
     "journal.sqlite3": "d12ecb5167ee6f30903468e5fe2d4d713b2db43272be95b7529f366c1c7f7dbc",
     "last_error.json": "a60ea93cd55e61710fa3c2d6ad9316ea97fa9009d83947a329eccf71e7a27e68",
-    "last_run.json": "745a0e2a75a33d8cbe67afe5deaf0fa5c4113d85bb4087d3f660524c1d8e5104",
+    "last_run.json": "14177351017b7df344afb3bfa6d4efdcd30d1630359e9a74ef53d9529606bae6",
     "migration/local_captures/20261015T074415287743Z/Bundesliga.json.gz": "dc5cafaf37e121bd18db1460b36ff988d279861b18a4752a7f9f3a994d1afe02",
     "migration/local_captures/20261015T074415287743Z/EPL.json.gz": "78c314467166bbf4643b188f996dd9bc713e8646363880f77e446bc3acc8dca4",
     "migration/local_captures/20261015T074415287743Z/Ligue_1.json.gz": "1095cb8825daba760e76e422a1f6c67b1660c9f8cde28f7cfa22e6ebd8f1b576",
@@ -1742,8 +1742,8 @@
     "migration/local_registration.json": "fe91b1a40ce4870c6dcc2bc98760630c0e52bcc213ea9ccad14d74d981b62bcd",
     "migration/registration_initial_setup_before_first_capture.json": "b52345c5f660c7015e88cecbe6a01ce5492d7c773fc55dcf08112eed819f6a38",
     "migration/setup_revision.json": "a2f0010dde363f56a6d3dcd8a9726fa2750ee7c8f6dbe0a7596517bfcd022b27",
-    "rapport.html": "70e7aea011e6bff2d3a91587507610d12cde5d7e4592084aaf800f520bc50343",
+    "rapport.html": "bbf36886efa754fbecae5f22fd2b5bbf3e30250db6d1a1763bf9cf94071f19cc",
     "registration.json": "aa224025cf9ec82c2696b3e5150c64a2c6e4f198f83f0841a7a22736ca8636b3",
-    "report.json": "8c943b48334b850f330020deb8ad3d92a582d563eb3b8dda89e36ea0a6ef0431"
+    "report.json": "706d28f8170730dab2f6569a4c2051f328047b0aca7e40a0f041d89db2493347"
   }
 }
