@@ -2,7 +2,7 @@
 
 **Simulation uniquement. La stratégie de production reste inchangée.**
 
-Dernier passage : 2026-11-21T22:21:54.249863+00:00 — **paused_understat_unavailable**.
+Dernier passage : 2026-11-22T03:29:51.358800+00:00 — **paused_understat_unavailable**.
 Décisions figées avant match : 125. Résultats confirmés : 119.
 
 Exécution sur GitHub après chaque pipeline de prévisions réussi et à 00:40, 06:40, 12:40 et 18:40 UTC chaque jour. Les horaires planifiés peuvent subir un retard GitHub.
