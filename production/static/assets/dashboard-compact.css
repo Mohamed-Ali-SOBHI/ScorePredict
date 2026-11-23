@@ -116,3 +116,30 @@
   .pick-row { transition: none; }
   .pick-row:hover { transform: none; }
 }
+
+.journal-dashboard .balance-chart {
+  margin: 32px 0 0;
+  padding: 22px 0 10px;
+  border-block: 1px solid #d4dfd7;
+}
+.balance-heading { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 4px 16px; margin: 0 0 8px; }
+.balance-heading h3 { margin: 0; color: #123c2c; font-size: clamp(1.05rem, 2vw, 1.3rem); letter-spacing: -.025em; }
+#balance-period { color: #4d6156; font-size: .8rem; font-variant-numeric: tabular-nums; }
+#cumulative-chart { display: block; width: 100%; min-width: 0; }
+#cumulative-chart-wrap { overflow: hidden; }
+#cumulative-chart .chart-grid { stroke: #dfe7e1; }
+#cumulative-chart .chart-zero { stroke: #728b7d; stroke-width: 1.25; stroke-dasharray: 4 4; }
+#cumulative-chart .chart-axis { fill: #53675c; font-size: 11px; font-variant-numeric: tabular-nums; }
+#cumulative-chart .chart-line { stroke: #14734f; stroke-width: 2.35; }
+#cumulative-chart .chart-end { fill: #174936; stroke: #fff; }
+.balance-close { fill: white; stroke: #14734f; stroke-width: 1.35; }
+.balance-end-label rect { fill: #163e30; }
+.balance-end-label text { fill: white; font-size: 12px; font-weight: 650; font-variant-numeric: tabular-nums; }
+#cumulative-tooltip { min-width: max-content; background: #153d2f; padding: 9px 12px; }
+#cumulative-tooltip span { display: block; color: #e2eee5; }
+#cumulative-tooltip strong { color: #fff; margin: 2px 0; font-size: 15px; }
+@media (max-width: 599px) {
+  .journal-dashboard .balance-chart { padding: 16px 0 5px; }
+  .balance-heading { align-items: flex-start; flex-direction: column; }
+  #balance-period { font-size: .75rem; }
+}

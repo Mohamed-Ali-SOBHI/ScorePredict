@@ -387,14 +387,31 @@ function renderTracking(data) {
   }
 }
 
-function usableCurve(rows) {
+function dailyBalances(rows) {
   if (!Array.isArray(rows)) return [];
-  return rows.map((row) => ({
-    date: row?.date,
-    timestamp: new Date(row?.date).getTime(),
-    value: numberOrNull(row?.value),
-    drawdown: numberOrNull(row?.drawdown),
-  })).filter((row) => Number.isFinite(row.timestamp) && row.value !== null);
+  const days = [];
+  const sorted = rows.filter(row => row?.date && Number.isFinite(Date.parse(row.date)) && numberOrNull(row.value) !== null)
+    .sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
+  for (const row of sorted) {
+    const day = parisDay(row.date);
+    if (days.at(-1)?.day !== day) {
+      days.push({day, timestamp: Date.parse(day + "T12:00:00Z"), count: 0, opening: days.at(-1)?.value ?? 0});
+    }
+    const close = days.at(-1);
+    close.count++;
+    close.value = Number(row.value);
+  }
+  return days;
+}
+
+function balanceTicks(values) {
+  const low = Math.min(0, ...values), high = Math.max(0, ...values);
+  if (low === high) return [-1, 0, 1];
+  const target = (high - low) / 5;
+  const magnitude = 10 ** Math.floor(Math.log10(target));
+  const step = [1, 2, 2.5, 5, 10].find(n => n * magnitude >= target) * magnitude;
+  const first = Math.floor(low / step), last = Math.ceil(high / step);
+  return Array.from({length: last - first + 1}, (_, i) => Number(((first + i) * step).toPrecision(12)));
 }
 
 function scaleLinear(value, domainMin, domainMax, rangeMin, rangeMax) {
@@ -402,137 +419,129 @@ function scaleLinear(value, domainMin, domainMax, rangeMin, rangeMax) {
   return rangeMin + ((value - domainMin) / (domainMax - domainMin)) * (rangeMax - rangeMin);
 }
 
-function pathFromPoints(points) {
-  return points.map((point, index) => `${index === 0 ? "M" : "L"}${point.x.toFixed(2)},${point.y.toFixed(2)}`).join(" ");
-}
-
 let displayedChartRows = [];
-
-function chartLayout(svg, desktopHeight) {
-  const width = Math.max(240, Math.min(960, svg.parentElement.clientWidth || 960));
-  const compact = width < 600;
-  const height = compact ? 220 : desktopHeight;
-  svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
-  return { width, height, compact };
-}
-
-function chartDateTicks(first, last, count, width, height, margin, compact) {
-  return Array.from({ length: first === last ? 1 : count }, (_, index) => {
-    const ratio = index / (count - 1);
-    const timestamp = first + (last - first) * ratio;
-    const x = margin.left + (width - margin.left - margin.right) * ratio;
-    const label = new Intl.DateTimeFormat("fr-FR", compact
-      ? { day: "numeric", month: "short", timeZone: MATCH_TIMEZONE }
-      : { month: "short", year: "2-digit", timeZone: MATCH_TIMEZONE }).format(new Date(timestamp));
-    const anchor = index === 0 ? "start" : index === count - 1 ? "end" : "middle";
-    return `<text class="chart-axis" x="${x}" y="${height - 10}" text-anchor="${anchor}">${escapeHtml(label)}</text>`;
-  }).join("");
-}
+let balanceRenderKey;
 
 function renderCumulativeChart(rows) {
   const svg = $("#cumulative-chart");
   const tooltip = $("#cumulative-tooltip");
-  if (!svg) return;
-  const { width, height, compact } = chartLayout(svg, 360);
-  if (tooltip) tooltip.hidden = true;
-  svg.parentElement.classList.remove("is-hovered");
-  const curve = usableCurve(rows);
-  if (curve.length < 2) {
-    svg.innerHTML = `<text x="${width / 2}" y="${height / 2}" text-anchor="middle" class="chart-axis"><tspan x="${width / 2}">La courbe apparaîtra après</tspan><tspan x="${width / 2}" dy="18">deux paris terminés cette saison.</tspan></text>`;
+  if (!svg || !tooltip) return;
+  const wrap = svg.parentElement;
+  const width = Math.max(200, Math.round(wrap.clientWidth || 960));
+  const days = dailyBalances(rows);
+  const key = width + JSON.stringify(days);
+  if (key === balanceRenderKey) return;
+  balanceRenderKey = key;
+  const compact = width < 600;
+  const height = compact ? 222 : 266;
+  svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  tooltip.hidden = true;
+  wrap.classList.remove("is-hovered");
+  if (!days.length) {
+    setText("#balance-period", "");
+    svg.innerHTML = `<text x="${width/2}" y="${height/2}" text-anchor="middle" class="chart-axis">Aucun résultat cumulé disponible.</text>`;
     return;
   }
 
-  const margin = { top: 18, right: 12, bottom: 36, left: compact ? 42 : 62 };
-  const timestamps = curve.map((row) => row.timestamp);
-  const values = curve.map((row) => row.value);
-  const rawMin = Math.min(0, ...values);
-  const rawMax = Math.max(0, ...values);
-  const padding = Math.max(4, (rawMax - rawMin) * .1);
-  const min = rawMin - padding;
-  const max = rawMax + padding;
-  const x = (value) => scaleLinear(value, timestamps[0], timestamps.at(-1), margin.left, width - margin.right);
-  const y = (value) => scaleLinear(value, min, max, height - margin.bottom, margin.top);
-  const points = curve.map((row) => ({ ...row, x: x(row.timestamp), y: y(row.value) }));
-  const line = pathFromPoints(points);
+  const dayLabel = new Intl.DateTimeFormat("fr-FR", {day:"numeric", month:"short", timeZone:MATCH_TIMEZONE});
+  const first = days[0], last = days.at(-1);
+  const period = new Intl.DateTimeFormat("fr-FR", {day:"numeric", month:"short", year:"numeric", timeZone:MATCH_TIMEZONE});
+  setText("#balance-period", period.formatRange(first.timestamp, last.timestamp));
+  const ticks = balanceTicks(days.map(day => day.value));
+  const label = signed(last.value) + " u";
+  const pillWidth = Math.max(56, label.length * 7.4 + 16);
+  const axisNumber = new Intl.NumberFormat("fr-FR", {maximumFractionDigits: 6});
+  const left = Math.max(30, ...ticks.map(t => signed(t, axisNumber).length * 7 + 14));
+  const right = width - pillWidth - 15;
+  const top = 22, bottom = height - 33;
+  const y = value => scaleLinear(value, ticks[0], ticks.at(-1), bottom, top);
+  const x = stamp => scaleLinear(stamp, first.timestamp, last.timestamp, left + 6, right);
+  const points = days.map(day => ({...day, x:x(day.timestamp), y:y(day.value)}));
+  const end = points.at(-1);
   const baseline = y(0);
-  const area = `${line} L${points.at(-1).x.toFixed(2)},${baseline.toFixed(2)} L${points[0].x.toFixed(2)},${baseline.toFixed(2)} Z`;
-
-  const yTicks = Array.from({ length: 5 }, (_, index) => max - ((max - min) * index) / 4);
-  const grid = yTicks.map((tick) => {
-    const yValue = y(tick);
-    return `<line class="chart-grid" x1="${margin.left}" x2="${width - margin.right}" y1="${yValue}" y2="${yValue}"></line><text class="chart-axis" x="${margin.left - 12}" y="${yValue + 4}" text-anchor="end">${escapeHtml(signed(tick, decimalOne))}</text>`;
+  const line = `M${left},${baseline} ` + points.map(p => `H${p.x} V${p.y}`).join(" ");
+  const grid = ticks.map(tick => `<line class="${tick === 0 ? "chart-zero" : "chart-grid"}" x1="${left}" x2="${right}" y1="${y(tick)}" y2="${y(tick)}"/>
+    <text class="chart-axis" x="${left-9}" y="${y(tick)+4}" text-anchor="end">${signed(tick, axisNumber)}</text>`).join("");
+  const dateTicks = [points[0]];
+  const gap = Math.max(65, (right-left) / (compact ? 3 : 6));
+  for (const p of points.slice(1,-1)) {
+    if (p.x-dateTicks.at(-1).x >= gap && end.x-p.x >= gap) dateTicks.push(p);
+  }
+  if (points.length > 1) dateTicks.push(end);
+  const dates = dateTicks.map((p,i) => {
+    const anchor = dateTicks.length === 1 ? "middle" : i === 0 ? "start" : p === end ? "end" : "middle";
+    return `<text class="chart-axis" x="${p.x}" y="${height-10}" text-anchor="${anchor}">${dayLabel.format(p.timestamp)}</text>`;
   }).join("");
-  const xTicks = chartDateTicks(timestamps[0], timestamps.at(-1), compact ? 3 : 5, width, height, margin, compact);
+  const dots = points.length <= 32 ? points.slice(0,-1).map(p =>
+    `<circle class="balance-close" cx="${p.x}" cy="${p.y}" r="2.4"/>`).join("") : "";
 
   svg.innerHTML = `
-    <title id="cumulative-chart-title">Évolution cumulée des résultats passés</title>
-    <desc id="cumulative-chart-desc">La courbe part de ${escapeHtml(signed(curve[0].value))} mise et termine à ${escapeHtml(signed(curve.at(-1).value))} mises.</desc>
-    <defs>
-      <linearGradient id="history-area" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#1f8f5b" stop-opacity=".24"></stop>
-        <stop offset="100%" stop-color="#1f8f5b" stop-opacity=".02"></stop>
-      </linearGradient>
-    </defs>
-    ${grid}
-    <line class="chart-zero" x1="${margin.left}" x2="${width - margin.right}" y1="${baseline}" y2="${baseline}"></line>
-    ${xTicks}
-    <path class="chart-area" d="${area}"></path>
-    <path class="chart-line" d="${line}"></path>
-    <line class="chart-focus-line" x1="0" x2="0" y1="${margin.top}" y2="${height - margin.bottom}"></line>
-    <circle class="chart-focus-dot" cx="0" cy="0" r="5"></circle>
-    <circle class="chart-end" cx="${points.at(-1).x}" cy="${points.at(-1).y}" r="5"></circle>
-    <rect class="chart-hit" x="${margin.left}" y="${margin.top}" width="${width - margin.left - margin.right}" height="${height - margin.top - margin.bottom}" tabindex="0" role="group" aria-label="Explorer les résultats passés avec les flèches gauche et droite"></rect>
+    <title>Gain cumulé en unités</title>
+    <desc>Solde après les paris réglés de chaque journée de match. Dernier cumul : ${label}.</desc>
+    <defs><linearGradient id="history-area" gradientUnits="userSpaceOnUse" x1="0" x2="0" y1="${top}" y2="${bottom}">
+      <stop stop-color="#16805a" stop-opacity=".16"/><stop offset="1" stop-color="#16805a" stop-opacity=".045"/>
+    </linearGradient></defs>
+    ${grid}${dates}
+    <path class="chart-area" d="${line} V${baseline} Z"/>
+    <path class="chart-line" d="${line}"/>${dots}
+    <line class="chart-focus-line" y1="${top}" y2="${bottom}"/>
+    <circle class="chart-end" cx="${end.x}" cy="${end.y}" r="4.3"/>
+    <g class="balance-end-label" aria-hidden="true">
+      <rect x="${end.x+9}" y="${end.y-12}" width="${pillWidth}" height="24" rx="6"/>
+      <text x="${end.x+9+pillWidth/2}" y="${end.y+4}" text-anchor="middle">${label}</text>
+    </g>
+    <circle class="chart-focus-dot" r="4.5"/>
+    <rect class="chart-hit" x="${left}" y="${top-6}" width="${right-left+5}" height="${bottom-top+12}"
+      tabindex="0" role="slider" aria-label="Journée de match" aria-valuemin="1" aria-valuemax="${points.length}"
+      aria-valuenow="${points.length}" aria-valuetext="${formatChartDate(end.timestamp)}, cumul ${label}"/>
   `;
-
-  const hitArea = $(".chart-hit", svg);
+  const hit = $(".chart-hit", svg);
   const focusLine = $(".chart-focus-line", svg);
   const focusDot = $(".chart-focus-dot", svg);
-  const wrap = svg.parentElement;
-  let keyboardIndex = points.length - 1;
-  const showPoint = (nearest) => {
-    focusLine.setAttribute("x1", nearest.x);
-    focusLine.setAttribute("x2", nearest.x);
-    focusDot.setAttribute("cx", nearest.x);
-    focusDot.setAttribute("cy", nearest.y);
-    tooltip.innerHTML = `${escapeHtml(formatChartDate(nearest.date))}<strong>${escapeHtml(signed(nearest.value))} mises</strong>`;
+  let index = points.length-1;
+  function show(i) {
+    index = i;
+    const p = points[i];
+    focusLine.setAttribute("x1", p.x);
+    focusLine.setAttribute("x2", p.x);
+    focusDot.setAttribute("cx", p.x);
+    focusDot.setAttribute("cy", p.y);
+    const stamp = formatChartDate(p.timestamp);
+    const change = signed(Math.round((p.value-p.opening)*100)/100);
+    const count = p.count + " pari" + (p.count > 1 ? "s" : "");
+    tooltip.innerHTML = `<span>${stamp} · ${count}</span><strong>${signed(p.value)} u cumulées</strong><span>Sur la journée · ${change} u</span>`;
     tooltip.hidden = false;
-    const halfTooltip = tooltip.offsetWidth / 2;
-    const pointX = (nearest.x / width) * wrap.clientWidth;
-    tooltip.style.left = `${Math.max(halfTooltip, Math.min(wrap.clientWidth - halfTooltip, pointX))}px`;
-    const pointY = (nearest.y / height) * svg.getBoundingClientRect().height;
-    tooltip.style.top = `${Math.max(tooltip.offsetHeight + 14, pointY)}px`;
+    const half = tooltip.offsetWidth/2;
+    tooltip.style.left = Math.max(half, Math.min(width-half,p.x))+"px";
+    tooltip.style.top = Math.max(tooltip.offsetHeight+14, p.y)+"px";
     wrap.classList.add("is-hovered");
-    hitArea.setAttribute("aria-label", `${formatChartDate(nearest.date)}, ${signed(nearest.value)} mises. Flèches gauche et droite pour parcourir.`);
-  };
-  const hidePoint = () => {
+    hit.setAttribute("aria-valuenow", i+1);
+    hit.setAttribute("aria-valuetext", `${stamp}, ${count}, variation ${change} unités, cumul ${signed(p.value)} unités`);
+  }
+  function hide() {
     tooltip.hidden = true;
     wrap.classList.remove("is-hovered");
-  };
-  const handlePointer = (event) => {
-    const bounds = hitArea.getBoundingClientRect();
-    const ratio = Math.max(0, Math.min(1, (event.clientX - bounds.left) / bounds.width));
-    const targetX = margin.left + ratio * (width - margin.left - margin.right);
-    let nearest = points[0];
-    for (const point of points) {
-      if (Math.abs(point.x - targetX) < Math.abs(nearest.x - targetX)) nearest = point;
-    }
-    showPoint(nearest);
-  };
-  hitArea.addEventListener("pointerdown", handlePointer);
-  hitArea.addEventListener("pointermove", handlePointer);
-  hitArea.addEventListener("pointerleave", hidePoint);
-  hitArea.addEventListener("focus", () => showPoint(points[keyboardIndex]));
-  hitArea.addEventListener("blur", hidePoint);
-  hitArea.addEventListener("keydown", (event) => {
-    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+  }
+  function pointer(event) {
+    const bounds = svg.getBoundingClientRect();
+    const px = (event.clientX-bounds.left)*width/bounds.width;
+    show(points.reduce((best,p,i) => Math.abs(p.x-px) < Math.abs(points[best].x-px) ? i : best, 0));
+  }
+  hit.addEventListener("pointermove", pointer);
+  hit.addEventListener("pointerdown", pointer);
+  hit.addEventListener("pointerleave", event => { if (event.pointerType !== "touch") hide(); });
+  hit.addEventListener("pointercancel", hide);
+  hit.addEventListener("focus", () => show(index));
+  hit.addEventListener("blur", hide);
+  hit.addEventListener("keydown", event => {
+    const positions = {Home:0, End:points.length-1, ArrowLeft:index-1, ArrowRight:index+1, ArrowDown:index-1, ArrowUp:index+1};
+    if (event.key === "Escape") { hide(); return; }
+    if (!(event.key in positions)) return;
     event.preventDefault();
-    if (event.key === "Home") keyboardIndex = 0;
-    else if (event.key === "End") keyboardIndex = points.length - 1;
-    else if (event.key === "ArrowLeft") keyboardIndex = Math.max(0, keyboardIndex - 1);
-    else keyboardIndex = Math.min(points.length - 1, keyboardIndex + 1);
-    showPoint(points[keyboardIndex]);
+    show(Math.max(0, Math.min(points.length-1,positions[event.key])));
   });
 }
+
 
 function aggregatePeriods(rows) {
   if (!Array.isArray(rows)) return [];

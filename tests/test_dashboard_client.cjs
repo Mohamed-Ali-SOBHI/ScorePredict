@@ -22,7 +22,7 @@ vm.runInContext(`
   ${section('function formatDate(', 'function formatFullDate(')}
   ${section('function escapeHtml(', 'function predictionMarkup(')}
   ${section('function predictionMarkup(', 'function resetNoPickCopy(')}
-  ${section('function resultLabel(', 'function usableCurve(')}
+  ${section('function resultLabel(', 'function renderCumulativeChart(')}
   ${section('function renderStrategies(', '// Public results are calculated')}
   ${section('function currentSeasonData(', 'function renderPerformance(')}
 `, context);
@@ -240,3 +240,12 @@ assert.equal(evaluate('featuredMatches(featureFixture,featureNow+86400000).some(
 assert.equal(evaluate('crestMarkup("Unknown team")'),'');
 assert.doesNotMatch(evaluate('predictionMarkup({...choice,homeTeam:"<script>bad</script>"})'),/<script>/);
 console.log('Chronological feature: verified.');
+
+const daily = evaluate("dailyBalances([{date:'2026-10-01T21:30:00Z',value:-1},{date:'2026-10-01T22:30:00Z',value:2},{date:'2026-10-02T12:00:00Z',value:1}])");
+assert.deepEqual(Array.from(daily, d => [d.day,d.opening,d.value,d.count]), [
+  ['2026-10-01',0,-1,1], ['2026-10-02',-1,1,2],
+]);
+for (const values of [[0],[-1],[3],[-7.05,5.02],[.12,-.02]]) {
+  const ticks = evaluate('balanceTicks('+JSON.stringify(values)+')');
+  assert.ok(ticks.includes(0) && ticks[0] <= Math.min(...values) && ticks.at(-1) >= Math.max(...values));
+}
