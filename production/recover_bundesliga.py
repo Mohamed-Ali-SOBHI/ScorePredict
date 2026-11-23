@@ -5,9 +5,7 @@ from datetime import datetime, timezone
 import hashlib
 import io
 import json
-import os
 from pathlib import Path
-import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -122,15 +120,6 @@ def score(catalog, output, scoped=False):
                   scoredFixtures=len(fixtures), mode='per_fixture_verified_archive' if scoped else 'explicit_verified_archive',
                   fixtureAssessments=assessments)
     (output.parent / 'recovery_audit.json').write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf8')
-    xgb_path = output.with_name('recovered_xgb.csv')
-    env = os.environ.copy(); env['PYTHONPATH'] = os.pathsep.join(str(p) for p in sys.path if p)
-    subprocess.run([sys.executable, str(Path(__file__)), '--xgb-only', '--catalog', str(catalog.resolve()),
-                    '--output', str(xgb_path.resolve())] + (['--scoped'] if scoped else []), cwd=ROOT, env=env, check=True, timeout=300)
-    xgb = pd.read_csv(xgb_path)
-    if not xgb.empty:
-        xgb['date'] = pd.to_datetime(xgb.kickoff_utc, utc=True).dt.tz_convert('Europe/Paris').dt.tz_localize(None)
-        scored = pd.concat([scored, xgb], ignore_index=True)
-    scored.to_csv(output, index=False)
     print({'recovered_bundesliga_matches': count, 'strategy_rows': len(scored),
            'selected_before_deduplication': int(scored.recommended_bet.fillna('').ne('').sum()) if not scored.empty else 0})
 

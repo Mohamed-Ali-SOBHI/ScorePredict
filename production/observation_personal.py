@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import subprocess
 import webbrowser
 from datetime import datetime
 from html import escape
@@ -106,7 +107,23 @@ def english_section(data):
     return result
 
 
-def render(data,private=None,english=None):
+def venn_section(data):
+    title='<h2>Filtre Venn–Abers · suivi depuis le 23 novembre</h2>'
+    if not data:
+        return title+'<p class="note">Collecte privée indisponible.</p>'
+    lines = [metric_row('Tous les paris observés', data['reference']),
+             metric_row('Paris retenus par le filtre', data['filtered'])]
+    result = (title+'<div class="scroll"><table><thead><tr><th>Sélection</th><th>Réglés</th>'
+              '<th>Gain net</th><th>Rendement</th><th>En attente</th></tr></thead><tbody>'
+              + ''.join(lines) + '</tbody></table></div>')
+    for t in sorted(data['tickets'], key=lambda r:r['date'], reverse=True):
+        label = 'Retenu' if t['selected'] else 'Écarté'
+        result += ('<p>'+escape(t['home']+' – '+t['away'])+' · '+escape(date(t['date']))
+                   +' · '+label+' · cote '+f'{t["odds"]:.2f}'.replace('.',',')+'</p>')
+    return result
+
+
+def render(data,private=None,english=None,venn=None):
     codes = {s['id']: s['code'] for s in data['strategies']}
     codes['Bundesliga_anchor'] = 'Nuls Bundesliga'
     sections = []
@@ -151,7 +168,8 @@ def render(data,private=None,english=None):
     return TEMPLATE.replace('@@STAMP@@', escape(date(stamp))).replace(
         '@@NOTICE@@', notice).replace('@@SECTIONS@@', ''.join(sections)).replace(
         '@@TICKETS@@', ticket_area).replace('@@PRIVATE@@',private_section(private)
-            +'<section style="margin-top:36px">'+english_section(english)+'</section>')
+            +'<section style="margin-top:36px">'+english_section(english)+'</section>'
+            +'<section style="margin-top:36px">'+venn_section(venn)+'</section>')
 
 
 TEMPLATE = '''<!doctype html>
@@ -197,13 +215,17 @@ def main():
     args = parser.parse_args()
     ex.require_private_output(args.output)
     data = ex.snapshot()
-    from production.private_observation_personal import load_latest
+    from production.private_observation_personal import load_latest, fetch
     private = load_latest()
+    try:
+        venn = fetch('private-venn-encrypted','venn.encrypted.json',OUTPUT.parent/'venn_abers.json')
+    except (OSError, ValueError, subprocess.SubprocessError):
+        venn = None
     from production.english_away_export import snapshot as english_snapshot
     english = english_snapshot()
     args.output.parent.mkdir(parents=True, exist_ok=True)
     temp = args.output.with_suffix('.html.tmp')
-    temp.write_text(render(data,private,english), encoding='utf8')
+    temp.write_text(render(data,private,english,venn), encoding='utf8')
     os.replace(temp, args.output)
     print('Suivi personnel :', args.output, '(' + data['status'] + ')')
     if args.open:

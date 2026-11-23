@@ -10,8 +10,6 @@ ACTIVATED_AT = '2026-10-25T19:23:42+00:00'
 BUNDESLIGA = 'public_bundesliga_xgb_2026_10_25'
 ENGLAND_HOME = 'public_epl_home_price_2026_10_25'
 STRATEGIES = {
-    BUNDESLIGA: dict(league='Bundesliga', outcome='draw', model='native_mean', threshold=.02,
-                    label='Bundesliga · nul XGBoost'),
     ENGLAND_HOME: dict(league='EPL', outcome='home_win', model='local_price_only', threshold=.02,
                       label='Premier League · victoire à domicile'),
 }
@@ -75,12 +73,12 @@ def select_public_bets(scored, existing=None, portfolio=None):
     from inference.kickoff_time import paris_date_key
     if scored.empty or 'recommended_bet' not in scored:
         return scored.iloc[0:0].copy()
-    candidates = scored[scored.recommended_bet.fillna('').ne('')].copy()
+    candidates = scored[scored.recommended_bet.fillna('').ne('') & scored.strategy_name.ne(BUNDESLIGA)].copy()
     if candidates.empty:
         return candidates
     if candidates.fixture_id.isna().any() or candidates.fixture_id.astype(str).str.strip().eq('').any():
         raise ValueError('A public bet needs a verified fixture ID')
-    candidates['_priority'] = candidates.strategy_name.map({BUNDESLIGA:1, ENGLAND_HOME:2}).fillna(0)
+    candidates['_priority'] = candidates.strategy_name.map({ENGLAND_HOME:1}).fillna(0)
     candidates = candidates.sort_values('_priority', kind='stable').drop_duplicates('fixture_id', keep='first')
     candidates['strategy_names'] = candidates.strategy_name
     if existing is not None and not existing.empty:

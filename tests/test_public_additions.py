@@ -20,7 +20,7 @@ class PublicAdditionsTests(unittest.TestCase):
         self.assertEqual(len(selected),2)
         rows[1]['recommended_bet']='';rows[3]['recommended_bet']=''
         selected=select_public_bets(pd.DataFrame(rows))
-        self.assertEqual(set(selected.strategy_names),{BUNDESLIGA,ENGLAND_HOME})
+        self.assertEqual(set(selected.strategy_names),{ENGLAND_HOME})
 
     def test_published_match_cannot_switch_outcome_or_strategy_on_later_run(self):
         held=self.row(ENGLAND_HOME,'english','home_win',portfolio_name='public',recommended=True)
@@ -42,7 +42,9 @@ class PublicAdditionsTests(unittest.TestCase):
             ticket=dict(strategy=identity,league=league,outcome=outcome,recordedAt=ACTIVATED_AT,date='2026-10-27T19:00:00Z',odds=4,modelProbability=.4,status='pending')
             source=dict(activity=[ticket],predictions=[ticket]);saved=copy.deepcopy(source)
             result=apply_publication_policy(source)
-            self.assertEqual(len(result['activity']),1);self.assertEqual(len(result['meta']['publicStrategies']),4)
+            self.assertEqual(len(result['activity']), int(identity == ENGLAND_HOME))
+            self.assertEqual(len(result['predictions']), int(identity == ENGLAND_HOME))
+            self.assertEqual(len(result['meta']['publicStrategies']),3)
             self.assertEqual(source,saved);self.assertEqual(result,apply_publication_policy(result))
             for changes in [dict(recordedAt='2026-10-24T12:00:00Z'),dict(recordedAt='2026-10-26T12:00:00'),dict(odds=11),dict(portfolio_name='observation_private'),dict(outcome='away_win')]:
                 row=dict(ticket,**changes)

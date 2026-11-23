@@ -1,0 +1,44 @@
+name: Observation privee Venn-Abers
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Previsions quotidiennes et site", "Publier uniquement l'interface", "Publication exceptionnelle des quatre selections"]
+    types: [completed]
+    branches: [main]
+  schedule:
+    - cron: "25 1,13,19,23 * * *"
+      timezone: Europe/Paris
+permissions:
+  contents: read
+concurrency:
+  group: private-venn-observation
+  cancel-in-progress: false
+jobs:
+  observe:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-results.txt
+      - run: python -m pip install -r requirements-results.txt
+      - run: python -m unittest tests.test_venn_observation
+      - name: Enregistrer les decisions et chiffrer le rapport personnel
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+        run: |
+          python -m inference.venn_observation
+          node production/private_observation_crypto.cjs encrypt --input inference/output/venn_observation/report.json --public-key production/observation_recipient.pem --output inference/output/venn_observation/venn.encrypted.json
+      - uses: actions/upload-artifact@v5
+        with:
+          name: private-venn-encrypted
+          path: inference/output/venn_observation/venn.encrypted.json
+          if-no-files-found: error
+          retention-days: 90

@@ -42,6 +42,8 @@ def main():
         candidates,rejected=identify_price_candidates(sources['fixtures'],Path(args.catalog),pd.Timestamp.now(tz='UTC'))
     else:
         candidates,rejected=identify_candidates(sources,Path(args.catalog))
+    leagues = {spec['league'] for spec in STRATEGIES.values()}
+    candidates = [fixture for fixture in candidates if fixture['league'] in leagues]
     rows=[];audits=[]
     if candidates:
         raw=None if args.price_only else six.current_history({league:sources[league] for league in ['Bundesliga','EPL']})

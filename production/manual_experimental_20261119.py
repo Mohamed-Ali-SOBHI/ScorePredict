@@ -107,6 +107,7 @@ def main():
         raise ValueError('Published history missing from permanent store')
     boards = {league: fetch_scoreboard(league, receipt['fixtureDate']) for league in ('Bundesliga', 'EPL')}
     candidates = candidate_rows(receipt, boards, now)
+    candidates = candidates.loc[candidates.strategy_name.ne(BUNDESLIGA)]
     bets = fixed_unit_stakes(exclude_held(candidates, existing), 2.5)
     incoming = build_tracking_rows(bets, portfolio_name=DEFAULT_PORTFOLIO_NAME)
     combined = canonicalize_tracking_rows(pd.concat([existing, incoming], ignore_index=True)) if not incoming.empty else existing

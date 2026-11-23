@@ -45,11 +45,11 @@ class ExperimentalWeekend(unittest.TestCase):
         ledger = build_tracking_rows(bets, portfolio_name=DEFAULT_PORTFOLIO_NAME)
         snapshot = merge_snapshot({'meta': {'activePortfolio': DEFAULT_PORTFOLIO_NAME},
                                    'activity': [], 'predictions': []}, ledger, NOW)
-        self.assertEqual(len(snapshot['predictions']), 4)
+        self.assertEqual(len(snapshot['predictions']), 2)
         self.assertTrue(all(p['earlyPublished'] for p in snapshot['predictions']))
         self.assertEqual(snapshot['meta']['serviceNotice'], EXPERIMENT_NOTICE)
         later = merge_snapshot(snapshot, ledger, NOW + timedelta(minutes=1))
-        self.assertEqual(len(later['predictions']), 4)
+        self.assertEqual(len(later['predictions']), 2)
         self.assertEqual(later['meta']['serviceNotice'], EXPERIMENT_NOTICE)
 
 
