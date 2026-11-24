@@ -10,11 +10,11 @@
       "La_liga": "understat_maintenance_page"
     },
     "availability_checked_at_utc": "2026-11-24T07:05:28.338557+00:00",
-    "finished_at_utc": "2026-11-24T07:07:04.871921+00:00",
+    "finished_at_utc": "2026-11-24T10:25:12.955907+00:00",
     "new_forecasts": 0,
     "new_settlements": 0,
     "production_changed": false,
-    "github_run_id": "45345400907",
+    "github_run_id": "45374426365",
     "github_run_attempt": "1"
   },
   "registered_at_utc": "2026-10-17T21:31:35.447192+00:00",
