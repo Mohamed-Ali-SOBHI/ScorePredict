@@ -1,6 +1,6 @@
 {
   "state": "paused_understat_unavailable",
-  "production_run_id": "45761226493",
+  "production_run_id": "45847264850",
   "sources": {
     "Bundesliga": "understat_maintenance_page",
     "EPL": "understat_maintenance_page",
@@ -8,11 +8,11 @@
     "Ligue_1": "understat_maintenance_page",
     "La_liga": "understat_maintenance_page"
   },
-  "availability_checked_at_utc": "2026-11-26T05:24:45.259281+00:00",
-  "finished_at_utc": "2026-11-26T08:50:25.590865+00:00",
+  "availability_checked_at_utc": "2026-11-26T15:17:00.994626+00:00",
+  "finished_at_utc": "2026-11-26T15:18:24.495171+00:00",
   "new_forecasts": 0,
   "new_settlements": 0,
   "production_changed": false,
-  "github_run_id": "45786457750",
+  "github_run_id": "45847652362",
   "github_run_attempt": "1"
 }
