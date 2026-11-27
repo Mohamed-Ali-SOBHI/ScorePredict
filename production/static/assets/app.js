@@ -46,6 +46,16 @@ function parisDay(value) {
 function matchCards(data, now = Date.now()) {
   const key = row => [row.league, row.homeTeam, row.awayTeam, parisDay(row.date)].join('|');
   const cards = new Map(futurePublishedPredictions(data, now).map(row => [key(row), row]));
+  for (const pick of data.greekDrawStudy || []) {
+    const kickoff = Date.parse(pick.date);
+    const recorded = Date.parse(pick.recordedAt);
+    if (!(recorded <= now && recorded < kickoff)) continue;
+    const started = kickoff <= now;
+    if (started ? parisDay(kickoff) !== parisDay(now) : !visibleUpcoming(pick, now)) continue;
+    const row = {...pick, league:"G1", leagueLabel:"Super League grecque · Étude", outcomeLabel:"Match nul",
+      publicStrategyLabel:"Grèce · match nul", research:true, started};
+    if (!cards.has(key(row))) cards.set(key(row), row);
+  }
   // The ledger takes over after kickoff, even when the daily export no longer has the prediction.
   for (const row of [...data.predictions, ...(data.activity || [])]) {
     const kickoff = new Date(row.date).getTime();
@@ -229,7 +239,7 @@ function renderPredictions(data) {
     const predictions = featuredMatches(data.predictions).map(prediction => {
       const strategy = (data.meta?.publicStrategies || []).find(rule =>
         matchesStrategy(prediction, rule));
-      return {...prediction, publicStrategyLabel: strategy?.label};
+    return {...prediction, publicStrategyLabel: strategy?.label || prediction.publicStrategyLabel};
     });
     setText("#pick-count", `${integer.format(predictions.length)} ${predictions.length === 1 ? "match" : "matchs"}`);
     const holder = $("#pick-list");
@@ -754,7 +764,9 @@ function renderDashboard(data) {
     const serviceNotice = document.getElementById('service-notice');
     if (serviceNotice) {
       const message = data.meta.serviceNotice || '';
-      serviceNotice.textContent = message.startsWith('Sélections exceptionnelles : xG Sportmonks ;') ? '' : message;
+      const redundant = message.startsWith('Sélections exceptionnelles : xG Sportmonks ;')
+        || message.startsWith('Understat indisponible : nouveaux paris limités à Angleterre domicile.');
+      serviceNotice.textContent = redundant ? '' : message;
       serviceNotice.hidden = !serviceNotice.textContent;
     }
     data = currentSeasonData(data);
@@ -762,13 +774,13 @@ function renderDashboard(data) {
     setText('#season-scope', `Saison ${seasonLabel} · 1 unité par pari`);
     const ready = data.meta.status === "ready";
     const fresh = publicationIsFresh(data.meta.generatedAt);
-    const futurePredictions = matchCards(data);
+    const futurePredictions = matchCards(ready ? data : {...data, predictions:[], activity:[]});
     const visibleData = { ...data, predictions: futurePredictions };
 
     if (ready && fresh) {
       renderPredictions(visibleData);
       $("#load-error").hidden = true;
-    } else if (ready && futurePredictions.length > 0) {
+    } else if (futurePredictions.length > 0) {
       renderPredictions(visibleData);
       $("#load-error").textContent = "La mise à jour est en retard. Les choix publiés restent visibles, sans supposer de nouveau résultat.";
       $("#load-error").hidden = false;

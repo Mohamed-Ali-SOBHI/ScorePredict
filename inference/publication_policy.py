@@ -74,6 +74,8 @@ def public_totals(activity):
 def apply_publication_policy(payload):
     """Public display scope only; the durable ledger and private archives remain intact."""
     data=copy.deepcopy(payload)
+    # These dated research observations have their own record, outside the live betting ledger.
+    data['greekDrawStudy'] = json.loads(Path(__file__).with_name('greek_draw_picks.json').read_text(encoding='utf-8'))
     meta=data.setdefault('meta',{})
     meta.update(publicationVersion=VERSION,publicationActivatedAt='2026-11-23T12:38:00+00:00',
         publicLeagues=sorted(PUBLIC_LEAGUES),publicOutcomes=['draw','away_win','home_win'],stakeUnits=1,
@@ -137,6 +139,7 @@ def main():
     data=apply_publication_policy(original)
     if args.check:
         if (original.get('meta',{}).get('publicationVersion')!=VERSION
+            or original.get('greekDrawStudy') != data['greekDrawStudy']
             or not all(public_row(p) for p in original.get('predictions',[]))
             or original.get('summary',{}).get('upcomingBets')!=len(original.get('predictions',[]))
             or any(not public_row(r) or r.get('historicalOnly') for r in original.get('activity',[]))

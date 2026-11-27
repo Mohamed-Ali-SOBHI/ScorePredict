@@ -143,6 +143,17 @@ evaluate(`lifecycle.predictions=[{...choice,historicalOnly:true}];`);
 assert.equal(evaluate('futurePublishedPredictions(lifecycle,clock-1).length'),0);
 console.log('Publication policy: archived tickets are excluded from active lists.');
 
+const studyPick = {date:'2026-11-28T18:00:00Z', homeTeam:'Home', awayTeam:'Away', odds:3.5,
+  recordedAt:'2026-11-27T23:00:00Z', modelProbability:0.34};
+context.studyData = {predictions:[], activity:[], greekDrawStudy:[studyPick, studyPick]};
+const studyTime = Date.parse('2026-11-28T12:00:00Z');
+assert.equal(evaluate(`matchCards(studyData,${studyTime}).length`), 1);
+assert.match(evaluate(`compactMatchMarkup(matchCards(studyData,${studyTime})[0])`), /Super League grecque · Étude/);
+assert.equal(evaluate(`currentSeasonData(studyData,${studyTime}).performance.metrics.betCount`), 0);
+assert.equal(evaluate("matchCards(studyData, Date.parse('2026-11-27T22:59:00Z')).length"), 0);
+assert.equal(evaluate("matchCards(studyData, Date.parse('2026-11-28T18:00:00Z'))[0].started"), true);
+assert.equal(evaluate("matchCards(studyData, Date.parse('2026-11-28T23:00:00Z')).length"), 0);
+
 evaluate(`
   const archivedTicket={...choice,id:'archived-italian',homeTeam:'AC Milan',awayTeam:'Atalanta',league:'Serie_A',
     date:new Date(Date.now()+3600000).toISOString(),status:'pending',historicalOnly:true,odds:6.3};
