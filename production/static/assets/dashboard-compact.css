@@ -10,6 +10,19 @@
 .picks-toolbar a { display: inline-flex; align-items: center; min-height: 44px; color: var(--forest); font-size: 12px; font-weight: 650; }
 .picks-toolbar a:hover { text-decoration: underline; text-underline-offset: 5px; }
 .journal-dashboard .today-grid { display: block; margin-top: 0; }
+.strategy-notice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 3px 12px;
+  margin-top: 24px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 100px;
+  color: var(--muted);
+  font-size: .875rem;
+}
+.strategy-notice strong { color: var(--forest); }
 .journal-dashboard .pick-list { display: flex; flex-wrap: wrap; gap: 22px; align-items: flex-start; }
 .journal-dashboard .has-many .pick-list { gap: 22px; }
 .journal-dashboard [hidden] { display: none !important; }
