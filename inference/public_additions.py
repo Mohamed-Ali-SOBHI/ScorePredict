@@ -5,6 +5,7 @@ from pathlib import Path
 import os
 import subprocess
 import sys
+from inference.best_prices import qualifies_ticket
 
 ACTIVATED_AT = '2026-10-25T19:23:42+00:00'
 BUNDESLIGA = 'public_bundesliga_xgb_2026_10_25'
@@ -35,7 +36,7 @@ def public_addition_row(row, strategy):
             return False
     except (ValueError, TypeError, AttributeError):
         return False
-    return qualifies(row.get('modelProbability', row.get('predicted_probability')), row.get('odds', row.get('selected_odds')))
+    return qualifies_ticket(qualifies, row)
 
 
 def score_public_additions(catalog, future_df, output_dir):

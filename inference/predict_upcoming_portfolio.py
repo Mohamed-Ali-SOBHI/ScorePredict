@@ -326,7 +326,9 @@ def main() -> None:
         scored = pd.concat([scored, english, additions], ignore_index=True)
     if args.portfolio == PRODUCTION_PORTFOLIO_NAME:
         from inference.public_additions import select_public_bets
+        from inference.best_prices import apply_prices, capture, utcnow
         from inference.english_away_public import fixed_unit_stakes
+        scored = apply_prices(scored, capture(), utcnow())
         bets = select_public_bets(scored, existing_tracking, args.portfolio)
         bets = fixed_unit_stakes(bets, args.bankroll_eur * args.stake_fraction)
     else:

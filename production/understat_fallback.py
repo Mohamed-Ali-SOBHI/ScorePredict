@@ -141,6 +141,8 @@ def publish(recover_bundesliga=False, manual_review=False):
             scored = pd.concat([scored, english], ignore_index=True)
     if not scored.empty:
         scored = scored[pd.to_datetime(scored.kickoff_utc, utc=True) >= pd.Timestamp.now(tz='UTC') + pd.Timedelta(minutes=5)]
+    from inference.best_prices import apply_prices, capture, utcnow
+    scored = apply_prices(scored, capture(), utcnow())
     bets = select_public_bets(scored, existing, DEFAULT_PORTFOLIO_NAME)
     bets = fixed_unit_stakes(bets, 2.5)  # Existing 50 EUR * .05 unit, not a stake increase.
     incoming = build_tracking_rows(bets, portfolio_name=DEFAULT_PORTFOLIO_NAME)

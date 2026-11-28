@@ -10,6 +10,9 @@ const decimal = new Intl.NumberFormat("fr-FR", { minimumFractionDigits: 2, maxim
 const decimalOne = new Intl.NumberFormat("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 const percent = new Intl.NumberFormat("fr-FR", { style: "percent", maximumFractionDigits: 0 });
 const MATCH_TIMEZONE = "Europe/Paris";
+const quoteTime = new Intl.DateTimeFormat("fr-FR", {
+  timeZone: MATCH_TIMEZONE, day: "numeric", month: "short", hour: "2-digit", minute: "2-digit",
+});
 
 function setText(selector, value, root = document) {
   const element = $(selector, root);
@@ -63,6 +66,14 @@ function matchCards(data, now = Date.now()) {
     const previous = cards.get(key(row));
     if (previous && terminalResult(previous) && !terminalResult(row)) continue;
     cards.set(key(row), {...previous, ...row, started: true});
+  }
+  for (const offer of data.currentOffers || []) {
+    const row = cards.get(key(offer));
+    if (row && (row.research ? "draw" : row.outcome) === offer.outcome &&
+        Date.parse(offer.date) === Date.parse(row.date) && Date.parse(row.date) > now &&
+        Date.parse(offer.checkedAt) <= now && now - Date.parse(offer.checkedAt) < 24 * 3600000) {
+      cards.set(key(offer), {...row, currentOffer:offer});
+    }
   }
   return [...cards.values()].filter(row => !terminalResult(row) || parisDay(row.date) === parisDay(now))
     .sort((a,b) => new Date(a.date)-new Date(b.date));
@@ -196,6 +207,9 @@ function followedMatchMarkup(match) {
 function compactMatchMarkup(match) {
   const league = match.leagueLabel || match.league || "Championnat";
   const odds = numberOrNull(match.odds);
+  const offer = match.currentOffer;
+  const shownOdds = offer ? offer.odds : odds;
+  const offerLabel = offer ? `<small>${escapeHtml(offer.bookmaker)} · ${escapeHtml(quoteTime.format(new Date(offer.checkedAt)))}</small>` : "";
   const probability = numberOrNull(match.modelProbability);
   const confirmed = terminalResult(match);
   const status = match.started || confirmed ? resultLabel(match.status, match.date) : "À venir";
@@ -210,12 +224,13 @@ function compactMatchMarkup(match) {
       <time class="pick-time" datetime="${escapeHtml(match.date)}"><strong>${escapeHtml(clock)}</strong><span>${escapeHtml(day)}</span></time>
       <span class="pick-match"><span class="pick-league">${escapeHtml(league)}</span><span class="pick-teams"><span class="pick-team">${crestMarkup(match.homeTeam, match.featured)}<strong>${escapeHtml(match.homeTeam)}</strong></span><span class="versus">vs</span><span class="pick-team">${crestMarkup(match.awayTeam, match.featured)}<strong>${escapeHtml(match.awayTeam)}</strong></span></span></span>
       <span class="prediction-choice"><small>Choix</small><strong>${escapeHtml(match.outcomeLabel)}</strong></span>
-      <span class="pick-odds"><small>Cote</small><strong>${odds === null ? "—" : decimal.format(odds)}</strong></span>
+      <span class="pick-odds"><small>${offer ? "Meilleure cote relevée" : "Cote publiée"}</small><strong>${shownOdds === null ? "—" : decimal.format(shownOdds)}</strong>${offerLabel}</span>
       <span class="pick-status ${tone}">${score ? `<strong>${escapeHtml(score)}</strong>` : ""}<span>${escapeHtml(status)}</span></span>
       <span class="pick-expand" aria-hidden="true">+</span><span class="sr-only">Détails du pari</span>
     </summary>
     <dl class="pick-details">
       <div><dt>Stratégie</dt><dd>${escapeHtml(match.publicStrategyLabel || "Stratégie publiée")}</dd></div>
+      <div><dt>Cote publiée</dt><dd>${odds === null ? "—" : decimal.format(odds)}${match.publishedQuote ? " · " + escapeHtml(match.publishedQuote.bookmaker) : ""}</dd></div>
       <div><dt>Indice du modèle</dt><dd>${probability === null ? "—" : percent.format(probability)}</dd></div>
       <div><dt>Mise de référence</dt><dd>1 unité</dd></div>
     </dl>
@@ -303,7 +318,7 @@ function resultMarkup(row, index = 0) {
     <td class="verdict-cell"><div class="result-verdict">${row.actualScore ? `<strong class="final-score">${escapeHtml(row.actualScore)}</strong>` : ""}<b class="${row.status === "won" ? "won" : row.status === "lost" ? "lost" : ""}">${escapeHtml(resultLabel(row.status, row.date))}</b></div></td>
     <td class="action-cell"><button class="detail-toggle" type="button" aria-expanded="false" aria-controls="${detailId}" data-history-detail="${detailId}"><span aria-hidden="true">+</span><span class="sr-only">Détails du pari ${escapeHtml(row.homeTeam)} contre ${escapeHtml(row.awayTeam)}</span></button></td>
   </tr><tr class="detail-row" id="${detailId}" hidden><td colspan="7"><div class="detail-panel"><div class="detail-heading"><strong>Décision publiée</strong><span>${escapeHtml(choice)}</span></div><dl class="published-details">
-    <div><dt>Cote publiée</dt><dd>${odds === null ? "—" : decimal.format(odds)}</dd></div>
+    <div><dt>Cote publiée</dt><dd>${odds === null ? "—" : decimal.format(odds)}${row.publishedQuote ? " · " + escapeHtml(row.publishedQuote.bookmaker) : ""}</dd></div>
     <div><dt>Indice du modèle</dt><dd>${model === null ? "—" : percent.format(model)}</dd></div>
     <div><dt>Mise de référence</dt><dd>1 unité</dd></div>
     <div><dt>Résultat en mises</dt><dd>${terminalResult(row) && profit !== null ? signed(profit) : "—"}</dd></div>

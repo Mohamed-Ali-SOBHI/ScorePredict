@@ -18,6 +18,7 @@ from xgboost import Booster, DMatrix
 
 from data_pipeline.http_retry import get
 from inference.greek_draw_journal import PORTFOLIO, merge_public_picks
+from inference import best_prices
 from inference.public_additions import qualifies
 from inference.supabase_prediction_store import configuration, request_headers
 from train.make_dataset import add_market_implied_features
@@ -125,13 +126,20 @@ def draw_probabilities(rows):
     return (p / p.sum(axis=1, keepdims=True))[:, 1]
 
 
-def selections(rows, probabilities, now):
+def selections(rows, probabilities, now, offers=None):
     picks = []
     for row, p in zip(rows, probabilities, strict=True):
         odds = row["prices"][1]
         if LEAD <= datetime.fromisoformat(row["date"]) - now <= WINDOW and qualifies(p, odds):
-            picks.append({k: row[k] for k in ("fixtureId", "homeTeam", "awayTeam", "date")} |
-                         dict(odds=odds, modelProbability=float(p), recordedAt=now.isoformat(timespec="milliseconds")))
+            pick = {k: row[k] for k in ("fixtureId", "homeTeam", "awayTeam", "date")} | dict(
+                odds=odds, modelProbability=float(p), recordedAt=now.isoformat(timespec="milliseconds"))
+            if offers is not None:
+                valid = best_prices.match_offers(offers,"G1",row["homeTeam"],row["awayTeam"],row["date"],"draw",now)
+                if not valid or not best_prices.qualifies_at_offer(qualifies, p, odds, valid[0]["odds"]):
+                    continue
+                chosen = valid[0]
+                pick.update(odds=chosen["odds"], publishedQuote=dict(chosen,referenceOdds=odds))
+            picks.append(pick)
     return picks
 
 
@@ -145,18 +153,19 @@ def persist(picks):
                     fixture_id=p["fixtureId"], league="G1", date=p["date"], kickoff_utc=p["date"],
                     team_name=p["homeTeam"], opponent_name=p["awayTeam"], selected_outcome="draw",
                     selected_odds=p["odds"], predicted_probability=p["modelProbability"],
+                    probability_note=best_prices.note("",p["publishedQuote"]) if "publishedQuote" in p else None,
                     prediction_generated_at_utc=p["recordedAt"], recommended=True) for p in picks]
     if records:
         inserted = requests.post(endpoint, headers={**headers, "Prefer": "resolution=ignore-duplicates"},
                                  params={"on_conflict": "snapshot_key"}, json=records, timeout=30)
         inserted.raise_for_status()
     response = get(endpoint, headers=headers, params={"portfolio_name": "eq." + PORTFOLIO,
-                   "select": "fixture_id,kickoff_utc,team_name,opponent_name,selected_odds,predicted_probability,prediction_generated_at_utc",
+                   "select": "fixture_id,kickoff_utc,team_name,opponent_name,selected_odds,predicted_probability,prediction_generated_at_utc,probability_note",
                    "order": "kickoff_utc.asc", "limit": 1000}, timeout=30)
     response.raise_for_status()
     return [dict(fixtureId=r["fixture_id"], date=r["kickoff_utc"], homeTeam=r["team_name"],
                  awayTeam=r["opponent_name"], odds=r["selected_odds"], modelProbability=r["predicted_probability"],
-                 recordedAt=r["prediction_generated_at_utc"]) for r in response.json()]
+                 recordedAt=r["prediction_generated_at_utc"], **best_prices.public_quote(r.get("probability_note"))) for r in response.json()]
 
 
 def main():
@@ -176,10 +185,11 @@ def main():
             print(f"::warning::Greek schedule unavailable for {day}: {type(error).__name__}; no new picks for that date.")
     rows = verify_schedule(matches, events)
     probs = draw_probabilities(rows) if rows else []
+    offers = best_prices.capture()
     now = utcnow()
     if now - captured > timedelta(minutes=30):
         raise ValueError("Greek study odds capture expired")
-    chosen = selections(rows, probs, now)
+    chosen = selections(rows, probs, now, offers)
     history = persist(merge_public_picks(published, chosen))
     now = utcnow()
     scheduled = {row["fixtureId"]: datetime.fromisoformat(row["date"]) for row in rows}
@@ -188,6 +198,7 @@ def main():
                 and LEAD <= scheduled[p["fixtureId"]] - now <= WINDOW]
     snapshot = json.loads(DASHBOARD.read_text(encoding="utf-8-sig"))
     snapshot["greekDrawStudy"] = merge_public_picks(published, eligible)
+    snapshot["currentOffers"] = best_prices.dashboard_offers(snapshot, offers, now)
     temp = DASHBOARD.with_suffix(".tmp")
     temp.write_text(json.dumps(snapshot, ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
     temp.replace(DASHBOARD)

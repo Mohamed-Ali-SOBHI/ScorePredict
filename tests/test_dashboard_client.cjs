@@ -12,7 +12,7 @@ const node = selector => {
 const context = vm.createContext({Intl, Date, $:node, document:{querySelectorAll:()=>[]}});
 vm.runInContext(`
   ${fs.readFileSync("production/static/assets/team-crests.js", "utf8").replace("window.ScorePredictCrests", "const TEAM_CRESTS")}
-  const MATCH_TIMEZONE='Europe/Paris';
+  ${section('const MATCH_TIMEZONE', 'function setText(')}
   const integer=new Intl.NumberFormat('fr-FR');
   const decimal=new Intl.NumberFormat('fr-FR',{maximumFractionDigits:2});
   const decimalOne=new Intl.NumberFormat('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1});
@@ -260,3 +260,18 @@ for (const values of [[0],[-1],[3],[-7.05,5.02],[.12,-.02]]) {
   const ticks = evaluate('balanceTicks('+JSON.stringify(values)+')');
   assert.ok(ticks.includes(0) && ticks[0] <= Math.min(...values) && ticks.at(-1) >= Math.max(...values));
 }
+
+// A fresh offer is attached to the exact published outcome and kickoff, including the Greek study.
+evaluate(`
+  const quoteClock = Date.parse('2026-11-28T10:00:00Z');
+  const quotePick = {league:'EPL',outcome:'home_win',homeTeam:'Leeds',awayTeam:'Coventry City',
+    date:'2026-11-28T15:00:00Z',odds:1.48,outcomeLabel:'Victoire domicile'};
+  const newPrice = {...quotePick,odds:1.44,bookmaker:'Betclic',checkedAt:'2026-11-28T09:50:00Z'};
+  const offered = matchCards({predictions:[quotePick],currentOffers:[newPrice]},quoteClock)[0];
+`);
+assert.equal(evaluate('offered.odds'),1.48);
+assert.equal(evaluate('offered.currentOffer.odds'),1.44);
+assert.match(evaluate('compactMatchMarkup(offered)'),/Betclic/);
+assert.equal(evaluate("matchCards({predictions:[quotePick],currentOffers:[{...newPrice,outcome:'draw'}]},quoteClock)[0].currentOffer"),undefined);
+assert.equal(evaluate("matchCards({predictions:[quotePick],currentOffers:[{...newPrice,date:'2026-11-28T15:15:00Z'}]},quoteClock)[0].currentOffer"),undefined);
+assert.equal(evaluate("matchCards({predictions:[],greekDrawStudy:[{...quotePick,league:'G1',recordedAt:'2026-11-28T09:00:00Z'}],currentOffers:[{...newPrice,league:'G1',outcome:'draw'}]},quoteClock)[0].currentOffer.bookmaker"),'Betclic');

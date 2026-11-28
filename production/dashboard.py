@@ -14,6 +14,7 @@ from typing import Any, Iterable
 from zoneinfo import ZoneInfo
 from inference.portfolio_presets import DEFAULT_PORTFOLIO_NAME, POOLED_RELEASE_MANIFEST
 from inference.prediction_window import in_prediction_window
+from inference.best_prices import public_quote
 
 
 LEAGUE_LABELS = {
@@ -531,6 +532,7 @@ class DashboardService:
                     "outcome": selected_outcome,
                     "outcomeLabel": OUTCOME_LABELS.get(str(selected_outcome), str(selected_outcome)),
                     "odds": odds,
+                    **public_quote(row.get("probability_note")),
                     "modelProbability": model_probability,
                     "rawModelProbability": _float(row.get("raw_model_probability")),
                     "marketProbability": _float(row.get("market_probability")),
@@ -580,8 +582,9 @@ class DashboardService:
                 "adviceLabel": "Pari déjà publié",
             }
         for prediction in current:
-            merged[cls._upcoming_prediction_key(prediction)] = {
-                **prediction,
+            key = cls._upcoming_prediction_key(prediction)
+            merged[key] = {
+                **merged.get(key, prediction),
                 "isCurrentRecommendation": True,
                 "adviceLabel": "Pari recommandé aujourd’hui",
             }
@@ -756,6 +759,7 @@ class DashboardService:
                         row.get("portfolio_name", ""), row.get("portfolio_name", "Portefeuille live")
                     ),
                     "odds": _float(row.get("selected_odds")),
+                    **public_quote(row.get("probability_note")),
                     "status": result_status,
                     "actualScore": actual_score,
                     "recommended": _bool(row.get("recommended")),

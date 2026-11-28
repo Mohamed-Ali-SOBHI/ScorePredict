@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from inference.best_prices import public_quote
+
 import argparse
 import hashlib
 import json
@@ -320,6 +322,7 @@ def update_public_snapshot(
         status = str(row.get("result_status") or "pending")
         item["date"] = paris_iso(row.get("date"))
         item["status"] = status
+        item.update(public_quote(row.get("probability_note")))
         item["profitUnits"] = _number(row.get("realized_profit_units"))
         item.update(outcome=row.get('selected_outcome', ''), strategy=row.get('strategy_names', ''),
                     recordedAt=row.get('prediction_generated_at_utc', ''),
@@ -348,6 +351,7 @@ def update_public_snapshot(
                 "outcomeLabel": OUTCOME_LABELS.get(str(row.get("selected_outcome")), "Choix publié"),
                 "portfolioLabel": "Stratégie championne",
                 "odds": _number(row.get("selected_odds")),
+                **public_quote(row.get("probability_note")),
                 "status": status,
                 "actualScore": (
                     f"{int(float(row['actual_home_score']))} - {int(float(row['actual_away_score']))}"
@@ -373,6 +377,7 @@ def update_public_snapshot(
         row = ledger_by_match.get(key)
         if row is not None:
             prediction["date"] = paris_iso(row.get("date"))
+            prediction.update(public_quote(row.get("probability_note")))
         predictions_by_match[key] = prediction
 
     generated_at_paris = paris_datetime(generated_at)
@@ -399,6 +404,7 @@ def update_public_snapshot(
             "outcome": selected_outcome,
             "outcomeLabel": OUTCOME_LABELS.get(selected_outcome, "Choix publié"),
             "odds": odds,
+            **public_quote(row.get("probability_note")),
             "modelProbability": probability,
             "strategy": row.get("strategy_names", ""),
             "recordedAt": row.get("prediction_generated_at_utc", ""),

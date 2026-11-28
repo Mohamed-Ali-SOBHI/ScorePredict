@@ -12,6 +12,7 @@ from datetime import datetime,timezone,timedelta
 import json
 import math
 from pathlib import Path
+from inference.best_prices import qualifies_ticket
 from inference.english_away_public import STRATEGY as ENGLISH_STRATEGY, ACTIVATED_AT as ENGLISH_ACTIVATED_AT, qualifies
 from inference.bundesliga_draw_public import (VERSION as DRAW_FILTER_VERSION,
     ACTIVATED_AT as DRAW_FILTER_ACTIVATED_AT, EV_THRESHOLD, PRICE_HAIRCUT, EDGE_MIN)
@@ -51,7 +52,7 @@ def public_row(row):
             return False
     except (ValueError, TypeError, AttributeError):
         return False
-    return qualifies(row.get('modelProbability',row.get('predicted_probability')),row.get('odds',row.get('selected_odds')))
+    return qualifies_ticket(qualifies, row)
 
 
 def public_totals(activity):

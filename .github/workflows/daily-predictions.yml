@@ -238,6 +238,7 @@ jobs:
             inference/output/upcoming_input_audit.json
             inference/output/english_public/**
             inference/output/public_additions/**
+            inference/output/best_prices/coteur.json
             inference/output/understat_fallback/**
           if-no-files-found: warn
           retention-days: 90
