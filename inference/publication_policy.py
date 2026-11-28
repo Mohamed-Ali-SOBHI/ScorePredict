@@ -75,7 +75,8 @@ def apply_publication_policy(payload):
     """Public display scope only; the durable ledger and private archives remain intact."""
     data=copy.deepcopy(payload)
     # These dated research observations have their own record, outside the live betting ledger.
-    data['greekDrawStudy'] = json.loads(Path(__file__).with_name('greek_draw_picks.json').read_text(encoding='utf-8'))
+    from inference.greek_draw_journal import merge_public_picks
+    data['greekDrawStudy'] = merge_public_picks(data.get('greekDrawStudy', []))
     meta=data.setdefault('meta',{})
     meta.update(publicationVersion=VERSION,publicationActivatedAt='2026-11-23T12:38:00+00:00',
         publicLeagues=sorted(PUBLIC_LEAGUES),publicOutcomes=['draw','away_win','home_win'],stakeUnits=1,

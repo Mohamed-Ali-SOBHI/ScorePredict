@@ -673,6 +673,118 @@
       "source": "https://a.espncdn.com/i/teamlogos/soccer/500/170.png",
       "sourceApi": "https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/teams?limit=100",
       "sha256": "34049d3fb98cc26bde433a4f28a0ebfb584a8e3b8d770eb6bc03f2cef06e08ad"
+    },
+    {
+      "name": "AEK Athens",
+      "file": "887.png",
+      "source": "https://a.espncdn.com/i/teamlogos/soccer/500/887.png",
+      "sourceApi": "https://site.api.espn.com/apis/site/v2/sports/soccer/gre.1/teams?limit=100",
+      "sha256": "9b5fa372b55075626827cc9e2161cb685d4f767561cd96c2368f263bc30fbbc0",
+      "retrievedAt": "2026-11-28"
+    },
+    {
+      "name": "Aris",
+      "file": "11553.png",
+      "source": "https://a.espncdn.com/i/teamlogos/soccer/500/11553.png",
+      "sourceApi": "https://site.api.espn.com/apis/site/v2/sports/soccer/gre.1/teams?limit=100",
+      "sha256": "e505ce3c0a86c5180fa5f099820b58d1b09325c6262408627c51805019a5d3ea",
+      "retrievedAt": "2026-11-28"
+    },
+    {
+      "name": "Asteras Tripoli",
+      "file": "8354.png",
+      "source": "https://a.espncdn.com/i/teamlogos/soccer/500/8354.png",
+      "sourceApi": "https://site.api.espn.com/apis/site/v2/sports/soccer/gre.1/teams?limit=100",
+      "sha256": "5a32d25d9b975d38606f0b06529444fb51cd2ec6ecaa03872bc7315baf7a2a60",
+      "retrievedAt": "2026-11-28"
+    },
+    {
+      "name": "Atromitos",
+      "file": "6790.png",
+      "source": "https://a.espncdn.com/i/teamlogos/soccer/500/6790.png",
+      "sourceApi": "https://site.api.espn.com/apis/site/v2/sports/soccer/gre.1/teams?limit=100",
+      "sha256": "7d01d0e293c3158cc549adce6ef7ecdeff69da2cc9ae62f6c410bfd44af2ded1",
+      "retrievedAt": "2026-11-28"
+    },
+    {
+      "name": "Iraklis",
+      "file": "2575.png",
+      "source": "https://a.espncdn.com/i/teamlogos/soccer/500/2575.png",
+      "sourceApi": "https://site.api.espn.com/apis/site/v2/sports/soccer/gre.1/teams?limit=100",
+      "sha256": "a9daea9ea8a740ce668d438d3f879ab1ccdef7f986bbc41f43f517e80a927597",
+      "retrievedAt": "2026-11-28"
+    },
+    {
+      "name": "Kalamata",
+      "file": "132429.png",
+      "source": "https://a.espncdn.com/i/teamlogos/soccer/500/132429.png",
+      "sourceApi": "https://site.api.espn.com/apis/site/v2/sports/soccer/gre.1/teams?limit=100",
+      "sha256": "d466ba4262e364acf002214b890cc1e8c3f1e8143acda872c5b811c963037a9b",
+      "retrievedAt": "2026-11-28"
+    },
+    {
+      "name": "Kifisia",
+      "file": "21969.png",
+      "source": "https://a.espncdn.com/i/teamlogos/soccer/500/21969.png",
+      "sourceApi": "https://site.api.espn.com/apis/site/v2/sports/soccer/gre.1/teams?limit=100",
+      "sha256": "0ac083274e67d2ef19d5a9a8e3d60dd16e4583174a65052cc1f883442bad9815",
+      "retrievedAt": "2026-11-28"
+    },
+    {
+      "name": "Levadiakos",
+      "file": "5276.png",
+      "source": "https://a.espncdn.com/i/teamlogos/soccer/500/5276.png",
+      "sourceApi": "https://site.api.espn.com/apis/site/v2/sports/soccer/gre.1/teams?limit=100",
+      "sha256": "91d102c6a7a31cc1793c421257e5086dee8d2d3513ae07d26281b013e85f2c31",
+      "retrievedAt": "2026-11-28"
+    },
+    {
+      "name": "OFI Crete",
+      "file": "1010.png",
+      "source": "https://a.espncdn.com/i/teamlogos/soccer/500/1010.png",
+      "sourceApi": "https://site.api.espn.com/apis/site/v2/sports/soccer/gre.1/teams?limit=100",
+      "sha256": "02ca76aff3367cac1ac9d5835adf898aebd640b7b1a3fef959c63f391aea0a3a",
+      "retrievedAt": "2026-11-28"
+    },
+    {
+      "name": "Olympiacos",
+      "file": "435.png",
+      "source": "https://a.espncdn.com/i/teamlogos/soccer/500/435.png",
+      "sourceApi": "https://site.api.espn.com/apis/site/v2/sports/soccer/gre.1/teams?limit=100",
+      "sha256": "d644407d34986696dd3525f7c2bfec09bfb9a8104b88810a032993d52d7b18ab",
+      "retrievedAt": "2026-11-28"
+    },
+    {
+      "name": "PAOK",
+      "file": "605.png",
+      "source": "https://a.espncdn.com/i/teamlogos/soccer/500/605.png",
+      "sourceApi": "https://site.api.espn.com/apis/site/v2/sports/soccer/gre.1/teams?limit=100",
+      "sha256": "2b7d84885129baf3242e1b1f123d20e9f0015c55e7af3cfb7550e78af7f450ee",
+      "retrievedAt": "2026-11-28"
+    },
+    {
+      "name": "Panathinaikos",
+      "file": "443.png",
+      "source": "https://a.espncdn.com/i/teamlogos/soccer/500/443.png",
+      "sourceApi": "https://site.api.espn.com/apis/site/v2/sports/soccer/gre.1/teams?limit=100",
+      "sha256": "c5d373a8086250a51fd3cb7c077cbcbe4da96119b340699c4e4a41c8c2ca14a9",
+      "retrievedAt": "2026-11-28"
+    },
+    {
+      "name": "Panetolikos",
+      "file": "11431.png",
+      "source": "https://a.espncdn.com/i/teamlogos/soccer/500/11431.png",
+      "sourceApi": "https://site.api.espn.com/apis/site/v2/sports/soccer/gre.1/teams?limit=100",
+      "sha256": "265865e362e565ae4ea8deafa921af9bfb57109df372db272b7d9146c2ec3d21",
+      "retrievedAt": "2026-11-28"
+    },
+    {
+      "name": "Volos NFC",
+      "file": "20043.png",
+      "source": "https://a.espncdn.com/i/teamlogos/soccer/500/20043.png",
+      "sourceApi": "https://site.api.espn.com/apis/site/v2/sports/soccer/gre.1/teams?limit=100",
+      "sha256": "d0760fa54da26db974e8221d5b9483958fe30036e3afb27d6836f17dbcf5804d",
+      "retrievedAt": "2026-11-28"
     }
   ]
 }

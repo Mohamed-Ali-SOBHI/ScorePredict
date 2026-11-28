@@ -41,6 +41,8 @@ jobs:
     name: Calculer les previsions
     runs-on: windows-latest
     timeout-minutes: 120
+    outputs:
+      greek_deadline: ${{ steps.greek.outputs.deadline }}
     env:
       SCOREPREDICT_BROWSER_HEADLESS: "0"
       SCOREPREDICT_BROWSER_CHANNEL: msedge
@@ -198,6 +200,16 @@ jobs:
         if: steps.sources.outputs.mode == 'price_only'
         run: python -m inference.publication_policy --check
 
+      - name: Publier les nuls grecs qualifies avant le coup d'envoi
+        id: greek
+        env:
+          GREEK_DRAW_KEY_2026_27: ${{ secrets.GREEK_DRAW_KEY_2026_27 }}
+        shell: pwsh
+        run: |
+          python -m inference.greek_draw_pipeline
+          if ($LASTEXITCODE -ne 0) { throw "Echec du suivi grec." }
+          python -m inference.publication_policy --check
+
       - name: Preparer GitHub Pages
         uses: actions/configure-pages@v6
 
@@ -266,6 +278,11 @@ jobs:
                 await new Promise(resolve => setTimeout(resolve, 10000));
               }
             }
+      - name: Confirmer que les nouvelles sélections grecques sont encore à venir
+        if: needs.build.outputs.greek_deadline != ''
+        env:
+          FIRST_KICKOFF: ${{ needs.build.outputs.greek_deadline }}
+        run: test "$(date -d "$FIRST_KICKOFF" +%s)" -gt "$(date -d '+2 minutes' +%s)"
       - name: Publier sur GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
